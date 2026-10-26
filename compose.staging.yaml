@@ -1,0 +1,35 @@
+services:
+  growthpilot:
+    build: .
+    image: growthpilot-staging:${GROWTHPILOT_RELEASE:-local}
+    restart: unless-stopped
+    init: true
+    ports:
+      - "127.0.0.1:8098:8098"
+    environment:
+      GROWTHPILOT_API_TOKEN: ${GROWTHPILOT_API_TOKEN:?Set a strong API token}
+      GROWTHPILOT_DB: /app/data/growthpilot.db
+    volumes:
+      - growthpilot-staging-data:/app/data
+    read_only: true
+    tmpfs:
+      - /tmp:size=16m,mode=1777
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    mem_limit: 256m
+    cpus: 0.5
+    pids_limit: 64
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8098/health')"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+volumes:
+  growthpilot-staging-data:
