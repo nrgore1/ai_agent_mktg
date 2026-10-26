@@ -100,12 +100,19 @@ class Platform(Store):
    if self.paused(db):raise Invalid('System paused')
    a=self.get(db,'actions',action_id);p=self.get(db,'products',a['product_id']);sources=[e for e in self.rows(db,'evidence',p['id']) if e['status']=='verified']
    if not sources:raise Invalid('Verify at least one evidence source before LLM generation')
-  result=providers.draft(p,sources,a['payload']['channel'])
+  brief=dict(p,proposal_context=self.manager().profiles[str(p['id'])],draft_cta=a['payload'].get('cta'))
+  result=providers.draft(brief,sources,a['payload']['channel'])
   # The provider response is untrusted and cannot approve or execute anything.
   with self.db() as db:
    current=self.get(db,'actions',action_id)
    if current['version']!=a['version']:raise Invalid('Draft changed during generation; retry')
-  return self.transition(action_id,'revise',{'content':result['content'],'claims':result['claims'],'evidence':[{'id':e['id'],'source':e['source']} for e in sources]})
+  updated=self.transition(action_id,'revise',{'content':result['content'],'claims':result['claims'],'evidence':[{'id':e['id'],'source':e['source']} for e in sources]})
+  with self.db() as db:
+   current=self.get(db,'actions',action_id)
+   if current['payload_hash']==updated['payload_hash']:
+    current['generation']={'provider':'local_kimi','model':os.environ.get('GROWTHPILOT_OLLAMA_MODEL'),'mode':result.get('mode','structured_draft'),'choice':result.get('choice'),'uncertainties':result.get('uncertainties',[]),'at':now(),'version':updated['version']};self.save(db,'actions',current)
+    return current
+  return updated
  def plan(self,product_id,channel=None,slot=None):
   if slot:
    with self.db() as db:

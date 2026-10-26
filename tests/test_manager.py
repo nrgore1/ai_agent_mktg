@@ -85,12 +85,28 @@ class LocalDraftTests(unittest.TestCase):
   from growthpilot.providers import draft
   response=MagicMock();response.__enter__.return_value=response;response.read.return_value=json.dumps({'response':json.dumps({'content':'A short evaluation invitation.','claims':[],'uncertainties':['Availability needs review']})}).encode()
   with patch.dict(os.environ,{'GROWTHPILOT_OLLAMA_URL':'http://127.0.0.1:11434','GROWTHPILOT_OLLAMA_MODEL':'local-kimi-test'}),patch('urllib.request.urlopen',return_value=response) as network:
-   result=draft({'name':'Test','approved_claims':[],'unrelated_private_field':'must-not-be-sent'},[{'source':'https://example.com','excerpt':'x'*20000}],'producthunt.com')
+   result=draft({'name':'Test','approved_claims':['A verified claim'],'unrelated_private_field':'must-not-be-sent'},[{'source':'https://example.com','excerpt':'x'*20000}],'producthunt.com')
   payload=json.loads(network.call_args.args[0].data);self.assertLess(len(payload['prompt']),5000);self.assertNotIn('must-not-be-sent',payload['prompt']);self.assertEqual(payload['options']['num_ctx'],2048);self.assertEqual(result['claims'],[])
+
+ def test_bounded_selection_uses_prepared_copy(self):
+  from growthpilot.providers import draft
+  response=MagicMock();response.__enter__.return_value=response;response.read.return_value=json.dumps({'response':json.dumps({'choice':1,'content':'Invented guarantee'})}).encode()
+  with patch.dict(os.environ,{'GROWTHPILOT_OLLAMA_URL':'http://127.0.0.1:11434','GROWTHPILOT_OLLAMA_MODEL':'local-kimi-test'}),patch('urllib.request.urlopen',return_value=response):result=draft({'name':'Test','audience':'Professionals'},[],'producthunt.com')
+  self.assertEqual(result['mode'],'bounded_variant_selection');self.assertNotIn('Invented guarantee',result['content']);self.assertEqual(result['claims'],[])
+ def test_invalid_variant_preserves_draft(self):
+  from growthpilot.providers import draft
+  response=MagicMock();response.__enter__.return_value=response;response.read.return_value=json.dumps({'response':json.dumps({'choice':3})}).encode()
+  with patch.dict(os.environ,{'GROWTHPILOT_OLLAMA_URL':'http://127.0.0.1:11434','GROWTHPILOT_OLLAMA_MODEL':'local-kimi-test'}),patch('urllib.request.urlopen',return_value=response):
+   with self.assertRaises(Invalid):draft({'name':'Test'},[],'producthunt.com')
+ def test_instruction_echo_is_rejected(self):
+  from growthpilot.providers import draft
+  response=MagicMock();response.__enter__.return_value=response;response.read.return_value=json.dumps({'response':json.dumps({'content':'Return valid JSON with content and claims.','claims':[],'uncertainties':[]})}).encode()
+  with patch.dict(os.environ,{'GROWTHPILOT_OLLAMA_URL':'http://127.0.0.1:11434','GROWTHPILOT_OLLAMA_MODEL':'local-kimi-test'}),patch('urllib.request.urlopen',return_value=response):
+   with self.assertRaises(Invalid):draft({'name':'Test','approved_claims':['Verified claim']},[],'producthunt.com')
  def test_incomplete_output_is_rejected(self):
   from growthpilot.providers import draft
   response=MagicMock();response.__enter__.return_value=response;response.read.return_value=b'{"response":"{ incomplete"}'
   with patch.dict(os.environ,{'GROWTHPILOT_OLLAMA_URL':'http://127.0.0.1:11434','GROWTHPILOT_OLLAMA_MODEL':'local-kimi-test'}),patch('urllib.request.urlopen',return_value=response):
-   with self.assertRaises(Invalid):draft({'name':'Test'},[],'producthunt.com')
+   with self.assertRaises(Invalid):draft({'name':'Test','approved_claims':['Verified claim']},[],'producthunt.com')
 
 if __name__=='__main__':unittest.main()

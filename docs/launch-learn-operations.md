@@ -41,3 +41,7 @@ Remaining owner inputs: product readiness and precise facts, selected publishing
 ## First research shortlist
 
 The initial six organization-level candidates are recorded in [the research shortlist](launch-prospect-research.json), each with an official public source, a hypothetical fit score and a qualification risk. Request Finance and Rise are potential integration-partner research targets; Toastmasters is a club-level educational partnership hypothesis; Brilliant Event Planning, Chancey Charm and Wedgewood are wedding-operations research candidates. None is represented as interested, opted in or qualified. No personal addresses are collected and no contact is sent automatically.
+
+## Local Kimi drafting limits
+
+The installed Q2 Kimi model produced incomplete JSON and instruction echoes in free-form drafting tests. Draft preservation and echo rejection are enforced. Until product claims are approved, Kimi therefore selects between two prepared, cautious invitations using a constrained 1-or-2 response. It cannot author new capability claims in this mode. The selected invitation and CTA become a new pending draft and require founder review. This is bounded variant selection, not evidence that Kimi independently validated the product or predicted conversion. Models with verified claims can use the structured draft path, still behind founder review.
