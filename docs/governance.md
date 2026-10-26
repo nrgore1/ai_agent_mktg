@@ -1,0 +1,10 @@
+# Approval policy, evidence model and provider contracts
+Every action contains exact product, campaign, content, claims, evidence, channel, destination, account, recipient, connector, cost and kind. Canonical sorted JSON is SHA-256 hashed. Founder approval binds hash and version for 24 hours. All revisions clear approval. Rejection blocks execution. A rejected action may be revised and separately approved. Execution validates again; edits or expiration block it. Executed records cannot be revised.
+
+Only a zero-cost `manual_submission` action using `mock`, `mock-founder`, a registered destination, and no recipient can execute. Other kinds and live connectors are rejected. No pricing, financial commitments, payments or outreach are supported. The account owner may prepare internal work automatically; execution remains explicit.
+
+Evidence: list of source references and uncertainty notes. Claims must belong to the product approved-claims list. It starts empty. The built-in evidence is the supplied strategy, not confirmation of product capabilities or current channel rules. Founder must review free text: claim checking cannot semantically validate arbitrary prose.
+
+Future provider contract: `research(query)->sources`; `draft(product,sources)->versioned draft`; `deliver(payload,idempotency_key)->durable receipt`. Live implementations must validate scopes, destination and recipient, rate-limit by account, retry transient errors with backoff, and reconcile unknown outcomes before retrying. Do not wire a live adapter into the sandbox without a durable outbox and integration tests. Secrets belong in environment or a secret manager.
+
+Current retries apply only to internal scheduled drafting: three attempts with exponential delay, terminal failure visible in schedule state. Running schedules interrupted by a crash require operator review. Execution retries are manual and transactionally idempotent for the local mock. Rate limiting of outbound providers is deferred because no outbound provider exists.

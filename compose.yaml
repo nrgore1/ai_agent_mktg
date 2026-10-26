@@ -1,0 +1,18 @@
+services:
+  growthpilot:
+    build: .
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:8098:8098"
+    environment:
+      GROWTHPILOT_API_TOKEN: ${GROWTHPILOT_API_TOKEN:?Set a strong API token}
+      GROWTHPILOT_DB: /app/data/growthpilot.db
+    volumes:
+      - growthpilot-data:/app/data
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8098/health')"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+volumes:
+  growthpilot-data:

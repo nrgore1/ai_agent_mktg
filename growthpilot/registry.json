@@ -1,0 +1,1271 @@
+{
+  "products": [
+    {
+      "id": 1,
+      "name": "LiqMint Individual",
+      "audience": "Active stablecoin users",
+      "goal": "subscriptions",
+      "channels": [
+        "producthunt.com",
+        "reddit.com",
+        "alternativeto.net"
+      ],
+      "targets": {
+        "signups": 300,
+        "activated": 50,
+        "paid": 15
+      },
+      "priority": 1,
+      "positioning": "Strategy hypothesis; founder verification required",
+      "approved_claims": [],
+      "pricing": null,
+      "website": null,
+      "landing_page": null,
+      "investor_profile": null,
+      "budget_cents": 0,
+      "readiness": "requires_verification",
+      "requirements": [
+        "Verify positioning",
+        "Verify onboarding and pricing",
+        "Approve evidence-backed claims",
+        "Verify channel rules"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "LiqMint Institutional",
+      "audience": "Digital asset treasury teams",
+      "goal": "institutional",
+      "channels": [
+        "g2.com",
+        "crunchbase.com",
+        "github.com"
+      ],
+      "targets": {
+        "meetings": 25,
+        "demos": 8,
+        "proposals": 3,
+        "paid_pilots": 1
+      },
+      "priority": 1,
+      "positioning": "Strategy hypothesis; founder verification required",
+      "approved_claims": [],
+      "pricing": null,
+      "website": null,
+      "landing_page": null,
+      "investor_profile": "Fintech infrastructure",
+      "budget_cents": 0,
+      "readiness": "requires_verification",
+      "requirements": [
+        "Verify positioning",
+        "Verify onboarding and pricing",
+        "Approve evidence-backed claims",
+        "Verify channel rules"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "OraToPlus",
+      "audience": "Professionals, students and trainers",
+      "goal": "subscriptions",
+      "channels": [
+        "producthunt.com",
+        "futurepedia.io",
+        "reddit.com"
+      ],
+      "targets": {
+        "trials": 500,
+        "activated": 100,
+        "paid": 25
+      },
+      "priority": 1,
+      "positioning": "Strategy hypothesis; founder verification required",
+      "approved_claims": [],
+      "pricing": null,
+      "website": null,
+      "landing_page": null,
+      "investor_profile": null,
+      "budget_cents": 0,
+      "readiness": "requires_verification",
+      "requirements": [
+        "Verify positioning",
+        "Verify onboarding and pricing",
+        "Approve evidence-backed claims",
+        "Verify channel rules"
+      ]
+    },
+    {
+      "id": 4,
+      "name": "WeddingOS",
+      "audience": "Wedding planners and venues",
+      "goal": "subscriptions",
+      "channels": [
+        "producthunt.com",
+        "capterra.com",
+        "indiehackers.com"
+      ],
+      "targets": {
+        "registrations": 100,
+        "demos": 20,
+        "paid": 5
+      },
+      "priority": 1,
+      "positioning": "Strategy hypothesis; founder verification required",
+      "approved_claims": [],
+      "pricing": null,
+      "website": null,
+      "landing_page": null,
+      "investor_profile": null,
+      "budget_cents": 0,
+      "readiness": "requires_verification",
+      "requirements": [
+        "Verify positioning",
+        "Verify onboarding and pricing",
+        "Approve evidence-backed claims",
+        "Verify channel rules"
+      ]
+    },
+    {
+      "id": 5,
+      "name": "Memoir",
+      "audience": "Families and storytellers",
+      "goal": "subscriptions",
+      "channels": [
+        "producthunt.com",
+        "reddit.com",
+        "betalist.com"
+      ],
+      "targets": {
+        "signups": 200,
+        "projects_completed": 50,
+        "paid": 15
+      },
+      "priority": 3,
+      "positioning": "Strategy hypothesis; founder verification required",
+      "approved_claims": [],
+      "pricing": null,
+      "website": null,
+      "landing_page": null,
+      "investor_profile": null,
+      "budget_cents": 0,
+      "readiness": "requires_verification",
+      "requirements": [
+        "Verify positioning",
+        "Verify onboarding and pricing",
+        "Approve evidence-backed claims",
+        "Verify channel rules"
+      ]
+    },
+    {
+      "id": 6,
+      "name": "Jodibana",
+      "audience": "Matchmaking operators and communities",
+      "goal": "validation",
+      "channels": [
+        "producthunt.com",
+        "betalist.com",
+        "peerlist.io"
+      ],
+      "targets": {
+        "registrations": 150,
+        "interviews": 20,
+        "partners": 5
+      },
+      "priority": 3,
+      "positioning": "Strategy hypothesis; founder verification required",
+      "approved_claims": [],
+      "pricing": null,
+      "website": null,
+      "landing_page": null,
+      "investor_profile": null,
+      "budget_cents": 0,
+      "readiness": "requires_verification",
+      "requirements": [
+        "Verify positioning",
+        "Verify onboarding and pricing",
+        "Approve evidence-backed claims",
+        "Verify channel rules"
+      ]
+    },
+    {
+      "id": 7,
+      "name": "CoffeeBook",
+      "audience": "Requires verification",
+      "goal": "validation",
+      "channels": [
+        "indiehackers.com",
+        "uneed.best"
+      ],
+      "targets": {
+        "interviews": 30,
+        "waitlist": 100,
+        "paid_intent": 10
+      },
+      "priority": 3,
+      "positioning": "Strategy hypothesis; founder verification required",
+      "approved_claims": [],
+      "pricing": null,
+      "website": null,
+      "landing_page": null,
+      "investor_profile": null,
+      "budget_cents": 0,
+      "readiness": "requires_verification",
+      "requirements": [
+        "Verify positioning",
+        "Verify onboarding and pricing",
+        "Approve evidence-backed claims",
+        "Verify channel rules"
+      ]
+    },
+    {
+      "id": 8,
+      "name": "Charam",
+      "audience": "Requires verification",
+      "goal": "validation",
+      "channels": [
+        "reddit.com",
+        "peerlist.io"
+      ],
+      "targets": {
+        "interviews": 25,
+        "visitors": 100,
+        "champions": 10
+      },
+      "priority": 3,
+      "positioning": "Strategy hypothesis; founder verification required",
+      "approved_claims": [],
+      "pricing": null,
+      "website": null,
+      "landing_page": null,
+      "investor_profile": null,
+      "budget_cents": 0,
+      "readiness": "requires_verification",
+      "requirements": [
+        "Verify positioning",
+        "Verify onboarding and pricing",
+        "Approve evidence-backed claims",
+        "Verify channel rules"
+      ]
+    },
+    {
+      "id": 9,
+      "name": "Atmasphere LLM",
+      "audience": "Enterprise AI teams and developers",
+      "goal": "institutional",
+      "channels": [
+        "news.ycombinator.com",
+        "github.com",
+        "devhunt.org"
+      ],
+      "targets": {
+        "evaluations": 10,
+        "partners": 3,
+        "paid_pilots": 1
+      },
+      "priority": 2,
+      "positioning": "Strategy hypothesis; founder verification required",
+      "approved_claims": [],
+      "pricing": null,
+      "website": null,
+      "landing_page": null,
+      "investor_profile": "Enterprise AI",
+      "budget_cents": 0,
+      "readiness": "requires_verification",
+      "requirements": [
+        "Verify positioning",
+        "Verify onboarding and pricing",
+        "Approve evidence-backed claims",
+        "Verify channel rules"
+      ]
+    },
+    {
+      "id": 10,
+      "name": "SDIS",
+      "audience": "Traders and quantitative researchers",
+      "goal": "validation",
+      "channels": [
+        "reddit.com",
+        "github.com",
+        "devhunt.org"
+      ],
+      "targets": {
+        "beta_applicants": 100,
+        "testers": 25,
+        "interviews": 10
+      },
+      "priority": 2,
+      "positioning": "Strategy hypothesis; founder verification required",
+      "approved_claims": [],
+      "pricing": null,
+      "website": null,
+      "landing_page": null,
+      "investor_profile": null,
+      "budget_cents": 0,
+      "readiness": "requires_verification",
+      "requirements": [
+        "Verify positioning",
+        "Verify onboarding and pricing",
+        "Approve evidence-backed claims",
+        "Verify channel rules"
+      ]
+    },
+    {
+      "id": 11,
+      "name": "One-Man Hedge Fund",
+      "audience": "Self-directed research users",
+      "goal": "validation",
+      "channels": [
+        "producthunt.com",
+        "github.com",
+        "reddit.com"
+      ],
+      "targets": {
+        "beta_users": 100,
+        "weekly_active": 20,
+        "prospects": 5
+      },
+      "priority": 2,
+      "positioning": "Strategy hypothesis; founder verification required",
+      "approved_claims": [],
+      "pricing": null,
+      "website": null,
+      "landing_page": null,
+      "investor_profile": null,
+      "budget_cents": 0,
+      "readiness": "requires_verification",
+      "requirements": [
+        "Verify positioning",
+        "Verify onboarding and pricing",
+        "Approve evidence-backed claims",
+        "Verify channel rules"
+      ]
+    },
+    {
+      "id": 12,
+      "name": "Quantsys",
+      "audience": "Quant developers and data engineers",
+      "goal": "institutional",
+      "channels": [
+        "github.com",
+        "devhunt.org",
+        "hashnode.com"
+      ],
+      "targets": {
+        "partners": 5,
+        "proofs_of_concept": 2
+      },
+      "priority": 3,
+      "positioning": "Strategy hypothesis; founder verification required",
+      "approved_claims": [],
+      "pricing": null,
+      "website": null,
+      "landing_page": null,
+      "investor_profile": null,
+      "budget_cents": 0,
+      "readiness": "requires_verification",
+      "requirements": [
+        "Verify positioning",
+        "Verify onboarding and pricing",
+        "Approve evidence-backed claims",
+        "Verify channel rules"
+      ]
+    },
+    {
+      "id": 13,
+      "name": "SMDP Design",
+      "audience": "Financial risk architects",
+      "goal": "validation",
+      "channels": [
+        "github.com",
+        "hashnode.com"
+      ],
+      "targets": {
+        "discussions": 10,
+        "workshops": 3
+      },
+      "priority": 3,
+      "positioning": "Strategy hypothesis; founder verification required",
+      "approved_claims": [],
+      "pricing": null,
+      "website": null,
+      "landing_page": null,
+      "investor_profile": null,
+      "budget_cents": 0,
+      "readiness": "requires_verification",
+      "requirements": [
+        "Verify positioning",
+        "Verify onboarding and pricing",
+        "Approve evidence-backed claims",
+        "Verify channel rules"
+      ]
+    },
+    {
+      "id": 14,
+      "name": "Stablecoin Pipeline",
+      "audience": "Video creators; positioning requires verification",
+      "goal": "validation",
+      "channels": [
+        "producthunt.com",
+        "futuretools.io"
+      ],
+      "targets": {
+        "inquiries": 100,
+        "evaluations": 20,
+        "paid": 5
+      },
+      "priority": 3,
+      "positioning": "Strategy hypothesis; founder verification required",
+      "approved_claims": [],
+      "pricing": null,
+      "website": null,
+      "landing_page": null,
+      "investor_profile": null,
+      "budget_cents": 0,
+      "readiness": "requires_verification",
+      "requirements": [
+        "Verify positioning",
+        "Verify onboarding and pricing",
+        "Approve evidence-backed claims",
+        "Verify channel rules"
+      ]
+    },
+    {
+      "id": 15,
+      "name": "Vanguard GTM",
+      "audience": "Business development partners; requires verification",
+      "goal": "validation",
+      "channels": [
+        "indiehackers.com",
+        "hashnode.com"
+      ],
+      "targets": {
+        "partner_discussions": 10
+      },
+      "priority": 3,
+      "positioning": "Strategy hypothesis; founder verification required",
+      "approved_claims": [],
+      "pricing": null,
+      "website": null,
+      "landing_page": null,
+      "investor_profile": null,
+      "budget_cents": 0,
+      "readiness": "requires_verification",
+      "requirements": [
+        "Verify positioning",
+        "Verify onboarding and pricing",
+        "Approve evidence-backed claims",
+        "Verify channel rules"
+      ]
+    },
+    {
+      "id": 16,
+      "name": "Vireoka Website",
+      "audience": "Portfolio customers and partners",
+      "goal": "lead_generation",
+      "channels": [
+        "crunchbase.com",
+        "github.com"
+      ],
+      "targets": {
+        "inquiries": 30,
+        "partnerships": 10
+      },
+      "priority": 3,
+      "positioning": "Strategy hypothesis; founder verification required",
+      "approved_claims": [],
+      "pricing": null,
+      "website": null,
+      "landing_page": null,
+      "investor_profile": null,
+      "budget_cents": 0,
+      "readiness": "requires_verification",
+      "requirements": [
+        "Verify positioning",
+        "Verify onboarding and pricing",
+        "Approve evidence-backed claims",
+        "Verify channel rules"
+      ]
+    },
+    {
+      "id": 17,
+      "name": "Atmakosh Website",
+      "audience": "Enterprise AI buyers",
+      "goal": "lead_generation",
+      "channels": [
+        "github.com",
+        "hashnode.com"
+      ],
+      "targets": {
+        "inquiries": 20,
+        "demos": 5
+      },
+      "priority": 3,
+      "positioning": "Strategy hypothesis; founder verification required",
+      "approved_claims": [],
+      "pricing": null,
+      "website": null,
+      "landing_page": null,
+      "investor_profile": null,
+      "budget_cents": 0,
+      "readiness": "requires_verification",
+      "requirements": [
+        "Verify positioning",
+        "Verify onboarding and pricing",
+        "Approve evidence-backed claims",
+        "Verify channel rules"
+      ]
+    }
+  ],
+  "channels": [
+    {
+      "id": 1,
+      "domain": "news.ycombinator.com",
+      "url": "https://news.ycombinator.com",
+      "submission_types": [
+        "manual package"
+      ],
+      "eligibility": "requires_verification",
+      "connector": "manual",
+      "terms_status": "requires_verification",
+      "approval_required": true,
+      "status": "unverified",
+      "referrals": 0,
+      "conversions": 0
+    },
+    {
+      "id": 2,
+      "domain": "reddit.com",
+      "url": "https://reddit.com",
+      "submission_types": [
+        "manual package"
+      ],
+      "eligibility": "requires_verification",
+      "connector": "manual",
+      "terms_status": "requires_verification",
+      "approval_required": true,
+      "status": "unverified",
+      "referrals": 0,
+      "conversions": 0
+    },
+    {
+      "id": 3,
+      "domain": "producthunt.com",
+      "url": "https://producthunt.com",
+      "submission_types": [
+        "manual package"
+      ],
+      "eligibility": "requires_verification",
+      "connector": "manual",
+      "terms_status": "requires_verification",
+      "approval_required": true,
+      "status": "unverified",
+      "referrals": 0,
+      "conversions": 0
+    },
+    {
+      "id": 4,
+      "domain": "news.hada.io",
+      "url": "https://news.hada.io",
+      "submission_types": [
+        "manual package"
+      ],
+      "eligibility": "requires_verification",
+      "connector": "manual",
+      "terms_status": "requires_verification",
+      "approval_required": true,
+      "status": "unverified",
+      "referrals": 0,
+      "conversions": 0
+    },
+    {
+      "id": 5,
+      "domain": "whatlaunched.today",
+      "url": "https://whatlaunched.today",
+      "submission_types": [
+        "manual package"
+      ],
+      "eligibility": "requires_verification",
+      "connector": "manual",
+      "terms_status": "requires_verification",
+      "approval_required": true,
+      "status": "unverified",
+      "referrals": 0,
+      "conversions": 0
+    },
+    {
+      "id": 6,
+      "domain": "indiehackers.com",
+      "url": "https://indiehackers.com",
+      "submission_types": [
+        "manual package"
+      ],
+      "eligibility": "requires_verification",
+      "connector": "manual",
+      "terms_status": "requires_verification",
+      "approval_required": true,
+      "status": "unverified",
+      "referrals": 0,
+      "conversions": 0
+    },
+    {
+      "id": 7,
+      "domain": "betalist.com",
+      "url": "https://betalist.com",
+      "submission_types": [
+        "manual package"
+      ],
+      "eligibility": "requires_verification",
+      "connector": "manual",
+      "terms_status": "requires_verification",
+      "approval_required": true,
+      "status": "unverified",
+      "referrals": 0,
+      "conversions": 0
+    },
+    {
+      "id": 8,
+      "domain": "uneed.best",
+      "url": "https://uneed.best",
+      "submission_types": [
+        "manual package"
+      ],
+      "eligibility": "requires_verification",
+      "connector": "manual",
+      "terms_status": "requires_verification",
+      "approval_required": true,
+      "status": "unverified",
+      "referrals": 0,
+      "conversions": 0
+    },
+    {
+      "id": 9,
+      "domain": "peerlist.io",
+      "url": "https://peerlist.io",
+      "submission_types": [
+        "manual package"
+      ],
+      "eligibility": "requires_verification",
+      "connector": "manual",
+      "terms_status": "requires_verification",
+      "approval_required": true,
+      "status": "unverified",
+      "referrals": 0,
+      "conversions": 0
+    },
+    {
+      "id": 10,
+      "domain": "devhunt.org",
+      "url": "https://devhunt.org",
+      "submission_types": [
+        "manual package"
+      ],
+      "eligibility": "requires_verification",
+      "connector": "manual",
+      "terms_status": "requires_verification",
+      "approval_required": true,
+      "status": "unverified",
+      "referrals": 0,
+      "conversions": 0
+    },
+    {
+      "id": 11,
+      "domain": "launchingnext.com",
+      "url": "https://launchingnext.com",
+      "submission_types": [
+        "manual package"
+      ],
+      "eligibility": "requires_verification",
+      "connector": "manual",
+      "terms_status": "requires_verification",
+      "approval_required": true,
+      "status": "unverified",
+      "referrals": 0,
+      "conversions": 0
+    },
+    {
+      "id": 12,
+      "domain": "alternativeto.net",
+      "url": "https://alternativeto.net",
+      "submission_types": [
+        "manual package"
+      ],
+      "eligibility": "requires_verification",
+      "connector": "manual",
+      "terms_status": "requires_verification",
+      "approval_required": true,
+      "status": "unverified",
+      "referrals": 0,
+      "conversions": 0
+    },
+    {
+      "id": 13,
+      "domain": "saashub.com",
+      "url": "https://saashub.com",
+      "submission_types": [
+        "manual package"
+      ],
+      "eligibility": "requires_verification",
+      "connector": "manual",
+      "terms_status": "requires_verification",
+      "approval_required": true,
+      "status": "unverified",
+      "referrals": 0,
+      "conversions": 0
+    },
+    {
+      "id": 14,
+      "domain": "g2.com",
+      "url": "https://g2.com",
+      "submission_types": [
+        "manual package"
+      ],
+      "eligibility": "requires_verification",
+      "connector": "manual",
+      "terms_status": "requires_verification",
+      "approval_required": true,
+      "status": "unverified",
+      "referrals": 0,
+      "conversions": 0
+    },
+    {
+      "id": 15,
+      "domain": "capterra.com",
+      "url": "https://capterra.com",
+      "submission_types": [
+        "manual package"
+      ],
+      "eligibility": "requires_verification",
+      "connector": "manual",
+      "terms_status": "requires_verification",
+      "approval_required": true,
+      "status": "unverified",
+      "referrals": 0,
+      "conversions": 0
+    },
+    {
+      "id": 16,
+      "domain": "getapp.com",
+      "url": "https://getapp.com",
+      "submission_types": [
+        "manual package"
+      ],
+      "eligibility": "requires_verification",
+      "connector": "manual",
+      "terms_status": "requires_verification",
+      "approval_required": true,
+      "status": "unverified",
+      "referrals": 0,
+      "conversions": 0
+    },
+    {
+      "id": 17,
+      "domain": "trustradius.com",
+      "url": "https://trustradius.com",
+      "submission_types": [
+        "manual package"
+      ],
+      "eligibility": "requires_verification",
+      "connector": "manual",
+      "terms_status": "requires_verification",
+      "approval_required": true,
+      "status": "unverified",
+      "referrals": 0,
+      "conversions": 0
+    },
+    {
+      "id": 18,
+      "domain": "slashdot.org",
+      "url": "https://slashdot.org",
+      "submission_types": [
+        "manual package"
+      ],
+      "eligibility": "requires_verification",
+      "connector": "manual",
+      "terms_status": "requires_verification",
+      "approval_required": true,
+      "status": "unverified",
+      "referrals": 0,
+      "conversions": 0
+    },
+    {
+      "id": 19,
+      "domain": "tools.launchllama.co",
+      "url": "https://tools.launchllama.co",
+      "submission_types": [
+        "manual package"
+      ],
+      "eligibility": "requires_verification",
+      "connector": "manual",
+      "terms_status": "requires_verification",
+      "approval_required": true,
+      "status": "unverified",
+      "referrals": 0,
+      "conversions": 0
+    },
+    {
+      "id": 20,
+      "domain": "futurepedia.io",
+      "url": "https://futurepedia.io",
+      "submission_types": [
+        "manual package"
+      ],
+      "eligibility": "requires_verification",
+      "connector": "manual",
+      "terms_status": "requires_verification",
+      "approval_required": true,
+      "status": "unverified",
+      "referrals": 0,
+      "conversions": 0
+    },
+    {
+      "id": 21,
+      "domain": "theresanaiforthat.com",
+      "url": "https://theresanaiforthat.com",
+      "submission_types": [
+        "manual package"
+      ],
+      "eligibility": "requires_verification",
+      "connector": "manual",
+      "terms_status": "requires_verification",
+      "approval_required": true,
+      "status": "unverified",
+      "referrals": 0,
+      "conversions": 0
+    },
+    {
+      "id": 22,
+      "domain": "toolify.ai",
+      "url": "https://toolify.ai",
+      "submission_types": [
+        "manual package"
+      ],
+      "eligibility": "requires_verification",
+      "connector": "manual",
+      "terms_status": "requires_verification",
+      "approval_required": true,
+      "status": "unverified",
+      "referrals": 0,
+      "conversions": 0
+    },
+    {
+      "id": 23,
+      "domain": "futuretools.io",
+      "url": "https://futuretools.io",
+      "submission_types": [
+        "manual package"
+      ],
+      "eligibility": "requires_verification",
+      "connector": "manual",
+      "terms_status": "requires_verification",
+      "approval_required": true,
+      "status": "unverified",
+      "referrals": 0,
+      "conversions": 0
+    },
+    {
+      "id": 24,
+      "domain": "confettisaas.com",
+      "url": "https://confettisaas.com",
+      "submission_types": [
+        "manual package"
+      ],
+      "eligibility": "requires_verification",
+      "connector": "manual",
+      "terms_status": "requires_verification",
+      "approval_required": true,
+      "status": "unverified",
+      "referrals": 0,
+      "conversions": 0
+    },
+    {
+      "id": 25,
+      "domain": "crazyaboutai.com",
+      "url": "https://crazyaboutai.com",
+      "submission_types": [
+        "manual package"
+      ],
+      "eligibility": "requires_verification",
+      "connector": "manual",
+      "terms_status": "requires_verification",
+      "approval_required": true,
+      "status": "unverified",
+      "referrals": 0,
+      "conversions": 0
+    },
+    {
+      "id": 26,
+      "domain": "rankanything.online",
+      "url": "https://rankanything.online",
+      "submission_types": [
+        "manual package"
+      ],
+      "eligibility": "requires_verification",
+      "connector": "manual",
+      "terms_status": "requires_verification",
+      "approval_required": true,
+      "status": "unverified",
+      "referrals": 0,
+      "conversions": 0
+    },
+    {
+      "id": 27,
+      "domain": "crunchbase.com",
+      "url": "https://crunchbase.com",
+      "submission_types": [
+        "manual package"
+      ],
+      "eligibility": "requires_verification",
+      "connector": "manual",
+      "terms_status": "requires_verification",
+      "approval_required": true,
+      "status": "unverified",
+      "referrals": 0,
+      "conversions": 0
+    },
+    {
+      "id": 28,
+      "domain": "auraplusplus.com",
+      "url": "https://auraplusplus.com",
+      "submission_types": [
+        "manual package"
+      ],
+      "eligibility": "requires_verification",
+      "connector": "manual",
+      "terms_status": "requires_verification",
+      "approval_required": true,
+      "status": "unverified",
+      "referrals": 0,
+      "conversions": 0
+    },
+    {
+      "id": 29,
+      "domain": "startupbase.io",
+      "url": "https://startupbase.io",
+      "submission_types": [
+        "manual package"
+      ],
+      "eligibility": "requires_verification",
+      "connector": "manual",
+      "terms_status": "requires_verification",
+      "approval_required": true,
+      "status": "unverified",
+      "referrals": 0,
+      "conversions": 0
+    },
+    {
+      "id": 30,
+      "domain": "sideprojectors.com",
+      "url": "https://sideprojectors.com",
+      "submission_types": [
+        "manual package"
+      ],
+      "eligibility": "requires_verification",
+      "connector": "manual",
+      "terms_status": "requires_verification",
+      "approval_required": true,
+      "status": "unverified",
+      "referrals": 0,
+      "conversions": 0
+    },
+    {
+      "id": 31,
+      "domain": "microlaunch.net",
+      "url": "https://microlaunch.net",
+      "submission_types": [
+        "manual package"
+      ],
+      "eligibility": "requires_verification",
+      "connector": "manual",
+      "terms_status": "requires_verification",
+      "approval_required": true,
+      "status": "unverified",
+      "referrals": 0,
+      "conversions": 0
+    },
+    {
+      "id": 32,
+      "domain": "betterlaunch.co",
+      "url": "https://betterlaunch.co",
+      "submission_types": [
+        "manual package"
+      ],
+      "eligibility": "requires_verification",
+      "connector": "manual",
+      "terms_status": "requires_verification",
+      "approval_required": true,
+      "status": "unverified",
+      "referrals": 0,
+      "conversions": 0
+    },
+    {
+      "id": 33,
+      "domain": "foundrlist.com",
+      "url": "https://foundrlist.com",
+      "submission_types": [
+        "manual package"
+      ],
+      "eligibility": "requires_verification",
+      "connector": "manual",
+      "terms_status": "requires_verification",
+      "approval_required": true,
+      "status": "unverified",
+      "referrals": 0,
+      "conversions": 0
+    },
+    {
+      "id": 34,
+      "domain": "peerpush.net",
+      "url": "https://peerpush.net",
+      "submission_types": [
+        "manual package"
+      ],
+      "eligibility": "requires_verification",
+      "connector": "manual",
+      "terms_status": "requires_verification",
+      "approval_required": true,
+      "status": "unverified",
+      "referrals": 0,
+      "conversions": 0
+    },
+    {
+      "id": 35,
+      "domain": "twelve.tools",
+      "url": "https://twelve.tools",
+      "submission_types": [
+        "manual package"
+      ],
+      "eligibility": "requires_verification",
+      "connector": "manual",
+      "terms_status": "requires_verification",
+      "approval_required": true,
+      "status": "unverified",
+      "referrals": 0,
+      "conversions": 0
+    },
+    {
+      "id": 36,
+      "domain": "shipybara.com",
+      "url": "https://shipybara.com",
+      "submission_types": [
+        "manual package"
+      ],
+      "eligibility": "requires_verification",
+      "connector": "manual",
+      "terms_status": "requires_verification",
+      "approval_required": true,
+      "status": "unverified",
+      "referrals": 0,
+      "conversions": 0
+    },
+    {
+      "id": 37,
+      "domain": "hashnode.com",
+      "url": "https://hashnode.com",
+      "submission_types": [
+        "manual package"
+      ],
+      "eligibility": "requires_verification",
+      "connector": "manual",
+      "terms_status": "requires_verification",
+      "approval_required": true,
+      "status": "unverified",
+      "referrals": 0,
+      "conversions": 0
+    },
+    {
+      "id": 38,
+      "domain": "saascity.io",
+      "url": "https://saascity.io",
+      "submission_types": [
+        "manual package"
+      ],
+      "eligibility": "requires_verification",
+      "connector": "manual",
+      "terms_status": "requires_verification",
+      "approval_required": true,
+      "status": "unverified",
+      "referrals": 0,
+      "conversions": 0
+    },
+    {
+      "id": 39,
+      "domain": "500.tools",
+      "url": "https://500.tools",
+      "submission_types": [
+        "manual package"
+      ],
+      "eligibility": "requires_verification",
+      "connector": "manual",
+      "terms_status": "requires_verification",
+      "approval_required": true,
+      "status": "unverified",
+      "referrals": 0,
+      "conversions": 0
+    },
+    {
+      "id": 40,
+      "domain": "sourceforge.net",
+      "url": "https://sourceforge.net",
+      "submission_types": [
+        "manual package"
+      ],
+      "eligibility": "requires_verification",
+      "connector": "manual",
+      "terms_status": "requires_verification",
+      "approval_required": true,
+      "status": "unverified",
+      "referrals": 0,
+      "conversions": 0
+    },
+    {
+      "id": 41,
+      "domain": "aidirectori.es",
+      "url": "https://aidirectori.es",
+      "submission_types": [
+        "manual package"
+      ],
+      "eligibility": "requires_verification",
+      "connector": "manual",
+      "terms_status": "requires_verification",
+      "approval_required": true,
+      "status": "unverified",
+      "referrals": 0,
+      "conversions": 0
+    },
+    {
+      "id": 42,
+      "domain": "startupfa.me",
+      "url": "https://startupfa.me",
+      "submission_types": [
+        "manual package"
+      ],
+      "eligibility": "requires_verification",
+      "connector": "manual",
+      "terms_status": "requires_verification",
+      "approval_required": true,
+      "status": "unverified",
+      "referrals": 0,
+      "conversions": 0
+    },
+    {
+      "id": 43,
+      "domain": "github.com",
+      "url": "https://github.com",
+      "submission_types": [
+        "manual package"
+      ],
+      "eligibility": "requires_verification",
+      "connector": "manual",
+      "terms_status": "requires_verification",
+      "approval_required": true,
+      "status": "unverified",
+      "referrals": 0,
+      "conversions": 0
+    },
+    {
+      "id": 44,
+      "domain": "pitchwall.co",
+      "url": "https://pitchwall.co",
+      "submission_types": [
+        "manual package"
+      ],
+      "eligibility": "requires_verification",
+      "connector": "manual",
+      "terms_status": "requires_verification",
+      "approval_required": true,
+      "status": "unverified",
+      "referrals": 0,
+      "conversions": 0
+    },
+    {
+      "id": 45,
+      "domain": "scrolllaunch.com",
+      "url": "https://scrolllaunch.com",
+      "submission_types": [
+        "manual package"
+      ],
+      "eligibility": "requires_verification",
+      "connector": "manual",
+      "terms_status": "requires_verification",
+      "approval_required": true,
+      "status": "unverified",
+      "referrals": 0,
+      "conversions": 0
+    },
+    {
+      "id": 46,
+      "domain": "rankinpublic.xyz",
+      "url": "https://rankinpublic.xyz",
+      "submission_types": [
+        "manual package"
+      ],
+      "eligibility": "requires_verification",
+      "connector": "manual",
+      "terms_status": "requires_verification",
+      "approval_required": true,
+      "status": "unverified",
+      "referrals": 0,
+      "conversions": 0
+    },
+    {
+      "id": 47,
+      "domain": "tinylaunch.com",
+      "url": "https://tinylaunch.com",
+      "submission_types": [
+        "manual package"
+      ],
+      "eligibility": "requires_verification",
+      "connector": "manual",
+      "terms_status": "requires_verification",
+      "approval_required": true,
+      "status": "unverified",
+      "referrals": 0,
+      "conversions": 0
+    },
+    {
+      "id": 48,
+      "domain": "tinystartups.com",
+      "url": "https://tinystartups.com",
+      "submission_types": [
+        "manual package"
+      ],
+      "eligibility": "requires_verification",
+      "connector": "manual",
+      "terms_status": "requires_verification",
+      "approval_required": true,
+      "status": "unverified",
+      "referrals": 0,
+      "conversions": 0
+    },
+    {
+      "id": 49,
+      "domain": "nicklaunches.com",
+      "url": "https://nicklaunches.com",
+      "submission_types": [
+        "manual package"
+      ],
+      "eligibility": "requires_verification",
+      "connector": "manual",
+      "terms_status": "requires_verification",
+      "approval_required": true,
+      "status": "unverified",
+      "referrals": 0,
+      "conversions": 0
+    },
+    {
+      "id": 50,
+      "domain": "wellfound.com",
+      "url": "https://wellfound.com",
+      "submission_types": [
+        "manual package"
+      ],
+      "eligibility": "requires_verification",
+      "connector": "manual",
+      "terms_status": "requires_verification",
+      "approval_required": true,
+      "status": "unverified",
+      "referrals": 0,
+      "conversions": 0
+    }
+  ]
+}
