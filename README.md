@@ -1,52 +1,46 @@
-# Vireoka GrowthPilot AI
+# GrowthPilot / AgentVire
 
-An approval-governed marketing operations application for 17 products and 50 distribution channels. Includes a responsive founder console, SQLite persistence, strategy-derived campaign generation, eight mock agent roles, exact-action approval, manual submission packages, relationship pipelines, timezone-aware scheduling, UTM attribution, actual-vs-simulation reporting and a hash-chained audit log.
+Approval-governed portfolio marketing operations for 17 products and 50 channels. Version 0.2.0 includes individual login, role/product scopes, a founder approval console, evidence capture and review, editable product/CRM records, recurring campaigns, experiments, UTM analytics ingestion, reports, local Kimi support and a durable guarded delivery queue.
 
-**Release status:** working mock-provider application. It does not research live websites, generate content with an LLM, deliver email, publish posts, spend money, or deploy customer products. The eight agent jobs are deterministic preparation records, not eight independently intelligent agents. All product positioning and channel terms require verification. No targets are presented as actual traction.
+## Run locally (Ubuntu WSL2)
 
-## Run in Ubuntu WSL2
-
-Python 3.10+ is the only runtime dependency. No pip install required.
+Python 3.10+; no third-party runtime dependencies.
 
 ```bash
 cd ~/projects/vireoka-growthpilot
-export GROWTHPILOT_API_TOKEN="$(python3 -c 'import secrets; print(secrets.token_urlsafe(32))')"
-# Keep this value in a password manager; enter it in the dashboard token field.
 python3 -m unittest discover -s tests -v
 python3 -m growthpilot.server --host 127.0.0.1 --port 8098
 ```
 
-Open http://localhost:8098. Enter the API token, connect, generate a campaign, review the payload and evidence, approve its hash, then execute the mock. The receipt explicitly confirms that nothing was externally delivered. Save revisions before approval; edits revoke approval.
+Open http://localhost:8098. Initial credentials are written once to `data/initial-login.txt` with mode 0600. Read them privately, sign in as founder, and change the password in Accounts & integrations. Password changes invalidate existing sessions. The old dashboard API token is no longer used.
 
-The worker checks scheduled draft preparation every 30 seconds while the server runs. Schedule times entered in the browser are converted to UTC. This is not a host-level timer; keep the service running for scheduled work.
+## Workflows
 
-## Staging
+- Verify product positioning and readiness in Portfolio. Attach evidence to every approved claim.
+- Capture public HTTPS sources in Evidence library, then review them. Fetched source text never grants agent permissions.
+- Generate a campaign package, then use local Kimi to revise it from verified evidence. Every AI revision invalidates prior approval.
+- Review exact content, account, destination, recipient, evidence and payload hash. Approve one action or a bounded list of explicit hashes.
+- Mock execution remains the default. Live adapters are disabled by default and require separately configured accounts and reviewed actions.
+- Manage customers, institutional prospects, investors, partners and champions in Pipelines. Track opt-in, owners, follow-ups and referrals.
+- Create product-scoped analytics keys. POST real product events to `/api/ingest` with an idempotency key. Reports exclude simulated events.
+- Use recurring schedules for internal draft preparation and experiments for hypotheses, success metrics and budget decisions.
 
-```bash
-git clone https://github.com/nrgore1/ai_agent_mktg.git
-cd ai_agent_mktg
-cp .env.example .env
-# Replace the placeholder token in .env with a strong random secret.
-docker compose up -d --build
-```
+## Deployment and integration guides
 
-The container binds to localhost only. Use an SSH tunnel (`ssh -L 8098:127.0.0.1:8098 user@host`) or a TLS reverse proxy with additional identity/access controls. Do not expose the development HTTP server directly to the Internet. SSH host, DNS, TLS and hosting credentials are deployment-specific.
+- [VPS access and operations](docs/staging-deployment.md)
+- [Local Kimi connection](docs/local-kimi.md)
+- [Publishing accounts](docs/publishing-accounts.md)
+- [Backlog status and remaining dependencies](docs/backlog-status.md)
+- [API v2 and operations](docs/api-v2.md)
+- [90-day strategy templates](docs/campaigns.md)
+- [17-product and 50-channel registry](growthpilot/registry.json)
 
-## Documents
+## Operational boundaries
 
-- [Requirements and release scope](docs/requirements.md)
-- [Architecture, schema and API](docs/architecture.md)
-- [Approval policy and tool contracts](docs/governance.md)
-- [User guide](docs/user-guide.md)
-- [Programmer manual](docs/programmer-manual.md)
-- [Operational runbook](docs/runbook.md)
-- [90-day campaign templates](docs/campaigns.md)
-- [Full product and channel registry](growthpilot/registry.json)
+This release does not claim that every backlog item is finished. Product prices and readiness need founder verification; channel rules need current review; publishing/email credentials need owner configuration; PostgreSQL/Redis scale migration, full social connectors, payment-system integration, off-host audit anchoring and production campaign email remain outstanding. See the status ledger.
+
+Only zero-cost provider actions are supported. Spending and financial commitments are blocked. GitHub issue publishing and exact-test-recipient SMTP are implemented adapters, but remain disabled until configured and sandbox-tested. Unknown network outcomes are quarantined rather than retried automatically. SQLite WAL and serialized transactions support a single-host deployment; product-scoped roles are enforced at the HTTP boundary.
 
 ## Verification
 
-`python3 -m unittest discover -s tests -v` covers approval bypass, rejection, revisions, expiration, concurrent idempotency, failure receipts, emergency stop, product filtering, unsupported claims, recipient tampering, spending gates, schedules, evidence requirements and separation of simulated outcomes.
-
-## Limits before a live release
-
-SQLite is suitable for this single-host sandbox. The shared founder token is not tenant authentication: product filtering isolates records by product for workflow purposes, not by user authorization. Add real identities, roles, recipient consent workflows, an independently secured audit sink, connector permission scopes, reliable queue leases and outbox reconciliation before enabling external delivery. Live adapters must be implemented and tested separately. PostgreSQL, Redis, FastAPI and Next.js are proposed future scale choices; this release uses a dependency-free Python HTTP server and browser JavaScript.
+The automated suite covers governance, session authentication, CSRF, permissions, HTTP workflows, evidence, queue effects/failures, schedules, analytic replay protection, backup restoration and audit tamper detection. The dashboard is also checked in a browser. CI runs the suite on Ubuntu.

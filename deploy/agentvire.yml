@@ -1,0 +1,28 @@
+http:
+  routers:
+    growthpilot-agentvire:
+      rule: "Host(`agentvire.com`) || Host(`www.agentvire.com`)"
+      entryPoints: [websecure]
+      service: growthpilot-agentvire
+      middlewares: [agentvire-security, agentvire-rate-limit, agentvire-concurrency]
+      tls:
+        certResolver: letsencrypt
+  middlewares:
+    agentvire-rate-limit:
+      rateLimit:
+        average: 20
+        burst: 40
+    agentvire-concurrency:
+      inFlightReq:
+        amount: 20
+    agentvire-security:
+      headers:
+        contentTypeNosniff: true
+        frameDeny: true
+        referrerPolicy: no-referrer
+        stsSeconds: 31536000
+  services:
+    growthpilot-agentvire:
+      loadBalancer:
+        servers:
+          - url: "http://growthpilot-agentvire:8098"

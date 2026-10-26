@@ -1,0 +1,27 @@
+services:
+  growthpilot:
+    environment:
+      GROWTHPILOT_OLLAMA_URL: http://172.16.1.1:11436
+      GROWTHPILOT_OLLAMA_MODEL: ${GROWTHPILOT_OLLAMA_MODEL:?Set installed local Kimi model}
+      GROWTHPILOT_SECURE_COOKIE: ${GROWTHPILOT_SECURE_COOKIE:-false}
+    networks:
+      default:
+      edge:
+        aliases: [growthpilot-agentvire]
+  kimi-bridge:
+    image: growthpilot-staging:${GROWTHPILOT_RELEASE:-local}
+    command: ["python", "-m", "growthpilot.llm_bridge"]
+    restart: unless-stopped
+    network_mode: host
+    environment:
+      GROWTHPILOT_OLLAMA_MODEL: ${GROWTHPILOT_OLLAMA_MODEL:?Set installed local Kimi model}
+      GROWTHPILOT_BRIDGE_BIND: 172.16.1.1
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+    mem_limit: 128m
+    pids_limit: 32
+networks:
+  edge:
+    external: true
+    name: liqmint-edge

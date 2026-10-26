@@ -74,13 +74,17 @@ class Store:
     data.update(status='scheduled',attempts=0,max_attempts=3)
    data.update(id=uuid.uuid4().hex,created_at=now()); self.save(db,kind,data); self.audit(db,'create',data['id'],{'kind':kind})
    return data
- def plan(self,product_id,channel=None):
+ def plan(self,product_id,channel=None,slot=None):
   with self.db() as db:
    if self.paused(db): raise Invalid('System paused')
    p=self.get(db,'products',product_id); channel=channel or p['channels'][0]
+   if slot:
+    existing=next((c for c in self.rows(db,'campaigns',product_id) if c.get('schedule_slot')==slot),None)
+    if existing:return {'campaign':existing,'action':next(a for a in self.rows(db,'actions',product_id) if a['campaign_id']==existing['id'])}
    if channel not in [c['domain'] for c in self.rows(db,'channels')]: raise Invalid('Unknown channel')
    cid=uuid.uuid4().hex
    campaign=dict(id=cid,product_id=p['id'],name=p['name']+' — 90-day validation',created_at=now(),status='draft',targets=p['targets'],budget_cents=p['budget_cents'],phases=[{'days':'1–30','goal':'Readiness, interviews and evidence'},{'days':'31–60','goal':'Approved launches and acquisition'},{'days':'61–90','goal':'Retention, pilots and channel optimization'}],utm={'utm_source':channel,'utm_medium':'community','utm_campaign':cid},provider='deterministic_mock',confidence='hypothesis',evidence=[{'source':'registry.json','note':'User supplied strategy; not independently verified'}])
+   if slot:campaign['schedule_slot']=slot
    self.save(db,'campaigns',campaign)
    payload=dict(product_id=p['id'],campaign_id=cid,kind='manual_submission',channel=channel,destination='https://'+channel,recipient=None,account='mock-founder',content=f"Founder review draft: We are exploring {p['name']} for {p['audience']}. We welcome feedback on the problem and a conversation about your needs. Product availability, pricing and capabilities require founder verification.",claims=[],evidence=campaign['evidence'],connector='mock',cost_cents=0)
    action=dict(id=uuid.uuid4().hex,product_id=p['id'],campaign_id=cid,payload=payload,payload_hash=digest(payload),version=1,status='pending',approval=None,created_at=now(),receipt=None)
