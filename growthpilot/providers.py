@@ -49,6 +49,9 @@ def draft(product,evidence,channel):
 
 def deliver(payload,key):
  connector=payload.get('connector')
+ if connector=='postmark':
+  from .postmark import send
+  return send(payload,key)
  if connector=='mock':return {'mode':'mock','external_delivery':False,'provider_id':key}
  # No automatic retry after a network call: an unknown outcome requires reconciliation.
  if os.environ.get('GROWTHPILOT_ENABLE_LIVE')!='true':raise Invalid('Live delivery disabled')

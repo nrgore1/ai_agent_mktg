@@ -1,6 +1,6 @@
 # GrowthPilot / AgentVire
 
-Approval-governed portfolio marketing operations for 17 products and 50 channels. Version 0.2.0 includes individual login, role/product scopes, a founder approval console, evidence capture and review, editable product/CRM records, recurring campaigns, experiments, UTM analytics ingestion, reports, local Kimi support and a durable guarded delivery queue.
+Approval-governed portfolio marketing operations for 17 products and 50 channels. Version 0.3.0 includes individual login, role/product scopes, a founder approval console, evidence capture and review, editable product/CRM records, recurring campaigns, experiments, UTM analytics ingestion, reports, local Kimi support and a durable guarded delivery queue.
 
 ## Run locally (Ubuntu WSL2)
 
@@ -44,3 +44,7 @@ Only zero-cost provider actions are supported. Spending and financial commitment
 ## Verification
 
 The automated suite covers governance, session authentication, CSRF, permissions, HTTP workflows, evidence, queue effects/failures, schedules, analytic replay protection, backup restoration and audit tamper detection. The dashboard is also checked in a browser. CI runs the suite on Ubuntu.
+
+## Launch Desk
+
+[Launch & Learn operating guide](docs/launch-learn-operations.md): all-product campaign packages, activation journeys, demos, feedback and measured manager reviews. Postmark sender routing and exact-action approval are enforced.

@@ -1,0 +1,223 @@
+{
+  "1": {
+    "segment": "Self-directed stablecoin users and finance operators",
+    "angle": "Make your stablecoin workflow easier to inspect before taking action",
+    "offer": "A founder-led walkthrough of one stablecoin workflow; terms and availability require confirmation",
+    "activation": "first_workflow_reviewed",
+    "steps": [
+      "Choose one real workflow using non-sensitive or synthetic inputs",
+      "Review its proposed steps and controls with the founder",
+      "Document whether the workflow solves a recurring need"
+    ],
+    "demo": "Trace one proposed workflow, its controls and the review process; do not claim returns or execute real funds",
+    "question": "Where do you lose visibility or confidence before moving stablecoins?"
+  },
+  "2": {
+    "segment": "Digital asset treasury, fintech operations and risk teams",
+    "angle": "Start with one controlled treasury workflow, not a platform-wide commitment",
+    "offer": "A scoped discovery call and a proposed shadow-mode design-partner evaluation",
+    "activation": "pilot_success_criteria_agreed",
+    "steps": [
+      "Identify the economic buyer, operator and risk approver",
+      "Select one workflow and agree synthetic demo inputs",
+      "Write measurable pilot success criteria and a review date"
+    ],
+    "demo": "30 minutes: treasury workflow discovery (5), proposed controls and approvals (10), evidence requirements (5), pilot scope and next step (10)",
+    "question": "Which treasury decision currently requires the most manual coordination or approval?"
+  },
+  "3": {
+    "segment": "Professionals preparing for interviews, presentations and high-stakes conversations",
+    "angle": "Make your next speaking practice session actionable",
+    "offer": "A focused first speaking-practice session, following the current product terms",
+    "activation": "first_practice_feedback_viewed",
+    "steps": [
+      "Select an interview or presentation scenario",
+      "Record one short practice answer in OraToPlus",
+      "Review feedback and repeat the same answer once"
+    ],
+    "demo": "Show one practice answer, available feedback and the next practice step; distinguish an example score from a measured improvement",
+    "question": "What made the feedback specific enough to change your next answer?"
+  },
+  "4": {
+    "segment": "Independent wedding planners, planning teams and venues",
+    "angle": "Test one wedding handoff before changing your whole planning process",
+    "offer": "A guided evaluation of one synthetic wedding workspace for a planning business",
+    "activation": "first_wedding_workspace_used",
+    "steps": [
+      "Create or review a synthetic wedding workspace",
+      "Add one planning task, timeline item and vendor handoff",
+      "Have a teammate identify the next action without a separate status message"
+    ],
+    "demo": "25 minutes: current process (5), synthetic workspace and handoff (10), collaboration fit (5), evaluation next step (5)",
+    "question": "Which wedding-planning handoff most often gets lost between tools?"
+  },
+  "5": {
+    "segment": "Families and creators making wedding, travel, baby or tribute photo books",
+    "angle": "Turn one meaningful photo collection into a first book concept",
+    "offer": "A guided book-design evaluation; confirm current design and print terms before launch",
+    "activation": "first_book_preview_created",
+    "steps": [
+      "Choose one book occasion and a small photo set",
+      "Create a draft layout and review captions",
+      "Preview the book before choosing any paid print option"
+    ],
+    "demo": "Use a synthetic or explicitly authorized photo set to review one book concept, layout and preview",
+    "question": "What would you change before you would share or print this book?"
+  },
+  "6": {
+    "segment": "Community owners considering a focused dating or matchmaking service",
+    "angle": "Validate your community concept before investing in a full launch",
+    "offer": "An operator-focused concept and platform evaluation, with pricing and availability reviewed first",
+    "activation": "operator_demo_reviewed",
+    "steps": [
+      "Define the community, admission criteria and safety needs",
+      "Review a synthetic community demo",
+      "Agree a validation plan with the community owner"
+    ],
+    "demo": "Review operator setup, community rules and the proposed member journey using synthetic profiles",
+    "question": "What would convince trusted members to participate in a new community?"
+  },
+  "7": {
+    "segment": "Unverified: discovery before audience targeting",
+    "angle": "Validate CoffeeBook\u2019s customer problem before launch",
+    "offer": "A product-positioning discovery interview; no subscription offer until the product brief is verified",
+    "activation": "discovery_interview_completed",
+    "steps": [
+      "Confirm the actual product and target job",
+      "Interview a relevant potential customer",
+      "Record willingness-to-try evidence and revise the brief"
+    ],
+    "demo": "Product positioning is unverified; replace a sales demo with a discovery interview",
+    "question": "Which recurring job is this product intended to improve?"
+  },
+  "8": {
+    "segment": "People exploring gratitude-led support for girls\u2019 education",
+    "angle": "Begin with the mission, transparent information and a conversation",
+    "offer": "An information and partnership conversation; no financial or tax claims",
+    "activation": "mission_information_reviewed",
+    "steps": [
+      "Read the initiative\u2019s mission and transparency information",
+      "Ask questions about participation and accountability",
+      "Request a conversation if interested; financial commitments require separate approval"
+    ],
+    "demo": "Walk through the published mission and available transparency information; verify program details before commitments",
+    "question": "What information would you need before deciding whether to participate?"
+  },
+  "9": {
+    "segment": "AI builders, enterprise operations and governance teams",
+    "angle": "Evaluate governance on one consequential AI action",
+    "offer": "A technical discovery session using a synthetic action and agreed evaluation criteria",
+    "activation": "first_governance_evaluation_reviewed",
+    "steps": [
+      "Choose a synthetic AI action and a clear policy question",
+      "Review the proposed decision and supporting evidence",
+      "Agree which integration and audit requirements matter"
+    ],
+    "demo": "30 minutes: action scenario (5), governance review (10), evidence and integration questions (10), evaluation criteria (5)",
+    "question": "Which AI action must reliably ask for human approval in your organization?"
+  },
+  "10": {
+    "segment": "Traders and market researchers evaluating decision-support workflows",
+    "angle": "Evaluate the research workflow before making performance claims",
+    "offer": "A research-tool feedback session with synthetic or historical examples",
+    "activation": "first_research_session_reviewed",
+    "steps": [
+      "Confirm the research question",
+      "Review a historical or synthetic example",
+      "Record whether the output supports a repeatable research task"
+    ],
+    "demo": "Demonstrate research workflow and limitations; no real-money execution or return promises",
+    "question": "What evidence would make this research output useful in your existing workflow?"
+  },
+  "11": {
+    "segment": "Independent researchers and sophisticated self-directed research users",
+    "angle": "Find the smallest repeatable research job worth paying for",
+    "offer": "A structured research-workflow evaluation, not an investment recommendation",
+    "activation": "research_workflow_feedback_completed",
+    "steps": [
+      "Choose one recurring research job",
+      "Review an example with explicit assumptions",
+      "Record usability, time-to-value and willingness-to-pay feedback"
+    ],
+    "demo": "Review a historical or synthetic research example and document assumptions and limitations",
+    "question": "Which part of your current research process would you actually replace?"
+  },
+  "12": {
+    "segment": "Quantitative developers and trading-technology teams",
+    "angle": "Validate integration fit with one technical proof of concept",
+    "offer": "A technical design-partner discussion and proposed integration scope",
+    "activation": "integration_scope_agreed",
+    "steps": [
+      "Identify a data or workflow integration need",
+      "Review an architecture example",
+      "Agree a narrowly scoped technical proof of concept"
+    ],
+    "demo": "Architecture walkthrough and synthetic integration scenario; confirm supported interfaces before any implementation claim",
+    "question": "Which integration constraint would prevent you from evaluating this tool?"
+  },
+  "13": {
+    "segment": "Financial-risk architects and governance researchers",
+    "angle": "Make one risk-control design question concrete",
+    "offer": "An architecture workshop with explicit assumptions and open questions",
+    "activation": "architecture_workshop_completed",
+    "steps": [
+      "Define one architecture question",
+      "Review assumptions and control boundaries",
+      "Write agreed findings and unresolved questions"
+    ],
+    "demo": "Architecture discussion using diagrams and synthetic examples; no production capability claims without evidence",
+    "question": "Which architecture assumption needs the strongest evidence?"
+  },
+  "14": {
+    "segment": "Unverified: video workflow automation hypothesis from the portfolio strategy",
+    "angle": "Validate the actual workflow behind Stablecoin Pipeline before marketing it",
+    "offer": "A product clarification and customer discovery session",
+    "activation": "workflow_problem_validated",
+    "steps": [
+      "Verify what the current product actually does",
+      "Map one prospective customer workflow",
+      "Record the specific outcome worth testing"
+    ],
+    "demo": "Do not infer financial capabilities from the product name; verify the video-workflow positioning first",
+    "question": "What is the exact input, output and customer job of the current product?"
+  },
+  "15": {
+    "segment": "Business-development and distribution partners; standalone offer unverified",
+    "angle": "Explore one practical distribution partnership",
+    "offer": "A partnership discovery conversation; commercial terms require separate approval",
+    "activation": "partner_use_case_defined",
+    "steps": [
+      "Define the partner\u2019s audience and business objective",
+      "Review the proposed distribution use case",
+      "Agree a small validation step without contractual commitment"
+    ],
+    "demo": "Use-case discovery and partner value map rather than unverified feature claims",
+    "question": "Which shared customer problem would make this partnership valuable?"
+  },
+  "16": {
+    "segment": "Financial AI buyers, partners and institutional champions",
+    "angle": "Turn portfolio interest into a focused workflow conversation",
+    "offer": "A portfolio introduction and discovery conversation",
+    "activation": "qualified_portfolio_inquiry",
+    "steps": [
+      "Identify the visitor\u2019s priority problem",
+      "Route the inquiry to the relevant product owner",
+      "Agree a clear discovery next step"
+    ],
+    "demo": "Portfolio introduction followed by the most relevant product evaluation",
+    "question": "Which financial workflow or partnership are you trying to improve?"
+  },
+  "17": {
+    "segment": "AI builders and enterprise governance buyers",
+    "angle": "Help the right buyer find the right AI governance evaluation",
+    "offer": "A technical or business discovery conversation",
+    "activation": "qualified_governance_inquiry",
+    "steps": [
+      "Identify the consequential AI action",
+      "Route the visitor to the right technical or business evaluation",
+      "Agree the next evidence-gathering step"
+    ],
+    "demo": "Plain-language governance introduction followed by a synthetic technical example",
+    "question": "What would you need to verify before introducing this to your team?"
+  }
+}

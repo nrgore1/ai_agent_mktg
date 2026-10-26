@@ -3,6 +3,8 @@ services:
     environment:
       GROWTHPILOT_OLLAMA_URL: http://172.16.1.1:11436
       GROWTHPILOT_OLLAMA_MODEL: ${GROWTHPILOT_OLLAMA_MODEL:?Set installed local Kimi model}
+      GROWTHPILOT_POSTMARK_FILE: /app/data/postmark-accounts.json
+      GROWTHPILOT_ENABLE_POSTMARK: ${GROWTHPILOT_ENABLE_POSTMARK:-false}
       GROWTHPILOT_SECURE_COOKIE: ${GROWTHPILOT_SECURE_COOKIE:-false}
     networks:
       default:

@@ -53,4 +53,11 @@ class HttpTests(unittest.TestCase):
   o,c=self.client('operator')
   with self.assertRaises(urllib.error.HTTPError) as e:self.call(o,'roadmap',{'current_phase':'foundation'},c)
   self.assertEqual(e.exception.code,403)
+ def test_manager_requires_admin(self):
+  o,c=self.client('operator')
+  with self.assertRaises(urllib.error.HTTPError) as e:self.call(o,'manager/prepare',{},c)
+  self.assertEqual(e.exception.code,403)
+ def test_manager_preparation_and_scope(self):
+  o,c=self.client();self.call(o,'manager/prepare',{},c);s=self.call(o,'state');self.assertEqual(len(s['launch_desk']['growthplans']),17)
+  operator,_=self.client('operator');self.assertEqual(self.call(operator,'state')['launch_desk'],{})
 if __name__=='__main__':unittest.main()

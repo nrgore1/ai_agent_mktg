@@ -51,7 +51,7 @@ class Store:
    result['paused']=self.paused(db); result['agents']=AGENTS
    result['audit']=[dict(r) for r in db.execute('SELECT * FROM audit ORDER BY seq DESC LIMIT 100')]
    events=result['events']; actions=result['actions']
-   result['metrics']={'mock_executions':sum(a['status']=='executed' for a in actions),'actual_conversions':sum(e.get('count',0) for e in events if e.get('type')=='paid' and e.get('source')=='actual'),'actual_revenue_cents':sum(e.get('revenue_cents',0) for e in events if e.get('source')=='actual'),'leads':len(result['leads'])}
+   result['metrics']={'mock_executions':sum(a['status']=='executed' and (a.get('receipt') or {}).get('mode')=='mock' for a in actions),'actual_conversions':sum(e.get('count',0) for e in events if e.get('type')=='paid' and e.get('source')=='actual'),'actual_revenue_cents':sum(e.get('revenue_cents',0) for e in events if e.get('source')=='actual'),'leads':len(result['leads'])}
    return result
  def create_record(self,kind,data):
   if kind not in ('leads','events','experiments','schedules'): raise Invalid('Unsupported record type')

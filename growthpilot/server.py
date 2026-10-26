@@ -32,6 +32,7 @@ def main():
    if user['role'] not in ('founder','admin'):
     ids=user['products'];state['products']=[p for p in state['products'] if p['id'] in ids]
     for key in ('campaigns','actions','leads','events','experiments','schedules','jobs','evidence','notifications','suppressions','reports'):state[key]=[r for r in state[key] if r.get('product_id') in ids]
+    state['launch_desk']={}
     state['audit']=[];state['deliveries']=[];state['report']={};state['metrics']={}
    return state
   def origin_ok(self):
@@ -39,8 +40,8 @@ def main():
    return not origin or urlsplit(origin).netloc==self.headers.get('Host')
   def do_GET(self):
    path=urlsplit(self.path).path
-   if path=='/health':return self.send(200,{'status':'ok','mode':'approval-governed','version':'0.2.1'})
-   assets={'/':'index.html','/app.js':'app.js','/style.css':'style.css','/console.js':'console.js','/roadmap.js':'roadmap.js'}
+   if path=='/health':return self.send(200,{'status':'ok','mode':'approval-governed','version':'0.3.0'})
+   assets={'/':'index.html','/app.js':'app.js','/style.css':'style.css','/console.js':'console.js','/roadmap.js':'roadmap.js','/launchdesk.js':'launchdesk.js'}
    if path in assets:
     ctype='text/html; charset=utf-8' if path=='/' else 'text/css' if path.endswith('.css') else 'text/javascript'
     return self.send(200,(Path(__file__).parent/'static'/assets[path]).read_bytes(),ctype)
@@ -81,11 +82,11 @@ def main():
      identity.change_password(user['username'],data.get('old',''),data.get('new',''));return self.send(200,{'ok':True,'sign_in_again':True},cookie='gp_session=; HttpOnly; SameSite=Strict; Path=/; Max-Age=0')
     if user['role']=='viewer':return self.send(403,{'error':'Read-only account'})
     admin=user['role'] in ('founder','admin')
-    if path in ('/api/pause','/api/tick','/api/users','/api/backup','/api/keys','/api/actions/batch','/api/roadmap') and not admin:return self.send(403,{'error':'Administrator required'})
+    if path in ('/api/pause','/api/tick','/api/users','/api/backup','/api/keys','/api/actions/batch','/api/roadmap','/api/manager/prepare','/api/manager/review','/api/manager/outreach','/api/manager/record') and not admin:return self.send(403,{'error':'Administrator required'})
     if len(parts)==4 and parts[:2]==['api','actions']:
      with store.db() as db:record=store.get(db,'actions',parts[2])
      if not self.allowed(user,record['product_id']):return self.send(403,{'error':'Product access denied'})
-     if parts[3] in ('approve','execute','reject') and not admin:return self.send(403,{'error':'Founder/admin approval required'})
+     if parts[3] in ('approve','execute','reject','export','record_submission') and not admin:return self.send(403,{'error':'Founder/admin approval required'})
     if len(parts)==4 and parts[:2]==['api','records']:
      kind=parts[2]
      with store.db() as db:record=store.get(db,kind,parts[3])
@@ -93,7 +94,11 @@ def main():
      if kind in ('products','channels','evidence') and not admin:return self.send(403,{'error':'Administrator verification required'})
      if product is not None and not self.allowed(user,product):return self.send(403,{'error':'Product access denied'})
     if 'product_id' in data and not self.allowed(user,data['product_id']):return self.send(403,{'error':'Product access denied'})
-    if path=='/api/plan':result=store.plan(data.get('product_id'),data.get('channel'))
+    if path=='/api/manager/prepare':result=store.manager().prepare(user['username'])
+    elif path=='/api/manager/review':result=store.manager().review(user['username'])
+    elif path=='/api/manager/outreach':result=store.manager().outreach(data.get('lead_id'),user['username'])
+    elif path=='/api/manager/record':result=store.manager().activity_record(data.get('kind'),data.get('record',{}),user['username'])
+    elif path=='/api/plan':result=store.plan(data.get('product_id'),data.get('channel'))
     elif path=='/api/roadmap':result=store.update_roadmap(data,user['username'])
     elif path=='/api/pause':result=store.pause(data.get('paused'))
     elif path=='/api/tick':result=store.tick()
@@ -109,10 +114,10 @@ def main():
      if not isinstance(items,list) or not 1<=len(items)<=20:raise Invalid('Batch must contain 1–20 explicit actions and hashes')
      result=[]
      for item in items:
-      try:result.append({'id':item['id'],'result':store.transition(item['id'],'approve',{'payload_hash':item['payload_hash']})})
+      try:result.append({'id':item['id'],'result':store.transition(item['id'],'approve',{'payload_hash':item['payload_hash']},actor=user['username'])})
       except Invalid as e:result.append({'id':item.get('id'),'error':str(e)})
     elif len(parts)==4 and parts[:2]==['api','actions']:
-     result=store.generate(parts[2]) if parts[3]=='generate' else store.transition(parts[2],parts[3],data)
+     result=store.generate(parts[2]) if parts[3]=='generate' else store.transition(parts[2],parts[3],data,actor=user['username'])
     elif len(parts)==4 and parts[:2]==['api','records']:result=store.update(parts[2],parts[3],data,user['username'])
     elif len(parts)==2 and parts[0]=='api':result=store.create_record(parts[1],data)
     else:return self.send(404,{'error':'Not found'})

@@ -20,11 +20,15 @@ class Platform(Store):
  def snapshot(self,product=None):
   state=super().snapshot(product)
   state['roadmap']=self.roadmap()
+  state['launch_desk']=self.manager().summary(product)
   state['products'].sort(key=lambda p:p['id']);state['channels'].sort(key=lambda c:c['id'])
   with self.db() as db:
    for kind in ('evidence','notifications','suppressions','reports'):state[kind]=self.rows(db,kind,product)
    state['deliveries']=[dict(r) for r in db.execute('SELECT id,action_id,status,payload_hash,attempts,lease_until,created_at FROM deliveries')]
   state['integration_status']={'llm':'configured' if os.environ.get('GROWTHPILOT_OLLAMA_URL') and os.environ.get('GROWTHPILOT_OLLAMA_MODEL') else 'needs_configuration','research':'public_https','github':'configured' if os.environ.get('GROWTHPILOT_GITHUB_TOKEN') else 'needs_configuration','smtp_sandbox':'configured' if os.environ.get('GROWTHPILOT_SMTP_HOST') else 'needs_configuration','live_delivery':os.environ.get('GROWTHPILOT_ENABLE_LIVE')=='true'}
+  from . import postmark
+  state['integration_status']['postmark']=postmark.public_accounts()
+  state['integration_status']['live_delivery']=state['integration_status']['live_delivery'] or os.environ.get('GROWTHPILOT_ENABLE_POSTMARK')=='true'
   state['report']=self.report(product)
   return state
  def update(self,kind,id,data,actor='founder'):
@@ -115,6 +119,7 @@ class Platform(Store):
    self.save(db,'campaigns',campaign);result['campaign']=campaign
   return result
  def validate(self,db,a):
+  if a['payload'].get('connector') in ('manual','postmark'):return self.manager().validate_action(db,a)
   # Keep original mock acceptance for backwards-compatible sandbox tests.
   if a['payload'].get('connector')=='mock':return super().validate(db,a)
   p=self.get(db,'products',a['product_id']);payload=a['payload']
@@ -155,12 +160,13 @@ class Platform(Store):
    if c['product_id']!=p['id']:raise Invalid('Campaign/product mismatch')
    payload=dict(data,cost_cents=0);a=dict(id=uuid.uuid4().hex,product_id=p['id'],campaign_id=c['id'],payload=payload,payload_hash=digest(payload),version=1,status='pending',approval=None,created_at=now(),receipt=None)
    self.validate(db,a);self.save(db,'actions',a);self.audit(db,'external_draft',a['id'],{'hash':a['payload_hash']});return a
- def transition(self,id,command,data):
+ def transition(self,id,command,data,actor='founder'):
   if command=='comment':
    with self.db() as db:
     a=self.get(db,'actions',id);a.setdefault('comments',[]).append({'at':now(),'text':str(data.get('text',''))[:2000]});self.save(db,'actions',a);self.audit(db,'comment',id,{});return a
   with self.db() as db:a=self.get(db,'actions',id)
   if a['status'] in ('queued','executing','unknown') and command in ('revise','reject','approve'):raise Invalid('Queued delivery must be reconciled before revision')
+  if a['payload'].get('connector') in ('manual','postmark'):return self.manager().transition(id,command,data,actor)
   if command!='execute' or a['payload'].get('connector')=='mock':return super().transition(id,command,data)
   return self.enqueue(id)
  def enqueue(self,id):
@@ -251,6 +257,7 @@ class Platform(Store):
     s['attempts']+=1;s.update(status='failed' if s['attempts']>=s['max_attempts'] else 'retry',error='Draft preparation failed; check channel and product configuration',due_at=(current+dt.timedelta(minutes=2**s['attempts'])).isoformat())
    with self.db() as db:self.save(db,'schedules',s);self.audit(db,'schedule_result',s['id'],{'status':s['status']},'worker')
   self.process_delivery()
+  self.manager().tick()
   return {'processed':len(due)}
  def verify_audit(self):
   previous='';count=0
@@ -277,3 +284,7 @@ class Platform(Store):
  def update_roadmap(self,data,actor):
   from .roadmap import update_roadmap
   return update_roadmap(self,data,actor)
+
+ def manager(self):
+  from .manager import Manager
+  return Manager(self)
