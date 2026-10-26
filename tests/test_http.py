@@ -47,4 +47,10 @@ class HttpTests(unittest.TestCase):
  def test_static_and_headers(self):
   with urllib.request.urlopen(self.url+'/') as response:
    self.assertIn('frame-ancestors',response.headers['Content-Security-Policy']);self.assertIn(b'/console.js',response.read())
+ def test_roadmap_admin_update(self):
+  o,c=self.client();result=self.call(o,'roadmap',{'current_phase':'launch_learn'},c);self.assertEqual(result['current_phase'],'launch_learn')
+ def test_roadmap_operator_denied(self):
+  o,c=self.client('operator')
+  with self.assertRaises(urllib.error.HTTPError) as e:self.call(o,'roadmap',{'current_phase':'foundation'},c)
+  self.assertEqual(e.exception.code,403)
 if __name__=='__main__':unittest.main()

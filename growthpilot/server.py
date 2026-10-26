@@ -39,8 +39,8 @@ def main():
    return not origin or urlsplit(origin).netloc==self.headers.get('Host')
   def do_GET(self):
    path=urlsplit(self.path).path
-   if path=='/health':return self.send(200,{'status':'ok','mode':'approval-governed','version':'0.2.0'})
-   assets={'/':'index.html','/app.js':'app.js','/style.css':'style.css','/console.js':'console.js'}
+   if path=='/health':return self.send(200,{'status':'ok','mode':'approval-governed','version':'0.2.1'})
+   assets={'/':'index.html','/app.js':'app.js','/style.css':'style.css','/console.js':'console.js','/roadmap.js':'roadmap.js'}
    if path in assets:
     ctype='text/html; charset=utf-8' if path=='/' else 'text/css' if path.endswith('.css') else 'text/javascript'
     return self.send(200,(Path(__file__).parent/'static'/assets[path]).read_bytes(),ctype)
@@ -81,7 +81,7 @@ def main():
      identity.change_password(user['username'],data.get('old',''),data.get('new',''));return self.send(200,{'ok':True,'sign_in_again':True},cookie='gp_session=; HttpOnly; SameSite=Strict; Path=/; Max-Age=0')
     if user['role']=='viewer':return self.send(403,{'error':'Read-only account'})
     admin=user['role'] in ('founder','admin')
-    if path in ('/api/pause','/api/tick','/api/users','/api/backup','/api/keys','/api/actions/batch') and not admin:return self.send(403,{'error':'Administrator required'})
+    if path in ('/api/pause','/api/tick','/api/users','/api/backup','/api/keys','/api/actions/batch','/api/roadmap') and not admin:return self.send(403,{'error':'Administrator required'})
     if len(parts)==4 and parts[:2]==['api','actions']:
      with store.db() as db:record=store.get(db,'actions',parts[2])
      if not self.allowed(user,record['product_id']):return self.send(403,{'error':'Product access denied'})
@@ -94,6 +94,7 @@ def main():
      if product is not None and not self.allowed(user,product):return self.send(403,{'error':'Product access denied'})
     if 'product_id' in data and not self.allowed(user,data['product_id']):return self.send(403,{'error':'Product access denied'})
     if path=='/api/plan':result=store.plan(data.get('product_id'),data.get('channel'))
+    elif path=='/api/roadmap':result=store.update_roadmap(data,user['username'])
     elif path=='/api/pause':result=store.pause(data.get('paused'))
     elif path=='/api/tick':result=store.tick()
     elif path=='/api/research':result=store.research(data.get('product_id'),data.get('url',''))

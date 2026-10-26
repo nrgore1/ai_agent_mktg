@@ -19,6 +19,7 @@ class Platform(Store):
    CREATE TABLE IF NOT EXISTS audit_exports(seq INTEGER PRIMARY KEY,hash TEXT);""")
  def snapshot(self,product=None):
   state=super().snapshot(product)
+  state['roadmap']=self.roadmap()
   state['products'].sort(key=lambda p:p['id']);state['channels'].sort(key=lambda c:c['id'])
   with self.db() as db:
    for kind in ('evidence','notifications','suppressions','reports'):state[kind]=self.rows(db,kind,product)
@@ -269,3 +270,10 @@ class Platform(Store):
   with sqlite3.connect(target) as restored:
    if restored.execute('PRAGMA integrity_check').fetchone()[0]!='ok':raise Invalid('Backup integrity check failed')
   return {'file':target.name,'sha256':hashlib.sha256(target.read_bytes()).hexdigest(),'integrity':'ok'}
+
+ def roadmap(self):
+  from .roadmap import get_roadmap
+  return get_roadmap(self)
+ def update_roadmap(self,data,actor):
+  from .roadmap import update_roadmap
+  return update_roadmap(self,data,actor)
