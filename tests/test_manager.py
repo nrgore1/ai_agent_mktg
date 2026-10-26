@@ -79,4 +79,18 @@ class PostmarkTests(unittest.TestCase):
   response=MagicMock();response.__enter__.return_value=response;response.read.return_value=b'{"ErrorCode":0,"MessageID":"synthetic-test-id"}'
   with patch('urllib.request.urlopen',return_value=response) as network:receipt=postmark.send(self.payload,'a',test=True)
   self.assertFalse(receipt['external_delivery']);request=network.call_args.args[0];self.assertEqual(request.get_header('X-postmark-server-token'),'POSTMARK_API_TEST');self.assertEqual(json.loads(request.data)['MessageStream'],'broadcast')
+
+class LocalDraftTests(unittest.TestCase):
+ def test_compact_local_context(self):
+  from growthpilot.providers import draft
+  response=MagicMock();response.__enter__.return_value=response;response.read.return_value=json.dumps({'response':json.dumps({'content':'A short evaluation invitation.','claims':[],'uncertainties':['Availability needs review']})}).encode()
+  with patch.dict(os.environ,{'GROWTHPILOT_OLLAMA_URL':'http://127.0.0.1:11434','GROWTHPILOT_OLLAMA_MODEL':'local-kimi-test'}),patch('urllib.request.urlopen',return_value=response) as network:
+   result=draft({'name':'Test','approved_claims':[],'unrelated_private_field':'must-not-be-sent'},[{'source':'https://example.com','excerpt':'x'*20000}],'producthunt.com')
+  payload=json.loads(network.call_args.args[0].data);self.assertLess(len(payload['prompt']),5000);self.assertNotIn('must-not-be-sent',payload['prompt']);self.assertEqual(payload['options']['num_ctx'],2048);self.assertEqual(result['claims'],[])
+ def test_incomplete_output_is_rejected(self):
+  from growthpilot.providers import draft
+  response=MagicMock();response.__enter__.return_value=response;response.read.return_value=b'{"response":"{ incomplete"}'
+  with patch.dict(os.environ,{'GROWTHPILOT_OLLAMA_URL':'http://127.0.0.1:11434','GROWTHPILOT_OLLAMA_MODEL':'local-kimi-test'}),patch('urllib.request.urlopen',return_value=response):
+   with self.assertRaises(Invalid):draft({'name':'Test'},[],'producthunt.com')
+
 if __name__=='__main__':unittest.main()
