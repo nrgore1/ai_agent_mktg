@@ -60,7 +60,7 @@ class ManagerTests(unittest.TestCase):
 
 class PostmarkTests(unittest.TestCase):
  def setUp(self):
-  self.tmp=tempfile.TemporaryDirectory();path=Path(self.tmp.name)/'accounts.json';path.write_text(json.dumps({'liqmint_individual':{'sender':'naren@vireoka.com','token':'synthetic-test-token','stream':'broadcast','status':'configured'}}));self.env=patch.dict(os.environ,{'GROWTHPILOT_POSTMARK_FILE':str(path)});self.env.start();self.payload={'product_id':1,'account':'liqmint_individual','sender':'naren@vireoka.com','recipient':'optedin@example.com','title':'Approved title','content':'Approved content\n{{{ pm:unsubscribe }}}'}
+  self.tmp=tempfile.TemporaryDirectory();path=Path(self.tmp.name)/'accounts.json';path.write_text(json.dumps({'liqmint_individual':{'sender':'naren@vireoka.com','token':'synthetic-test-token','server_id':123,'stream':'broadcast','status':'configured'}}));self.env=patch.dict(os.environ,{'GROWTHPILOT_POSTMARK_FILE':str(path)});self.env.start();self.payload={'product_id':1,'server_id':123,'message_stream':'broadcast','account':'liqmint_individual','sender':'naren@vireoka.com','recipient':'optedin@example.com','title':'Approved title','content':'Approved content\n{{{ pm:unsubscribe }}}'}
  def tearDown(self):self.env.stop();self.tmp.cleanup()
  def test_account_metadata_has_no_token(self):self.assertNotIn('token',postmark.public_accounts()['liqmint_individual'])
  def test_product_account_mismatch(self):
@@ -69,6 +69,9 @@ class PostmarkTests(unittest.TestCase):
   with self.assertRaises(Invalid):postmark.envelope(dict(self.payload,recipient='a@example.com,b@example.com'),'a')
  def test_unsubscribe_in_approved_payload(self):
   with self.assertRaises(Invalid):postmark.envelope(dict(self.payload,content='No opt-out'),'a')
+ def test_stream_and_server_are_bound(self):
+  with self.assertRaises(Invalid):postmark.envelope(dict(self.payload,server_id=456),'a')
+  with self.assertRaises(Invalid):postmark.envelope(dict(self.payload,message_stream='outbound'),'a')
  def test_send_requires_enablement(self):
   with patch.dict(os.environ,{'GROWTHPILOT_ENABLE_POSTMARK':'false'}):
    with self.assertRaises(Invalid):postmark.send(self.payload,'a')

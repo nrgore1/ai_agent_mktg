@@ -14,6 +14,7 @@ def envelope(payload,key):
  account=configured(payload['product_id'])
  if account.get('status')!='configured' or not account.get('token') or not account.get('stream'):raise Invalid('Postmark account or broadcast stream not configured')
  if payload.get('account')!=account_key(payload['product_id']) or payload.get('sender')!=account['sender']:raise Invalid('Sender account does not match product')
+ if payload.get('server_id')!=account.get('server_id') or payload.get('message_stream')!=account.get('stream'):raise Invalid('Postmark server or stream changed; prepare and approve a new action')
  recipient=payload.get('recipient','')
  if not re.fullmatch(r'[^\s@,;<>]+@[^\s@,;<>]+\.[^\s@,;<>]+',recipient):raise Invalid('Exactly one valid recipient required')
  if any('\r' in str(payload.get(k,'')) or '\n' in str(payload.get(k,'')) for k in ('title','sender','recipient')):raise Invalid('Invalid email header')
