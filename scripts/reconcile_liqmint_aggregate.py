@@ -27,9 +27,13 @@ FROM (SELECT 'invoice' kind,* FROM invoices UNION ALL SELECT 'standalone_payment
 cmd=['docker','exec','liqmint-individual-prod-postgres-1','sh','-c','PGOPTIONS="-c statement_timeout=5000 -c default_transaction_read_only=on" psql -v ON_ERROR_STOP=1 -U "$POSTGRES_USER" -d liqmint_individual_prod -At -c "$1"','sh',q]
 r=subprocess.run(cmd,capture_output=True,text=True,check=True,timeout=20)
 rows=[json.loads(x) for x in r.stdout.splitlines() if x.strip()]
+naive_query="SELECT coalesce(sum(amount_usd),0) FROM rewards_retailbillingledger WHERE created_at>=now()-interval '30 days' AND status IN ('paid','succeeded');"
+naive_result=subprocess.run(cmd[:-1]+[naive_query],capture_output=True,text=True,check=True,timeout=20)
+naive_amount=float(naive_result.stdout.strip())
+
 p=Path('/home/liqmintadmin/portfolio-economics-aggregate.json');data=json.loads(p.read_text())
 data['reconciliation']={'product_id':1,'method':'Live-mode invoice settlement events deduplicated by invoice; standalone successful payment intents deduplicated by object, excluding invoice-linked intents. Identifiers remain on source system.',
  'rows':rows,'status':'candidate_events_not_financial_reconciliation',
  'remaining_checks':['Processor settlement and refund reconciliation','Revenue recognition and deferred revenue','Proof each reference is genuine customer activity, not controlled live-mode testing','Classify standalone payment purpose; exclude pass-through customer funds','Resolve fees, tax, support and shared infrastructure costs'],
- 'naive_paid_and_succeeded_event_sum_usd':696.95}
+ 'naive_paid_and_succeeded_event_sum_usd':naive_amount}
 p.write_text(json.dumps(data,indent=2));print(json.dumps(data['reconciliation'],indent=2))
