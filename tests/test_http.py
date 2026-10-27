@@ -60,4 +60,30 @@ class HttpTests(unittest.TestCase):
  def test_manager_preparation_and_scope(self):
   o,c=self.client();self.call(o,'manager/prepare',{},c);s=self.call(o,'state');self.assertEqual(len(s['launch_desk']['growthplans']),17)
   operator,_=self.client('operator');self.assertEqual(self.call(operator,'state')['launch_desk'],{})
+ def test_strategy_admin_only_and_no_finance_leak(self):
+  admin,csrf=self.client();data=self.call(admin,'strategy');self.assertEqual(len(data['strategies']['products']),17)
+  self.assertFalse(data['execution_enabled'])
+  for role in ('viewer','operator'):
+   user,c=self.client(role)
+   with self.assertRaises(urllib.error.HTTPError) as e:self.call(user,'strategy')
+   self.assertEqual(e.exception.code,403)
+   with self.assertRaises(urllib.error.HTTPError) as e:self.call(user,'strategy/run',{},c)
+   self.assertEqual(e.exception.code,403)
+   self.assertNotIn('economic_runs',self.call(user,'state'))
+ def test_strategy_run_requires_csrf_and_preserves_no_execution(self):
+  user,c=self.client()
+  with self.assertRaises(urllib.error.HTTPError) as e:self.call(user,'strategy/run',{})
+  self.assertEqual(e.exception.code,403)
+  r=self.call(user,'strategy/run',{'product_id':3},c)
+  self.assertEqual(r['scenarios'][0]['status'],'illustrative_assumptions_only')
+  self.assertFalse(r['execution_enabled'])
+  with self.assertRaises(urllib.error.HTTPError) as e:self.call(user,'strategy/run',{'product_id':3,'execute':True},c)
+  self.assertEqual(e.exception.code,400)
+ def test_finance_import_requires_admin_and_source(self):
+  user,c=self.client('operator')
+  with self.assertRaises(urllib.error.HTTPError) as e:self.call(user,'strategy/financials',{},c)
+  self.assertEqual(e.exception.code,403)
+  user,c=self.client()
+  with self.assertRaises(urllib.error.HTTPError) as e:self.call(user,'strategy/financials',{'product_id':4},c)
+  self.assertEqual(e.exception.code,400)
 if __name__=='__main__':unittest.main()

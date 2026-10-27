@@ -48,3 +48,16 @@ The automated suite covers governance, session authentication, CSRF, permissions
 ## Launch Desk
 
 [Launch & Learn operating guide](docs/launch-learn-operations.md): all-product campaign packages, activation journeys, demos, feedback and measured manager reviews. Postmark sender routing and exact-action approval are enforced.
+
+
+## Product strategy and economics OS (0.4)
+
+Open `/?view=strategyos` as a founder/admin. The module contains 17 founder-review strategy dossiers, a versioned internal U.S.-scope policy, financial input reconciliation, a cost-allocation challenge, and reprice/redesign/commission/withdrawal scenario comparisons. It has no commercial execution connector.
+
+`GET /api/strategy` returns the private overview. `POST /api/strategy/run` accepts an optional `product_id` and allowlisted `inputs`. `POST /api/strategy/financials` records explicit completed-period USD aggregates with a source digest, allocation basis and reconciliation attestation. All endpoints require founder/admin access; writes require CSRF. Financial revisions and analysis runs are audited. Normalized input validation deliberately rejects missing cost amounts rather than substituting zero.
+
+Production aggregates belong in the protected data-volume file `economics-source.json`, which is excluded from Git. The checked-in scripts collect only read-only aggregates with statement timeouts; execute through the authorized server account, never expose credentials or export raw customers. OraToPlus uses its separate production Django connection; record that source separately. A snapshot is not a continuous live feed.
+
+The internal CM2 target is a draft business policy, not U.S. law. Regulatory margin, deadlines and capital remain not evaluable without an applicable sourced rule and reviewed activity/entity/state scope. Actual margin requires reconciled finance inputs. Catalog prices, trials, free users and operational payment events are not recognized revenue. Default model cohorts, costs, elasticities, partner attrition and cash timing are illustrative. Do not sum alternative module scenarios into portfolio revenue.
+
+Partner commissions in the model apply only to partner-attributed sales. The commission-cut scenario reduces partner-sourced volume and recalculates the surviving partner share. Shared delivery cost remains committed in withdrawal. Planning cash is a simplified setup/receivables/reserve/burn-buffer proxy, never a regulatory capital assessment. Paid pricing, coverage, payout and withdrawal changes remain separately approved business actions.
