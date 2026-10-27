@@ -90,4 +90,20 @@ class HttpTests(unittest.TestCase):
   user,c=self.client()
   with self.assertRaises(urllib.error.HTTPError) as e:self.call(user,'strategy/financials',{'product_id':4},c)
   self.assertEqual(e.exception.code,400)
+ def test_execution_auth_and_scope(self):
+  with self.assertRaises(urllib.error.HTTPError) as e:self.call(urllib.request.build_opener(),'execution')
+  self.assertEqual(e.exception.code,401)
+  for role in ('operator','viewer'):
+   o,c=self.client(role)
+   with self.assertRaises(urllib.error.HTTPError) as e:self.call(o,'execution')
+   self.assertEqual(e.exception.code,403)
+   for route in ('execution/prepare','execution/task'):
+    with self.assertRaises(urllib.error.HTTPError) as e:self.call(o,route,{},c)
+    self.assertEqual(e.exception.code,403)
+  o,c=self.client();d=self.call(o,'execution');self.assertFalse(d['commercial_execution_enabled'])
+  self.assertEqual(d['tasks'],[])
+  with self.assertRaises(urllib.error.HTTPError) as e:self.call(o,'execution/prepare',{})
+  self.assertEqual(e.exception.code,403)
+  with self.assertRaises(urllib.error.HTTPError) as e:self.call(o,'execution/prepare',{'execute':True},c)
+  self.assertEqual(e.exception.code,400)
 if __name__=='__main__':unittest.main()

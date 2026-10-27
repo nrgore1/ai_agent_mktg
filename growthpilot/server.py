@@ -41,13 +41,17 @@ def main():
   def do_GET(self):
    path=urlsplit(self.path).path
    if path=='/health':return self.send(200,{'status':'ok','mode':'approval-governed','version':'0.4.1'})
-   assets={'/':'index.html','/app.js':'app.js','/style.css':'style.css','/console.js':'console.js','/roadmap.js':'roadmap.js','/launchdesk.js':'launchdesk.js','/strategyos.js':'strategyos.js'}
+   assets={'/':'index.html','/app.js':'app.js','/style.css':'style.css','/console.js':'console.js','/roadmap.js':'roadmap.js','/launchdesk.js':'launchdesk.js','/strategyos.js':'strategyos.js','/execution.js':'execution.js'}
    if path in assets:
     ctype='text/html; charset=utf-8' if path=='/' else 'text/css' if path.endswith('.css') else 'text/javascript'
     return self.send(200,(Path(__file__).parent/'static'/assets[path]).read_bytes(),ctype)
    user=self.user()
    if not user:return self.send(401,{'error':'Sign in required'})
    try:
+    if path=='/api/execution':
+     if user['role'] not in ('founder','admin'):return self.send(403,{'error':'Administrator required for strategy execution'})
+     from .execution import Execution
+     return self.send(200,Execution(store).summary())
     if path=='/api/strategy':
      if user['role'] not in ('founder','admin'):return self.send(403,{'error':'Administrator required for product economics'})
      from .economics import StrategyOS
@@ -98,7 +102,15 @@ def main():
      if kind in ('products','channels','evidence') and not admin:return self.send(403,{'error':'Administrator verification required'})
      if product is not None and not self.allowed(user,product):return self.send(403,{'error':'Product access denied'})
     if 'product_id' in data and not self.allowed(user,data['product_id']):return self.send(403,{'error':'Product access denied'})
-    if path in ('/api/strategy/run','/api/strategy/financials'):
+    if path in ('/api/execution/prepare','/api/execution/task'):
+     if not admin:return self.send(403,{'error':'Administrator required for strategy execution'})
+     from .execution import Execution
+     engine=Execution(store)
+     if path.endswith('/prepare'):
+      if data:raise Invalid('Preparation accepts no commercial overrides')
+      result=engine.prepare(user['username'])
+     else:result=engine.transition(data,user['username'])
+    elif path in ('/api/strategy/run','/api/strategy/financials'):
      if not admin:return self.send(403,{'error':'Administrator required for product economics'})
      from .economics import StrategyOS
      engine=StrategyOS(store)
