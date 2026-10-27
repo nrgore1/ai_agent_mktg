@@ -289,6 +289,7 @@ class StrategyOS:
         products = [product_id] if product_id else list(range(1,18))
         result = {'id': uuid.uuid4().hex, 'product_id': product_id, 'created_at': now(), 'created_by': actor,
                   'policy_id': self.policy['id'], 'policy_hash': digest(self.policy),
+                  'engine_sha256': hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
                   'strategy_hash': digest(self.strategies), 'source_hash': source.get('snapshot_sha256'),
                   'source_captured_at': source.get('captured_at'), 'regulatory_status': 'not_evaluable',
                   'live_assessments': [p for p in self.live_assessments(source) if p['product_id'] in products],

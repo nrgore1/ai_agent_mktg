@@ -105,6 +105,7 @@ class EconomicsTests(unittest.TestCase):
         self.assertEqual(len(r['scenarios']),17)
         self.assertEqual(len([s for s in r['scenarios'] if s['status']=='no_defensible_price_basis']),6)
         self.assertEqual(r['approvals'],[])
+        self.assertEqual(len(r['engine_sha256']),64)
         with self.store.db() as db:
             self.assertEqual(len(self.store.rows(db,'economic_runs')),1)
             self.assertEqual(self.store.rows(db,'actions'),[])
