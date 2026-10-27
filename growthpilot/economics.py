@@ -249,13 +249,14 @@ class StrategyOS:
         new_price = price * (1 + d['price_change'])
         def demand(elasticity):
             return Decimal(str(float(qty) * math.pow(float(new_price / price), float(elasticity))))
+        cut_attrition = d['partner_attrition_on_cut'] if d['new_commission_rate'] < commission else Decimal(0)
         options = [model('Reprice', new_price, demand(d['price_elasticity']), commission),
                    model('Redesign service coverage', price, qty * (1-d['coverage_volume_loss']), commission,
                          delivery_factor=1-d['coverage_cost_reduction']),
-                   model('Restructure commissions', price, qty * (1-d['partner_sourced_share']*d['partner_attrition_on_cut']), d['new_commission_rate'],
-                         partner_share=(d['partner_sourced_share']*(1-d['partner_attrition_on_cut']) /
-                         (1-d['partner_sourced_share']*d['partner_attrition_on_cut'])) if (1-d['partner_sourced_share']*d['partner_attrition_on_cut']) else Decimal(0)),
-                   model('Withdraw new sales; model wind-down', price, Decimal(0), Decimal(0), withdrawal=True)]
+                   model('Restructure commissions', price, qty * (1-d['partner_sourced_share']*cut_attrition), d['new_commission_rate'],
+                         partner_share=(d['partner_sourced_share']*(1-cut_attrition) /
+                         (1-d['partner_sourced_share']*cut_attrition)) if (1-d['partner_sourced_share']*cut_attrition) else Decimal(0)),
+                   model('Full withdrawal after transition', price, Decimal(0), Decimal(0), withdrawal=True)]
         for item in options:
             item['volume_change_pct'] = rate((Decimal(str(item['expected_units'])) / qty - 1) * 100)
             item['contribution_change_usd'] = money(Decimal(str(item['cm2_usd'])) - Decimal(str(revised['cm2_usd'])))

@@ -52,6 +52,13 @@ class EconomicsTests(unittest.TestCase):
         none=self.engine.calculate(3,{'partner_sourced_share':0})
         self.assertEqual(none['revised_allocation']['partner_compensation_usd'],0)
 
+    def test_unchanged_commission_does_not_invent_partner_attrition(self):
+        for product_id in (3,10):
+            original=self.engine.defaults(self.engine.strategies['products'][product_id-1])
+            r=self.engine.calculate(product_id,{'new_commission_rate':original['commission_rate']})
+            self.assertEqual(r['options'][2]['expected_units'],r['revised_allocation']['expected_units'])
+            self.assertEqual(r['options'][2]['contribution_change_usd'],0)
+
     def test_full_partner_attrition_and_withdrawal_are_safe(self):
         r=self.engine.calculate(3,{'partner_sourced_share':1,'partner_attrition_on_cut':1})
         self.assertEqual(r['options'][2]['expected_units'],0)
