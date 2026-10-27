@@ -1,20 +1,27 @@
 // Internal strategy and economics; no publishing or commercial execution connector.
-let strategyData=null,strategyProduct=1,strategyRun=null;
+let strategyData=null,strategyProduct=1,strategyRun=null,strategyOwner=null;
 if(new URLSearchParams(location.search).get('view')==='strategyos'){
  view='strategyos';const requested=Number(new URLSearchParams(location.search).get('product')||1);
  if(Number.isInteger(requested)&&requested>=1&&requested<=17)strategyProduct=requested;
 }
 const strategyBeforeRender=render;
+const strategyBeforeLoginScreen=loginScreen;
+loginScreen=function(){strategyData=null;strategyRun=null;strategyOwner=null;return strategyBeforeLoginScreen()};
 function osMoney(v){return v===null||v===undefined?'Not available':'$'+Number(v).toLocaleString(undefined,{maximumFractionDigits:2})}
 function osPercent(v){return v===null||v===undefined?'Not available':(v*100).toFixed(1)+'%'}
 function osDownload(value,name){const u=URL.createObjectURL(new Blob([JSON.stringify(value,null,2)],{type:'application/json'}));const a=document.createElement('a');a.href=u;a.download=name;a.click();URL.revokeObjectURL(u)}
 render=function(){
- const osNav=document.querySelector('[data-view="strategyos"]');if(typeof me!=='undefined'&&me&&osNav)osNav.hidden=!['founder','admin'].includes(me.role);
+ const osUser=typeof me!=='undefined'?me:null,osAllowed=osUser&&['founder','admin'].includes(osUser.role);
+ const currentOwner=osAllowed?osUser.username+':'+osUser.role:null;
+ if(currentOwner!==strategyOwner){strategyData=null;strategyRun=null;strategyOwner=currentOwner}
+ const osNav=document.querySelector('[data-view="strategyos"]');if(osNav)osNav.hidden=!osAllowed;
  if(view!=='strategyos')return strategyBeforeRender();
  if(!state)return;
+ header();document.querySelector('.badge').textContent='Analysis only · founder review';
+ if(!osAllowed){strategyData=null;strategyRun=null;$('#title').textContent='Product strategy & economics';$('#content').textContent='Founder/admin access is required for product economics.';return}
  document.querySelectorAll('[data-view]').forEach(b=>b.classList.toggle('active',b.dataset.view===view));
  $('#title').textContent='Product strategy & economics';
- if(!strategyData){$('#content').innerHTML='<p>Loading internal strategy and evidence…</p>';api('strategy').then(d=>{strategyData=d;strategyRun=d.recent_runs[0]||null;if(view==='strategyos')render()}).catch(e=>{$('#content').textContent=e.message});return}
+ if(!strategyData){$('#content').innerHTML='<p>Loading internal strategy and evidence…</p>';const requestedOwner=strategyOwner;api('strategy').then(d=>{if(strategyOwner!==requestedOwner||!me||!['founder','admin'].includes(me.role))return;strategyData=d;strategyRun=d.recent_runs[0]||null;if(view==='strategyos')render()}).catch(e=>{$('#content').textContent=e.message});return}
  const d=strategyData,p=d.strategies.products.find(x=>x.product_id===strategyProduct),live=d.live_assessments.find(x=>x.product_id===strategyProduct),q=d.live_source;
  let html=`<div class="card full"><h2>U.S. portfolio decision system</h2><p>Draft strategy and internal policy. Regulatory margin and capital are <b>not evaluable</b> until an applicable sourced rule is identified. Scenarios never change prices, products or commissions.</p><div class="toolbar"><select id="os-product" aria-label="Strategy product">${d.strategies.products.map(x=>`<option value="${x.product_id}" ${x.product_id===strategyProduct?'selected':''}>${esc(x.name)}</option>`).join('')}</select><button id="os-all">Run all 17 assessments</button><button id="os-export">Download strategy and evidence</button><button id="os-refresh">Refresh snapshot</button></div></div>`;
  html+=`<div class="metrics">${[['Strategy dossiers',d.strategies.products.length],['Production sources observed',q.products?.length||0],['Reconciled financial periods',d.live_assessments.filter(x=>x.status==='attested_financial_period').length],['Regulatory margin', 'Rule not identified']].map(([k,v])=>`<div class="card"><h3>${esc(k)}</h3><p>${esc(v)}</p></div>`).join('')}</div>`;
