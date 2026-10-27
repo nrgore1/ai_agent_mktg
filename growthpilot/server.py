@@ -40,7 +40,7 @@ def main():
    return not origin or urlsplit(origin).netloc==self.headers.get('Host')
   def do_GET(self):
    path=urlsplit(self.path).path
-   if path=='/health':return self.send(200,{'status':'ok','mode':'approval-governed','version':'0.4.0'})
+   if path=='/health':return self.send(200,{'status':'ok','mode':'approval-governed','version':'0.4.1'})
    assets={'/':'index.html','/app.js':'app.js','/style.css':'style.css','/console.js':'console.js','/roadmap.js':'roadmap.js','/launchdesk.js':'launchdesk.js','/strategyos.js':'strategyos.js'}
    if path in assets:
     ctype='text/html; charset=utf-8' if path=='/' else 'text/css' if path.endswith('.css') else 'text/javascript'
@@ -103,8 +103,13 @@ def main():
      from .economics import StrategyOS
      engine=StrategyOS(store)
      if path.endswith('/run'):
-      if set(data)-{'product_id','inputs'}:raise Invalid('Unsupported analysis request')
-      result=engine.run(data.get('product_id'),data.get('inputs'),user['username'])
+      if set(data)-{'product_id','inputs','mode'}:raise Invalid('Unsupported analysis request')
+      mode=data.get('mode','illustrative')
+      if mode not in ('actual_only','illustrative'):raise Invalid('Unknown analysis mode')
+      if mode=='actual_only':
+       if data.get('inputs'):raise Invalid('Actual-only analysis cannot accept scenario assumptions')
+       result=engine.run_actual(data.get('product_id'),user['username'])
+      else:result=engine.run(data.get('product_id'),data.get('inputs'),user['username'])
      else:result=engine.import_financials(data,user['username'])
     elif path=='/api/manager/prepare':result=store.manager().prepare(user['username'])
     elif path=='/api/manager/review':result=store.manager().review(user['username'])

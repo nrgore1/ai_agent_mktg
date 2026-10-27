@@ -112,4 +112,37 @@ class EconomicsTests(unittest.TestCase):
         self.assertTrue(self.store.verify_audit()['valid'])
 
 
-if __name__=='__main__':unittest.main()
+
+
+    def test_actual_only_never_uses_hypothetical_defaults_or_processor_cash_as_revenue(self):
+        snapshot = {'products': [{'product_id': 1}], 'actual_finance': {
+            'processor_accounts': [{'configured_product_ids': [1,2], 'captured_minor':21899}],
+            'financial_reconciled': False}}
+        (Path(self.tmp.name)/'economics-source.json').write_text(json.dumps(snapshot))
+        self.engine.defaults = lambda p: self.fail('Actual-only run called illustrative defaults')
+        result = self.engine.run_actual()
+        self.assertEqual(result['mode'],'actual_only')
+        self.assertEqual(result['scenarios'],[])
+        self.assertEqual(result['reconciled_product_count'],0)
+        self.assertEqual(result['unresolved_product_count'],17)
+        self.assertTrue(all(x['recognized_revenue_usd'] is None for x in result['live_assessments']))
+        self.assertEqual(len(result['actual_evidence']['processor_accounts']),1)
+        self.assertFalse(result['execution_enabled'])
+        self.assertTrue(self.store.verify_audit()['valid'])
+
+    def test_actual_only_uses_attested_period_without_inventing_option_responses(self):
+        self.engine.import_financials(self.finance(),'fixture')
+        result=self.engine.run_actual(4)
+        self.assertEqual(result['reconciled_product_count'],1)
+        self.assertEqual(result['live_assessments'][0]['cm2'],.5)
+        self.assertEqual(result['scenarios'],[])
+        self.assertEqual(result['decision'],'hold_for_finance_and_regulatory_review')
+        self.assertIsNone(result['live_assessments'][0]['regulatory_margin'])
+
+    def test_actual_only_rejects_unknown_products_and_provisional_finance(self):
+        for product in (True,0,18,'4'):
+            with self.assertRaises(Invalid):self.engine.run_actual(product)
+        self.engine.import_financials(self.finance(financial_reconciled=False),'fixture')
+        result=self.engine.run_actual(4)
+        self.assertEqual(result['reconciled_product_count'],0)
+        self.assertIsNone(result['live_assessments'][0]['cm2'])

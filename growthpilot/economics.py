@@ -280,6 +280,32 @@ class StrategyOS:
                 'Planning cash is setup/wind-down + assumed receivables + reserve + cash-deficit buffer; not bank liquidity, enterprise valuation or regulatory capital.',
                 'Scenarios for overlapping modules are mutually alternative commercial packages; do not sum their revenue as a portfolio forecast.']}
 
+    def run_actual(self, product_id=None, actor='founder'):
+        """Completed-period actuals only. Never backfill missing figures with scenario defaults."""
+        if product_id is not None and (type(product_id) is not int or not 1 <= product_id <= 17):
+            raise Invalid('Product must be an integer from 1 to 17')
+        source = self.source()
+        assessments = [p for p in self.live_assessments(source)
+                       if product_id is None or p['product_id'] == product_id]
+        evidence = source.get('actual_finance', {})
+        ready = [p for p in assessments if p['status'] == 'attested_financial_period']
+        result = {'id': uuid.uuid4().hex, 'product_id': product_id, 'created_at': now(),
+            'created_by': actor, 'mode': 'actual_only', 'policy_id': self.policy['id'],
+            'policy_hash': digest(self.policy), 'strategy_hash': digest(self.strategies),
+            'engine_sha256': hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+            'source_hash': source.get('snapshot_sha256'), 'source_captured_at': source.get('captured_at'),
+            'actual_evidence_hash': digest(evidence), 'actual_evidence': evidence,
+            'live_assessments': assessments, 'scenarios': [], 'execution_enabled': False,
+            'reconciled_product_count': len(ready), 'unresolved_product_count': len(assessments)-len(ready),
+            'decision': 'hold_for_finance_and_regulatory_review', 'regulatory_status': 'not_evaluable',
+            'approvals': [], 'note': 'Actual-only rerun. Missing data stays unavailable. No illustrative assumptions, price elasticity, partner response or capital forecasts are substituted. Historical margins do not authorize pricing or commission changes.'}
+        with self.s.db() as db:
+            self.s.save(db, 'economic_runs', result)
+            self.s.audit(db, 'economics_actual_run', result['id'],
+                {'source_hash': result['source_hash'], 'actual_evidence_hash': result['actual_evidence_hash'],
+                 'reconciled_products': len(ready), 'external_actions': 0}, actor)
+        return result
+
     def run(self, product_id=None, overrides=None, actor='founder'):
         if product_id is not None and (type(product_id) is not int or not 1 <= product_id <= 17):
             raise Invalid('Product must be an integer from 1 to 17')
