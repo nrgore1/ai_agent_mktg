@@ -6,9 +6,9 @@ The three staging timeout gates are resolved with the existing 20/25-second appl
 | --- | ---: | ---: |
 | LiqMint Individual advisory | 7.570 | 20 |
 | LiqMint Institutional advisory | 9.380 | 25 |
-| OraToPlus rubric () | 8.265 | 25 |
+| OraToPlus rubric (`method=llm`) | 8.265 | 25 |
 
-Final core HTTP run : 44 passed, zero failed, including actual local-LLM rubric feedback. Focused deterministic tests: 78 passed; offline harness-gate cases: 12 passed; both LiqMint inventory checks passed. These are synthetic staging samples, not latency percentiles or a production SLA.
+Final core HTTP run `900f3070bc`: 44 passed, zero failed, including actual local-LLM rubric feedback. Focused deterministic tests: 78 passed; offline harness-gate cases: 12 passed; both LiqMint inventory checks passed. These are synthetic staging samples, not latency percentiles or a production SLA.
 
 The same installed Kimi-VL-A3B Q2_K weights were SHA-256 verified and placed in an isolated Hostinger VPS-local Ollama runtime. Model inference no longer depends on the laptop or its reverse tunnel. The model directory is read-only; no external inference API or new cloud hosting was introduced. The runtime is capped at four vCPU and ten GiB RAM/combined swap ceiling, one loaded model and one active generation. Original local models and previous images/configuration remain preserved.
 
@@ -18,7 +18,7 @@ Local-only prompts now use compact server-owned edition facts; browser persona/r
 
 Initial candidate receipts retain semantic failures (an unsafe authority claim, an echoed question and placeholder feedback); they are not accepted successes. Source tests and validators cover these failures. The final rubric is structurally valid but still uncalibrated: one synthetic response undervalued explicit numerical evidence. Human-labelled grading benchmarks and coaching-quality review remain necessary. No claim of full agent-harness compliance is made.
 
-The persisted run budget reserved 20/20 calls conservatively, including preloads and rejected attempts; no additional inference was run after that limit. Private receipts and rollback compose are under the deployment user's  directory. Native pre-change source snapshots and the bounded contract are under . Windows/OneDrive legacy sources, production/media assets and production databases were not changed or retired.
+The persisted run budget reserved 20/20 calls conservatively, including preloads and rejected attempts; no additional inference was run after that limit. Private receipts and rollback compose are under the deployment user's `agentvire-launch-qa-20261027` directory. Native pre-change source snapshots and the bounded contract are under `/home/nrgore1/projects/launch-readiness-recovery/kimi-timeouts-20261028`. Windows/OneDrive legacy sources, production/media assets and production databases were not changed or retired.
 
 The owner confirmed all three earlier transactional email diagnostics arrived in the inbox. This does not approve campaigns or replace real OTP-to-inbox acceptance. Market freshness, authorized institutional routing, human/business acceptance and rubric calibration remain open. All pricing, commissions and campaigns remain pending founder approval. All six relevant production container IDs and start times remain unchanged.
 
