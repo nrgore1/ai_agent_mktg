@@ -20,6 +20,16 @@ class ExecutionTests(unittest.TestCase):
   after=self.s.snapshot()
   for key in ('products','actions','campaigns','events','leads','deliveries'):self.assertEqual(before[key],after[key])
   self.assertTrue(self.s.verify_audit()['valid'])
+ def test_provisional_review_visible_without_commercial_mutation(self):
+  self.e.prepare();before=self.s.snapshot();financial=self.path.read_bytes()
+  with self.s.db() as db:self.s.save(db,'execution_reports',{'id':'portfolio-review-20261029','policy':{'minimum_operating_margin':.75}})
+  d=self.e.summary()
+  self.assertEqual(d['portfolio_review']['policy']['minimum_operating_margin'],.75)
+  self.assertFalse(d['commercial_execution_enabled'])
+  self.assertEqual(d['counts']['awaiting_approval'],51)
+  self.assertEqual(self.path.read_bytes(),financial)
+  for key in ('products','campaigns','actions','deliveries'):self.assertEqual(before[key],self.s.snapshot()[key])
+  with self.assertRaises(Invalid):self.complete('pricing')
  def test_missing_plan_does_not_create_old_pricing(self):
   self.path.unlink()
   with self.assertRaises(Invalid):self.e.prepare()

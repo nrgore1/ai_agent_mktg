@@ -99,3 +99,14 @@ Founder confirmations needed before launch: Memoire's canonical name/domain and 
 Founder clarification: 29 October 2026. Existing strategy: expense_work/product-dossiers.json, products 4–6. Public-page observations: public-site-evidence.json and path-evidence.json from this review. Reviewed destinations include https://weddingos.pro/tools/, https://jodibana.com/launch/, https://www.jodiusa.com/register/, https://www.jodiusa.com/help/, https://www.jodiusa.com/privacy/ and https://www.jodiusa.com/terms/.
 
 HTTP success and visible marketing text establish reachability and claims, not authentication, legal adequacy, security, billing, consent, delivery or launch readiness. Memoire features and production behavior were not tested in this review. This addendum does not replace legal review, actual cost reconciliation or founder commercial approval.
+
+
+## Execution update — founder decisions and commercial conditions
+
+The founder confirmed JodiUSA: Atmakosh LLC, owner Rashmi Gore, Georgia, USA, support and invitation requests rashmi@jodiusa.com. The candidate includes those facts and community-specific branding; 74 isolated signup/operator/invitation/isolation and information-page tests pass. This does not establish legal adequacy or production deployment.
+
+CoffeeBook uses memoirbookstudio.com and shares Memoire's launch track; do not double-count customers or revenue. SDIS, One-Man Hedge Fund, Quantsys, SMDP Design and Stablecoin Pipeline are internal-only until the founder changes scope.
+
+The founder provisionally approved market-researched pricing, commissions and campaigns subject to at least 75% margin. This supersedes the earlier blanket commercial pending-approval wording in this document. Actual costs, supported claims, tested scope, eligible audience and verified publisher remain required. Detailed cost-based rationale and market comparisons are private AgentVire runtime evidence. No billing, payout or campaign activation occurred.
+
+WeddingOS passed 27 fresh isolated VPS tests including all three saved tool types, verification/replay, account isolation, sequential 20-plan capacity and payload limits. Sixteen public URLs responded. Memoire authenticated preview/export and fulfillment validation remain open. Optional ecosystem integrations and shared accounts are not implied by the strategic theme.

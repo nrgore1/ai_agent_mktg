@@ -66,6 +66,7 @@ class Execution:
   engine,plan=self.source()
   with self.s.db() as db:
    tasks=self.s.rows(db,'execution_tasks');artifacts=self.s.rows(db,'execution_artifacts');programs=self.s.rows(db,'execution_program')
+   reviews=self.s.rows(db,'execution_reports');review=next((x for x in reviews if x.get('id')=='portfolio-review-20261029'),None)
   byid={x['id']:x for x in tasks}
   for row in tasks:
    row['blocked_by']=[x for x in row['dependencies'] if byid.get(x,{}).get('status')!='completed']
@@ -73,7 +74,7 @@ class Execution:
   tasks.sort(key=lambda x:(x['priority'],x['wave'],x['product_id'],x['key']))
   counts={key:sum(x['effective_status']==key for x in tasks) for key in ('completed','pending','blocked','in_progress','awaiting_approval')}
   current_revision=digest({'version':VERSION,'plan':plan,'dossiers':engine.strategies}) if plan else None
-  return {'program':programs[0] if programs else None,'source_changed':bool(programs and programs[0]['revision']!=current_revision),'products':engine.strategies['products'],'commercial_plan':plan,'tasks':tasks,'artifacts':artifacts,'counts':counts,'commercial_execution_enabled':False,'launch_verified_products':0,'note':'Completed specifications are preparation, not passed product tests. Commercial gates remain pending separate approval. Readiness evidence is timestamped and may require retest.'}
+  return {'portfolio_review':review,'program':programs[0] if programs else None,'source_changed':bool(programs and programs[0]['revision']!=current_revision),'products':engine.strategies['products'],'commercial_plan':plan,'tasks':tasks,'artifacts':artifacts,'counts':counts,'commercial_execution_enabled':False,'launch_verified_products':0,'note':'Completed specifications are preparation, not passed product tests. Commercial gates remain pending separate approval. Readiness evidence is timestamped and may require retest.'}
  def transition(self,data,actor):
   if set(data)-{'id','status','source','note','attest_verified'}:raise Invalid('Unsupported execution update')
   status=data.get('status')
