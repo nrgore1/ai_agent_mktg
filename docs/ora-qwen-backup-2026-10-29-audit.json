@@ -1,0 +1,23 @@
+{
+  "counts": {
+    "completed": 62,
+    "pending": 37,
+    "blocked": 88,
+    "in_progress": 3,
+    "awaiting_approval": 51
+  },
+  "total_tasks": 241,
+  "audit_valid": true,
+  "source_changed": false,
+  "financial_source_unchanged": true,
+  "products_campaigns_actions_events_unchanged": true,
+  "prepared_artifacts_unchanged": true,
+  "all51_commercial_tasks_unchanged": true,
+  "nonOra_tasks_unchanged": true,
+  "stt_backup": "pending",
+  "tts_backup": "pending",
+  "local_text_backup": "open_candidate_rejected",
+  "ora_journey": "blocked",
+  "report_id": "ora-qwen-backup-20261029",
+  "evidence_sha256": "2f4bc044ade2fb71bfd76058fdcf02f7cced1d76444620d072578a07410dcaf1"
+}
