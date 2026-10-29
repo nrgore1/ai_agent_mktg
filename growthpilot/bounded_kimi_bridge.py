@@ -30,6 +30,15 @@ def bounded_payload(data):
     result = {"model": MODEL, "prompt": framed, "raw": True, "stream": False, "keep_alive": -1,
               "options": {"num_ctx": 2048, "num_predict": tokens, "num_thread": 4, "num_gpu": 0,
                           "temperature": max(0, min(1, float(options.get("temperature", 0))))}}
+    if "seed" in options:
+        seed = options["seed"]
+        if type(seed) is not int or not 0 <= seed <= 2147483647:
+            raise ValueError("Invalid bounded sampling seed")
+        result["options"]["seed"] = seed
+    if "repeat_penalty" in options or "repeat_last_n" in options:
+        if type(options.get("repeat_penalty")) not in (int, float) or options["repeat_penalty"] != 1.0 or type(options.get("repeat_last_n")) is not int or options["repeat_last_n"] != 0:
+            raise ValueError("Only disabled repetition penalties are permitted")
+        result["options"].update({"repeat_penalty": 1.0, "repeat_last_n": 0})
     if "format" in data:
         if not isinstance(data["format"], dict) or len(json.dumps(data["format"])) > 4096:
             raise ValueError("Bounded JSON schema required")

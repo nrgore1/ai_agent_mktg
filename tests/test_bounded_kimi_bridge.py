@@ -46,3 +46,18 @@ class AdmissionTests(unittest.TestCase):
     import http.client
     c=http.client.HTTPConnection('127.0.0.1',self.server.server_port,timeout=2);c.request('POST','/api/generate',json.dumps({'model':b.MODEL,'stream':False,'prompt':'Synthetic'}),{'Content-Type':'application/json'});r=c.getresponse();d=json.loads(r.read());self.assertEqual(r.status,503);self.assertEqual(d['error'],'local_inference_deadline_or_transport');c.close()
   finally:b.UPSTREAM=original
+
+class SeedTests(unittest.TestCase):
+ def test_seed_survives_with_resource_bounds(self):
+  p=b.bounded_payload({'model':b.MODEL,'stream':False,'prompt':'Synthetic','options':{'seed':42,'temperature':0}});self.assertEqual(p['options']['seed'],42);self.assertEqual(p['options']['temperature'],0);self.assertEqual(p['options']['num_gpu'],0)
+ def test_invalid_seeds_are_rejected(self):
+  for seed in [True,-1,2147483648,'42']:
+   with self.subTest(seed=seed),self.assertRaises(ValueError):b.bounded_payload({'model':b.MODEL,'stream':False,'prompt':'Synthetic','options':{'seed':seed}})
+
+class RepetitionPolicyTests(unittest.TestCase):
+ def test_only_disabled_repetition_penalty_passes_through(self):
+  base={'model':b.MODEL,'stream':False,'prompt':'Synthetic','options':{'repeat_penalty':1.0,'repeat_last_n':0}}
+  self.assertEqual(b.bounded_payload(base)['options']['repeat_penalty'],1.0)
+  for value in [True,1.1,'1.0']:
+   base['options']['repeat_penalty']=value
+   with self.subTest(value=value),self.assertRaises(ValueError):b.bounded_payload(base)
