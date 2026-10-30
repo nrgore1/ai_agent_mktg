@@ -29,3 +29,18 @@ Rate limits are initially conservative: 100 requests/hour overall, 20/hour per u
 Acquire real, product-specific opt-ins organically. Supply a business mailing address before promotional email. Connect exact social publishing accounts. Verify product-specific launch claims and current actual margin/commission economics. These forms do not override those conditions or send campaigns.
 
 Continue: complete production smoke checks; monitor confirmation delivery; retest account and save-plan journeys; address WeddingOS concurrent saved-plan quota enforcement with a database-backed serialization test; integrate consent export/erasure into each product's data-rights process; define reviewed retention/expiry rules for unconfirmed requests. OraToPlus grading remains in its separate workstream.
+
+
+## Deployment completed and additional launch work
+
+All three public registration-to-preferences browser journeys now pass on their real HTTPS domains. Requests without explicit permission fail. Privacy links load. No production subscribers or customer email were created by these checks.
+
+- AgentVire: d45bfc2-optin; source d45bfc2508e27dcff17952586ddb8ec5d77323b2.
+- WeddingOS web: agentvire-optin-wedding:20261030; source 328b8025ef53ce8d95ba4bc81ef5d6217db8efcb.
+- JodiUSA web: agentvire-optin-jodi:20261030-r2; source eb1d1e4a4cbc93e102bbddc0b8b093d73c43f5e7. An existing fixed privacy banner obscured footer links during production browser QA. The final build reserves its measured height and adds a registration-heading opt-in link, accessible without accepting account terms.
+- Memoire web: agentvire-optin-memoire:20261030; source 611bd879e4b734040e0ee5d1a6e6840774cffcf2. Source preserved in the deployed checkout; portable patch in docs/patches/memoire-marketing-optin-20261030.patch. Older unrelated Memoire history was not pushed to its public remote.
+- WeddingOS API: weddingos-api:serialized-save-20261030; source 892cf9bcca29c1c0e58542a3cdf72927289b9aa8. Reproduced the old concurrency bug: two requests accepted one remaining quota slot. Added a per-account PostgreSQL row lock before retry lookup/count/insert. Deterministic held-lock test verifies only one success, one limit response, independent-account progress and duplicate-retry single insertion. All 27 full-stack signup/activation/plan checks pass. The HTTP report's sequential-only limitation is supplemented by the separate PostgreSQL concurrency report. API readiness reports the new source revision. No quota, schema or pricing changes.
+
+Rollback images and prior compose/environment files are retained. Opt-in deployments kept existing APIs, databases and workers unchanged; the subsequent WeddingOS save fix replaced only its API. AgentVire's financial source hash, audit chain and commercial controls were verified. No new campaign authorization was created.
+
+AgentVire records four newly completed tasks and three explicit follow-ups for consent export/erasure/retention. Current backlog: 75 completed, 40 pending, 87 blocked, 3 in progress, 51 commercial items with release conditions unmet (historic stored status awaiting_approval; founder provisional approval remains recorded). No whole-product privacy, entitlement or commercial gate was marked complete by these technical changes.

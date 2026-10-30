@@ -1,0 +1,14 @@
+{
+  "passed": true,
+  "database": "isolated signupqa PostgreSQL",
+  "isolation": "read committed",
+  "held_lock_blocks_same_account": true,
+  "other_account_not_blocked": true,
+  "concurrent_capacity_outcomes": [
+    201,
+    409
+  ],
+  "saved_count": 20,
+  "concurrent_retry_single_insert": true,
+  "customer_emails": 0
+}

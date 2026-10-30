@@ -1,0 +1,34 @@
+{
+  "passed": true,
+  "checks": [
+    {
+      "brand": "WeddingOS",
+      "passed": true,
+      "registration_link": true,
+      "form_and_scripts_loaded": true,
+      "unchecked": true,
+      "unconsented_request_rejected": true,
+      "privacy_link_reachable": true
+    },
+    {
+      "brand": "JodiUSA",
+      "passed": true,
+      "registration_link": true,
+      "form_and_scripts_loaded": true,
+      "unchecked": true,
+      "unconsented_request_rejected": true,
+      "privacy_link_reachable": true
+    },
+    {
+      "brand": "Memoire Studio",
+      "passed": true,
+      "registration_link": true,
+      "form_and_scripts_loaded": true,
+      "unchecked": true,
+      "unconsented_request_rejected": true,
+      "privacy_link_reachable": true
+    }
+  ],
+  "subscriptions_created": 0,
+  "emails_sent": 0
+}

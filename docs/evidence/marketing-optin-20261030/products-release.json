@@ -1,0 +1,49 @@
+{
+  "passed": true,
+  "products": [
+    {
+      "product": "WeddingOS",
+      "passed": true,
+      "image": "agentvire-optin-wedding:20261030",
+      "rollback": "agentvire-optin-wedding:rollback-20261030",
+      "url": "https://weddingos.pro/marketing-updates/",
+      "signup_reachable": true,
+      "invalid_subscribe_and_tokens_rejected": true,
+      "api_database_workers_unchanged": true
+    },
+    {
+      "product": "JodiUSA",
+      "passed": true,
+      "image": "agentvire-optin-jodi:20261030",
+      "rollback": "agentvire-optin-jodi:rollback-20261030",
+      "url": "https://www.jodiusa.com/marketing-updates/",
+      "signup_reachable": true,
+      "invalid_subscribe_and_tokens_rejected": true,
+      "api_database_workers_unchanged": true
+    },
+    {
+      "product": "Memoire Studio",
+      "passed": true,
+      "image": "agentvire-optin-memoire:20261030",
+      "rollback": "agentvire-optin-memoire:rollback-20261030",
+      "url": "https://memoirbookstudio.com/marketing-updates/",
+      "signup_reachable": true,
+      "invalid_subscribe_and_tokens_rejected": true,
+      "api_database_workers_unchanged": true
+    }
+  ],
+  "memoire_source": "611bd879e4b734040e0ee5d1a6e6840774cffcf2",
+  "production_customer_emails": 0,
+  "unchanged_services": [
+    "weddingos-production-api-1",
+    "weddingos-production-outbox-worker-1",
+    "jodibana-db-1",
+    "jodibana-redis-1",
+    "jodibana-media-1",
+    "memoir-production-api-django-1",
+    "memoir-production-postgres-1",
+    "memoir-production-minio-1",
+    "memoir-production-redis-1",
+    "memoir-production-agentops-worker-1"
+  ]
+}
