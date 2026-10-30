@@ -1,0 +1,29 @@
+{
+  "passed": true,
+  "checks": [
+    {
+      "product": "WeddingOS",
+      "passed": true,
+      "export_deletion_controls_visible": true,
+      "collection_enabled": true,
+      "mobile_no_overflow": true
+    },
+    {
+      "product": "JodiUSA",
+      "passed": true,
+      "export_deletion_controls_visible": true,
+      "collection_enabled": false,
+      "mobile_no_overflow": true
+    },
+    {
+      "product": "Memoire",
+      "passed": true,
+      "export_deletion_controls_visible": true,
+      "collection_enabled": true,
+      "mobile_no_overflow": true
+    }
+  ],
+  "anonymous_owner_and_plan_controls_denied": true,
+  "production_records_created": 0,
+  "customer_emails": 0
+}

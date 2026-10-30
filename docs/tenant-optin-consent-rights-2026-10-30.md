@@ -36,3 +36,18 @@ Deploy only AgentVire and Jodibana web, keeping prior images and environment/com
 168 AgentVire tests passed, including fresh ownership, rotation/expiry, consent isolation, signed context tampering, erasure of queued actions, restore reconciliation and confirmed re-subscription. 43 Jodibana tests passed and cover owner permissions, real subscription timing, plan/grant revocation, cross-tenant access, disabled/suspended privacy and connection failures. Isolated real-browser tests cover WeddingOS, Memoire, JodiUSA and a second Jodibana tenant, including owner acceptance, disabling, export, deletion and token replay rejection. Postmark blackhole checks accepted private data-link messages for the three public products; zero customer messages.
 
 Final production verification and AgentVire backlog evidence will be appended after deployment.
+
+
+## Production release verified
+
+AgentVire release 32372ce-rights (source 32372ce7a58d2e7741cdc4f9b3b203032c6d32d6) and Jodibana image agentvire-rights-jodi:20261030-r2 (source f1e1cfbd4a72f0388052df1b7309911826a5e79c) are live. SHA-256 parity checks verified every changed runtime file against its committed source.
+
+Public HTTPS browser checks passed on WeddingOS, Memoire and JodiUSA, including mobile layout, export/deletion controls and unchecked choices where collection is enabled. Private owner/plan configuration pages require login. Invalid tokens and requests without consent are rejected. Zero production subscription records or customer messages were created by validation.
+
+JodiUSA retains its previous service eligibility through an explicit no-charge grant. Collection remains off; no tenant-owner acceptance exists. Rashmi Gore must sign in as tenant owner and accept at https://jodibana.com/console/jodiusa/marketing/. Platform plan inclusion is configurable at https://jodibana.com/platform/admin/marketing/ and remains unassigned until an administrator chooses plans.
+
+Jodibana deployment uses both /opt/liqmint/jodibana/app/docker-compose.yml and /opt/liqmint/jodibana/app/compose.marketing-rights.json. Preserve the override and its private .marketing-proxy.env file during subsequent deployments. AgentVire current points to the new release; shared consent secret is unchanged. Previous images, compose files and environment backups remain available.
+
+All WeddingOS and Memoire containers, Jodibana database/Redis/media and AgentVire's Kimi bridge retained the same container identities and start times. Finance-source hash, commercial conditions and audit chain were verified. Four isolated QA containers and their dedicated network were removed after evidence capture.
+
+AgentVire records four additional completed engineering tasks. The three broader data-rights tasks remain in progress for reviewed retention, full-account deletion and provider/backup handling. A separate pending task records genuine JodiUSA owner acceptance. Backlog totals after this release: 79 completed, 38 pending, 87 blocked, 6 in progress, 51 historic commercial items awaiting release conditions. This release does not claim the remaining portfolio backlog is complete.
