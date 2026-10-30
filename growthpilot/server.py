@@ -7,11 +7,13 @@ from urllib.parse import urlsplit, parse_qs
 from .core import Invalid, now
 from .platform import Platform
 from .identity import Identity
+from .marketing_consent import MarketingConsent, brand_for_host, PREFIX
+from .marketing_page import page as marketing_page
 
 def main():
  parser=argparse.ArgumentParser();parser.add_argument('--host',default='127.0.0.1');parser.add_argument('--port',type=int,default=8098);args=parser.parse_args()
  path=Path(os.environ.get('GROWTHPILOT_DB','data/growthpilot.db'));path.parent.mkdir(parents=True,exist_ok=True)
- store=Platform(path);identity=Identity(store);identity.bootstrap(path.parent)
+ store=Platform(path);identity=Identity(store);identity.bootstrap(path.parent);subscriptions=MarketingConsent(store)
  secure=os.environ.get('GROWTHPILOT_SECURE_COOKIE')=='true'
  class Handler(BaseHTTPRequestHandler):
   def log_message(self,*args):pass
@@ -41,6 +43,14 @@ def main():
   def do_GET(self):
    path=urlsplit(self.path).path
    if path=='/health':return self.send(200,{'status':'ok','mode':'approval-governed','version':'0.4.1'})
+   if path.startswith(PREFIX):
+    try:
+     brand=brand_for_host(self.headers.get('Host',''))
+     suffix=path[len(PREFIX):]
+     if suffix in ('','confirm','withdraw'):return self.send(200,marketing_page(brand,suffix),'text/html; charset=utf-8')
+     if suffix in ('form.js','form.css'):return self.send(200,(Path(__file__).parent/'static'/('marketing-'+suffix)).read_bytes(),'text/javascript' if suffix.endswith('.js') else 'text/css')
+     return self.send(404,{'error':'Not found'})
+    except Invalid:return self.send(404,{'error':'Unknown subscription site'})
    assets={'/':'index.html','/app.js':'app.js','/style.css':'style.css','/console.js':'console.js','/roadmap.js':'roadmap.js','/launchdesk.js':'launchdesk.js','/strategyos.js':'strategyos.js','/execution.js':'execution.js'}
    if path in assets:
     ctype='text/html; charset=utf-8' if path=='/' else 'text/css' if path.endswith('.css') else 'text/javascript'
@@ -70,10 +80,20 @@ def main():
    if not self.origin_ok():return self.send(403,{'error':'Origin rejected'})
    try:
     size=int(self.headers.get('Content-Length','0'))
-    if size<0 or size>262144:return self.send(413,{'error':'Request too large'})
+    if size<0 or size>(16384 if urlsplit(self.path).path.startswith(PREFIX) else 262144):return self.send(413,{'error':'Request too large'})
     data=json.loads(self.rfile.read(size) or '{}')
     if not isinstance(data,dict):raise Invalid('JSON object required')
     path=urlsplit(self.path).path;parts=path.strip('/').split('/')
+    if path.startswith(PREFIX):
+     brand=brand_for_host(self.headers.get('Host',''))
+     origin=urlsplit(self.headers.get('Origin',''))
+     if origin.scheme!='https' or origin.netloc!=self.headers.get('Host') or self.headers.get_content_type()!='application/json':return self.send(403,{'error':'Origin or content type rejected'})
+     action=path.removeprefix(PREFIX+'api/')
+     if action in ('subscribe','manage'):return self.send(200,subscriptions.request(brand,data,self.client_address[0],manage=action=='manage'))
+     if set(data)!={'token'}:raise Invalid('Invalid preference request')
+     if action=='confirm':return self.send(200,subscriptions.confirm(brand,data['token']))
+     if action=='withdraw':return self.send(200,subscriptions.withdraw(brand,data['token']))
+     return self.send(404,{'error':'Not found'})
     if path=='/api/login':
      session=identity.login(str(data.get('username',''))[:80],str(data.get('password',''))[:1024],self.client_address[0])
      if not session:return self.send(401,{'error':'Invalid username or password'})

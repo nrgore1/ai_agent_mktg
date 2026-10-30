@@ -142,6 +142,8 @@ class Manager:
   elif payload['connector']=='postmark':
    lead=self.s.get(db,'leads',payload.get('lead_id'))
    if lead['product_id']!=p['id'] or lead.get('email')!=payload.get('recipient') or lead.get('consent')!='opt_in' or not lead.get('source'):raise Invalid('Product-specific opt-in lead, consent source and exact recipient required')
+   from .marketing_consent import MarketingConsent
+   MarketingConsent(self.s).validate_lead(db,lead,payload)
    if lead.get('suppressed') or any(x['email'].lower()==payload['recipient'].lower() for x in self.s.rows(db,'suppressions')):raise Invalid('Recipient suppressed')
    postmark.envelope(payload,a['id'])
   else:raise Invalid('Unsupported manager connector')
@@ -188,4 +190,11 @@ class Manager:
    content=f"Hi {lead['name']},\n\nThanks for opting in to information about {p['name']}. {profile['offer']}.\n\nA useful first step: {profile['steps'][0]}.\n\n{profile['question']}\n\nIf you’d like a walkthrough, reply with the workflow you want to evaluate and a suitable time.\n\nNarendra Gore\n{sender}\n\nTo stop these marketing updates: {{{{DOUBLE_PLACEHOLDER}}}}"
    content=content.replace('{{DOUBLE_PLACEHOLDER}}','{{{ pm:unsubscribe }}}')
    payload={'product_id':p['id'],'campaign_id':cid,'connector':'postmark','server_id':account.get('server_id'),'message_stream':account.get('stream'),'kind':'outreach','channel':'postmark','destination':lead['email'],'sender':sender,'account':postmark.account_key(p['id']),'recipient':lead['email'],'lead_id':lead['id'],'title':p['name']+' — your next evaluation step','content':content,'claims':[],'evidence':[{'source':lead['source'],'note':'Lead consent and interest source; product claims still require founder review'}],'cost_cents':0,'usage_note':'Postmark usage is billed under the existing account; no new purchase or ad spend is authorized. Actual costs are reported separately.','attestations':{'product_facts':False,'channel_rules':False,'destination':False,'founder_written':False}}
+   if lead.get('marketing_consent_id'):
+    from .marketing_consent import MarketingConsent, BRANDS, PREFIX
+    service=MarketingConsent(self.s);brand=BRANDS[lead['marketing_brand']]
+    payload['marketing_brand']=lead['marketing_brand'];service.validate_lead(db,lead,payload)
+    record=self.s.get(db,'marketing_subscriptions',lead['marketing_consent_id'])
+    payload['title']=brand['name']+' — updates you requested'
+    payload['content']='Thanks for choosing '+brand['name']+' email updates.\n\nFounder draft: add a verified update about '+brand['topics']+'.\n\nVisit https://'+brand['host']+'/\n\nQuestions: '+brand['reply_to']+'\n\nStop these product updates: https://'+brand['host']+PREFIX+'withdraw#'+service.withdrawal_token(record)+'\n\n{{{ pm:unsubscribe }}}'
    a={'id':aid,'product_id':p['id'],'campaign_id':cid,'payload':payload,'payload_hash':digest(payload),'version':1,'status':'pending','approval':None,'receipt':None,'created_at':now(),'program_id':'launch-learn'};self.s.save(db,'actions',a);self.s.audit(db,'outreach_prepared',aid,{'lead_id':lead_id},actor);return a

@@ -74,7 +74,8 @@ class Execution:
   tasks.sort(key=lambda x:(x['priority'],x['wave'],x['product_id'],x['key']))
   counts={key:sum(x['effective_status']==key for x in tasks) for key in ('completed','pending','blocked','in_progress','awaiting_approval')}
   current_revision=digest({'version':VERSION,'plan':plan,'dossiers':engine.strategies}) if plan else None
-  return {'portfolio_review':review,'program':programs[0] if programs else None,'source_changed':bool(programs and programs[0]['revision']!=current_revision),'products':engine.strategies['products'],'commercial_plan':plan,'tasks':tasks,'artifacts':artifacts,'counts':counts,'commercial_execution_enabled':False,'launch_verified_products':0,'note':'Completed specifications are preparation, not passed product tests. Commercial gates remain pending separate approval. Readiness evidence is timestamped and may require retest.'}
+  from .marketing_consent import MarketingConsent
+  return {'marketing_subscriptions':MarketingConsent(self.s).summary(),'portfolio_review':review,'program':programs[0] if programs else None,'source_changed':bool(programs and programs[0]['revision']!=current_revision),'products':engine.strategies['products'],'commercial_plan':plan,'tasks':tasks,'artifacts':artifacts,'counts':counts,'commercial_execution_enabled':False,'launch_verified_products':0,'note':'Completed specifications are preparation, not passed product tests. Commercial gates remain pending separate approval. Readiness evidence is timestamped and may require retest.'}
  def transition(self,data,actor):
   if set(data)-{'id','status','source','note','attest_verified'}:raise Invalid('Unsupported execution update')
   status=data.get('status')
