@@ -210,11 +210,17 @@ class Platform(Store):
    # Check pause again immediately before the side effect. An already in-flight call cannot be recalled.
    with self.db() as db:
     if self.paused(db):raise Invalid('Paused before provider call')
+    latest=self.get(db,'actions',a['id'])
+    if latest['status']=='privacy_erased':raise Invalid('Marketing contact erased before delivery')
+    self.validate(db,latest);a=latest
    receipt=providers.deliver(a['payload'],row['id']);status='executed'
   except Exception:
    receipt={'error':'Provider outcome unconfirmed; reconcile before any retry'};status='unknown'
   with self.db() as db:
-   a=self.get(db,'actions',a['id']);a['status']=status;a['receipt']=dict(receipt,at=now(),payload_hash=a['payload_hash'],idempotency_key=row['id']);self.save(db,'actions',a)
+   a=self.get(db,'actions',a['id'])
+   if a['status']=='privacy_erased':
+    self.audit(db,'erased_delivery_outcome',a['id'],{'outcome':status,'note':'In-flight email cannot be recalled'});return
+   a['status']=status;a['receipt']=dict(receipt,at=now(),payload_hash=a['payload_hash'],idempotency_key=row['id']);self.save(db,'actions',a)
    db.execute('UPDATE deliveries SET status=?,result=? WHERE id=?',(status,encode(a['receipt']),row['id']));self.audit(db,'delivery_result',a['id'],{'status':status})
  def report(self,product=None):
   with self.db() as db:

@@ -9,11 +9,13 @@ from .platform import Platform
 from .identity import Identity
 from .marketing_consent import MarketingConsent, brand_for_host, PREFIX
 from .marketing_page import page as marketing_page
+from .marketing_registry import BrandRegistry
+from .marketing_rights import MarketingRights
 
 def main():
  parser=argparse.ArgumentParser();parser.add_argument('--host',default='127.0.0.1');parser.add_argument('--port',type=int,default=8098);args=parser.parse_args()
  path=Path(os.environ.get('GROWTHPILOT_DB','data/growthpilot.db'));path.parent.mkdir(parents=True,exist_ok=True)
- store=Platform(path);identity=Identity(store);identity.bootstrap(path.parent);subscriptions=MarketingConsent(store)
+ store=Platform(path);identity=Identity(store);identity.bootstrap(path.parent);subscriptions=MarketingConsent(store);registry=BrandRegistry(store);MarketingRights(subscriptions).reconcile_erasure()
  secure=os.environ.get('GROWTHPILOT_SECURE_COOKIE')=='true'
  class Handler(BaseHTTPRequestHandler):
   def log_message(self,*args):pass
@@ -45,9 +47,9 @@ def main():
    if path=='/health':return self.send(200,{'status':'ok','mode':'approval-governed','version':'0.4.1'})
    if path.startswith(PREFIX):
     try:
-     brand=brand_for_host(self.headers.get('Host',''))
+     brand,brand_config=registry.resolve(self.headers.get('Host',''),self.headers,'GET',path)
      suffix=path[len(PREFIX):]
-     if suffix in ('','confirm','withdraw'):return self.send(200,marketing_page(brand,suffix),'text/html; charset=utf-8')
+     if suffix in ('','confirm','withdraw','rights'):return self.send(200,marketing_page(brand,suffix,brand_config),'text/html; charset=utf-8')
      if suffix in ('form.js','form.css'):return self.send(200,(Path(__file__).parent/'static'/('marketing-'+suffix)).read_bytes(),'text/javascript' if suffix.endswith('.js') else 'text/css')
      return self.send(404,{'error':'Not found'})
     except Invalid:return self.send(404,{'error':'Unknown subscription site'})
@@ -81,16 +83,23 @@ def main():
    try:
     size=int(self.headers.get('Content-Length','0'))
     if size<0 or size>(16384 if urlsplit(self.path).path.startswith(PREFIX) else 262144):return self.send(413,{'error':'Request too large'})
-    data=json.loads(self.rfile.read(size) or '{}')
+    raw_body=self.rfile.read(size);data=json.loads(raw_body or '{}')
     if not isinstance(data,dict):raise Invalid('JSON object required')
     path=urlsplit(self.path).path;parts=path.strip('/').split('/')
     if path.startswith(PREFIX):
-     brand=brand_for_host(self.headers.get('Host',''))
+     brand,brand_config=registry.resolve(self.headers.get('Host',''),self.headers,'POST',path,raw_body)
+     subscriptions=MarketingConsent(store,brands={**registry.all(),brand:brand_config})
+     rights=MarketingRights(subscriptions)
      origin=urlsplit(self.headers.get('Origin',''))
      if origin.scheme!='https' or origin.netloc!=self.headers.get('Host') or self.headers.get_content_type()!='application/json':return self.send(403,{'error':'Origin or content type rejected'})
      action=path.removeprefix(PREFIX+'api/')
      if action in ('subscribe','manage'):return self.send(200,subscriptions.request(brand,data,self.client_address[0],manage=action=='manage'))
+     if action=='rights-request':return self.send(200,rights.request(brand,data,self.client_address[0]))
+     if action=='rights-delete':
+      if set(data)!={'token','confirm_erasure'}:raise Invalid('Invalid deletion request')
+      return self.send(200,rights.erase(brand,data['token'],data['confirm_erasure']))
      if set(data)!={'token'}:raise Invalid('Invalid preference request')
+     if action=='rights-export':return self.send(200,rights.export(brand,data['token']))
      if action=='confirm':return self.send(200,subscriptions.confirm(brand,data['token']))
      if action=='withdraw':return self.send(200,subscriptions.withdraw(brand,data['token']))
      return self.send(404,{'error':'Not found'})
@@ -180,6 +189,7 @@ def main():
   last_backup=''
   while True:
    try:
+    MarketingRights(subscriptions).reconcile_erasure()
     store.tick()
     today=dt.datetime.now(dt.timezone.utc).date().isoformat()
     if today!=last_backup:

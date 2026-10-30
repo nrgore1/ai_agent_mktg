@@ -143,7 +143,8 @@ class Manager:
    lead=self.s.get(db,'leads',payload.get('lead_id'))
    if lead['product_id']!=p['id'] or lead.get('email')!=payload.get('recipient') or lead.get('consent')!='opt_in' or not lead.get('source'):raise Invalid('Product-specific opt-in lead, consent source and exact recipient required')
    from .marketing_consent import MarketingConsent
-   MarketingConsent(self.s).validate_lead(db,lead,payload)
+   from .marketing_registry import BrandRegistry
+   MarketingConsent(self.s,brands=BrandRegistry(self.s).all(db)).validate_lead(db,lead,payload)
    if lead.get('suppressed') or any(x['email'].lower()==payload['recipient'].lower() for x in self.s.rows(db,'suppressions')):raise Invalid('Recipient suppressed')
    postmark.envelope(payload,a['id'])
   else:raise Invalid('Unsupported manager connector')
@@ -192,7 +193,8 @@ class Manager:
    payload={'product_id':p['id'],'campaign_id':cid,'connector':'postmark','server_id':account.get('server_id'),'message_stream':account.get('stream'),'kind':'outreach','channel':'postmark','destination':lead['email'],'sender':sender,'account':postmark.account_key(p['id']),'recipient':lead['email'],'lead_id':lead['id'],'title':p['name']+' — your next evaluation step','content':content,'claims':[],'evidence':[{'source':lead['source'],'note':'Lead consent and interest source; product claims still require founder review'}],'cost_cents':0,'usage_note':'Postmark usage is billed under the existing account; no new purchase or ad spend is authorized. Actual costs are reported separately.','attestations':{'product_facts':False,'channel_rules':False,'destination':False,'founder_written':False}}
    if lead.get('marketing_consent_id'):
     from .marketing_consent import MarketingConsent, BRANDS, PREFIX
-    service=MarketingConsent(self.s);brand=BRANDS[lead['marketing_brand']]
+    from .marketing_registry import BrandRegistry
+    service=MarketingConsent(self.s,brands=BrandRegistry(self.s).all(db));brand=service.brands[lead['marketing_brand']]
     payload['marketing_brand']=lead['marketing_brand'];service.validate_lead(db,lead,payload)
     record=self.s.get(db,'marketing_subscriptions',lead['marketing_consent_id'])
     payload['title']=brand['name']+' — updates you requested'

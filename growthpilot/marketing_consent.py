@@ -26,8 +26,8 @@ PREFIX = '/marketing-updates/'
 GENERIC = {'accepted': True, 'message': 'If this address can receive the requested email, check its inbox. You are not subscribed until you confirm. Allow a few minutes; requests are limited to prevent unwanted email.'}
 
 
-def notice(brand):
-    b = BRANDS[brand]
+def notice(brand, config=None):
+    b = config or BRANDS[brand]
     return f"I am 18 or older and want marketing emails from {b['name']} about {b['topics']}. This is optional. I can unsubscribe at any time. This permission applies only to {b['name']}."
 
 
@@ -40,8 +40,9 @@ def brand_for_host(host):
 
 
 class MarketingConsent:
-    def __init__(self, store, secret=None, mailer=None, clock=None):
+    def __init__(self, store, secret=None, mailer=None, clock=None, brands=None):
         self.s = store
+        self.brands = brands if brands is not None else BRANDS
         self.secret = secret if secret is not None else os.environ.get('GROWTHPILOT_CONSENT_SECRET', '')
         self.mailer = mailer or self.send_email
         self.clock = clock or (lambda: dt.datetime.now(dt.timezone.utc))
@@ -61,9 +62,9 @@ class MarketingConsent:
         stamp = self.clock().isoformat()
         event = {'id': uuid.uuid4().hex, 'product_id': record['product_id'], 'brand': record['brand'],
                  'consent_id': record['id'], 'action': action, 'at': stamp,
-                 'notice_version': record['notice_version'], 'notice_sha256': hashlib.sha256(record['notice_text'].encode()).hexdigest()}
+                 'notice_version': record.get('notice_version',VERSION), 'notice_sha256': hashlib.sha256(record.get('notice_text','').encode()).hexdigest()}
         self.s.save(db, 'marketing_consent_events', event)
-        self.s.audit(db, 'marketing_' + action, record['id'], {'brand': record['brand'], 'notice_version': record['notice_version']}, 'subscriber')
+        self.s.audit(db, 'marketing_' + action, record['id'], {'brand': record['brand'], 'notice_version': record.get('notice_version',VERSION)}, 'subscriber')
 
     def limited(self, db, identity, maximum, seconds):
         ident = self.sign('rate:' + identity)
@@ -80,8 +81,9 @@ class MarketingConsent:
         return False
 
     def request(self, brand, data, remote='unknown', manage=False):
-        if brand not in BRANDS or set(data) - {'email', 'consent', 'company', 'notice_version'}:
+        if brand not in self.brands or set(data) - {'email', 'consent', 'company', 'notice_version'}:
             raise Invalid('Invalid subscription request')
+        if not manage and not self.brands[brand].get('enabled',True):raise Invalid('New subscriptions are not enabled by this site operator')
         if data.get('company'):
             return dict(GENERIC)
         if not manage and (data.get('consent') is not True or data.get('notice_version') != VERSION):
@@ -107,9 +109,9 @@ class MarketingConsent:
                 if record and record['status'] == 'confirmed':
                     return dict(GENERIC)
                 token = secrets.token_urlsafe(32)
-                record = dict(record or {}, id=ident, brand=brand, product_id=BRANDS[brand]['product_id'], email=email,
-                              status='pending', confirmed_at=None, withdrawn_at=None, notice_text=notice(brand), notice_version=VERSION,
-                              source='https://' + BRANDS[brand]['host'] + PREFIX, requested_at=stamp.isoformat(),
+                record = dict(record or {}, id=ident, brand=brand, product_id=self.brands[brand]['product_id'], email=email,
+                              status='pending', confirmed_at=None, withdrawn_at=None, notice_text=notice(brand,self.brands[brand]), notice_version=VERSION,
+                              source='https://' + self.brands[brand]['host'] + PREFIX, requested_at=stamp.isoformat(),
                               confirm_hash=hashlib.sha256(token.encode()).hexdigest(),
                               confirm_expires=(stamp + dt.timedelta(hours=24)).isoformat(),
                               synthetic=email.endswith(('@example.com', '@example.org', '@example.net', '.invalid')),
@@ -124,12 +126,14 @@ class MarketingConsent:
             receipt = {}; status = 'not_confirmed'
         with self.s.db() as db:
             latest = self.s.get(db, 'marketing_subscriptions', ident)
+            if latest.get('status')=='erased':return dict(GENERIC)
             latest.update(delivery_status=status, last_email_at=self.clock().isoformat(), provider_id=receipt.get('provider_id'))
             self.s.save(db, 'marketing_subscriptions', latest)
             self.s.audit(db, 'marketing_confirmation_delivery', ident, {'status': status, 'kind': 'manage' if manage else 'confirm'}, 'subscription_service')
         return dict(GENERIC)
 
     def confirm(self, brand, token):
+        if not self.brands[brand].get('enabled',True):raise Invalid('New subscriptions are not enabled by this site operator')
         if not isinstance(token, str) or not 32 <= len(token) <= 100:
             raise Invalid('This confirmation link is invalid or has expired')
         hashed = hashlib.sha256(token.encode()).hexdigest()
@@ -145,12 +149,13 @@ class MarketingConsent:
             if not record['synthetic']:
                 lid = 'marketing-' + record['id']
                 lead = next((r for r in self.s.rows(db, 'leads') if r['id'] == lid), {})
+                if lead.get('erased_at'):lead={}
                 lead.update(id=lid, product_id=record['product_id'], email=record['email'], name='Subscriber',
                             consent='opt_in', pipeline='customer', source=record['source'], stage=lead.get('stage', 'research'),
                             marketing_brand=brand, marketing_consent_id=record['id'],
                             consent_notice_version=record['notice_version'], updated_at=now())
                 self.s.save(db, 'leads', lead)
-            return {'confirmed': True, 'brand': BRANDS[brand]['name'],
+            return {'confirmed': True, 'brand': self.brands[brand]['name'],
                     'manage_url': PREFIX + 'withdraw#' + self.withdrawal_token(record)}
 
     def withdraw(self, brand, token):
@@ -163,6 +168,7 @@ class MarketingConsent:
             record = self.s.get(db, 'marketing_subscriptions', ident)
             if record['brand'] != brand:
                 raise Invalid('This preference link belongs to a different product')
+            if record['status']=='erased':return {'withdrawn':True,'brand':self.brands[brand]['name']}
             if record['status'] != 'withdrawn':
                 record.update(status='withdrawn', withdrawn_at=self.clock().isoformat(), confirm_hash='', confirm_expires='')
                 self.s.save(db, 'marketing_subscriptions', record)
@@ -171,13 +177,20 @@ class MarketingConsent:
                 if lead.get('marketing_consent_id') == ident:
                     lead.update(consent='opt_out', updated_at=now())
                     self.s.save(db, 'leads', lead)
-            return {'withdrawn': True, 'brand': BRANDS[brand]['name']}
+            return {'withdrawn': True, 'brand': self.brands[brand]['name']}
 
     def validate_lead(self, db, lead, payload):
         ident = lead.get('marketing_consent_id')
         if not ident:
+            if len(self.secret)>=32:
+                for brand,b in self.brands.items():
+                    if b['product_id']==payload.get('product_id'):
+                        marker=self.identifier(brand,str(lead.get('email','')).strip().lower())
+                        if any(r['id']==marker for r in self.s.rows(db,'marketing_erasure_suppressions')):raise Invalid('Recipient has an erasure suppression')
             return
         record = self.s.get(db, 'marketing_subscriptions', ident)
+        if not self.brands.get(record['brand'],{}).get('enabled',True):raise Invalid('Tenant marketing collection is disabled')
+        if record['brand'].startswith('tenant-'):raise Invalid('Tenant campaign delivery requires its own sender and release approval')
         if record['status'] != 'confirmed' or record.get('synthetic') or record['email'] != lead.get('email'):
             raise Invalid('Current confirmed marketing permission is required')
         if payload.get('marketing_brand') != record['brand'] or payload.get('product_id') != record['product_id'] or lead.get('marketing_brand') != record['brand'] or lead.get('product_id') != record['product_id']:
@@ -187,22 +200,24 @@ class MarketingConsent:
         with self.s.db() as db:
             rows = self.s.rows(db, 'marketing_subscriptions')
             records = [{k: r.get(k) for k in ('id', 'brand', 'product_id', 'email', 'status', 'notice_version', 'notice_text',
-                       'source', 'requested_at', 'confirmed_at', 'withdrawn_at', 'synthetic', 'delivery_status')} for r in rows]
+                       'source', 'requested_at', 'confirmed_at', 'withdrawn_at', 'erased_at', 'synthetic', 'delivery_status')} for r in rows]
             return {'brands': [{**b, 'slug': slug, 'form_url': 'https://' + b['host'] + PREFIX,
                                 'confirmed': sum(r['brand'] == slug and r['status'] == 'confirmed' and not r.get('synthetic') for r in rows),
                                 'pending': sum(r['brand'] == slug and r['status'] == 'pending' and not r.get('synthetic') for r in rows),
-                                'withdrawn': sum(r['brand'] == slug and r['status'] == 'withdrawn' and not r.get('synthetic') for r in rows)} for slug,b in BRANDS.items()],
+                                'erased': sum(r['brand']==slug and r['status']=='erased' for r in rows),
+                                'withdrawn': sum(r['brand'] == slug and r['status'] == 'withdrawn' and not r.get('synthetic') for r in rows)} for slug,b in self.brands.items()],
                     'records': records, 'campaign_dispatch_enabled_by_subscription': False}
 
     def send_email(self, record, token, manage):
-        brand = BRANDS[record['brand']]
+        brand = self.brands[record['brand']]
         home = 'https://' + brand['host'] + PREFIX
         stop = home + 'withdraw#' + self.withdrawal_token(record)
         text = (f"You requested to manage marketing emails from {brand['name']}.\n\nStop these emails: {stop}\n\n"
                 if manage else f"You asked to receive marketing emails from {brand['name']}.\n\nYour choice:\n{record['notice_text']}\n\nConfirm within 24 hours: {home}confirm#{token}\n\nStop or cancel this request: {stop}\n\n")
-        text += 'If you did not request this email, ignore it. No new subscription is activated without confirmation.\n\nAtmakosh LLC\n' + brand['reply_to']
+        if manage=='rights':text=f"You requested private access to your {brand['name']} marketing consent record.\n\nExport or delete within 30 minutes: {home}rights#{token}\n\nThis link does not grant account access.\n\n"
+        text += 'If you did not request this email, ignore it. No new subscription is activated without confirmation.\n\n' + brand.get('operator','Atmakosh LLC') + '\n' + brand['reply_to']
         body = {'From': 'naren@atmakosh.com', 'ReplyTo': brand['reply_to'], 'To': record['email'],
-                'Subject': ('Manage ' if manage else 'Confirm ') + brand['name'] + ' marketing emails',
+                'Subject': ('Private consent access: ' if manage=='rights' else 'Manage ' if manage else 'Confirm ') + brand['name'] + ' marketing emails',
                 'TextBody': text, 'MessageStream': 'outbound', 'TrackOpens': False, 'TrackLinks': 'None',
                 'Tag': 'marketing-consent', 'Metadata': {'brand': record['brand'], 'consent_id': record['id']}}
         mode = os.environ.get('GROWTHPILOT_CONSENT_MODE', 'live')
