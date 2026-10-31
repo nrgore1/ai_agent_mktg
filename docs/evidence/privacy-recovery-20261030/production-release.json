@@ -1,0 +1,49 @@
+{
+  "passed": true,
+  "release": "8281172-privacy-v4",
+  "commits": {
+    "agent": "82811726e41da5500fa4bffa6fc38bae071d0df8",
+    "jodi": "29aed4fabad7bf61ae634b5a09340462a57948f2",
+    "wedding": "9fd50365426c91351adaf4abbf28c0ede8b28dbb",
+    "memoire": "5797d869a79029490533168961f0427f75983c41"
+  },
+  "checks": [
+    {
+      "url": "https://weddingos.pro/health/ready",
+      "status": 200
+    },
+    {
+      "url": "https://www.jodiusa.com/marketing-updates/",
+      "status": 200
+    },
+    {
+      "url": "https://memoirbookstudio.com/api/memoirs/",
+      "status": 401
+    },
+    {
+      "product": "wedding",
+      "persistent_signed_journal_writable": true
+    },
+    {
+      "product": "jodi",
+      "persistent_signed_journal_writable": true
+    },
+    {
+      "product": "memoire",
+      "persistent_signed_journal_writable": true
+    },
+    {
+      "memoire_anonymous_upload_denied": true
+    }
+  ],
+  "unrelated_services_unchanged": true,
+  "economics_unchanged": true,
+  "commercial_changes": 0,
+  "customer_emails": 0,
+  "rollback_images": {
+    "wedding": "agentvire-retention-wedding:20261030",
+    "jodi": "agentvire-retention-jodi:20261030",
+    "memoire": "agentvire-retention-memoire:20261030"
+  },
+  "journal_base": "/home/liqmintadmin/privacy-journals"
+}

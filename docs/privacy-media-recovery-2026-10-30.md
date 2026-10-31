@@ -40,3 +40,7 @@ The release backup evidence is stored on the VPS under `/home/liqmintadmin/marke
 6. **Alternative deletion paths:** review administrative/bulk deletion and nonstandard media writers for equivalent journal and cleanup coverage. Ordinary account-erasure paths are covered by this release.
 
 Pricing, commissions, campaigns, tenant feature acceptance and unrelated product services are outside this engineering release.
+
+## Deployment outcome
+
+Deployed to the VPS and verified: all product readiness checks pass, native journal mounts are persistent and writable, public consent routes remain available, anonymous Memoire uploads are denied, and the live AgentVire backup restored with a valid audit chain and privacy reconciliation. AgentVire now records 88 completed tasks; provider, legacy-media and off-site recovery gates remain open. Commercial settings and unrelated services were unchanged.
