@@ -33,3 +33,18 @@ Postmark documents a default 45-day content/metadata period, with configurable a
 FTC guidance recommends a written policy tied to necessity and secure disposal; it does not supply a universal retention duration for these products. Source: https://www.ftc.gov/business-guidance/resources/protecting-personal-information-guide-business.
 
 Production deployment receipts and final smoke results will be appended below. Pricing, commissions, campaigns, tenant acceptance and paid-plan configuration are unchanged.
+
+
+## Live release and remaining backlog
+
+Deployed AgentVire aafe9b3-retention, WeddingOS API agentvire-retention-wedding:20261030, Jodibana agentvire-retention-jodi:20261030, Memoire API agentvire-retention-memoire:20261030 and Memoire browser agentvire-retention-memoire-web:20261030-release. All changed runtime files match committed source. The deployed Memoire browser artifact matches the tested build; its previous web-server configuration is preserved.
+
+Production dry-run and first sweep found zero eligible aged contacts, expired private links or managed backups. No live account was deleted and no customer email was sent during release validation. Read-only signed privacy connection checks passed from all three product services. Public consent pages and login protection passed browser checks. Finance-source hash and audit chain remained valid. Six additional launch tasks are complete; totals: 85 completed, 41 pending, 87 blocked, 3 in progress and 51 historic commercial items awaiting release conditions.
+
+Jodibana migration 0064 is an additive nullable column with no guessed backfill. A pre-migration PostgreSQL backup is retained. The nightly closure job first checks that the deployed model has closed_at, so rolling back to the old login-date implementation stops the job instead of deleting legacy inactive accounts. No eligible production closures were applied during verification. AgentVire, WeddingOS, Jodibana and Memoire previous images/configurations are retained. A rollback must account for privacy integration compatibility; keep the latest durable journals and suppression evidence.
+
+Only the named application containers were replaced. Product databases/storage services, WeddingOS web/worker, Memoire worker and the local Kimi bridge retained their container identities and start times. No pricing, commissions, campaign or tenant-acceptance changes. JodiUSA owner acceptance remains pending.
+
+Three separate follow-ups now track provider history, product media, audit/support/financial holds and historical backup inventory/restore verification. These are not represented as completed by active-consent deletion. The current Memoire email-ownership limitation remains explicit; private mailbox confirmation is required to erase marketing consent after native account deletion.
+
+Memoire's authoritative deployed checkout advanced to its tested commit. The portable patch is docs/patches/memoire-retention-account-20261030.patch; unrelated older Memoire history was not pushed. AgentVire, WeddingOS and Jodibana changes are pushed on their existing codex branches.

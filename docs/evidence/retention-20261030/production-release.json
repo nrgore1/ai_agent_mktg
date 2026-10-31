@@ -1,0 +1,78 @@
+{
+  "passed": true,
+  "agent_release": "aafe9b3-retention",
+  "commits": {
+    "agent": "aafe9b39659ab0578cb738c2f77542ac58ab5b6e",
+    "wedding": "1c60a11d38a4c848c8724a11478a865fdaa28577",
+    "jodi": "ec6ca43ac5df1f05fb5af1d022fd059c2e3dae0e",
+    "memoire": "6468fb7b6a69fda8f511be36d117dd3e5c698eea"
+  },
+  "retention_dry_run": {
+    "policy": {
+      "version": "2026-10-30-v1",
+      "pending_days": 7,
+      "withdrawn_days": 30,
+      "rate_limit_days": 2,
+      "managed_backup_days": 30
+    },
+    "apply": false,
+    "expired_private_links": 0,
+    "aged_contacts": 0,
+    "expired_rate_limits": 0,
+    "managed_backups": 0
+  },
+  "checks": [
+    {
+      "url": "https://weddingos.pro/health/ready",
+      "status": 200
+    },
+    {
+      "url": "https://www.jodiusa.com/marketing-updates/",
+      "status": 200
+    },
+    {
+      "url": "https://memoirbookstudio.com/api/memoirs/",
+      "status": 401
+    },
+    {
+      "product": "wedding",
+      "private_scoped_connection": true,
+      "read_only": true
+    },
+    {
+      "product": "jodi",
+      "private_scoped_connection": true,
+      "read_only": true
+    },
+    {
+      "product": "memoire",
+      "private_scoped_connection": true,
+      "read_only": true
+    }
+  ],
+  "jodi_migration": "0064 nullable closed_at; no backfill",
+  "jodi_retention_schedule": "daily, evidenced closures only after 90 days; suspended accounts excluded",
+  "customer_accounts_deleted_during_release": 0,
+  "customer_emails": 0,
+  "commercial_changes": 0,
+  "tenant_acceptance_unchanged": true,
+  "finance_unchanged": true,
+  "untouched_services": [
+    "weddingos-production-web-1",
+    "weddingos-production-outbox-worker-1",
+    "weddingos-production-postgres-1",
+    "jodibana-db-1",
+    "jodibana-redis-1",
+    "jodibana-media-1",
+    "memoir-production-postgres-1",
+    "memoir-production-minio-1",
+    "memoir-production-redis-1",
+    "memoir-production-agentops-worker-1",
+    "growthpilot-staging-kimi-bridge-1"
+  ],
+  "previous_images": {
+    "wedding": "weddingos-api:serialized-save-20261030",
+    "jodi": "agentvire-rights-jodi:20261030-r2",
+    "memoire": "memoir/api:activation-permissions-20261030"
+  }
+}
