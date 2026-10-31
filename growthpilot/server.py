@@ -11,6 +11,7 @@ from .marketing_consent import MarketingConsent, brand_for_host, PREFIX
 from .marketing_page import page as marketing_page
 from .marketing_registry import BrandRegistry
 from .marketing_rights import MarketingRights
+from .marketing_lifecycle import MarketingLifecycle
 
 def main():
  parser=argparse.ArgumentParser();parser.add_argument('--host',default='127.0.0.1');parser.add_argument('--port',type=int,default=8098);args=parser.parse_args()
@@ -86,6 +87,8 @@ def main():
     raw_body=self.rfile.read(size);data=json.loads(raw_body or '{}')
     if not isinstance(data,dict):raise Invalid('JSON object required')
     path=urlsplit(self.path).path;parts=path.strip('/').split('/')
+    if path=='/internal/marketing/account':
+     return self.send(200,MarketingLifecycle(store).account(self.headers,raw_body))
     if path.startswith(PREFIX):
      brand,brand_config=registry.resolve(self.headers.get('Host',''),self.headers,'POST',path,raw_body)
      subscriptions=MarketingConsent(store,brands={**registry.all(),brand:brand_config})
@@ -186,12 +189,14 @@ def main():
     logging.exception('API operation failed');return self.send(500,{'error':'Operation not confirmed; inspect server logs'})
  def pathlib_backup(unused):return path.parent/'backups'
  def worker():
-  last_backup=''
+  last_backup='';last_retention=''
   while True:
    try:
     MarketingRights(subscriptions).reconcile_erasure()
     store.tick()
     today=dt.datetime.now(dt.timezone.utc).date().isoformat()
+    if today!=last_retention and os.environ.get('GROWTHPILOT_ENABLE_RETENTION')=='true':
+     MarketingLifecycle(store).retention(apply=True);last_retention=today
     if today!=last_backup:
      store.backup(path.parent/'backups');last_backup=today
      with store.db() as db:store.audit(db,'daily_backup','system',{'date':today},'worker')

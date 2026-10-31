@@ -66,6 +66,7 @@ class Execution:
   engine,plan=self.source()
   with self.s.db() as db:
    tasks=self.s.rows(db,'execution_tasks');artifacts=self.s.rows(db,'execution_artifacts');programs=self.s.rows(db,'execution_program')
+   retention=self.s.rows(db,'marketing_retention');privacy_events=self.s.rows(db,'marketing_account_events');subscription_states={x['id']:x.get('status')for x in self.s.rows(db,'marketing_subscriptions')}
    reviews=self.s.rows(db,'execution_reports');review=next((x for x in reviews if x.get('id')=='portfolio-review-20261029'),None)
   byid={x['id']:x for x in tasks}
   for row in tasks:
@@ -76,7 +77,7 @@ class Execution:
   current_revision=digest({'version':VERSION,'plan':plan,'dossiers':engine.strategies}) if plan else None
   from .marketing_consent import MarketingConsent
   from .marketing_registry import BrandRegistry
-  return {'marketing_subscriptions':MarketingConsent(self.s,brands=BrandRegistry(self.s).all()).summary(),'portfolio_review':review,'program':programs[0] if programs else None,'source_changed':bool(programs and programs[0]['revision']!=current_revision),'products':engine.strategies['products'],'commercial_plan':plan,'tasks':tasks,'artifacts':artifacts,'counts':counts,'commercial_execution_enabled':False,'launch_verified_products':0,'note':'Completed specifications are preparation, not passed product tests. Commercial gates remain pending separate approval. Readiness evidence is timestamped and may require retest.'}
+  return {'marketing_retention':{'last_sweep':retention[0]if retention else None,'account_erasure_receipts':sum(x.get('status')=='erased'for x in privacy_events),'mailbox_verification_pending':sum(x.get('status')=='verification_required'and subscription_states.get(x.get('subject'))not in (None,'erased')for x in privacy_events)},'marketing_subscriptions':MarketingConsent(self.s,brands=BrandRegistry(self.s).all()).summary(),'portfolio_review':review,'program':programs[0] if programs else None,'source_changed':bool(programs and programs[0]['revision']!=current_revision),'products':engine.strategies['products'],'commercial_plan':plan,'tasks':tasks,'artifacts':artifacts,'counts':counts,'commercial_execution_enabled':False,'launch_verified_products':0,'note':'Completed specifications are preparation, not passed product tests. Commercial gates remain pending separate approval. Readiness evidence is timestamped and may require retest.'}
  def transition(self,data,actor):
   if set(data)-{'id','status','source','note','attest_verified'}:raise Invalid('Unsupported execution update')
   status=data.get('status')
