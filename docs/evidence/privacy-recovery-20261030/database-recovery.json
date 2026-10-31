@@ -1,0 +1,26 @@
+[
+  {
+    "product": "wedding",
+    "backup_bytes": 1679004,
+    "sha256": "c263be7d08fe65f4921e067a2263f10950dea6be15a5210c1ebbdb55e2dc2c6b",
+    "isolated_restore_passed": true,
+    "tables_restored": 359,
+    "network": "none"
+  },
+  {
+    "product": "jodi",
+    "backup_bytes": 2946344,
+    "sha256": "884c0fedd63c245f14e7f3a29e4e26360cbd9d9c4e7e5fa1072558d57e7645d2",
+    "isolated_restore_passed": true,
+    "tables_restored": 140,
+    "network": "none"
+  },
+  {
+    "product": "memoire",
+    "backup_bytes": 45232540,
+    "sha256": "70312589340a12ba95b9ae4bcebefa3f049261c31e78f7f950c41b5165955d82",
+    "isolated_restore_passed": true,
+    "tables_restored": 62,
+    "network": "none"
+  }
+]

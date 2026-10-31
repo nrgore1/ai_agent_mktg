@@ -1,0 +1,6 @@
+{
+  "passed": true,
+  "source_image_parity": true,
+  "qa_services_removed": 4,
+  "production_services_unchanged": true
+}

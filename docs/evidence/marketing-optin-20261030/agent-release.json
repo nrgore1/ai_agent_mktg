@@ -1,0 +1,9 @@
+{
+  "passed": true,
+  "release": "d45bfc2-optin",
+  "source": "d45bfc2508e27dcff17952586ddb8ec5d77323b2",
+  "previous_release": "/home/liqmintadmin/growthpilot-staging/releases/3c83c82-readiness",
+  "confirmation_email_enabled": true,
+  "commercial_gates_unchanged": true,
+  "finance_source_unchanged": true
+}

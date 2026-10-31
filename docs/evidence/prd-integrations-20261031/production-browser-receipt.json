@@ -1,0 +1,8 @@
+{
+  "status": "passed",
+  "tls": true,
+  "login_page": true,
+  "version": "0.5.0",
+  "unauthenticated_integrations_status": 401,
+  "page_errors": []
+}

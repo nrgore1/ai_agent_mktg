@@ -1,0 +1,10 @@
+{
+  "release": "0.5.0",
+  "native_ubuntu_tests": 203,
+  "vps_tests": 203,
+  "all_passed": true,
+  "isolated_qa": true,
+  "external_messages": 0,
+  "product_services_changed": false,
+  "workflow": "evidence -> product claims -> campaign -> exact approval -> mock receipt -> CRM -> approved calendar -> idempotent analytics -> audit"
+}

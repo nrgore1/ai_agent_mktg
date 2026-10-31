@@ -1,0 +1,451 @@
+{
+  "version": 1,
+  "as_of": "2026-10-27 America/New_York",
+  "products": [
+    {
+      "product_id": 1,
+      "name": "LiqMint Individual",
+      "portfolio_role": "Commercial wedge; share infrastructure with institutional edition",
+      "target_user": "Self-directed stablecoin users with a recurring need to inspect wallet activity; exclude people seeking guaranteed yields.",
+      "economic_buyer": "Individual subscriber; finance operator only where permitted by the product entitlement.",
+      "long_term_value": "A persistent history of decisions, understandable controls and repeatable review workflows. Sell reduced preparation effort and traceability, never investment performance.",
+      "pricing_strategy": "Keep the configured $19.99/month retail anchor during validation; free education and bounded exploration. Add $49 advanced usage only after entitlement, support and margin evidence. Annual commitments follow demonstrated retention.",
+      "scenario_price_usd": 19.99,
+      "scenario_unit": "active retail subscription-month",
+      "partner_strategy": "Wallet educators and qualified software integrators gain useful educational workflows. Propose at most 15% of collected net software subscription fees for 12 months, subject to margin floor and legal review; no payment tied to trades, AUM or yield.",
+      "zero_ad_spend_path": "Useful stablecoin explainers → interactive learning → verified signup → first reviewed workflow → requested referral. Track repeat review, not wallet funding.",
+      "physical_sales_trigger": "No field sales for retail. Founder handles early interviews; add remote customer support only after recurring workload justifies it.",
+      "us_review": "Assess FinCEN/state money transmission if funds are accepted/transmitted; SEC/state adviser/broker scope if advice or securities transactions are involved. Noncustodial branding alone does not decide applicability.",
+      "value_proof": "First useful review within one session; repeat reviews at 30/90 days; support minutes and retained paid cohorts.",
+      "options": [
+        "Reprice usage-heavy plans after measured support/inference costs.",
+        "Redesign supported chains and workflow quotas with clear disclosures.",
+        "Limit referral fees to software subscriptions.",
+        "Withdraw an unsupported regulated activity before withdrawing educational software."
+      ],
+      "strategy_status": "Founder-review hypothesis; not a published offer",
+      "scenario_assumptions": "Illustrative monthly cohort, not a forecast or live paid-user baseline. Costs and demand response require measurement."
+    },
+    {
+      "product_id": 2,
+      "name": "LiqMint Institutional",
+      "portfolio_role": "Commercial B2B engine; controlled treasury workflow",
+      "target_user": "Small treasury and finance operations teams at fintechs or digital-asset businesses; begin with one workflow and a named risk owner.",
+      "economic_buyer": "Treasurer/CFO owns budget; operations champion uses it; risk, legal and security can veto.",
+      "long_term_value": "Institutional memory, consistent approvals, audit preparation and fewer manual handoffs. Expand after measured workflow adoption, not promises of risk elimination.",
+      "pricing_strategy": "Propose a fixed-scope $2,500–$5,000 paid pilot, then $1,500–$5,000/organization/month plus defined usage and implementation. These are price tests, not current contracted prices. No unlimited bespoke work.",
+      "scenario_price_usd": 1500,
+      "scenario_unit": "organization-month",
+      "partner_strategy": "Accounting firms, treasury consultants and integrators receive implementation/service revenue. Propose 10% of collected net first-year software fees for qualified referrals; certified resellers negotiate a wholesale discount within a contribution floor. No transaction/AUM fee by default.",
+      "zero_ad_spend_path": "Public controlled demo → treasury checklist → founder discovery → paid shadow pilot → approved reference → integrator introductions.",
+      "physical_sales_trigger": "Founder-led remote sales first. Consider an enterprise seller after 5 repeatable paid pilots, 3 references and sufficient contracted contribution to cover the role. Travel only for security/procurement workshops with documented deal value.",
+      "us_review": "Activity-based FinCEN/state/SEC review, customer data controls, contractual responsibility and sanctions obligations. Treasury software is not automatically a licensed intermediary.",
+      "value_proof": "Agreed pilot success criteria; measured approval turnaround and audit-preparation time; renewal and multi-workflow adoption.",
+      "options": [
+        "Reprice per organization/workflow rather than assets handled.",
+        "Reduce integrations or service coverage to a supported package.",
+        "Separate partner implementation fees from subscription referrals.",
+        "Decline or exit costly bespoke commitments with contractual transition duties."
+      ],
+      "strategy_status": "Founder-review hypothesis; not a published offer",
+      "scenario_assumptions": "Illustrative monthly cohort, not a forecast or live paid-user baseline. Costs and demand response require measurement."
+    },
+    {
+      "product_id": 3,
+      "name": "OraToPlus",
+      "portfolio_role": "Commercial consumer-to-team engine",
+      "target_user": "Job seekers and working professionals with an upcoming interview or presentation; coaches and employers managing repeated practice.",
+      "economic_buyer": "Individual for self-serve; coach, L&D lead or career-services director for groups.",
+      "long_term_value": "A repeated practice-and-feedback habit with personal progress history. Prove improvement on the same task over time; do not claim guaranteed hiring or fluency outcomes.",
+      "pricing_strategy": "Observed catalog: Free, Growth $49, Enterprise $299. Keep those anchors initially; test a bounded $19 entry tier only if cost/retention evidence supports it. Price group plans by active learner and practice minutes, with explicit AI limits.",
+      "scenario_price_usd": 49,
+      "scenario_unit": "active learner-month",
+      "partner_strategy": "Coaches retain their own coaching fee and use the tool between sessions. Propose 20% of collected net first-year subscriptions or a volume reseller discount, never both on the same sale; margin cap applies.",
+      "zero_ad_spend_path": "One useful free practice scenario → feedback viewed → repeat attempt → coach-led cohort → consented learner recommendation. Publish only measured, permissioned outcomes.",
+      "physical_sales_trigger": "No physical sales for individuals. Remote partnerships first; institutional visits only after repeatable cohort results and a qualified employer/university procurement opportunity.",
+      "us_review": "Clear subscription/cancellation terms; recording and consent practices; employment-related scoring must not be marketed as a validated hiring decision system without appropriate assessment.",
+      "value_proof": "First feedback viewed, second attempt completed, four-week practice retention, measured learner outcomes and support/audio cost per minute.",
+      "options": [
+        "Reprice by practice minutes for expensive use.",
+        "Offer shorter sessions or narrower feedback coverage.",
+        "Pay coach commissions after collection/refund window.",
+        "Withdraw unprofitable language/scenario promises before the core practice offer."
+      ],
+      "strategy_status": "Founder-review hypothesis; not a published offer",
+      "scenario_assumptions": "Illustrative monthly cohort, not a forecast or live paid-user baseline. Costs and demand response require measurement."
+    },
+    {
+      "product_id": 4,
+      "name": "WeddingOS / WeddingPro",
+      "portfolio_role": "Commercial B2C acquisition and B2B recurring engine",
+      "target_user": "Engaged couples beginning planning; independent planners and small venues managing multiple weddings.",
+      "economic_buyer": "Couple for a single event; planning-business owner or venue operator for recurring workflows.",
+      "long_term_value": "Couples need confidence through their event, not an indefinite subscription. Professionals need reusable templates, reliable handoffs and repeat-client operations. Build lifetime value through successful events, referrals and professional adoption.",
+      "pricing_strategy": "Keep three public tools and up to 20 registered saved results free. Test a $49 one-time enhanced couple plan only after paid features exist. Test professional software at $49/month, team/venue at $99–$199/month; do not change live pricing until billing and entitlements are verified.",
+      "scenario_price_usd": 49,
+      "scenario_unit": "professional organization-month",
+      "partner_strategy": "Planners and venues reduce coordination work and keep their own service fees. Propose 20% of collected net software revenue for 12 months, capped by contribution; separately disclosed, contracted vendor commissions only where appropriate. Never monetize organic ranking secretly.",
+      "zero_ad_spend_path": "Free calculator/checklist → verified account → first saved result → shared planning experience → planner/venue introduction. Useful planning guides and partner embeds; no bought lists or unpaid-review manipulation.",
+      "physical_sales_trigger": "No physical sales for couples. Founder demos for planners; venue-chain account sales only after 10 retained professional accounts and 3 references. Visit only when a multi-site deal warrants it.",
+      "us_review": "Marketplace principal/agent accounting, clear fees and affiliate disclosure, subscription consent, privacy and vendor responsibility. Insurance, travel or financial services require activity/state-specific review before compensation.",
+      "value_proof": "First saved result, completed planning milestone, professional monthly repeat use, event-level contribution and referral quality; separate couples from professionals.",
+      "options": [
+        "Reprice advanced professional workflows, not currently free public tools.",
+        "Redesign event/storage/support coverage explicitly.",
+        "Pay from collected net software fees, not all vendor booking value.",
+        "Withdraw a loss-making marketplace service while preserving customer data/export obligations."
+      ],
+      "strategy_status": "Founder-review hypothesis; not a published offer",
+      "scenario_assumptions": "Illustrative monthly cohort, not a forecast or live paid-user baseline. Costs and demand response require measurement."
+    },
+    {
+      "product_id": 5,
+      "name": "Memoir",
+      "portfolio_role": "Commercial project and fulfillment engine",
+      "target_user": "Families making wedding, travel, baby and tribute photo books; photographers serving recurring client occasions.",
+      "economic_buyer": "Family purchaser or photography-studio owner.",
+      "long_term_value": "Finish and preserve meaningful books with repeat occasions and a photographer channel. Design continuity, reliable fulfillment and reorders create value; an annual consumer subscription may be a poor fit.",
+      "pricing_strategy": "Free preview; test $29 digital project/export and clearly quoted print orders. Print price must cover actual supplier, shipping, reprint/refund, payment and partner costs. Studio software can be tested separately after repeat demand.",
+      "scenario_price_usd": 29,
+      "scenario_unit": "completed digital project/order",
+      "partner_strategy": "Photographers keep their photography revenue and can sell a disclosed book-design service. Printers receive predictable, quality-approved orders; revenue share comes only from the attributable book contribution, not a partner’s entire profit.",
+      "zero_ad_spend_path": "Permissioned sample book → free preview → completed paid project → occasion/reorder reminder with consent → studio referrals.",
+      "physical_sales_trigger": "Remote studio onboarding first. Physical channel sales only after 5 repeat studios, verified fulfillment margins and a defined regional cluster.",
+      "us_review": "Photo rights, privacy, fulfillment/refund promises and principal/agent classification. Do not count printer or shipping pass-through amounts as platform margin without an accounting assessment.",
+      "value_proof": "Preview-to-completion, on-time delivery, reprint/refund rate, contribution per book and repeat occasions.",
+      "options": [
+        "Reprice by pages, format and fulfillment route.",
+        "Limit free renders/storage and supported print formats.",
+        "Share contribution after returns and supplier costs.",
+        "Stop a loss-making print route while maintaining digital export."
+      ],
+      "strategy_status": "Founder-review hypothesis; not a published offer",
+      "scenario_assumptions": "Illustrative monthly cohort, not a forecast or live paid-user baseline. Costs and demand response require measurement."
+    },
+    {
+      "product_id": 6,
+      "name": "Jodibana",
+      "portfolio_role": "Commercial operator-led community software",
+      "target_user": "Trusted community and matchmaking operators who can recruit both sides of a viable local/community network.",
+      "economic_buyer": "Community owner or matchmaking business; members are a distinct user group.",
+      "long_term_value": "Sustained network quality, moderation and member trust, not a promised match. Help operators run a safer, responsive service and retain their own legitimate membership/service revenue.",
+      "pricing_strategy": "Observed catalog: Free, $49 Growth, $99 Pro, $199 Enterprise monthly. Start with operator SaaS; avoid charging members before local network liquidity and safety practices are demonstrated. Active subscription rows do not establish paid revenue.",
+      "scenario_price_usd": 49,
+      "scenario_unit": "operator-month",
+      "partner_strategy": "Operators retain disclosed membership/service earnings and pay a software fee. Prefer fixed SaaS or a clearly scoped share of collected platform fees; never imply a claim on all matchmaking profits.",
+      "zero_ad_spend_path": "One trusted community pilot → verified onboarding → useful member interactions → operator case study with consent → adjacent community introductions.",
+      "physical_sales_trigger": "Founder-led community partnerships first. Local relationship visits only when a repeatable, safe operator model and positive retained contribution are established.",
+      "us_review": "Sensitive data, community safety, identity/consent, age controls and honest relationship claims. Assess any regulated ancillary offer separately.",
+      "value_proof": "Balanced active network, response rate, moderation resolution, operator renewal; do not use registrations alone as evidence of liquidity.",
+      "options": [
+        "Reprice operator usage above bounded allowances.",
+        "Narrow geography/community coverage to improve quality.",
+        "Separate software, membership and service fee responsibilities.",
+        "Withdraw an unsafe or persistently inactive community with member notice and data handling."
+      ],
+      "strategy_status": "Founder-review hypothesis; not a published offer",
+      "scenario_assumptions": "Illustrative monthly cohort, not a forecast or live paid-user baseline. Costs and demand response require measurement."
+    },
+    {
+      "product_id": 7,
+      "name": "CoffeeBook",
+      "portfolio_role": "Discovery hold; verify standalone need",
+      "target_user": "Unknown until the actual product brief and customer job are verified.",
+      "economic_buyer": "Unverified; identify the person with both the problem and purchasing authority.",
+      "long_term_value": "First establish a recurring or event-specific job and evidence of willingness to pay. If it duplicates Memoir, make it a package or module instead of another acquisition funnel.",
+      "pricing_strategy": "No numerical price recommendation before product identity is verified. Interview 10 relevant prospects, compare alternatives and test a scoped paid commitment after an offer exists.",
+      "scenario_price_usd": null,
+      "scenario_unit": "unverified",
+      "partner_strategy": "No profit-share commitments until customer ownership, delivered service and partner contribution are defined.",
+      "zero_ad_spend_path": "Founder discovery and prototype review; no broad launch or manufactured waitlist claims.",
+      "physical_sales_trigger": "No sales team. Product/customer discovery is the founder’s responsibility.",
+      "us_review": "Classify actual activities and data before choosing a U.S. rule checklist.",
+      "value_proof": "Verified brief, repeated problem evidence and genuine paid-intent commitments.",
+      "options": [
+        "Reprice only after a defined offer.",
+        "Redesign around one verified job.",
+        "Defer commissions.",
+        "Merge with Memoir or archive if independent demand is absent."
+      ],
+      "strategy_status": "Founder-review hypothesis; not a published offer",
+      "scenario_assumptions": "Illustrative monthly cohort, not a forecast or live paid-user baseline. Costs and demand response require measurement."
+    },
+    {
+      "product_id": 8,
+      "name": "Charam",
+      "portfolio_role": "Mission-led initiative; entity and funding structure unverified",
+      "target_user": "Supporters and institutional partners interested in girls’ education and transparent mission outcomes.",
+      "economic_buyer": "Donor, sponsor or grant-making partner; beneficiary is not a paying customer.",
+      "long_term_value": "Trust through verified program delivery, understandable use of funds and beneficiary outcomes. Do not treat donations as recurring software revenue.",
+      "pricing_strategy": "Separate donations/grants/sponsorships from commercial fees. No tax-deductibility promise until entity eligibility is verified. Any vendor service needs a documented, appropriate compensation basis.",
+      "scenario_price_usd": null,
+      "scenario_unit": "mission funding",
+      "partner_strategy": "Schools/NGOs gain program support and reporting. Do not distribute charitable earnings or promise donor-funded profit shares. If a charitable entity is involved, review private-benefit, inurement and related-party arrangements.",
+      "zero_ad_spend_path": "Verified impact stories with consent → transparent program information → partner introductions and grants. Protect beneficiaries’ privacy.",
+      "physical_sales_trigger": "Program partnerships may need field verification; hire program staff for delivery need, not donation sales quotas.",
+      "us_review": "Verify charitable status, solicitation obligations, tax claims and private-benefit restrictions before fundraising structures are offered.",
+      "value_proof": "Verified beneficiary outcomes, restricted-fund reconciliation, program delivery quality and funding retention.",
+      "options": [
+        "Change funding mix rather than reprice beneficiaries.",
+        "Narrow program coverage to funded commitments.",
+        "Use reviewed service contracts instead of charitable profit distributions.",
+        "Close unfunded commitments through a responsible beneficiary transition."
+      ],
+      "strategy_status": "Founder-review hypothesis; not a published offer",
+      "scenario_assumptions": "Illustrative monthly cohort, not a forecast or live paid-user baseline. Costs and demand response require measurement."
+    },
+    {
+      "product_id": 9,
+      "name": "Atmasphere LLM",
+      "portfolio_role": "Commercial governance platform and shared AI infrastructure",
+      "target_user": "AI platform, security and operations teams controlling consequential agent actions.",
+      "economic_buyer": "Head of AI/platform engineering; security and compliance influence purchase.",
+      "long_term_value": "Reusable policy, evidence lineage, approvals and audit preparation across agent deployments. Sell enforceable workflows and integration value; do not certify legal compliance by model output.",
+      "pricing_strategy": "Free local/sandbox evaluation with explicit limits; propose $1,000–$3,000/month per production workspace plus metered governed actions. Fixed-scope $3,000–$10,000 integration pilots; local inference still has compute and operations costs.",
+      "scenario_price_usd": 1500,
+      "scenario_unit": "production workspace-month",
+      "partner_strategy": "Systems integrators retain implementation revenue; propose 10% first-year net software referral fees or a contribution-bounded reseller margin. Keep policy decisions independent of commissions.",
+      "zero_ad_spend_path": "Useful technical examples → synthetic policy evaluation → integration proof → paid pilot → consented customer reference and integrator distribution.",
+      "physical_sales_trigger": "Founder/technical remote sales first. Add enterprise sales engineering when deployment patterns repeat, 5 paid pilots exist and contracted contribution supports the role.",
+      "us_review": "Privacy, security, sector-specific use and contractual audit claims. Governance software does not itself make a customer legally compliant.",
+      "value_proof": "Time to integrate, policy enforcement evidence, audit preparation effort, retained governed actions and cost per action.",
+      "options": [
+        "Reprice high-assurance/throughput tiers.",
+        "Narrow integration or supported-environment coverage.",
+        "Separate partner services from action-meter fees.",
+        "Withdraw unsupported high-risk deployments while preserving logs and migration."
+      ],
+      "strategy_status": "Founder-review hypothesis; not a published offer",
+      "scenario_assumptions": "Illustrative monthly cohort, not a forecast or live paid-user baseline. Costs and demand response require measurement."
+    },
+    {
+      "product_id": 10,
+      "name": "SDIS",
+      "portfolio_role": "Research Workbench module; avoid a separate retail funnel",
+      "target_user": "Sophisticated market researchers evaluating screened stock/options scenarios and data freshness.",
+      "economic_buyer": "Research individual/team; a professional compliance owner if deployed institutionally.",
+      "long_term_value": "Repeatable research, source checks and transparent assumptions. A displayed probability or trade plan is not proven investment performance.",
+      "pricing_strategy": "Propose as a $49/month research module or part of one $99/month Research Workbench, only after data rights and regulatory scope are reviewed. No performance fee, AUM fee or trade-based commission by default.",
+      "scenario_price_usd": 49,
+      "scenario_unit": "research seat-month",
+      "partner_strategy": "Licensed data/integration partners receive permitted data/service fees. No broker referral or transaction compensation without appropriate review and permissions.",
+      "zero_ad_spend_path": "Reproducible historical walkthrough → paper/synthetic evaluation → repeat research use → qualified technical referral. No claims based on cherry-picked backtests.",
+      "physical_sales_trigger": "No retail field sales. Remote technical sales only after repeat institutional research demand and appropriate activity review.",
+      "us_review": "SEC/state advice and broker scope; derivatives-related CFTC/NFA analysis where applicable; data licenses and hypothetical-performance representations. Calling it research does not settle classification.",
+      "value_proof": "Research repeatability, current source coverage, error rates and paid retention rather than claimed returns.",
+      "options": [
+        "Reprice licensed data costs explicitly.",
+        "Reduce market/asset coverage with clear terms.",
+        "Remove trading-linked commissions.",
+        "Disable an unsupported advice/execution surface while retaining legitimate research tools."
+      ],
+      "strategy_status": "Founder-review hypothesis; not a published offer",
+      "scenario_assumptions": "Illustrative monthly cohort, not a forecast or live paid-user baseline. Costs and demand response require measurement."
+    },
+    {
+      "product_id": 11,
+      "name": "One-Man Hedge Fund",
+      "portfolio_role": "Research Workbench orchestration module; name/offer review",
+      "target_user": "Independent analysts and small research teams coordinating multiple research sources.",
+      "economic_buyer": "Research subscriber/team lead; not investors committing assets to an offered fund.",
+      "long_term_value": "An organized research trail, fewer duplicated tasks and repeatable review. Do not position the software name as an actual investment fund or delegated money manager without the necessary structure.",
+      "pricing_strategy": "Propose one $99/month Research Workbench bundle incorporating orchestration and SDIS; avoid double-counting module revenue. Meter heavy data/AI use; no managed-assets or performance fee in the proposed software offer.",
+      "scenario_price_usd": 99,
+      "scenario_unit": "research seat-month",
+      "partner_strategy": "Research educators/integrators get legitimate software/service value. Financial referral or transaction-related compensation remains blocked pending activity review.",
+      "zero_ad_spend_path": "Publish reproducible research methods → paper evaluation → retained research workflow → documented reference, with model/data limitations visible.",
+      "physical_sales_trigger": "No physical sales for individuals; founder-led remote institutional discovery until repeatable paid demand.",
+      "us_review": "Actual advice, execution, discretion, fund management and compensation determine applicable securities/commodities obligations; a research disclaimer alone is insufficient.",
+      "value_proof": "Repeated workflow completion, source verification, time saved, paper-evaluation quality and retention.",
+      "options": [
+        "Price one coherent bundle.",
+        "Limit expensive data feeds and autonomous scope.",
+        "Prefer fixed software/service fees after review.",
+        "Withdraw regulated functionality or misleading positioning if unsupported."
+      ],
+      "strategy_status": "Founder-review hypothesis; not a published offer",
+      "scenario_assumptions": "Illustrative monthly cohort, not a forecast or live paid-user baseline. Costs and demand response require measurement."
+    },
+    {
+      "product_id": 12,
+      "name": "Quantsys",
+      "portfolio_role": "Technical execution/governance module; B2B design partners",
+      "target_user": "Quant developers and trading-technology teams needing controlled integrations and execution plumbing.",
+      "economic_buyer": "CTO/head of trading technology, with risk and compliance approval.",
+      "long_term_value": "Integration reliability, pre-execution controls and inspectable change history. Architecture does not demonstrate alpha or licensed market access.",
+      "pricing_strategy": "Propose fixed-scope $5,000–$15,000 technical pilots, then $1,000–$5,000/month per supported deployment plus agreed support. Data, broker and third-party costs are itemized; avoid open-ended custom engineering.",
+      "scenario_price_usd": 1500,
+      "scenario_unit": "supported deployment-month",
+      "partner_strategy": "Authorized broker/data/infrastructure partners gain supported integrations and their own contracted service fees. Use fixed integration fees; do not promise unreviewed trade-based rebates.",
+      "zero_ad_spend_path": "Technical reference implementation → synthetic/paper integration test → paid design partner → integration partner referrals.",
+      "physical_sales_trigger": "Technical founder sales first. Sales engineer only after several reproducible integrations and a clear procurement backlog; site visits for a qualified deployment/security need.",
+      "us_review": "Broker, exchange, data-license, adviser and derivatives activity review; maker/checker and kill switches do not replace registrations or permissions.",
+      "value_proof": "Integration acceptance, reliability, supported interfaces, incidents and deployment contribution.",
+      "options": [
+        "Reprice support tiers and integration complexity.",
+        "Limit supported venues/asset classes.",
+        "Replace opaque rebates with reviewed service contracts.",
+        "Withdraw a venue integration with a controlled migration."
+      ],
+      "strategy_status": "Founder-review hypothesis; not a published offer",
+      "scenario_assumptions": "Illustrative monthly cohort, not a forecast or live paid-user baseline. Costs and demand response require measurement."
+    },
+    {
+      "product_id": 13,
+      "name": "SMDP Design",
+      "portfolio_role": "Shared risk-design capability; workshop offer only if demanded",
+      "target_user": "Risk architects and governance teams exploring one control-design problem.",
+      "economic_buyer": "Risk/architecture lead sponsoring a scoped workshop.",
+      "long_term_value": "A reusable control specification and explicit unresolved assumptions. Sell a concrete artifact and review process, not a universal risk solution.",
+      "pricing_strategy": "Prefer inclusion in LiqMint/Atmasphere rather than a separate SaaS. Test a $1,500 fixed workshop with a defined deliverable if independent buyer demand is demonstrated.",
+      "scenario_price_usd": 1500,
+      "scenario_unit": "completed workshop",
+      "partner_strategy": "Specialist consultants gain complementary architecture work with clearly scoped responsibility. Fixed subcontract fees, with any project contribution share documented and capped.",
+      "zero_ad_spend_path": "Useful architecture notes → small technical workshop → module adoption in a primary product.",
+      "physical_sales_trigger": "No standalone sales hire; specialists join qualified product evaluations.",
+      "us_review": "Review advisory representations, professional obligations and any financial decision-making activity; do not claim regulator approval.",
+      "value_proof": "Accepted design artifact, assumptions resolved and attachment to a paid primary-product evaluation.",
+      "options": [
+        "Price scoped workshops.",
+        "Narrow design coverage.",
+        "Use documented subcontract economics.",
+        "Merge the module into a primary product if standalone demand is absent."
+      ],
+      "strategy_status": "Founder-review hypothesis; not a published offer",
+      "scenario_assumptions": "Illustrative monthly cohort, not a forecast or live paid-user baseline. Costs and demand response require measurement."
+    },
+    {
+      "product_id": 14,
+      "name": "Stablecoin Pipeline",
+      "portfolio_role": "Identity clarification hold; do not infer finance from name",
+      "target_user": "Unverified: portfolio material suggests a video workflow, while the name suggests finance. Verify the actual input, output and customer job.",
+      "economic_buyer": "Unverified until product purpose is confirmed.",
+      "long_term_value": "Measure a concrete workflow outcome only after product identity is resolved. A confusing name creates acquisition and compliance risk.",
+      "pricing_strategy": "No numerical price until the product brief is verified. If video automation is confirmed, test per completed output with explicit render/storage limits; if finance, perform activity-based review first.",
+      "scenario_price_usd": null,
+      "scenario_unit": "unverified",
+      "partner_strategy": "Define the actual distribution/service partner and cost responsibility before any commission proposal.",
+      "zero_ad_spend_path": "Clarify brief and name → 10 relevant discovery interviews → one measurable prototype evaluation; no broad campaign.",
+      "physical_sales_trigger": "No sales hire before verified positioning and paid demand.",
+      "us_review": "Apply financial or media/data rules only after activity verification; do not assume a stablecoin business.",
+      "value_proof": "Verified brief, measurable outcome and genuine willingness to pay.",
+      "options": [
+        "Reprice only a verified offer.",
+        "Redesign scope or name to remove ambiguity.",
+        "Defer partner payouts.",
+        "Merge/archive if the job duplicates another product."
+      ],
+      "strategy_status": "Founder-review hypothesis; not a published offer",
+      "scenario_assumptions": "Illustrative monthly cohort, not a forecast or live paid-user baseline. Costs and demand response require measurement."
+    },
+    {
+      "product_id": 15,
+      "name": "Vanguard GTM",
+      "portfolio_role": "Conditional partner-operations offer; validate identity",
+      "target_user": "Hypothesis: small B2B operators managing partner-sourced opportunities. The current standalone brief must be verified.",
+      "economic_buyer": "Founder or partnerships lead, if that job is confirmed.",
+      "long_term_value": "An attributable partner pipeline, fewer disputed referrals and documented commercial responsibility. Verify these capabilities before selling them.",
+      "pricing_strategy": "Conditional hypothesis: $99/month per team after paid discovery demonstrates independent demand. If this is only a portfolio capability, bundle it into AgentVire instead of adding another subscription.",
+      "scenario_price_usd": null,
+      "scenario_unit": "unverified partner team",
+      "partner_strategy": "Partners gain attribution and clear payout rules. Share only contract-defined program contribution, with collection, refunds, attribution and audit rights agreed; do not claim all partner profits.",
+      "zero_ad_spend_path": "Founder partner interviews → one shared pipeline pilot → measurable attribution outcome → partner introductions.",
+      "physical_sales_trigger": "No sales team until a standalone offer and repeatable paying segment are proven.",
+      "us_review": "Affiliate disclosures, compensation agreements and activity-specific financial restrictions where the pipeline involves securities or regulated products.",
+      "value_proof": "Qualified partner-sourced wins, contribution after payout, payout disputes and renewal.",
+      "options": [
+        "Set a price only after standalone value is verified.",
+        "Narrow to attribution/operations.",
+        "Codify margin-capped payouts.",
+        "Bundle or withdraw the standalone SKU if duplicative."
+      ],
+      "strategy_status": "Founder-review hypothesis; not a published offer",
+      "scenario_assumptions": "Illustrative monthly cohort, not a forecast or live paid-user baseline. Costs and demand response require measurement."
+    },
+    {
+      "product_id": 16,
+      "name": "Vireoka Website",
+      "portfolio_role": "Acquisition cost center; not another SaaS SKU",
+      "target_user": "Financial software buyers, institutional champions and qualified partners researching the portfolio.",
+      "economic_buyer": "Budget holder of the referred product; website visitors are not separately paying customers.",
+      "long_term_value": "Credible product routing, evidence and procurement information. Its economic value is attributable qualified pipeline and lower sales friction.",
+      "pricing_strategy": "No independent subscription. Allocate website cost to benefiting products using measured qualified pipeline or activity; do not double-count downstream revenue.",
+      "scenario_price_usd": null,
+      "scenario_unit": "qualified portfolio inquiry",
+      "partner_strategy": "Partners receive accurate product routing and co-marketing with permission. Commercial terms belong to the product contract, not a blanket share of portfolio profit.",
+      "zero_ad_spend_path": "Specific problem pages → useful evidence/demo → consented inquiry → correct product owner → measured sales outcome.",
+      "physical_sales_trigger": "No website sales team; support institutional selling only after a qualified product opportunity exists.",
+      "us_review": "Accurate claims and disclosures; any fundraising/financial promotion requires separate review.",
+      "value_proof": "Qualified inquiry-to-opportunity rate, routed pipeline and attributable contribution, not traffic alone.",
+      "options": [
+        "No website repricing.",
+        "Remove low-value coverage/pages.",
+        "Attribute product partner agreements correctly.",
+        "Retire duplicate pages while preserving useful routing."
+      ],
+      "strategy_status": "Founder-review hypothesis; not a published offer",
+      "scenario_assumptions": "Illustrative monthly cohort, not a forecast or live paid-user baseline. Costs and demand response require measurement."
+    },
+    {
+      "product_id": 17,
+      "name": "Atmakosh Website",
+      "portfolio_role": "Acquisition cost center and governance portfolio storefront",
+      "target_user": "Enterprise AI/governance buyers and consumer-product partners needing the relevant product.",
+      "economic_buyer": "Buyer of the routed product; no independent website purchaser.",
+      "long_term_value": "Clear evaluation paths, credible technical evidence and a consistent portfolio story. Reduce confusion between unrelated products.",
+      "pricing_strategy": "No independent subscription. Attribute qualified pipeline to the appropriate product and allocate actual site cost without recognizing the same sale twice.",
+      "scenario_price_usd": null,
+      "scenario_unit": "qualified governance inquiry",
+      "partner_strategy": "Integrators get understandable evaluation material and qualified introductions; use product-level, contract-defined economics.",
+      "zero_ad_spend_path": "Technical/use-case content → evidence-backed evaluation → correct product team → consented customer/partner reference.",
+      "physical_sales_trigger": "No separate sales headcount; share product-qualified enterprise resources.",
+      "us_review": "Accurate AI/security claims, privacy and applicable sector obligations; do not present the portfolio as regulator-certified.",
+      "value_proof": "Qualified evaluation starts, correct routing, conversion and attributable retained contribution.",
+      "options": [
+        "No independent website price.",
+        "Focus the story and remove unsupported claims.",
+        "Keep commission attribution at product level.",
+        "Merge redundant portfolio experiences if they create confusion."
+      ],
+      "strategy_status": "Founder-review hypothesis; not a published offer",
+      "scenario_assumptions": "Illustrative monthly cohort, not a forecast or live paid-user baseline. Costs and demand response require measurement."
+    }
+  ],
+  "sources": [
+    {
+      "name": "FinCEN CVC business-model guidance",
+      "url": "https://www.fincen.gov/resources/statutes-regulations/guidance/application-fincens-regulations-certain-business-models",
+      "use": "Activity-based money-transmission scope; not a SaaS margin rule."
+    },
+    {
+      "name": "SEC robo-adviser guidance",
+      "url": "https://www.sec.gov/investment/im-guidance-2017-02.pdf",
+      "use": "Advisory activity and duties require assessment; software labeling is insufficient."
+    },
+    {
+      "name": "SEC broker-dealer registration guide",
+      "url": "https://www.sec.gov/about/divisions-offices/division-trading-markets/division-trading-markets-compliance-guides/guide-broker-dealer-registration",
+      "use": "Review transaction-related compensation and brokerage activity."
+    },
+    {
+      "name": "NFA CTA members",
+      "url": "https://www.nfa.futures.org/members/cta/index.html",
+      "use": "Commodity-interest advice/compensation scope where applicable."
+    },
+    {
+      "name": "FTC endorsement guidance",
+      "url": "https://www.ftc.gov/business-guidance/resources/ftcs-endorsement-guides-what-people-are-asking",
+      "use": "Material partner/affiliate relationships need appropriate disclosure."
+    },
+    {
+      "name": "IRS private benefit and inurement",
+      "url": "https://www.irs.gov/charities-non-profits/charitable-organizations/inurement-private-benefit-charitable-organizations",
+      "use": "Relevant if Charam operates through a charitable entity; status not verified."
+    },
+    {
+      "name": "FTC negative option rule docket",
+      "url": "https://www.ftc.gov/legal-library/browse/rules/negative-option-rule",
+      "use": "Check current rule status and applicable federal/state subscription requirements; do not assume a superseded draft is effective."
+    }
+  ]
+}

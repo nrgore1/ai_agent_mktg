@@ -7,11 +7,16 @@ from urllib.parse import urlsplit, parse_qs
 from .core import Invalid, now
 from .platform import Platform
 from .identity import Identity
+from .marketing_consent import MarketingConsent, brand_for_host, PREFIX
+from .marketing_page import page as marketing_page
+from .marketing_registry import BrandRegistry
+from .marketing_rights import MarketingRights
+from .marketing_lifecycle import MarketingLifecycle
 
 def main():
  parser=argparse.ArgumentParser();parser.add_argument('--host',default='127.0.0.1');parser.add_argument('--port',type=int,default=8098);args=parser.parse_args()
  path=Path(os.environ.get('GROWTHPILOT_DB','data/growthpilot.db'));path.parent.mkdir(parents=True,exist_ok=True)
- store=Platform(path);identity=Identity(store);identity.bootstrap(path.parent)
+ store=Platform(path);identity=Identity(store);identity.bootstrap(path.parent);subscriptions=MarketingConsent(store);registry=BrandRegistry(store);MarketingRights(subscriptions).reconcile_erasure()
  secure=os.environ.get('GROWTHPILOT_SECURE_COOKIE')=='true'
  class Handler(BaseHTTPRequestHandler):
   def log_message(self,*args):pass
@@ -40,14 +45,34 @@ def main():
    return not origin or urlsplit(origin).netloc==self.headers.get('Host')
   def do_GET(self):
    path=urlsplit(self.path).path
-   if path=='/health':return self.send(200,{'status':'ok','mode':'approval-governed','version':'0.3.0'})
-   assets={'/':'index.html','/app.js':'app.js','/style.css':'style.css','/console.js':'console.js','/roadmap.js':'roadmap.js','/launchdesk.js':'launchdesk.js'}
+   if path=='/health':return self.send(200,{'status':'ok','mode':'approval-governed','version':'0.5.0'})
+   if path.startswith(PREFIX):
+    try:
+     brand,brand_config=registry.resolve(self.headers.get('Host',''),self.headers,'GET',path)
+     suffix=path[len(PREFIX):]
+     if suffix in ('','confirm','withdraw','rights'):return self.send(200,marketing_page(brand,suffix,brand_config),'text/html; charset=utf-8')
+     if suffix in ('form.js','form.css'):return self.send(200,(Path(__file__).parent/'static'/('marketing-'+suffix)).read_bytes(),'text/javascript' if suffix.endswith('.js') else 'text/css')
+     return self.send(404,{'error':'Not found'})
+    except Invalid:return self.send(404,{'error':'Unknown subscription site'})
+   assets={'/':'index.html','/app.js':'app.js','/style.css':'style.css','/console.js':'console.js','/roadmap.js':'roadmap.js','/launchdesk.js':'launchdesk.js','/strategyos.js':'strategyos.js','/execution.js':'execution.js','/integrations.js':'integrations.js'}
    if path in assets:
     ctype='text/html; charset=utf-8' if path=='/' else 'text/css' if path.endswith('.css') else 'text/javascript'
     return self.send(200,(Path(__file__).parent/'static'/assets[path]).read_bytes(),ctype)
    user=self.user()
    if not user:return self.send(401,{'error':'Sign in required'})
    try:
+    if path=='/api/integrations':
+     if user['role'] not in ('founder','admin'):return self.send(403,{'error':'Administrator required for integrations'})
+     from .integrations import IntegrationHub
+     return self.send(200,IntegrationHub(store).overview())
+    if path=='/api/execution':
+     if user['role'] not in ('founder','admin'):return self.send(403,{'error':'Administrator required for strategy execution'})
+     from .execution import Execution
+     return self.send(200,Execution(store).summary())
+    if path=='/api/strategy':
+     if user['role'] not in ('founder','admin'):return self.send(403,{'error':'Administrator required for product economics'})
+     from .economics import StrategyOS
+     return self.send(200,StrategyOS(store).overview())
     if path=='/api/me':return self.send(200,user)
     if path=='/api/state':return self.send(200,self.readable_state(user))
     if path=='/api/report':
@@ -62,10 +87,29 @@ def main():
    if not self.origin_ok():return self.send(403,{'error':'Origin rejected'})
    try:
     size=int(self.headers.get('Content-Length','0'))
-    if size<0 or size>262144:return self.send(413,{'error':'Request too large'})
-    data=json.loads(self.rfile.read(size) or '{}')
+    if size<0 or size>(16384 if urlsplit(self.path).path.startswith(PREFIX) else 262144):return self.send(413,{'error':'Request too large'})
+    raw_body=self.rfile.read(size);data=json.loads(raw_body or '{}')
     if not isinstance(data,dict):raise Invalid('JSON object required')
     path=urlsplit(self.path).path;parts=path.strip('/').split('/')
+    if path=='/internal/marketing/account':
+     return self.send(200,MarketingLifecycle(store).account(self.headers,raw_body))
+    if path.startswith(PREFIX):
+     brand,brand_config=registry.resolve(self.headers.get('Host',''),self.headers,'POST',path,raw_body)
+     subscriptions=MarketingConsent(store,brands={**registry.all(),brand:brand_config})
+     rights=MarketingRights(subscriptions)
+     origin=urlsplit(self.headers.get('Origin',''))
+     if origin.scheme!='https' or origin.netloc!=self.headers.get('Host') or self.headers.get_content_type()!='application/json':return self.send(403,{'error':'Origin or content type rejected'})
+     action=path.removeprefix(PREFIX+'api/')
+     if action in ('subscribe','manage'):return self.send(200,subscriptions.request(brand,data,self.client_address[0],manage=action=='manage'))
+     if action=='rights-request':return self.send(200,rights.request(brand,data,self.client_address[0]))
+     if action=='rights-delete':
+      if set(data)!={'token','confirm_erasure'}:raise Invalid('Invalid deletion request')
+      return self.send(200,rights.erase(brand,data['token'],data['confirm_erasure']))
+     if set(data)!={'token'}:raise Invalid('Invalid preference request')
+     if action=='rights-export':return self.send(200,rights.export(brand,data['token']))
+     if action=='confirm':return self.send(200,subscriptions.confirm(brand,data['token']))
+     if action=='withdraw':return self.send(200,subscriptions.withdraw(brand,data['token']))
+     return self.send(404,{'error':'Not found'})
     if path=='/api/login':
      session=identity.login(str(data.get('username',''))[:80],str(data.get('password',''))[:1024],self.client_address[0])
      if not session:return self.send(401,{'error':'Invalid username or password'})
@@ -94,7 +138,32 @@ def main():
      if kind in ('products','channels','evidence') and not admin:return self.send(403,{'error':'Administrator verification required'})
      if product is not None and not self.allowed(user,product):return self.send(403,{'error':'Product access denied'})
     if 'product_id' in data and not self.allowed(user,data['product_id']):return self.send(403,{'error':'Product access denied'})
-    if path=='/api/manager/prepare':result=store.manager().prepare(user['username'])
+    if path.startswith('/api/integrations/'):
+     if not admin:return self.send(403,{'error':'Administrator required for integrations'})
+     from .integrations import IntegrationHub
+     result=IntegrationHub(store).dispatch(path.removeprefix('/api/integrations/'),data,user['username'])
+    elif path in ('/api/execution/prepare','/api/execution/task'):
+     if not admin:return self.send(403,{'error':'Administrator required for strategy execution'})
+     from .execution import Execution
+     engine=Execution(store)
+     if path.endswith('/prepare'):
+      if data:raise Invalid('Preparation accepts no commercial overrides')
+      result=engine.prepare(user['username'])
+     else:result=engine.transition(data,user['username'])
+    elif path in ('/api/strategy/run','/api/strategy/financials'):
+     if not admin:return self.send(403,{'error':'Administrator required for product economics'})
+     from .economics import StrategyOS
+     engine=StrategyOS(store)
+     if path.endswith('/run'):
+      if set(data)-{'product_id','inputs','mode'}:raise Invalid('Unsupported analysis request')
+      mode=data.get('mode','illustrative')
+      if mode not in ('actual_only','illustrative'):raise Invalid('Unknown analysis mode')
+      if mode=='actual_only':
+       if data.get('inputs'):raise Invalid('Actual-only analysis cannot accept scenario assumptions')
+       result=engine.run_actual(data.get('product_id'),user['username'])
+      else:result=engine.run(data.get('product_id'),data.get('inputs'),user['username'])
+     else:result=engine.import_financials(data,user['username'])
+    elif path=='/api/manager/prepare':result=store.manager().prepare(user['username'])
     elif path=='/api/manager/review':result=store.manager().review(user['username'])
     elif path=='/api/manager/outreach':result=store.manager().outreach(data.get('lead_id'),user['username'])
     elif path=='/api/manager/record':result=store.manager().activity_record(data.get('kind'),data.get('record',{}),user['username'])
@@ -128,11 +197,14 @@ def main():
     logging.exception('API operation failed');return self.send(500,{'error':'Operation not confirmed; inspect server logs'})
  def pathlib_backup(unused):return path.parent/'backups'
  def worker():
-  last_backup=''
+  last_backup='';last_retention=''
   while True:
    try:
+    MarketingRights(subscriptions).reconcile_erasure()
     store.tick()
     today=dt.datetime.now(dt.timezone.utc).date().isoformat()
+    if today!=last_retention and os.environ.get('GROWTHPILOT_ENABLE_RETENTION')=='true':
+     MarketingLifecycle(store).retention(apply=True);last_retention=today
     if today!=last_backup:
      store.backup(path.parent/'backups');last_backup=today
      with store.db() as db:store.audit(db,'daily_backup','system',{'date':today},'worker')

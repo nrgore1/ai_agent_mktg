@@ -1,0 +1,20 @@
+{
+  "jodi": {
+    "passed": true,
+    "restored_deleted_account_blocked": true,
+    "reused_id_protected": true,
+    "unsafe_paths_rejected": true,
+    "corrupt_checkpoint_rejected": true
+  },
+  "memoire": {
+    "passed": true,
+    "restored_deleted_account_blocked": true,
+    "reused_id_protected": true,
+    "unsafe_paths_rejected": true,
+    "corrupt_checkpoint_rejected": true
+  },
+  "wedding": {
+    "passed": true,
+    "restored_deleted_account_blocked": true
+  }
+}

@@ -1,0 +1,188 @@
+{
+  "wedding": {
+    "passed": true,
+    "checks": [
+      {
+        "check": "account export includes scoped central consent",
+        "passed": true
+      },
+      {
+        "check": "member cannot process deletion as administrator",
+        "passed": true
+      },
+      {
+        "check": "connection failure does not complete deletion",
+        "passed": true
+      },
+      {
+        "check": "account unchanged after outage",
+        "passed": true
+      },
+      {
+        "check": "verified account deletion completes",
+        "passed": true
+      },
+      {
+        "check": "completed deletion retry succeeds",
+        "passed": true
+      },
+      {
+        "check": "deleted account access token revoked",
+        "passed": true
+      },
+      {
+        "check": "account identifiers and verification removed",
+        "passed": true
+      },
+      {
+        "check": "all session device and IP metadata removed",
+        "passed": true
+      },
+      {
+        "check": "external deletion recovery evidence retained",
+        "passed": true
+      },
+      {
+        "check": "old exported personal data removed",
+        "passed": true
+      },
+      {
+        "check": "central erasure receipt recorded",
+        "passed": true
+      },
+      {
+        "check": "legal hold prevents erasure",
+        "passed": true
+      }
+    ],
+    "customer_emails": 0
+  },
+  "jodi": {
+    "passed": true,
+    "checks": [
+      {
+        "check": "account export includes central consent",
+        "passed": true
+      },
+      {
+        "check": "outage preserves account and profile",
+        "passed": true
+      },
+      {
+        "check": "storage failure preserves account for retry",
+        "passed": true
+      },
+      {
+        "check": "gallery voice and support attachment objects removed",
+        "passed": true
+      },
+      {
+        "check": "subject audit device metadata and agent content minimized",
+        "passed": true
+      },
+      {
+        "check": "external account recovery evidence retained",
+        "passed": true
+      },
+      {
+        "check": "verified account and marketing deleted",
+        "passed": true
+      },
+      {
+        "check": "tenant owner acceptance untouched",
+        "passed": true
+      },
+      {
+        "check": "unverified address requires mailbox proof",
+        "passed": true
+      },
+      {
+        "check": "legacy inactive date not guessed as closure",
+        "passed": true
+      }
+    ],
+    "customer_emails": 0
+  },
+  "memoire": {
+    "passed": true,
+    "checks": [
+      {
+        "check": "anonymous account deletion denied",
+        "passed": true
+      },
+      {
+        "check": "explicit deletion required",
+        "passed": true
+      },
+      {
+        "check": "last shared owner must transfer ownership",
+        "passed": true
+      },
+      {
+        "check": "outage leaves request retryable",
+        "passed": true
+      },
+      {
+        "check": "outage preserves data",
+        "passed": true
+      },
+      {
+        "check": "anonymous uploads denied",
+        "passed": true
+      },
+      {
+        "check": "signed uploads replaced by authenticated direct mode",
+        "passed": true
+      },
+      {
+        "check": "authenticated object upload succeeds",
+        "passed": true
+      },
+      {
+        "check": "upload owner tracked without email",
+        "passed": true
+      },
+      {
+        "check": "object failure leaves account retryable",
+        "passed": true
+      },
+      {
+        "check": "owned media removed from object storage",
+        "passed": true
+      },
+      {
+        "check": "external deletion evidence retained",
+        "passed": true
+      },
+      {
+        "check": "account deletion completes",
+        "passed": true
+      },
+      {
+        "check": "unverified marketing needs mailbox proof",
+        "passed": true
+      },
+      {
+        "check": "shared workspace and other member preserved",
+        "passed": true
+      },
+      {
+        "check": "owned records and UUID-linked legacy data removed",
+        "passed": true
+      },
+      {
+        "check": "deleted token cannot export",
+        "passed": true
+      }
+    ],
+    "customer_emails": 0
+  },
+  "cross_product": {
+    "passed": true,
+    "verified_accounts_erased": 2,
+    "unverified_accounts_required_mailbox_proof": 2,
+    "all_fixture_contact_details_removed": true,
+    "audit_valid": true,
+    "customer_emails": 0
+  }
+}

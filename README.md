@@ -1,6 +1,14 @@
 # GrowthPilot / AgentVire
 
-Approval-governed portfolio marketing operations for 17 products and 50 channels. Version 0.3.0 includes individual login, role/product scopes, a founder approval console, evidence capture and review, editable product/CRM records, recurring campaigns, experiments, UTM analytics ingestion, reports, local Kimi support and a durable guarded delivery queue.
+Approval-governed portfolio marketing operations for 17 products and 50 channels. The current implementation includes individual login, role/product scopes, a founder approval console, evidence capture and review, editable product/CRM records, recurring campaigns, experiments, UTM analytics ingestion, reports, local Kimi support and a durable guarded delivery queue.
+
+## Integration release 0.5.0
+
+The nine original provider interfaces now have an Integrations desk with read-only connection checks, built-in CRM and analytics, protected finance evidence, and approval-governed social/calendar handoffs. See [workflow, API and remaining account dependencies](docs/prd-integrations-0.5.0.md). External CRM and social/calendar accounts are not implicitly connected. Product engineering remains outside this release.
+
+## Original PRD closeout
+
+The mock-capable marketing core is documented and regression-tested; the complete long-term multi-provider vision and all portfolio launches are not declared finished. See [scope and evidence](docs/requirements.md), [design and architecture](docs/architecture.md), [programmer manual](docs/programmer-manual.md), [user guide](docs/user-guide.md) and [runbook](docs/runbook.md). The 30 October 2026 closeout passed 187 tests. Private commercial inputs remain outside Git.
 
 ## Run locally (Ubuntu WSL2)
 
@@ -48,3 +56,23 @@ The automated suite covers governance, session authentication, CSRF, permissions
 ## Launch Desk
 
 [Launch & Learn operating guide](docs/launch-learn-operations.md): all-product campaign packages, activation journeys, demos, feedback and measured manager reviews. Postmark sender routing and exact-action approval are enforced.
+
+
+## Product strategy and economics OS (0.4)
+
+Open `/?view=strategyos` as a founder/admin. The module contains 17 founder-review strategy dossiers, a versioned internal U.S.-scope policy, financial input reconciliation, a cost-allocation challenge, and reprice/redesign/commission/withdrawal scenario comparisons. It has no commercial execution connector.
+
+`GET /api/strategy` returns the private overview. `POST /api/strategy/run` accepts an optional `product_id` and allowlisted `inputs`. `POST /api/strategy/financials` records explicit completed-period USD aggregates with a source digest, allocation basis and reconciliation attestation. All endpoints require founder/admin access; writes require CSRF. Financial revisions and analysis runs are audited. Runs include the exact economics-engine source digest as well as policy, strategy and input/source provenance. Normalized input validation deliberately rejects missing cost amounts rather than substituting zero.
+
+Production aggregates belong in the protected data-volume file `economics-source.json`, which is excluded from Git. The checked-in scripts collect only read-only aggregates with statement timeouts; execute through the authorized server account, never expose credentials or export raw customers. OraToPlus uses its separate production Django connection; record that source separately. A snapshot is not a continuous live feed.
+
+The internal CM2 target is a draft business policy, not U.S. law. Regulatory margin, deadlines and capital remain not evaluable without an applicable sourced rule and reviewed activity/entity/state scope. Actual margin requires reconciled finance inputs. Catalog prices, trials, free users and operational payment events are not recognized revenue. Default model cohorts, costs, elasticities, partner attrition and cash timing are illustrative. Do not sum alternative module scenarios into portfolio revenue.
+
+Partner commissions in the model apply only to partner-attributed sales. The commission-cut scenario reduces partner-sourced volume and recalculates the surviving partner share. Shared delivery cost remains committed in withdrawal. Planning cash is a simplified setup/receivables/reserve/burn-buffer proxy, never a regulatory capital assessment. Paid pricing, coverage, payout and withdrawal changes remain separately approved business actions.
+
+
+### Actual financial reconciliation
+
+`scripts/collect_actual_finance.py` runs on the authorized VPS and uses GET-only Stripe requests and read-only SQL. Secret values and transaction references stay in process on the VPS; only aggregates are persisted. It collects a completed 30-day America/New_York window, paginates completely or reports failure, deduplicates shared Stripe account identity across configured products, separates charge/fee/refund/payout categories and matches local references without exporting them. Processor movements are not recognized revenue or confirmed bank receipts. Test keys are excluded. Missing/invalid credentials and empty expense tables remain explicit gaps.
+
+Attach its aggregate JSON as `actual_finance` in the protected economics source snapshot. Founder/admin `POST /api/strategy/run` with `{"mode":"actual_only"}` records a provenance-linked actual-only assessment for every product. It never calls scenario defaults or invents demand, commission response, or capital forecasts. Complete attested finance closes can supply historical CM2; incomplete products remain unavailable. Pricing and commission execution remains disabled. No recurring collection is implied.
