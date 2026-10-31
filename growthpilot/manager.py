@@ -134,6 +134,12 @@ class Manager:
   if payload.get('sender')!=('naren@vireoka.com' if p['id'] in (1,2) else 'naren@atmakosh.com'):raise Invalid('Sender does not match product')
   if not payload.get('content','').strip() or not payload.get('account','').strip():raise Invalid('Exact content and account required')
   if any(c not in p.get('approved_claims',[]) for c in payload.get('claims',[])):raise Invalid('Unsupported product claim')
+  if payload.get('kind')=='calendar_handoff':
+   from .integrations import calendar_event
+   calendar_event(payload.get('calendar_event'))
+   calendar_url=urlsplit(payload.get('destination',''))
+   if calendar_url.username or calendar_url.password or calendar_url.port not in (None,443):raise Invalid('Invalid calendar destination')
+   if payload.get('channel') not in ('calendar.google.com','outlook.office.com','outlook.live.com'):raise Invalid('Calendar destination required')
   if payload['connector']=='manual':
    host=(urlsplit(payload.get('destination','')).hostname or '').removeprefix('www.')
    if host!=payload.get('channel') or not payload['destination'].startswith('https://'):raise Invalid('Exact destination must belong to selected channel')
@@ -177,7 +183,9 @@ class Manager:
     approval=a.get('approval')
     if self.s.paused(db) or a['status']!='approved' or not approval or approval['hash']!=digest(a['payload']) or approval['version']!=a['version'] or dt.datetime.fromisoformat(approval['expires_at'])<=current:raise Invalid('Current, unexpired founder approval required')
     if a['payload']['connector']!='manual':raise Invalid('Manual package required')
-    if command=='export':return {'package':a['payload'],'payload_hash':a['payload_hash'],'version':a['version'],'delivery':'manual; not submitted by export'}
+    if command=='export':
+     self.s.audit(db,'launch_export',id,{'hash':a['payload_hash'],'version':a['version']},actor)
+     return {'package':a['payload'],'payload_hash':a['payload_hash'],'version':a['version'],'delivery':'manual; not submitted by export'}
     url=data.get('receipt_url','');host=(urlsplit(url).hostname or '').removeprefix('www.')
     if not url.startswith('https://') or host!=a['payload']['channel'] or not data.get('note'):raise Invalid('Submission URL on the approved channel and a receipt note required')
     a.update(status='submitted',receipt={'at':now(),'url':url,'note':str(data['note'])[:2000],'payload_hash':a['payload_hash'],'verification':'founder_reported','external_delivery':'reported_by_founder'})

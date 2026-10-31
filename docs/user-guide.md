@@ -125,3 +125,8 @@ The life-events theme connects dating/community, wedding planning and keepsakes 
 The founder's provisional commercial approval is conditional on relevant research and at least 75% operating margin. It does not replace exact-action approval, actual cost verification, claim evidence, product readiness or recipient eligibility. The internal margin target is not a U.S. regulatory margin rule. Free offers have no positive margin and need an explicit acquisition budget.
 
 The founder edition explains all 17 product playbooks, comparable offerings, provisional prices, referral terms, scenario sensitivity and remaining assumptions. Do not treat those proposals as a billing change or overwrite existing customer agreements. Keep the detailed commercial inputs in the protected operating environment.
+
+
+## Original PRD integration release 0.5.0
+
+See [integration contracts, operating workflow and release boundary](prd-integrations-0.5.0.md) for the nine-provider desk, consent-preserving CRM exchange, approved social/calendar handoffs, payment evidence and test coverage. Product-specific development remains on separate backlogs.

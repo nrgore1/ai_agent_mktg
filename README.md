@@ -2,6 +2,10 @@
 
 Approval-governed portfolio marketing operations for 17 products and 50 channels. The current implementation includes individual login, role/product scopes, a founder approval console, evidence capture and review, editable product/CRM records, recurring campaigns, experiments, UTM analytics ingestion, reports, local Kimi support and a durable guarded delivery queue.
 
+## Integration release 0.5.0
+
+The nine original provider interfaces now have an Integrations desk with read-only connection checks, built-in CRM and analytics, protected finance evidence, and approval-governed social/calendar handoffs. See [workflow, API and remaining account dependencies](docs/prd-integrations-0.5.0.md). External CRM and social/calendar accounts are not implicitly connected. Product engineering remains outside this release.
+
 ## Original PRD closeout
 
 The mock-capable marketing core is documented and regression-tested; the complete long-term multi-provider vision and all portfolio launches are not declared finished. See [scope and evidence](docs/requirements.md), [design and architecture](docs/architecture.md), [programmer manual](docs/programmer-manual.md), [user guide](docs/user-guide.md) and [runbook](docs/runbook.md). The 30 October 2026 closeout passed 187 tests. Private commercial inputs remain outside Git.

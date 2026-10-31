@@ -94,3 +94,8 @@ The application does not provide a complete external monitoring service. Assign 
 Full social connectors, CRM synchronization, continuous accounting feeds, off-host audit anchoring, independent disaster recovery, stronger identity and scale migration remain separate work. Product grading and native media/provider-history tasks remain with their products. Preserve the original AgentVire release boundary instead of reopening all portfolio engineering whenever a marketing dependency is missing.
 
 The implementation modules and tests are the final authority for exact payload schemas. When behavior changes, update this manual, API documentation and user instructions in the same release. Keep private accounting inputs, provider secrets and raw customer records outside the repository.
+
+
+## Original PRD integration release 0.5.0
+
+See [integration contracts, operating workflow and release boundary](prd-integrations-0.5.0.md) for the nine-provider desk, consent-preserving CRM exchange, approved social/calendar handoffs, payment evidence and test coverage. Product-specific development remains on separate backlogs.

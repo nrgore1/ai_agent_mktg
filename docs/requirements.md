@@ -44,3 +44,8 @@ Launch Desk, strategy economics, conditional commercial policy and marketing con
 Five products remain internal: SDIS, One-Man Hedge Fund, Quantsys, SMDP Design and Stablecoin Pipeline. CoffeeBook uses the Memoire domain and shares its launch track. JodiUSA is a Jodibana tenant, not an eighteenth product.
 
 P0 external launch prerequisites remain supported product claims, working activation, exact publishing account, eligible audience, required email footer details and actual commercial validation. P1 platform work includes full provider integrations, independent monitoring, off-host recovery/audit and stronger identity. Scale migration requires measured need. No runtime, billing, commission or campaign execution change is included in this documentation closeout.
+
+
+## Original PRD integration release 0.5.0
+
+See [integration contracts, operating workflow and release boundary](prd-integrations-0.5.0.md) for the nine-provider desk, consent-preserving CRM exchange, approved social/calendar handoffs, payment evidence and test coverage. Product-specific development remains on separate backlogs.

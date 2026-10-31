@@ -106,4 +106,51 @@ class HttpTests(unittest.TestCase):
   self.assertEqual(e.exception.code,403)
   with self.assertRaises(urllib.error.HTTPError) as e:self.call(o,'execution/prepare',{'execute':True},c)
   self.assertEqual(e.exception.code,400)
+
+ def test_integration_auth_csrf_and_product_roles(self):
+  for role in ('operator','viewer'):
+   o,c=self.client(role)
+   with self.assertRaises(urllib.error.HTTPError) as e:self.call(o,'integrations')
+   self.assertEqual(e.exception.code,403)
+   with self.assertRaises(urllib.error.HTTPError) as e:self.call(o,'integrations/crm-export',{'product_id':1},c)
+   self.assertEqual(e.exception.code,403)
+  o,c=self.client()
+  with self.assertRaises(urllib.error.HTTPError) as e:self.call(o,'integrations/check',{'connector':'llm'})
+  self.assertEqual(e.exception.code,403)
+  self.assertEqual(len(self.call(o,'integrations')['integrations']),9)
+  with urllib.request.urlopen(self.url+'/integrations.js') as r:self.assertIn(b'CRM exchange',r.read())
+
+ def test_full_prd_workflow_with_integrations(self):
+  # Entirely isolated synthetic server: no customer events or messages are produced.
+  o,c=self.client()
+  e=self.call(o,'evidence',{'product_id':4,'source':'https://example.test/reference','excerpt':'Synthetic reviewed workflow reference'},c)
+  self.call(o,'records/evidence/'+e['id'],{'status':'verified'},c)
+  self.call(o,'records/products/4',{'website':'https://example.test','readiness':'verified','approved_claims':['Synthetic test feature'],'claim_evidence':{'Synthetic test feature':[e['id']]}},c)
+  plan=self.call(o,'plan',{'product_id':4},c);a=plan['action']
+  a=self.call(o,'actions/'+a['id']+'/revise',{'claims':['Synthetic test feature'],'evidence':[{'source':e['id'],'note':'Verified fixture'}]},c)
+  self.call(o,'actions/'+a['id']+'/approve',{'payload_hash':a['payload_hash']},c)
+  result=self.call(o,'actions/'+a['id']+'/execute',{},c)
+  self.assertFalse(result['receipt']['external_delivery'])
+  self.assertEqual(self.call(o,'actions/'+a['id']+'/execute',{},c)['receipt'],result['receipt'])
+  data={'product_id':4,'csv':'name,email,organization,pipeline,source\nExample,test@example.test,Org,customer,Synthetic fixture\n','request_id':'workflow-import-1','preview':False}
+  self.assertEqual(self.call(o,'integrations/crm-import',data,c)['created'],1)
+  self.assertTrue(self.call(o,'integrations/crm-import',data,c)['replay'])
+  handoff={'product_id':4,'campaign_id':plan['campaign']['id'],'kind':'calendar','destination':'https://calendar.google.com/calendar/u/0/r','account':'Synthetic owner','title':'Synthetic meeting','content':'Workflow review','calendar_event':{'start':'2026-11-10T14:00:00-05:00','end':'2026-11-10T14:30:00-05:00','location':'Online'},'request_id':'workflow-calendar-1'}
+  a=self.call(o,'integrations/handoff',handoff,c)
+  with self.assertRaises(urllib.error.HTTPError):self.call(o,'integrations/calendar-export',{'action_id':a['id']},c)
+  a=self.call(o,'actions/'+a['id']+'/revise',{'attestations':{'product_facts':True,'channel_rules':True,'destination':True}},c)
+  self.call(o,'actions/'+a['id']+'/approve',{'payload_hash':a['payload_hash']},c)
+  output=self.call(o,'integrations/calendar-export',{'action_id':a['id']},c)
+  self.assertIn('BEGIN:VEVENT',output['content']);self.assertFalse(output['external_delivery'])
+  key=self.call(o,'keys',{'product_id':4,'name':'isolated-workflow'},c)['key']
+  event={'product_id':4,'idempotency_key':'synthetic-paid-1','type':'paid','count':1,'revenue_cents':2500,'cost_cents':100,'campaign_id':plan['campaign']['id'],'utm_source':'integration-test'}
+  def ingest(value):
+   request=urllib.request.Request(self.url+'/api/ingest',data=json.dumps(value).encode(),headers={'Content-Type':'application/json','Authorization':'Bearer '+key})
+   return json.load(urllib.request.urlopen(request,timeout=15))
+  self.assertFalse(ingest(event)['duplicate']);self.assertTrue(ingest(event)['duplicate'])
+  with self.assertRaises(urllib.error.HTTPError):ingest(dict(event,product_id=1,idempotency_key='wrong-product'))
+  report=self.call(o,'report?product_id=4')
+  self.assertEqual(report['revenue_cents'],2500)
+  self.assertTrue(self.call(o,'audit/verify')['valid'])
+
 if __name__=='__main__':unittest.main()

@@ -45,7 +45,7 @@ def main():
    return not origin or urlsplit(origin).netloc==self.headers.get('Host')
   def do_GET(self):
    path=urlsplit(self.path).path
-   if path=='/health':return self.send(200,{'status':'ok','mode':'approval-governed','version':'0.4.1'})
+   if path=='/health':return self.send(200,{'status':'ok','mode':'approval-governed','version':'0.5.0'})
    if path.startswith(PREFIX):
     try:
      brand,brand_config=registry.resolve(self.headers.get('Host',''),self.headers,'GET',path)
@@ -54,13 +54,17 @@ def main():
      if suffix in ('form.js','form.css'):return self.send(200,(Path(__file__).parent/'static'/('marketing-'+suffix)).read_bytes(),'text/javascript' if suffix.endswith('.js') else 'text/css')
      return self.send(404,{'error':'Not found'})
     except Invalid:return self.send(404,{'error':'Unknown subscription site'})
-   assets={'/':'index.html','/app.js':'app.js','/style.css':'style.css','/console.js':'console.js','/roadmap.js':'roadmap.js','/launchdesk.js':'launchdesk.js','/strategyos.js':'strategyos.js','/execution.js':'execution.js'}
+   assets={'/':'index.html','/app.js':'app.js','/style.css':'style.css','/console.js':'console.js','/roadmap.js':'roadmap.js','/launchdesk.js':'launchdesk.js','/strategyos.js':'strategyos.js','/execution.js':'execution.js','/integrations.js':'integrations.js'}
    if path in assets:
     ctype='text/html; charset=utf-8' if path=='/' else 'text/css' if path.endswith('.css') else 'text/javascript'
     return self.send(200,(Path(__file__).parent/'static'/assets[path]).read_bytes(),ctype)
    user=self.user()
    if not user:return self.send(401,{'error':'Sign in required'})
    try:
+    if path=='/api/integrations':
+     if user['role'] not in ('founder','admin'):return self.send(403,{'error':'Administrator required for integrations'})
+     from .integrations import IntegrationHub
+     return self.send(200,IntegrationHub(store).overview())
     if path=='/api/execution':
      if user['role'] not in ('founder','admin'):return self.send(403,{'error':'Administrator required for strategy execution'})
      from .execution import Execution
@@ -134,7 +138,11 @@ def main():
      if kind in ('products','channels','evidence') and not admin:return self.send(403,{'error':'Administrator verification required'})
      if product is not None and not self.allowed(user,product):return self.send(403,{'error':'Product access denied'})
     if 'product_id' in data and not self.allowed(user,data['product_id']):return self.send(403,{'error':'Product access denied'})
-    if path in ('/api/execution/prepare','/api/execution/task'):
+    if path.startswith('/api/integrations/'):
+     if not admin:return self.send(403,{'error':'Administrator required for integrations'})
+     from .integrations import IntegrationHub
+     result=IntegrationHub(store).dispatch(path.removeprefix('/api/integrations/'),data,user['username'])
+    elif path in ('/api/execution/prepare','/api/execution/task'):
      if not admin:return self.send(403,{'error':'Administrator required for strategy execution'})
      from .execution import Execution
      engine=Execution(store)

@@ -243,3 +243,8 @@ Repository: https://github.com/nrgore1/ai_agent_mktg/tree/codex/product-strategy
 Primary technical references are the implementation modules, `docs/api-v2.md`, `docs/launch-learn-operations.md`, `docs/commercial-policy-75-percent.md` and `docs/privacy-media-recovery-2026-10-30.md`. Older mock-only architecture descriptions are superseded by this baseline. Recheck the deployed image, provider settings and product registry before relying on this document after a release change.
 
 Document owner: AgentVire founder. Review trigger: any new execution connector, identity boundary, data store, approval rule, model provider or commercial execution path.
+
+
+## Original PRD integration release 0.5.0
+
+See [integration contracts, operating workflow and release boundary](prd-integrations-0.5.0.md) for the nine-provider desk, consent-preserving CRM exchange, approved social/calendar handoffs, payment evidence and test coverage. Product-specific development remains on separate backlogs.
