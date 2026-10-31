@@ -1,6 +1,10 @@
 # GrowthPilot / AgentVire
 
-Approval-governed portfolio marketing operations for 17 products and 50 channels. Version 0.3.0 includes individual login, role/product scopes, a founder approval console, evidence capture and review, editable product/CRM records, recurring campaigns, experiments, UTM analytics ingestion, reports, local Kimi support and a durable guarded delivery queue.
+Approval-governed portfolio marketing operations for 17 products and 50 channels. The current implementation includes individual login, role/product scopes, a founder approval console, evidence capture and review, editable product/CRM records, recurring campaigns, experiments, UTM analytics ingestion, reports, local Kimi support and a durable guarded delivery queue.
+
+## Original PRD closeout
+
+The mock-capable marketing core is documented and regression-tested; the complete long-term multi-provider vision and all portfolio launches are not declared finished. See [scope and evidence](docs/requirements.md), [design and architecture](docs/architecture.md), [programmer manual](docs/programmer-manual.md), [user guide](docs/user-guide.md) and [runbook](docs/runbook.md). The 30 October 2026 closeout passed 187 tests. Private commercial inputs remain outside Git.
 
 ## Run locally (Ubuntu WSL2)
 
