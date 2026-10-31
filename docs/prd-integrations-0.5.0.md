@@ -77,3 +77,16 @@ Live customer acquisition still needs a permissioned audience, exact verified of
 All 203 regression tests passed in native Ubuntu and on the VPS candidate. Browser QA passed CRM preview/import and exact calendar review, approval and download with no JavaScript errors. Live read-only checks passed for the configured local Kimi model, all three Postmark identities and the configured GitHub repository. A local Kimi bounded invitation draft completed in 94.19 seconds without approval. Public research capture and audit verification passed. No external messages were sent. See [test evidence](evidence/prd-integrations-20261031/verification.json), [browser evidence](evidence/prd-integrations-20261031/browser-receipt.json) and [provider evidence](evidence/prd-integrations-20261031/provider-check-receipt.json).
 
 Kimi depends on the local computer, Ollama and the private SSH tunnel staying available; cold starts can be slow. Use the existing `scripts/start-local-kimi-tunnel.ps1` to restore the tunnel. Failure preserves the pending draft. The payment snapshot was refreshed for all 17 product statuses; it remains financially unreconciled and does not authorize actual-margin claims.
+
+
+## Production deployment and recovery
+
+Version 0.5.0 is deployed at https://agentvire.com/. Application commit: `efdd803f5a5fe9ac4c6df599b2a8b4b290f5af26` on `codex/product-strategy-os`. All 37 deployed application files match the committed source. Production HTTPS, login rendering, unauthenticated API rejection, provider checks and audit verification passed. Existing protected records, runtime settings and all other running product services were preserved. The disposable QA service and its synthetic records and copied credentials were removed.
+
+See [deployment receipt](evidence/prd-integrations-20261031/release-receipt.json), [live provider checks](evidence/prd-integrations-20261031/postdeploy-receipt.json), [public browser verification](evidence/prd-integrations-20261031/production-browser-receipt.json) and [source verification](evidence/prd-integrations-20261031/source-verification.json).
+
+The live image is `growthpilot-staging:agentvire-0.5.0-prd`. The retained rollback image is `growthpilot-staging:8281172-privacy-v4`. Before cutover, SQLite online backup passed integrity checking and produced a recovery bundle. The existing original consent signing key and a fresh separately retained privacy checkpoint remain required for a compliant restore.
+
+For a code-only rollback, use the protected `shared/pre-agentvire-0.5.0-prd.env` backup, the previous release's `compose.staging.yaml` and `compose.kimi.yaml`, project `growthpilot-staging`, and `up -d --no-deps --no-build --wait growthpilot`. Verify health, existing environment settings and audit integrity, then atomically repoint `current` to the previous release. Do not replace the live database or restore old contact data for a code rollback. The new tables are ordinary record kinds and require no destructive schema reversal.
+
+The new runtime keeps the previous compose settings and adds `compose.integrations.yaml` solely to name the read-only GitHub repository. The existing Kimi bridge was retained. The local SSH tunnel was restored using the existing Windows SSH configuration; the local computer must stay available for generation.

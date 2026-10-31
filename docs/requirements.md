@@ -1,5 +1,7 @@
 # Original PRD and release scope
 
+Current integration status: [AgentVire 0.5.0 release and acceptance evidence](prd-integrations-0.5.0.md). The original PRD provider-interface scope is delivered using live read-only checks, built-in services and approved manual handoffs; product engineering and authenticated account extensions retain separate backlogs.
+
 Baseline reviewed 30 October 2026 at source `5a75aa658c239d7319ae11d973f07326a24f3744`; runtime `growthpilot-staging:8281172-privacy-v4`. Documentation updates do not change the runtime.
 
 ## Closeout decision
@@ -27,7 +29,7 @@ The current implementation is Python standard-library HTTP + SQLite WAL + vanill
 | PRD-13 | Attribution and actual results | test_analytics_idempotency_and_scope; test_reports_exclude_simulation | Keyed ingestion implemented; event semantics require product integration |
 | PRD-14 | Identity and permissions | test_auth_required; test_csrf_required; test_viewer_cannot_write; test_operator_cannot_approve | Implemented; MFA/SSO deferred |
 | PRD-15 | Audit and recovery | test_audit_tamper_detection; test_backup_restore; test_recovery | Local verification implemented; off-host anchoring/DR deferred |
-| PRD-16 | LLM and provider interfaces | providers.py, llm_bridge.py, postmark.py, platform.py | Local Kimi and selected guarded adapters; full social/payment/CRM integration deferred |
+| PRD-16 | LLM and provider interfaces | providers.py, llm_bridge.py, postmark.py, platform.py, integrations.py; test_integrations; HTTP workflow tests | Nine original interfaces delivered in 0.5.0: local Kimi, read-only checks, CRM exchange, payment snapshots and approved social/calendar handoffs; optional authenticated external accounts remain unconfigured |
 | PRD-17 | Manuals and operations | architecture.md, programmer-manual.md, user-guide.md, runbook.md | Refreshed to implemented baseline |
 | PRD-18 | 90-day growth strategy | campaigns.md, manager activities, founder playbook | Planning workflow, not achieved commercial results |
 
@@ -43,7 +45,7 @@ Launch Desk, strategy economics, conditional commercial policy and marketing con
 
 Five products remain internal: SDIS, One-Man Hedge Fund, Quantsys, SMDP Design and Stablecoin Pipeline. CoffeeBook uses the Memoire domain and shares its launch track. JodiUSA is a Jodibana tenant, not an eighteenth product.
 
-P0 external launch prerequisites remain supported product claims, working activation, exact publishing account, eligible audience, required email footer details and actual commercial validation. P1 platform work includes full provider integrations, independent monitoring, off-host recovery/audit and stronger identity. Scale migration requires measured need. No runtime, billing, commission or campaign execution change is included in this documentation closeout.
+P0 external launch prerequisites remain supported product claims, working activation, exact publishing account, eligible audience, required email footer details and actual commercial validation. Optional P1 extensions include authenticated external CRM/social/calendar accounts, independent monitoring, off-host recovery/audit and stronger identity. Scale migration requires measured need. The 30 October documentation baseline changed no runtime or commercial settings. The subsequent 0.5.0 integration release changes AgentVire runtime only; billing, commissions and campaigns remain governed by their existing approval controls.
 
 
 ## Original PRD integration release 0.5.0
