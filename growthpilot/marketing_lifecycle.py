@@ -151,8 +151,8 @@ class MarketingLifecycle:
         # Only exact application-owned database backup names in its own directory.
         folder = Path(self.s.path).parent / "backups"
         if folder.exists():
-            for path in folder.glob("growthpilot-*.db"):
-                if path.is_symlink() or not re.fullmatch(r"growthpilot-\d{8}-\d{6}\.db", path.name): continue
+            for path in folder.glob("growthpilot-*"):
+                if path.is_symlink() or not re.fullmatch(r"growthpilot-\d{8}-\d{6}\.(db|recovery\.tar\.gz)", path.name): continue
                 if path.stat().st_mtime < stamp.timestamp() - POLICY["managed_backup_days"] * 86400:
                     report["managed_backups"] += 1
                     if apply: path.unlink()

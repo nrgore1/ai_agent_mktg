@@ -289,7 +289,8 @@ class Platform(Store):
   os.chmod(target,0o600)
   with sqlite3.connect(target) as restored:
    if restored.execute('PRAGMA integrity_check').fetchone()[0]!='ok':raise Invalid('Backup integrity check failed')
-  return {'file':target.name,'sha256':hashlib.sha256(target.read_bytes()).hexdigest(),'integrity':'ok'}
+  from .recovery import bundle
+  return {'file':target.name,'sha256':hashlib.sha256(target.read_bytes()).hexdigest(),'integrity':'ok',**bundle(self,target)}
 
  def roadmap(self):
   from .roadmap import get_roadmap
