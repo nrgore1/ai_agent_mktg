@@ -34,3 +34,5 @@ AgentVire records the latest candidate evidence for all 17 products while retain
 Evidence: [staging results](evidence/billing-fix-staging-20261101.json), [all-product qualification report](evidence/billing-fix-qualification-20261101.json). Both retain explicit staging-only status and zero complete-task approvals.
 
 AgentVire update verified: report `wave-billing-fixes-20261101-02`, all 17 products, valid audit chain, zero complete technical approvals and all 51 commercial tasks unchanged. The 16 qualification/finance safeguard regression tests passed again. [Update receipt](evidence/billing-fix-agentvire-update-20261101.json).
+
+Latest follow-up: [Approved production deployments and Jodibana sandbox results](billing-deployment-sandbox-20261101.md). OraToPlus/Memoire deployment and sandbox-credential holds are cleared. Jodibana recurring billing and refund reconciliation remain measured failures; all commercial task states are unchanged. Earlier evidence above is historical.

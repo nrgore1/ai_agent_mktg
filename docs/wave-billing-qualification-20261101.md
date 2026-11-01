@@ -76,3 +76,5 @@ The preceding image `growthpilot-staging:agentvire-0.5.0-prd`, a database/recove
 Receipts: [deployment and data checks](evidence/agentvire-0.5.1-release.json), [isolated browser workflow](evidence/agentvire-0.5.1-browser.json), [production browser](evidence/agentvire-0.5.1-production-browser.json).
 
 Follow-up: [Targeted OraToPlus/Memoire fixes and Jodibana sandbox readiness](billing-fix-staging-20261101.md). The original five failures pass in candidates; production deployment is pending explicit approval and real Jodibana sandbox access remains blocked.
+
+Latest follow-up: [Approved production deployments and Jodibana sandbox results](billing-deployment-sandbox-20261101.md). OraToPlus/Memoire deployment and sandbox-credential holds are cleared. Jodibana recurring billing and refund reconciliation remain measured failures; all commercial task states are unchanged. Earlier evidence above is historical.

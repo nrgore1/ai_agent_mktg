@@ -1,0 +1,262 @@
+{
+  "deployment": [
+    {
+      "product": "ora",
+      "name": "oratoplus-core-api-tsvalidation-1dc247b",
+      "image": "sha256:ac0b636af8c39b7ca23d2dc1642ce489d6ba47a6833b463dff964cf78f864285",
+      "rollback_container": "oratoplus-core-api-tsvalidation-1dc247b-rollback-20261101",
+      "rollback_image": "sha256:348e0b8a6edbd4a7456bbfc56484180a12d0e7a1c3c87e663de0f80a87d9dd09",
+      "health": 200,
+      "settings_preserved": true,
+      "data_mounts_preserved": true,
+      "database_migrations": 0,
+      "provider_calls": 0
+    },
+    {
+      "product": "memoire",
+      "name": "memoir-production-api-django-1",
+      "image": "sha256:d1b1d195251166932f0748dda0f86c49af13d7d4bcb4208b7e0392b8e44feb12",
+      "rollback_container": "memoir-production-api-django-1-rollback-20261101",
+      "rollback_image": "sha256:4e1fc153abe00a5b940d22dccc4dcc63ee56040b3bb9daf4fa60b9cb16318800",
+      "health": 200,
+      "settings_preserved": true,
+      "data_mounts_preserved": true,
+      "database_migrations": 0,
+      "provider_calls": 0
+    }
+  ],
+  "production_verification": {
+    "deployment_approved_by_owner": true,
+    "products": [
+      {
+        "product": "ora",
+        "healthy": true,
+        "exact_code_verified": 2,
+        "rollback_retained": true,
+        "runtime_settings_preserved": true
+      },
+      {
+        "product": "memoire",
+        "healthy": true,
+        "exact_code_verified": 1,
+        "rollback_retained": true,
+        "runtime_settings_preserved": true
+      }
+    ],
+    "unauthenticated_access": [
+      {
+        "url": "https://api.oratoplus.com/v1/billing/summary/",
+        "status": 401
+      },
+      {
+        "url": "https://memoirbookstudio.com/api/commerce/me/",
+        "status": 401
+      }
+    ],
+    "pricing_changes": 0,
+    "campaign_changes": 0,
+    "commission_changes": 0
+  },
+  "jodibana_offline": [
+    {
+      "tests": 68,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0,
+      "exit_code": 0,
+      "test_names": [
+        "test_a_stripe_error_activates_nothing",
+        "test_stripe_that_cannot_even_start_is_not_replaced_by_the_dummy",
+        "test_the_caller_cannot_pick_the_auto_paying_provider[dummy]",
+        "test_the_caller_cannot_pick_the_auto_paying_provider[test]",
+        "test_the_caller_cannot_pick_the_auto_paying_provider[paypal]",
+        "test_the_caller_cannot_pick_the_auto_paying_provider[]",
+        "test_subscribe_api_ignores_provider_dummy",
+        "test_subscribe_api_says_so_when_stripe_is_down",
+        "test_an_open_checkout_unlocks_nothing_and_keeps_the_current_plan",
+        "test_paying_activates_that_plan_its_features_and_ends_the_old_one",
+        "test_paying_one_invoice_does_not_activate_a_different_checkout",
+        "test_a_completed_but_unpaid_checkout_activates_nothing",
+        "test_a_checkout_opened_before_this_fix_still_activates_on_payment",
+        "test_without_stripe_the_dummy_still_activates_immediately",
+        "test_webhook_idempotent_checkout",
+        "test_purchase_coins_idempotent",
+        "test_kpi_snapshot_and_funnel",
+        "test_platform_rollups",
+        "test_product_slugs_are_unique_per_tenant",
+        "test_negative_price_is_refused",
+        "test_non_numeric_price_is_refused",
+        "test_the_same_item_for_two_people_is_two_lines",
+        "test_adding_the_same_line_twice_increases_quantity",
+        "test_cannot_add_more_than_stock",
+        "test_cannot_add_a_product_from_another_site",
+        "test_checkout_snapshots_the_price",
+        "test_checkout_takes_stock",
+        "test_checkout_empties_the_basket",
+        "test_empty_basket_cannot_check_out",
+        "test_platform_fee_is_recorded_on_the_order",
+        "test_cancelling_returns_stock",
+        "test_cancelling_twice_does_not_return_stock_twice",
+        "test_paying_an_already_paid_order_is_refused",
+        "test_gift_recipient_must_be_on_this_site",
+        "test_page_bodies_are_escaped",
+        "test_simple_formatting_survives",
+        "test_attributes_cannot_ride_in_on_an_allowed_tag",
+        "test_landing_visits_and_conversion",
+        "test_publishing_stamps_the_date_once",
+        "test_draft_posts_are_not_published",
+        "test_content_is_scoped_to_one_tenant",
+        "test_cannot_edit_another_tenants_page",
+        "test_rotation_favours_the_banner_furthest_behind",
+        "test_no_live_banner_returns_none",
+        "test_scheduling_window_is_respected",
+        "test_end_before_start_is_refused",
+        "test_impressions_write_both_the_counter_and_the_daily_row",
+        "test_report_computes_click_through",
+        "test_rollup_creates_a_zero_row_for_a_quiet_day",
+        "test_snapshot_is_idempotent",
+        "test_snapshot_records_member_totals",
+        "test_backfilling_a_past_day_works",
+        "test_snapshots_are_scoped_per_tenant",
+        "test_summary_reports_change_against_the_previous_window",
+        "test_summary_says_so_when_there_is_no_data",
+        "test_snapshot_all_covers_every_active_tenant",
+        "test_analytics_page_renders_without_snapshots",
+        "test_console_store_is_operator_scoped",
+        "test_real_sdk_signed_event_and_replay",
+        "test_verification_error_never_falls_back_to_unsigned_json[error0]",
+        "test_verification_error_never_falls_back_to_unsigned_json[error1]",
+        "test_billing_mode_dummy_without_keys",
+        "test_billing_mode_test_key",
+        "test_inline_checkout_uses_dashboard_payment_methods",
+        "test_existing_price_preserves_subscription_mode",
+        "test_provider_error_does_not_mark_invoice_paid",
+        "test_standard_checkout_override_is_explicit_and_test_only",
+        "test_standard_checkout_override_refuses_live_keys"
+      ],
+      "product_id": 6,
+      "name": "jodibana",
+      "image": "sha256:3817f8b70116a272eda094532261bb78a75560d14dfc12d2811d6c186c08eefe",
+      "environment": "isolated_candidate_image_offline",
+      "network": "none",
+      "production_data_mounted": false,
+      "provider_credentials": false,
+      "seconds": 8.97,
+      "recorded_at": "2026-11-01T17:00:09.387755+00:00"
+    }
+  ],
+  "jodibana_provider": {
+    "checks": [
+      {
+        "name": "expired_checkout_no_upgrade",
+        "passed": true,
+        "detail": "Real provider expiration; prior plan retained."
+      },
+      {
+        "name": "real_signed_event_delivery",
+        "passed": true,
+        "detail": "Checks for a processed actual test checkout expiration delivered by Stripe CLI to the product webhook handler."
+      },
+      {
+        "name": "invalid_signature_rejected",
+        "passed": true,
+        "detail": "Invalid signature rejected without persisting an event."
+      },
+      {
+        "name": "provider_test_payment",
+        "passed": true,
+        "detail": "Provider-only test PaymentIntent, not hosted checkout acceptance."
+      },
+      {
+        "name": "provider_partial_and_full_refund",
+        "passed": true,
+        "detail": "Only the synthetic test PaymentIntent was refunded; does not prove application refund reconciliation."
+      },
+      {
+        "name": "provider_authorization_cancel",
+        "passed": true,
+        "detail": "Provider-only authorization cancellation, not recurring subscription cancellation."
+      },
+      {
+        "name": "provider_decline",
+        "passed": true,
+        "detail": "Provider-only test decline; no application entitlement request."
+      }
+    ],
+    "live_payments": 0,
+    "production_data_used": false,
+    "full_application_acceptance": false,
+    "checkout_mode": "payment",
+    "test_standard_checkout_override": true,
+    "registered_dashboard_callback": false,
+    "real_delivery_transport": "Stripe CLI",
+    "limitations": [
+      "Synthetic database and reduced routing without tenant/auth middleware",
+      "Managed Payments default not certified",
+      "Hosted paid checkout, recurring billing and application cancellation/refunds require separate acceptance"
+    ]
+  },
+  "jodibana_checkout": {
+    "checks": [
+      {
+        "name": "hosted_checkout_paid",
+        "passed": true,
+        "detail": "Verified directly with Stripe after test-card browser submission."
+      },
+      {
+        "name": "signed_checkout_activates_correct_plan",
+        "passed": true,
+        "detail": "Actual hosted checkout and Stripe CLI signed delivery, isolated synthetic database."
+      },
+      {
+        "name": "signed_duplicate_idempotent",
+        "passed": true,
+        "detail": "Locally signed replay of actual provider event; original delivery was Stripe CLI."
+      },
+      {
+        "name": "hosted_payment_refunded",
+        "passed": true,
+        "detail": "Actual sandbox checkout received a partial refund and then a refund of the remainder."
+      },
+      {
+        "name": "refund_event_delivered",
+        "passed": true,
+        "detail": "Actual full-refund event received and persisted."
+      },
+      {
+        "name": "application_refund_reconciliation",
+        "passed": false,
+        "detail": "Expected an explicit reconciled refund state: current invoice remains paid and handler has no refund ledger action. Entitlement refund policy still requires definition."
+      },
+      {
+        "name": "monthly_plan_uses_recurring_billing",
+        "passed": false,
+        "detail": "Current monthly Growth path creates a one-time payment; no recurring Stripe price configured."
+      }
+    ],
+    "passed": 5,
+    "failed": 2,
+    "live_payments": 0,
+    "full_application_acceptance": false,
+    "environment": "isolated candidate, SQLite and reduced routes; no tenant/auth middleware",
+    "current_invoice_status": "paid",
+    "current_subscription_active": true
+  },
+  "browser": {
+    "test_card_submitted": true,
+    "redirected_to_return": false,
+    "payment_status_requires_provider_verification": true
+  },
+  "cleanup": {
+    "owned_open_sessions_expired": 3,
+    "owned_test_payment_remainders_refunded": 1,
+    "sandbox_listener_stopped": true,
+    "sandbox_api_stopped": true,
+    "production_jodibana_unchanged": true
+  },
+  "notes": [
+    "OraToPlus 36 and Memoire 25 prior exact-image tests retained; deployment hashes verified, not rerun against customer data.",
+    "Other products retain earlier evidence, not claimed as rerun.",
+    "Provider-only checks and end-to-end subsets overlap categories; do not sum category counts."
+  ]
+}

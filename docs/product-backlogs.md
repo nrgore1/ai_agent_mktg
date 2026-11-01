@@ -17,3 +17,5 @@ Postmark provider-history deletion remains dependent on account-level configurat
 Tier and billing findings across all waves: [1 November product backlog](product-billing-backlog-20261101.md). [Measured qualification report](wave-billing-qualification-20261101.md) distinguishes component checks from full sandbox acceptance.
 
 [Targeted billing fixes and staging results](billing-fix-staging-20261101.md): five OraToPlus/Memoire failures fixed in candidates; production deployment and Jodibana sandbox credentials remain pending. Product code stays on separate product branches/backlogs.
+
+Latest follow-up: [Approved production deployments and Jodibana sandbox results](billing-deployment-sandbox-20261101.md). OraToPlus/Memoire deployment and sandbox-credential holds are cleared. Jodibana recurring billing and refund reconciliation remain measured failures; all commercial task states are unchanged. Earlier evidence above is historical.
