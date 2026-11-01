@@ -1,0 +1,181 @@
+{
+  "postgresql": {
+    "tests": 188,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 0,
+    "exit_code": 0,
+    "database": "PostgreSQL 16",
+    "network": "internal; no provider access",
+    "production_data_mounted": false,
+    "provider_credentials": false,
+    "image": "sha256:feb92a913d61c25af3563081e86338f1d8313e21d06693b76bba05ea92007f1c",
+    "concurrency_test_sha256": "c45d17a1fe4f42254a2f7254c9383813f0aedee974e9221dab6ca9f2e47d4394"
+  },
+  "browser": {
+    "checks": [
+      {
+        "name": "owner_login_and_zero_dollar_billing",
+        "passed": true
+      },
+      {
+        "name": "paid_checkout_hidden_for_free_tenant",
+        "passed": true
+      },
+      {
+        "name": "other_tenant_billing_denied",
+        "passed": true
+      },
+      {
+        "name": "member_host_console_denied",
+        "passed": true
+      },
+      {
+        "name": "signup_redirects_to_activation",
+        "passed": true
+      }
+    ],
+    "activation_path": "/create-profile/"
+  },
+  "lifecycle": {
+    "checks": [
+      {
+        "name": "monthly_renewal_paid",
+        "passed": true,
+        "detail": "Stripe test clock generated and paid the next monthly invoice at the unchanged price."
+      },
+      {
+        "name": "renewal_reconciled_separately",
+        "passed": true,
+        "detail": "A distinct local renewal invoice was recorded by real signed delivery."
+      },
+      {
+        "name": "partial_refund_reconciled",
+        "passed": true,
+        "detail": "Partial test refund updates invoice and ledger through real signed events."
+      },
+      {
+        "name": "full_refund_reconciled",
+        "passed": true,
+        "detail": "Refund ledger totals exactly the refunded amount without duplicating the partial refund."
+      },
+      {
+        "name": "refund_does_not_cancel_subscription",
+        "passed": true,
+        "detail": "Refund accounting preserves access and recurring agreement; cancellation is explicit."
+      },
+      {
+        "name": "scheduled_cancellation_preserves_paid_access",
+        "passed": true,
+        "detail": "Real provider scheduled cancellation is recorded without early access removal."
+      },
+      {
+        "name": "explicit_cancellation_reconciled",
+        "passed": true,
+        "detail": "Explicit test subscription cancellation is reflected locally."
+      },
+      {
+        "name": "renewal_refund_bound_to_correct_invoice",
+        "passed": true,
+        "detail": "The renewal refund updates its own invoice; initial refund accounting remains separate."
+      }
+    ],
+    "passed": 8,
+    "failed": 0,
+    "live_mutations": 0,
+    "environment": "Isolated PostgreSQL, actual migrations, full ASGI routes; registered HTTPS callback and test clock",
+    "full_product_acceptance": false
+  },
+  "natural_cancellation": {
+    "provider_canceled_at_natural_expiry": true,
+    "local_access_deactivated": true,
+    "paid_tier_removed": true,
+    "signed_deletion_recorded": true,
+    "live_mutations": 0
+  },
+  "annual_and_cleanup": {
+    "annual_checkout_is_subscription": true,
+    "annual_interval": "year",
+    "existing_annual_price_cents": 49000,
+    "unpaid_no_activation": true,
+    "cleanup": {
+      "owned_remaining_sessions_expired": 0,
+      "owned_remaining_payments_refunded": 1,
+      "owned_remaining_subscriptions_canceled": 0,
+      "test_clocks_retained_for_evidence": 2,
+      "live_mutations": 0
+    }
+  },
+  "routing": {
+    "existing_sites_before": {
+      "https://agentvire.com/": 200,
+      "https://jodiusa.com/": 200,
+      "https://jodibana.com/": 200,
+      "https://weddingos.pro/": 200,
+      "https://memoirbookstudio.com/": 200
+    },
+    "existing_sites_after": {
+      "https://agentvire.com/": 200,
+      "https://jodiusa.com/": 200,
+      "https://jodibana.com/": 200,
+      "https://weddingos.pro/": 200,
+      "https://memoirbookstudio.com/": 200
+    },
+    "unsigned_callback_status": 400,
+    "proxy_image_unchanged": true
+  },
+  "deployment": {
+    "image": "sha256:feb92a913d61c25af3563081e86338f1d8313e21d06693b76bba05ea92007f1c",
+    "rollback_container": "jodibana-web-1-before-free-20261101",
+    "healthy": true,
+    "standard_checkout_selected": true,
+    "grant": {
+      "tenant_id": 1,
+      "subscription_id": 730,
+      "all_features_available": true,
+      "provider_calls": 0,
+      "invoices_created": 0,
+      "operator_settings_preserved": true,
+      "feature_count": 27,
+      "paid_catalog_unchanged": true,
+      "consent_settings_unchanged": true,
+      "audit_record_verified": true
+    },
+    "live_provider_calls": 0,
+    "paid_prices_activated": false,
+    "new_campaigns": 0,
+    "database_backup_ready": true
+  },
+  "checkout_browser": {
+    "test_card_submitted": true,
+    "redirected_to_return": true,
+    "payment_status_requires_provider_verification": true
+  },
+  "full_product_approval": false,
+  "paid_tier_proposal_activated": false,
+  "commissions_changed": false,
+  "campaigns_changed": false,
+  "other_products_rerun": false,
+  "limitations": [
+    "Browser registration reaches profile setup; complete profile/photo/first-match activation is not certified.",
+    "The earlier lifecycle checks used the pre-legacy-conversion image; final image passes all 188 regressions, browser checks, new hosted payment/return, signed activation and natural cancellation.",
+    "Failed renewal/dunning recovery and asynchronous pending/failed refund recovery remain unverified.",
+    "Complete paid quota boundaries and feature matrix, customer-facing cancellation management and operational alerting remain open.",
+    "Production paid-provider credentials and webhook configuration remain a launch gate; no test key was installed in production.",
+    "Proposed paid tiers, margin validation, partner terms and campaign releases remain pending approval."
+  ],
+  "cleanup": {
+    "temporary_callback_deleted": true,
+    "temporary_route_removed": true,
+    "synthetic_receivers_stopped": true,
+    "test_data_retained_privately": true,
+    "public_health": {
+      "https://agentvire.com/": 200,
+      "https://jodiusa.com/": 200,
+      "https://jodibana.com/": 200,
+      "https://weddingos.pro/": 200,
+      "https://memoirbookstudio.com/": 200
+    },
+    "live_transactions": 0
+  }
+}
