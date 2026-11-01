@@ -63,3 +63,14 @@ The importer is an operator CLI, not a public report-upload API. The operator mu
 The LiqMint Institutional fixture required a temporary report directory at the code's hard-coded development path. It was a container tmpfs only, not a host/Windows mount. Memoire's normal settings force PostgreSQL during startup, so helper tests use minimal Django settings and mocked managers; database integration remains outstanding. WeddingOS tests exercise actual deployed router/model functions with mocked persistence. Jodibana uses bundled tests plus a test-only pytest layer on its exact deployed base image.
 
 AgentVire's finance collector now preserves the four existing strategy/cost-reference fields while replacing observed processor data. The missing reference in the preceding refresh was restored from its verified backup without replacing the newer transactions or approving any financial assumptions.
+
+
+## Deployed release
+
+AgentVire **0.5.1** is live at [the execution desk](https://agentvire.com/?view=execution). Source commit `821d5c2` is on `codex/product-strategy-os`. All **219 AgentVire regression tests passed**. Isolated browser checks passed for all 17 product rows, product filtering, expanded evidence, JSON download and mobile rendering, with zero script errors. Production TLS/login and unauthorized-access checks passed; all 39 deployed application files match the release source.
+
+Open **Automated tier and billing qualification**, select a product or expand its row, then choose **Download test and approval report**. The report distinguishes failed, partially tested, blocked and out-of-scope categories. No complete entitlement task was automatically approved in this run.
+
+The preceding image `growthpilot-staging:agentvire-0.5.0-prd`, a database/recovery backup and previous runtime settings are retained. Other product services, protected finance/configuration files and all 51 commercial task records were preserved. No payment-provider mutation or outbound message occurred. The isolated QA container was removed after verification.
+
+Receipts: [deployment and data checks](evidence/agentvire-0.5.1-release.json), [isolated browser workflow](evidence/agentvire-0.5.1-browser.json), [production browser](evidence/agentvire-0.5.1-production-browser.json).
