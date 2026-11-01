@@ -15,3 +15,5 @@ AgentVire release acceptance covers the marketing operating system. It does not 
 Postmark provider-history deletion remains dependent on account-level configuration and provider enablement. It is not marked complete by an AgentVire deployment. Existing per-product execution records and measured statuses are preserved.
 
 Tier and billing findings across all waves: [1 November product backlog](product-billing-backlog-20261101.md). [Measured qualification report](wave-billing-qualification-20261101.md) distinguishes component checks from full sandbox acceptance.
+
+[Targeted billing fixes and staging results](billing-fix-staging-20261101.md): five OraToPlus/Memoire failures fixed in candidates; production deployment and Jodibana sandbox credentials remain pending. Product code stays on separate product branches/backlogs.

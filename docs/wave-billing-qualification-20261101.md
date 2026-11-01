@@ -74,3 +74,5 @@ Open **Automated tier and billing qualification**, select a product or expand it
 The preceding image `growthpilot-staging:agentvire-0.5.0-prd`, a database/recovery backup and previous runtime settings are retained. Other product services, protected finance/configuration files and all 51 commercial task records were preserved. No payment-provider mutation or outbound message occurred. The isolated QA container was removed after verification.
 
 Receipts: [deployment and data checks](evidence/agentvire-0.5.1-release.json), [isolated browser workflow](evidence/agentvire-0.5.1-browser.json), [production browser](evidence/agentvire-0.5.1-production-browser.json).
+
+Follow-up: [Targeted OraToPlus/Memoire fixes and Jodibana sandbox readiness](billing-fix-staging-20261101.md). The original five failures pass in candidates; production deployment is pending explicit approval and real Jodibana sandbox access remains blocked.
