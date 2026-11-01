@@ -44,7 +44,7 @@ class AdmissionTests(unittest.TestCase):
    with patch.object(b,'model_ready',return_value=True),patch.object(b.urllib.request,'urlopen',side_effect=TimeoutError):
     # Invoke handler logic through a real server using a separate stdlib client.
     import http.client
-    c=http.client.HTTPConnection('127.0.0.1',self.server.server_port,timeout=2);c.request('POST','/api/generate',json.dumps({'model':b.MODEL,'stream':False,'prompt':'Synthetic'}),{'Content-Type':'application/json'});r=c.getresponse();d=json.loads(r.read());self.assertEqual(r.status,503);self.assertEqual(d['error'],'local_inference_deadline_or_transport');c.close()
+    c=http.client.HTTPConnection('127.0.0.1',self.server.server_port,timeout=2);c.request('POST','/api/generate',json.dumps({'model':b.MODEL,'stream':False,'prompt':'Synthetic'}),{'Content-Type':'application/json'});r=c.getresponse();d=json.loads(r.read());self.assertEqual(r.status,503);self.assertEqual(d['error'],'local_inference_deadline');c.close()
   finally:b.UPSTREAM=original
 
 class SeedTests(unittest.TestCase):
