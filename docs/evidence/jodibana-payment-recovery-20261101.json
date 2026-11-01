@@ -1,0 +1,163 @@
+{
+  "regression": {
+    "tests": 313,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 0,
+    "exit_code": 0,
+    "database": "PostgreSQL 16",
+    "network": "internal; no provider access",
+    "production_data_mounted": false,
+    "provider_credentials": false,
+    "image": "sha256:99d1a54d20b8583b572f63be0fa0e0ab625233e0bec04159691265eba3c7392c",
+    "concurrency_test_sha256": "c45d17a1fe4f42254a2f7254c9383813f0aedee974e9221dab6ca9f2e47d4394"
+  },
+  "provider_recovery": {
+    "checks": {
+      "pending_started_pending": true,
+      "pending_reached_provider_success": true,
+      "pending_settled_locally_once": true,
+      "pending_signed_events_recorded": true,
+      "failed_started_successful": true,
+      "provider_refund_later_failed": true,
+      "failure_reversed_once": true,
+      "failed_refund_requires_followup": true,
+      "failed_signed_events_recorded": true,
+      "replayed_failed_payment_does_not_reopen_invoice": true,
+      "recovered_subscription_stays_active": true,
+      "operator_setting_stays_disabled": true
+    },
+    "passed": 12,
+    "failed": 0,
+    "live_transactions": 0,
+    "registered_signed_https_callback": true
+  },
+  "renewal": {
+    "checks": {
+      "provider_renewal_failed": true,
+      "local_failed_invoice_recorded": true,
+      "existing_access_retained_during_provider_retry": true,
+      "recovered_invoice_paid": true,
+      "recovery_attention_cleared": true,
+      "same_invoice_reused": true,
+      "subscription_access_active": true,
+      "operator_disabled_feature_preserved": true
+    },
+    "passed": 8,
+    "failed": 0,
+    "live_transactions": 0
+  },
+  "partial_refund": {
+    "checks": {
+      "partial_refund_reconciled": true,
+      "full_refund_reconciled": true,
+      "exact_incremental_ledger": true,
+      "no_pending_or_failed_refund": true
+    },
+    "passed": 4,
+    "failed": 0
+  },
+  "refund_observation": [
+    {
+      "case": "pending",
+      "initial_provider_status": "pending",
+      "provider_status": "succeeded",
+      "local_refund_status": "succeeded",
+      "invoice_status": "refunded",
+      "settled_minor": 100,
+      "pending_minor": 0,
+      "attention_required": false,
+      "ledger": [
+        "-1.00"
+      ],
+      "ledger_net": "-1.00",
+      "signed_event_count": 2
+    },
+    {
+      "case": "failed",
+      "initial_provider_status": "succeeded",
+      "provider_status": "failed",
+      "local_refund_status": "failed",
+      "invoice_status": "paid",
+      "settled_minor": 0,
+      "pending_minor": 0,
+      "attention_required": true,
+      "ledger": [
+        "-1.00",
+        "1.00"
+      ],
+      "ledger_net": "0.00",
+      "signed_event_count": 3
+    }
+  ],
+  "browser": {
+    "checks": [
+      {
+        "name": "failed_refund_action_visible_to_authorized_owner",
+        "passed": true
+      },
+      {
+        "name": "settled_refund_pending_notice_removed",
+        "passed": true
+      },
+      {
+        "name": "recovered_invoice_failure_notice_removed",
+        "passed": true
+      },
+      {
+        "name": "other_tenant_free_billing_still_denied",
+        "passed": true
+      }
+    ],
+    "passed": 4,
+    "failed": 0
+  },
+  "deployment": {
+    "image": "sha256:99d1a54d20b8583b572f63be0fa0e0ab625233e0bec04159691265eba3c7392c",
+    "rollback_container": "jodibana-web-1-before-recovery-20261101",
+    "healthy": true,
+    "database_migrations": 0,
+    "settings_preserved": true,
+    "live_provider_calls": 0,
+    "verification": {
+      "billing_and_settings_unchanged": true,
+      "free_grant_preserved": true
+    },
+    "paid_tiers_activated": false
+  },
+  "payment_cleanup": {
+    "synthetic_subscription_canceled": true,
+    "subscription_test_payments_refunded": 2,
+    "synthetic_price_product_archived": true,
+    "deliberate_failed_refund_fixture_retained": true,
+    "failed_fixture_real_money": 0,
+    "live_mutations": 0
+  },
+  "environment_cleanup": {
+    "temporary_callback_deleted": true,
+    "temporary_route_removed": true,
+    "synthetic_receivers_stopped": true,
+    "test_data_retained_privately": true,
+    "public_health": {
+      "https://agentvire.com/": 200,
+      "https://jodiusa.com/": 200,
+      "https://jodibana.com/": 200,
+      "https://weddingos.pro/": 200,
+      "https://memoirbookstudio.com/": 200
+    },
+    "live_transactions": 0
+  },
+  "paid_tiers_pending_approval": true,
+  "commissions_changed": false,
+  "campaigns_changed": false,
+  "other_products_rerun": false,
+  "scope_notes": [
+    "Real signed HTTPS delivery for synthetic Stripe transactions only; no real customer payment or email.",
+    "Asynchronous refunds began on the first candidate; refund implementation is unchanged in the final image. Final image includes preservation of disabled features during renewal and additional tests.",
+    "Refund fixtures bind genuine paid PaymentIntents to synthetic local one-time invoices; these tests do not re-certify the Checkout journey. The earlier checkout/browser evidence is retained separately.",
+    "Real failed renewal reaches past_due and recovers after updating the test method. Unpaid suspension/restoration, canceled-subscription protection and newest-invoice requirements are covered by PostgreSQL tests; full provider retry-exhaustion policy remains an operational gate.",
+    "Failed refund reversal restores accounting and displays a follow-up notice; it does not claim the customer received replacement funds.",
+    "Existing USD, single-payment invoice model only. Plan changes/proration, multiple payments per invoice and unsupported currencies are not certified.",
+    "Profile creation, verification and isolation additions are database/HTTP regression tests, not a new complete browser activation journey."
+  ]
+}
