@@ -19,3 +19,5 @@ Tier and billing findings across all waves: [1 November product backlog](product
 [Targeted billing fixes and staging results](billing-fix-staging-20261101.md): five OraToPlus/Memoire failures fixed in candidates; production deployment and Jodibana sandbox credentials remain pending. Product code stays on separate product branches/backlogs.
 
 Latest follow-up: [Approved production deployments and Jodibana sandbox results](billing-deployment-sandbox-20261101.md). OraToPlus/Memoire deployment and sandbox-credential holds are cleared. Jodibana recurring billing and refund reconciliation remain measured failures; all commercial task states are unchanged. Earlier evidence above is historical.
+
+Latest Jodibana follow-up: [recurring/refund fixes and final test evidence](jodibana-recurring-refunds-20261101.md). Both prior measured failures are fixed in the candidate; full tenant/release gates remain open. The requested JodiUSA free all-feature grant is proposed, not activated.

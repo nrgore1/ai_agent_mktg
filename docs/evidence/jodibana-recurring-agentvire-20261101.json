@@ -1,0 +1,13 @@
+{
+  "run_id": "jodibana-recurring-refunds-20261101-04",
+  "products": 17,
+  "technical_approvals": 0,
+  "commercial_approvals": 0,
+  "commercial_tasks_unchanged": 51,
+  "audit_valid": true,
+  "jodibana_production_unchanged": true,
+  "prior_two_failures_fixed_in_sandbox": true,
+  "private_pricing_proposal_saved": true,
+  "pricing_proposal_artifact_id": "732bc3d03474505b83387d6e4b9af36c",
+  "jodiusa_free_exception_activated": false
+}

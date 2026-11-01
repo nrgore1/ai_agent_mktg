@@ -42,3 +42,5 @@ Evidence: [deployments and sandbox checks](evidence/billing-deployment-sandbox-2
 Reference: Stripe's [SDK resource conversion](https://github.com/stripe/stripe-python#working-with-api-resources), [dynamic payment methods](https://docs.stripe.com/payments/payment-methods/dynamic-payment-methods), [test event forwarding](https://docs.stripe.com/cli/listen) and [Managed Payments eligibility](https://docs.stripe.com/payments/managed-payments/eligibility). The test result, not these documents alone, determines each gate.
 
 Final verification: all 16 AgentVire qualification/finance safeguard tests pass. Jodibana candidate commit `418a6b82` is published on its separate branch; it is not deployed to production.
+
+Latest Jodibana follow-up: [recurring/refund fixes and final test evidence](jodibana-recurring-refunds-20261101.md). Both prior measured failures are fixed in the candidate; full tenant/release gates remain open. The requested JodiUSA free all-feature grant is proposed, not activated.

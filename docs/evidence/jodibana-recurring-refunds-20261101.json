@@ -1,0 +1,97 @@
+{
+  "postgresql": {
+    "tests": 90,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 0,
+    "exit_code": 0,
+    "database": "PostgreSQL 16",
+    "network": "internal; no provider access",
+    "production_data_mounted": false,
+    "provider_credentials": false,
+    "image": "sha256:5537d698f2a61dbb702231e533b848d5365ca82aab5d166e56eabd41521276ac",
+    "concurrency_test_sha256": "c45d17a1fe4f42254a2f7254c9383813f0aedee974e9221dab6ca9f2e47d4394"
+  },
+  "first_subscription": {
+    "provider_paid": true,
+    "checkout_is_subscription": true,
+    "provider_status": "active",
+    "local_invoice_status": "paid",
+    "local_subscription_active": true,
+    "monthly_interval": "month",
+    "payment_link_recorded": true,
+    "stripe_subscription_bound": true
+  },
+  "lifecycle": {
+    "checks": [
+      {
+        "name": "monthly_renewal_paid",
+        "passed": true,
+        "detail": "Stripe test clock generated and paid the next monthly invoice at the unchanged price."
+      },
+      {
+        "name": "renewal_reconciled_separately",
+        "passed": true,
+        "detail": "A distinct local renewal invoice was recorded by real signed delivery."
+      },
+      {
+        "name": "partial_refund_reconciled",
+        "passed": true,
+        "detail": "Partial test refund updates invoice and ledger through real signed events."
+      },
+      {
+        "name": "full_refund_reconciled",
+        "passed": true,
+        "detail": "Refund ledger totals exactly the refunded amount without duplicating the partial refund."
+      },
+      {
+        "name": "refund_does_not_cancel_subscription",
+        "passed": true,
+        "detail": "Refund accounting preserves access and recurring agreement; cancellation is explicit."
+      },
+      {
+        "name": "scheduled_cancellation_preserves_paid_access",
+        "passed": true,
+        "detail": "Real provider scheduled cancellation is recorded without early access removal."
+      },
+      {
+        "name": "explicit_cancellation_reconciled",
+        "passed": true,
+        "detail": "Explicit test subscription cancellation is reflected locally."
+      },
+      {
+        "name": "renewal_refund_bound_to_correct_invoice",
+        "passed": true,
+        "detail": "The renewal refund updates its own invoice; initial refund accounting remains separate."
+      }
+    ],
+    "passed": 8,
+    "failed": 0,
+    "live_mutations": 0,
+    "environment": "Isolated SQLite, reduced routes; actual Stripe CLI signed events and test clock",
+    "full_product_acceptance": false
+  },
+  "annual_and_cleanup": {
+    "annual_checkout_is_subscription": true,
+    "annual_interval": "year",
+    "existing_annual_price_cents": 49000,
+    "unpaid_no_activation": true,
+    "cleanup": {
+      "owned_remaining_sessions_expired": 0,
+      "owned_remaining_payments_refunded": 1,
+      "owned_remaining_subscriptions_canceled": 0,
+      "test_clocks_retained_for_evidence": 2,
+      "live_mutations": 0
+    }
+  },
+  "production_changed": false,
+  "full_product_approval": false,
+  "pricing_changed": false,
+  "commission_changed": false,
+  "campaign_changed": false,
+  "notes": [
+    "Other products retain prior evidence; not rerun.",
+    "Initial real renewal exposed Decimal JSON serialization; fixed before fresh successful final lifecycle.",
+    "Final hosted browser return navigation is not certified; payment verified at provider and local database."
+  ]
+}
