@@ -22,7 +22,8 @@ stamp=dt.datetime.now(dt.timezone.utc).strftime('%Y%m%dT%H%M%S%fZ')
 backup=p.with_name('economics-source.before-refresh-'+stamp+'.json')
 fd=os.open(backup,os.O_WRONLY|os.O_CREAT|os.O_EXCL,0o600)
 with os.fdopen(fd,'wb') as f:f.write(original)
-source['actual_finance']=actual
+from growthpilot.finance_snapshot import merge_actual_finance
+source['actual_finance']=merge_actual_finance(source.get('actual_finance',{}),actual)
 temporary=p.with_name('economics-source.refresh-'+stamp+'.tmp')
 fd=os.open(temporary,os.O_WRONLY|os.O_CREAT|os.O_EXCL,0o600)
 with os.fdopen(fd,'w') as f:

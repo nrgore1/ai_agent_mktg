@@ -45,7 +45,7 @@ def main():
    return not origin or urlsplit(origin).netloc==self.headers.get('Host')
   def do_GET(self):
    path=urlsplit(self.path).path
-   if path=='/health':return self.send(200,{'status':'ok','mode':'approval-governed','version':'0.5.0'})
+   if path=='/health':return self.send(200,{'status':'ok','mode':'approval-governed','version':'0.5.1'})
    if path.startswith(PREFIX):
     try:
      brand,brand_config=registry.resolve(self.headers.get('Host',''),self.headers,'GET',path)

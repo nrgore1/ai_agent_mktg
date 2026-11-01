@@ -13,3 +13,5 @@ AgentVire release acceptance covers the marketing operating system. It does not 
 | SDIS, One-Man Hedge Fund, Quantsys, SMDP Design, Stablecoin Pipeline | Existing internal product backlogs and strategy execution | Remain internal until the founder changes scope |
 
 Postmark provider-history deletion remains dependent on account-level configuration and provider enablement. It is not marked complete by an AgentVire deployment. Existing per-product execution records and measured statuses are preserved.
+
+Tier and billing findings across all waves: [1 November product backlog](product-billing-backlog-20261101.md). [Measured qualification report](wave-billing-qualification-20261101.md) distinguishes component checks from full sandbox acceptance.
