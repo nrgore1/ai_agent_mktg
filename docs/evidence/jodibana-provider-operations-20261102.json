@@ -1,0 +1,303 @@
+{
+  "regression": {
+    "tests": 518,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 0,
+    "exit_code": 0,
+    "database": "PostgreSQL 16",
+    "network": "internal; no provider access",
+    "production_data_mounted": false,
+    "provider_credentials": false,
+    "image": "sha256:c5c0723bfea7728d5c3c22f19c897b6189007ab3f8ce89bfbb27445745fd3aed",
+    "concurrency_test_sha256": "c45d17a1fe4f42254a2f7254c9383813f0aedee974e9221dab6ca9f2e47d4394"
+  },
+  "http": {
+    "checks": [
+      {
+        "name": "signed_initial_invoice_activates_bound_subscription",
+        "passed": true
+      },
+      {
+        "name": "owner_wallet_api_works",
+        "passed": true
+      },
+      {
+        "name": "cross_tenant_billing_status_denied",
+        "passed": true
+      },
+      {
+        "name": "existing_agreement_cannot_create_second_invoice",
+        "passed": true
+      },
+      {
+        "name": "actual_initial_checkout_opens",
+        "passed": true
+      },
+      {
+        "name": "standard_monthly_subscription_checkout",
+        "passed": true
+      },
+      {
+        "name": "repeated_checkout_reuses_provider_session",
+        "passed": true
+      },
+      {
+        "name": "different_plan_does_not_open_parallel_checkout",
+        "passed": true
+      },
+      {
+        "name": "expired_checkout_can_be_retried",
+        "passed": true
+      },
+      {
+        "name": "unpaid_checkout_does_not_activate_paid_access",
+        "passed": true
+      },
+      {
+        "name": "stale_member_pointer_does_not_grant_billing",
+        "passed": true
+      },
+      {
+        "name": "unsigned_telegram_ingest_denied",
+        "passed": true
+      }
+    ],
+    "passed": 12,
+    "failed": 0,
+    "synthetic_only": true,
+    "live_payments": 0
+  },
+  "scheduled_cancellation": {
+    "checks": [
+      {
+        "name": "provider_confirms_end_period_cancellation",
+        "passed": true
+      },
+      {
+        "name": "signed_callback_records_scheduled_cancellation",
+        "passed": true
+      },
+      {
+        "name": "access_retained_until_paid_period_ends",
+        "passed": true
+      },
+      {
+        "name": "cancellation_does_not_fabricate_refund",
+        "passed": true
+      }
+    ],
+    "passed": 4,
+    "failed": 0,
+    "natural_signed_https_callback": true
+  },
+  "terminal_cancellation": {
+    "checks": [
+      {
+        "name": "provider_canceled_at_period_end",
+        "passed": true
+      },
+      {
+        "name": "signed_terminal_event_removes_paid_access",
+        "passed": true
+      },
+      {
+        "name": "original_invoice_remains_paid_without_automatic_refund",
+        "passed": true
+      },
+      {
+        "name": "no_renewal_invoice_after_cancellation",
+        "passed": true
+      }
+    ],
+    "passed": 4,
+    "failed": 0,
+    "natural_signed_https_callback": true,
+    "clock_ready": true
+  },
+  "browser": {
+    "checks": [
+      {
+        "name": "owner_can_view_bound_billing",
+        "passed": true
+      },
+      {
+        "name": "scheduled_cancellation_notice_visible",
+        "passed": true
+      },
+      {
+        "name": "self_service_button_visible",
+        "passed": true
+      },
+      {
+        "name": "foreign_tenant_billing_denied",
+        "passed": true
+      },
+      {
+        "name": "owner_action_returns_verified_portal_redirect",
+        "passed": true
+      },
+      {
+        "name": "restricted_stripe_portal_opens",
+        "passed": true
+      },
+      {
+        "name": "hosted_test_portal_content_visible",
+        "passed": true
+      }
+    ],
+    "passed": 7,
+    "failed": 0
+  },
+  "cancellation_browser": {
+    "test_mode_verified": true,
+    "cancellation_confirmation_submitted": true,
+    "provider_confirmation_required": true,
+    "displayed_text": "Jodibana sandbox\nSandbox\nSynthetic Jodibana billing operations test\nReturn to Jodibana sandbox\nPowered by\nTerms\nPrivacy\nCURRENT SUBSCRIPTION\nCancels Dec 2\nSynthetic existing Growth QA\n$49.00 per month\nYour service will end on December 2, 2026.\nVisa \u00e2\u20ac\u00a2\u00e2\u20ac\u00a2\u00e2\u20ac\u00a2\u00e2\u20ac\u00a2 4242\nDon't cancel subscription\nPAYMENT METHOD\nVisa \u00e2\u20ac\u00a2\u00e2\u20ac\u00a2\u00e2\u20ac\u00a2\u00e2\u20ac\u00a2 4242\nExpires 11/2027\nMore options\nAdd payment method"
+  },
+  "inventory": {
+    "configuration": {
+      "STRIPE_SECRET_KEY": true,
+      "STRIPE_WEBHOOK_SECRET": false,
+      "STRIPE_STANDARD_CHECKOUT": true,
+      "POSTMARK_SERVER_TOKEN": true,
+      "POSTMARK_FROM_EMAIL": true,
+      "TURN_URLS": false,
+      "TURN_SHARED_SECRET": false,
+      "TELEGRAM_BOT_TOKEN": false,
+      "TELEGRAM_WEBHOOK_SECRET": true,
+      "STRIPE_PORTAL_CONFIGURATION_ID": false
+    },
+    "provider_probes": {
+      "postmark_server_auth_http": 200,
+      "stripe_account_auth_http": 401
+    },
+    "stripe_mode": "test",
+    "integration_setting_counts": {
+      "postmark": 0,
+      "telegram": 0,
+      "telegram_chat_id": 0,
+      "ai": 0,
+      "llm": 0,
+      "communications": 1
+    },
+    "model_environment_names": [],
+    "production_image": "sha256:c5c0723bfea7728d5c3c22f19c897b6189007ab3f8ce89bfbb27445745fd3aed"
+  },
+  "postmark": {
+    "postmark_accepted": true,
+    "provider_message_id_present": true,
+    "recipient": "Postmark documented discard sink",
+    "real_person_recipient": false,
+    "inbox_placement_verified": false,
+    "error": null
+  },
+  "kimi_candidate": {
+    "available_models": [
+      "hf.co/mradermacher/Kimi-VL-A3B-Instruct-GGUF:IQ4_XS"
+    ],
+    "loaded_models": [
+      "hf.co/mradermacher/Kimi-VL-A3B-Instruct-GGUF:IQ4_XS"
+    ],
+    "model": "hf.co/mradermacher/Kimi-VL-A3B-Instruct-GGUF:IQ4_XS",
+    "error": "ReadTimeout",
+    "elapsed_seconds": 45.05
+  },
+  "app_local_model": {
+    "local_only": true,
+    "provider": "stub",
+    "is_stub": true,
+    "real_model_answer": false,
+    "elapsed_seconds": 0.0,
+    "customer_data_used": false
+  },
+  "deployment": {
+    "image": "sha256:c5c0723bfea7728d5c3c22f19c897b6189007ab3f8ce89bfbb27445745fd3aed",
+    "rollback_container": "jodibana-web-1-before-provider-ops-20261102",
+    "healthy": true,
+    "database_migrations": 0,
+    "settings_preserved": true,
+    "live_provider_calls": 0,
+    "verification": {
+      "billing_and_settings_unchanged": true,
+      "free_grant_preserved": true
+    },
+    "paid_tiers_activated": false
+  },
+  "payment_cleanup": {
+    "synthetic_subscription_canceled": true,
+    "synthetic_payment_refunded": true,
+    "fixture_product_price_archived": true,
+    "portal_configuration_disabled": false,
+    "portal_default_test_configuration_retained": true,
+    "remaining_owned_open_checkouts_expired": 1,
+    "owned_inline_test_products_archived": 0,
+    "provider_immutable_inline_price_product_pairs_retained": 5,
+    "live_transactions": 0
+  },
+  "environment_cleanup": {
+    "temporary_callback_deleted": true,
+    "temporary_route_removed": true,
+    "synthetic_receivers_stopped": true,
+    "test_data_retained_privately": true,
+    "public_health": {
+      "https://agentvire.com/": 200,
+      "https://jodiusa.com/": 200,
+      "https://jodibana.com/": 200,
+      "https://weddingos.pro/": 200,
+      "https://memoirbookstudio.com/": 200
+    },
+    "live_transactions": 0
+  },
+  "recorded_at": "2026-11-02T03:19:36.287137+00:00",
+  "paid_tiers_pending_approval": true,
+  "commissions_changed": false,
+  "campaigns_changed": false,
+  "other_products_rerun": false,
+  "provider_readiness": [
+    {
+      "provider": "Postmark",
+      "status": "partial",
+      "evidence": "Server authentication HTTP 200 and actual configured-sender message accepted by the documented discard sink. No person received it; inbox placement, bounce operations and deletion-history scope are not certified."
+    },
+    {
+      "provider": "Stripe test operations",
+      "status": "passed_scoped",
+      "evidence": "Bound owner portal, repeated/expired checkout protection, real portal cancellation, scheduled access retention and paid-period termination pass with a registered signed HTTPS test callback."
+    },
+    {
+      "provider": "Stripe production operations",
+      "status": "blocked",
+      "evidence": "Deployed credential is an invalid test key (HTTP 401); webhook signing secret and reviewed portal configuration are absent. Valid test key remains isolated. Paid production collection remains unavailable."
+    },
+    {
+      "provider": "Hosted payment-method entry",
+      "status": "blocked",
+      "evidence": "The portal opens, but its hosted Add payment method screen did not render usable entry fields in this automated browser run. No card update or retry recovery via that UI is certified."
+    },
+    {
+      "provider": "Local AI",
+      "status": "failed",
+      "evidence": "Actual deployed local-only adapter returns a labelled stub, not a model answer. The already-loaded shared Kimi IQ4_XS candidate separately timed out at 45.05 seconds on a small synthetic prompt. No cloud fallback enabled, no quality claim, no model download or shared-model replacement."
+    },
+    {
+      "provider": "Video relay",
+      "status": "blocked",
+      "evidence": "TURN URLs and shared secret absent. Signalling/isolation regression tests pass; real cross-network media connectivity is not certified."
+    },
+    {
+      "provider": "Telegram media",
+      "status": "blocked",
+      "evidence": "Bot token and tenant chat mappings absent. Unconfigured requests now return 503, invalid secrets 403, and authenticated unfinished ingest 501. Unsafe name-based routing and unlinked media storage were removed. Not advertised as a completed integration."
+    }
+  ],
+  "scope_notes": [
+    "518 PostgreSQL checks include the previous activation/billing regressions, provider/token/video tests and new payment-operation coverage; zero failures/errors/skips.",
+    "The final image adds cancellation timestamp support after the initial 12-assertion HTTP pass. Those checkout/authorization paths are unchanged; the final image reran all 518 regressions, seven owner browser assertions and all eight signed cancellation assertions.",
+    "Stripe actually set cancel_at to the paid-period boundary while cancel_at_period_end was false. The corrected callback records cancellation_scheduled and stripe_cancel_at without revoking paid access early.",
+    "Provider cancellation was submitted through the real test portal; natural registered signed callbacks, not fabricated signatures, updated the application. A test clock then reached the boundary; no renewal or automatic refund occurred. The test payment was explicitly refunded later during cleanup.",
+    "Production image, environment, mounts, existing rates, invoices/subscriptions/settings fingerprints and JodiUSA free grant were verified. No portal configuration or payment credential was enabled in production.",
+    "The temporary callback and route were removed, isolated receivers stopped and local tunnel closed. Stripe-owned inline price/product history is immutable and remains retained; the default test portal configuration is retained because it is the default in the test account. These records are not production offers or approval.",
+    "Usage/cross-tier and supported refund case evidence is retained from prior runs; unrelated products were not retested. The actual operator-demo review and privacy/operational prerequisites remain open."
+  ]
+}
