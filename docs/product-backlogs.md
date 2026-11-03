@@ -25,3 +25,7 @@ Current Jodibana status: [failed-payment recovery and live readiness](jodibana-p
 ### Jodibana: privacy/storage repair — 3 November 2026
 
 [Current evidence and remaining gates](jodibana-launch-gates-20261103.md). Repaired production privacy configuration drift and misleading storage checks; 564 regression checks, eight runtime assertions, four recovery assertions and a 140-table isolated restore pass. Persisted wiring and rollback verified. Collection remains disabled and JodiUSA remains free. Provider/AI quality, operator review, retained/provider data, off-site recovery, alert delivery, economics and campaign eligibility remain open. Commercial approval is already recorded subject to all gates. Product fixes remain on Jodibana's separate branch/backlog.
+
+### Owner-selected external backup — 3 November 2026
+
+[Evidence](jodibana-external-backup-20261103.md). Encrypted copy written to the owner's WD D: drive; authenticated read and isolated restore of 140 database tables, 44 media files and AgentVire SQLite integrity pass. The owner-approved targeted disk repair fixed recorded issues, but the drive remains dirty / Scan Needed; the online scan requests a broader offline repair, for which separate approval was requested. Disk health, portable recovery-key escrow, historical deletion continuity, schedule/alerts and full recovery remain open. No commercial or collection change.

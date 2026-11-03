@@ -31,7 +31,7 @@ The retained live journal is currently empty and has no current restore checkpoi
 | Full owner plan changes/proration | Open, portal changes disabled | Test and qualify only if offered; do not advertise unimplemented scope. |
 | Privacy deletion integration | Configuration repaired; scoped checks passed | Historical journal continuity, retained financial/audit data and provider retention review still need evidence. |
 | Postmark history deletion | Blocked by external setup | Owner previously confirmed account token/Data Removal API are not configured. Do not substitute a server token or claim provider history erased. |
-| Off-site disaster recovery | Open | Approved non-Google destination, current journal/key escrow and complete restore/cutover drill required. Local database restore is already proven. |
+| Off-site disaster recovery | External copy restored; broader gate open | Owner-selected WD D: encrypted backup passes 140-table/44-media/AgentVire integrity restore. Disk remains dirty after targeted repair; broader repair approval, portable key escrow, historical journal continuity and complete cutover remain open. |
 | Operational alert delivery | Open | Define an operator destination and verify alert receipt and recovery; a command exit code alone is insufficient. |
 | Economics and price mapping | Open | Reconcile actual usage/support costs and exact offer/commission mapping to the required 75% margin. Estimates and synthetic traffic are not measured customer economics. |
 | Campaign eligibility | Open | Tenant owner opt-in acceptance, confirmed recipient consent, exact publishing accounts and required sender details. Never infer consent from registration. |

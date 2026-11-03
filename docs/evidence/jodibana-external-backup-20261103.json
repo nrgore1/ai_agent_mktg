@@ -1,0 +1,64 @@
+{
+  "external-backup": {
+    "encrypted_file": "jodibana-20261103.agbackup",
+    "encrypted_bytes": 73900528,
+    "sha256": "a5e3212f24863fdec093c3320ef2db493721b8bd0c9ab028a361c1ce45a7be7f",
+    "encryption": "AES-256-GCM",
+    "scope_files": 9,
+    "plaintext_staging_removed": true,
+    "external_path": "D:\\Vireoka_Backups\\Jodibana\\2026-11-03\\jodibana-20261103.agbackup",
+    "ciphertext_roundtrip_verified": true,
+    "authenticated_decryption_verified": true,
+    "archive_hashes_verified": 8,
+    "media_files_read": 44,
+    "disk_health": "Warning: Spot Fix Needed; dirty volume",
+    "disk_repair_pending": true,
+    "portable_key_escrow_verified": false,
+    "full_disaster_recovery_approved": false,
+    "recorded_at": "2026-11-03T23:36:42.454211+00:00",
+    "key_protection": "Windows DPAPI; current user profile. Separate portable key escrow not verified."
+  },
+  "external-restore": {
+    "tables_restored": 140,
+    "same_public_tables_as_live": true,
+    "all_table_counts_match_live": false,
+    "table_count_differences": [
+      {
+        "table": "jodii_core_sessionevent",
+        "backup_count": 165919,
+        "current_count": 165921
+      }
+    ],
+    "authenticated_external_copy": true,
+    "source": "external D drive after repair attempt",
+    "media_files_restored": 44,
+    "all_media_hashes_match": true,
+    "agentvire_sqlite_integrity": "ok",
+    "temporary_data_removed": true,
+    "network": "none",
+    "production_writes": 0,
+    "full_disaster_recovery_approved": false,
+    "portable_key_escrow_verified": false,
+    "elapsed_seconds": 36.59,
+    "recorded_at": "2026-11-03T23:46:34.744741+00:00"
+  },
+  "disk-native-repair": {
+    "exit_code": 1,
+    "health": "Warning",
+    "status": "Scan Needed",
+    "dirty_query": "Volume - D: is Dirty"
+  },
+  "disk-native-scan": {
+    "exit_code": 11,
+    "health": "Warning",
+    "status": "Scan Needed",
+    "dirty_query": "Volume - D: is Dirty"
+  },
+  "recorded_at": "2026-11-03T23:47:29.009064+00:00",
+  "status": "external_copy_verified_recovery_blocked",
+  "disk_full_repair_approval": "requested_after_targeted_repair",
+  "full_launch_approved": false,
+  "live_collection_enabled": false,
+  "jodiusa_free_preserved": true,
+  "no_google_cloud": true
+}
