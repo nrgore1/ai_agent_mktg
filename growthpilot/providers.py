@@ -35,11 +35,18 @@ def research(url):
 
 def draft(product,evidence,channel):
  base=os.environ.get('GROWTHPILOT_OLLAMA_URL','').rstrip('/'); model=os.environ.get('GROWTHPILOT_OLLAMA_MODEL','')
- if ':cloud' in model or 'kimi' not in model.lower():raise Invalid('Select a locally installed Kimi model; cloud tags are disabled')
+ small_local=model in {'ministral-3:3b','granite3.3:2b'}
+ if ':cloud' in model or ('kimi' not in model.lower() and not small_local):raise Invalid('Select an authorized locally installed model; cloud tags are disabled')
+ if small_local and product.get('approved_claims'):raise Invalid('This local model is enabled only for prepared invitation selection; free-form claims drafting remains gated')
+ if small_local:
+  try:
+   with urllib.request.urlopen(base+'/api/ps',timeout=3)as response:loaded=json.loads(response.read(32768)).get('models',[])
+   if not any(m.get('name')==model and m.get('context_length')==2048 for m in loaded):raise ValueError('Model is cold')
+  except Exception:raise Invalid('Local model is not ready; draft preserved. Operator preload is required.')
  if not base or not model:raise Invalid('LLM not configured: set GROWTHPILOT_OLLAMA_URL and GROWTHPILOT_OLLAMA_MODEL on the server')
 
 
- # With no approved product claims, use Kimi to choose between prepared, cautious
+ # With no approved product claims, use the local model to choose between prepared, cautious
  # invitations. The model cannot invent customer-facing capabilities in this mode.
  if not product.get('approved_claims'):
   context=product.get('proposal_context',{});audience=str(context.get('segment') or product.get('audience') or 'interested evaluators')[:250]
@@ -49,13 +56,18 @@ def draft(product,evidence,channel):
   variants=[f"We’re exploring {name} for {audience.lower()}. {question} We’d value a short conversation about your current approach and what would make a focused evaluation useful.",f"Before deciding whether {name} fits your needs, we’d like to understand your workflow. {question} If you’re open to sharing feedback, let’s agree on one practical evaluation goal together."]
   if cta:variants=[v+'\n\nProduct information and evaluation: '+str(cta) for v in variants]
   prompt='Choose the better founder-review invitation for '+audience+' on '+channel+'. Return JSON with choice equal to 1 or 2. Do not write new copy.\n1. '+variants[0]+'\n2. '+variants[1]
+  if small_local:prompt='Choose outreach style for '+audience[:160]+' on '+channel[:60]+'. 1=ask about the current problem; 2=agree on an evaluation goal. Return only JSON with choice equal to 1 or 2.'
   schema={'type':'object','properties':{'choice':{'type':'integer','enum':[1,2]}},'required':['choice'],'additionalProperties':False}
-  request=urllib.request.Request(base+'/api/generate',data=json.dumps({'model':model,'prompt':prompt,'stream':False,'format':schema,'options':{'num_predict':32,'num_ctx':2048,'temperature':0}}).encode(),headers={'Content-Type':'application/json'})
+  request=urllib.request.Request(base+'/api/generate',data=json.dumps({'model':model,'prompt':prompt,'stream':False,'format':schema,'options':{'num_predict':32,'num_ctx':2048,'num_thread':2 if small_local else 4,'temperature':0}}).encode(),headers={'Content-Type':'application/json'})
+  if small_local:
+   payload={'model':model,'messages':[{'role':'system','content':'Select one permitted invitation style. Return only the requested JSON.'},{'role':'user','content':prompt}],'stream':False,'format':schema,'keep_alive':-1,'options':{'num_predict':32,'num_ctx':2048,'num_gpu':0,'num_thread':2,'use_mmap':True,'temperature':0.2}}
+   request=urllib.request.Request(base+'/api/chat',data=json.dumps(payload).encode(),headers={'Content-Type':'application/json'})
   try:
-   with urllib.request.urlopen(request,timeout=120) as response:raw=json.loads(response.read(32768))
-   choice=json.loads(raw['response'])['choice']
-  except Exception:raise Invalid('Local Kimi could not select a valid invitation; draft preserved')
-  if type(choice) is not int or choice not in (1,2):raise Invalid('Invalid local Kimi selection; draft preserved')
+   with urllib.request.urlopen(request,timeout=20 if small_local else 120) as response:raw=json.loads(response.read(32768))
+   if small_local and (raw.get('model')!=model or raw.get('done')is not True or raw.get('done_reason')!='stop'):raise Invalid('Incomplete local selection')
+   choice=json.loads(raw['message']['content'] if small_local else raw['response'])['choice']
+  except Exception:raise Invalid('Local model could not select a valid invitation; draft preserved')
+  if type(choice) is not int or choice not in (1,2):raise Invalid('Invalid local model selection; draft preserved')
   return {'content':variants[choice-1],'claims':[],'uncertainties':['Product readiness and final copy require founder review.','Variant selection is a hypothesis; test it against actual conversion data.'],'mode':'bounded_variant_selection','choice':choice}
  # The installed quantized local model needs a compact context. Never send entire CRM records.
  brief={k:product.get(k) for k in ('name','audience','positioning','website','landing_page','approved_claims')}

@@ -125,7 +125,7 @@ class IntegrationHub:
             leads = self.s.rows(db, 'leads')
             keys = db.execute('SELECT product_id FROM api_keys').fetchall()
         modes = [
-            ('llm', 'Local Kimi', 'local', 'Read-only model availability check; drafting never approves copy.'),
+            ('llm', 'Local model', 'local', 'Read-only model availability check; drafting never approves copy.'),
             ('email', 'Postmark', 'provider', 'Exact approved recipient and current consent are checked again at delivery.'),
             ('crm', 'Customer relationship management', 'built_in_csv', 'Product-scoped CSV exchange; imports never create marketing permission.'),
             ('github', 'GitHub', 'read_only_and_gated_delivery', 'Repository check; issue creation also requires live mode and exact approval.'),
@@ -161,8 +161,8 @@ class IntegrationHub:
             if connector == 'llm':
                 model = os.environ.get('GROWTHPILOT_OLLAMA_MODEL', '')
                 base = os.environ.get('GROWTHPILOT_OLLAMA_URL', '')
-                if not model or 'kimi' not in model.lower() or ':cloud' in model or not base:
-                    raise Invalid('Local Kimi is not configured')
+                if not model or ('kimi' not in model.lower() and model not in {'ministral-3:3b','granite3.3:2b'}) or ':cloud' in model or not base:
+                    raise Invalid('Local model is not configured')
                 available = read_json(base.rstrip('/') + '/api/tags').get('models', [])
                 if not any(m.get('name') == model or m.get('model') == model for m in available):
                     raise Invalid('Configured local model is not available')
