@@ -1,6 +1,6 @@
 {
-  "run_id": "jodibana-payment-recovery-deployed-20261103",
-  "artifact": "805769299e425521941936a54246f614",
+  "run_id": "jodibana-live-delivery-20261103",
+  "artifact": "53614b732ae6534cbc28e029cb82d273",
   "regression_passed": 540,
   "recovery_passed": 14,
   "cleanup_passed": 6,

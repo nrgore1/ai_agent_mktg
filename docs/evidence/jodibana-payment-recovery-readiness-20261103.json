@@ -525,8 +525,8 @@
     },
     "production_changed": false
   },
-  "recorded_at": "2026-11-03T22:42:30.917428+00:00",
-  "status": "payment_recovery_deployed_live_collection_disabled",
+  "recorded_at": "2026-11-03T22:56:12.525370+00:00",
+  "status": "live_webhook_verified_business_onboarding_incomplete",
   "production_deployed": true,
   "live_transactions": 0,
   "commercial_execution_count": 0,
@@ -569,15 +569,16 @@
     "connected_account_permissions": 0,
     "key_saved_privately_on_vps": true,
     "key_installed_in_running_service": true,
-    "blocker": "Stripe business onboarding, genuine live delivery and remaining launch gates incomplete.",
-    "collection_enabled": false
+    "blocker": "Stripe business onboarding and remaining launch gates incomplete.",
+    "collection_enabled": false,
+    "genuine_live_delivery_verified": true
   },
   "limitations": [
     "Synthetic existing $49 monthly plan, not proposed price or margin validation.",
     "Retry policy observed: nine total attempts followed by cancellation, with unpaid invoice open. Other account-specific recovery policies need separate evidence.",
     "Tested candidate deployed; rollback retained; live collection explicitly disabled.",
     "Initial run used stale profile tests: 538 passed and two moderation expectation failures. Rerun with current production test sources passed all 540.",
-    "Live account capabilities, genuine signing delivery and operator tax review remain open; live portal and webhook configuration verified.",
+    "Genuine live non-payment event signing/delivery verified; live account capabilities and operator tax review remain open. No real charge or paid activation was tested.",
     "Provider/AI quality, privacy/recovery, exact campaign consent and economics remain separate open launch gates."
   ],
   "deployment": {
@@ -644,5 +645,35 @@
     "live_collection_enabled": false,
     "live_transactions": 0
   },
-  "deployment_approval": "Explicit owner approval: Approve production deployment with collection disabled."
+  "deployment_approval": "Explicit owner approval: Approve production deployment with collection disabled.",
+  "live_delivery": {
+    "checks": {
+      "genuine_provider_event_received": true,
+      "live_mode_event": true,
+      "signature_verified_and_processed": true,
+      "single_event_record": true,
+      "billing_and_settings_unchanged": true,
+      "jodiusa_free_preserved": true,
+      "original_webhook_events_restored": true,
+      "portal_metadata_restored": true,
+      "portal_customer_features_unchanged": true,
+      "live_collection_disabled": true
+    },
+    "passed": 10,
+    "failed": 0,
+    "genuine_live_webhook_delivery_verified": true,
+    "event_type": "billing_portal.configuration.updated",
+    "scope": "Live HTTPS transport, signing and event persistence; not a live charge or paid activation test",
+    "live_transactions": 0,
+    "account": {
+      "charges_enabled": false,
+      "payouts_enabled": false,
+      "details_submitted": false
+    },
+    "requirements": {
+      "currently_due": null,
+      "past_due": null,
+      "disabled_reason": null
+    }
+  }
 }

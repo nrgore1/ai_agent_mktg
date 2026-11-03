@@ -36,7 +36,7 @@ Customer portal permits payment-method changes and cancellation at period end wi
 ## Remaining gates
 
 - Complete Stripe business/account onboarding; verify charges, payouts and details-submitted flags afterward. Review operator tax and business settings.
-- Verify genuine live signing delivery when an appropriate live event is available; synthetic test delivery is not presented as live-delivery proof.
+- Genuine live signing/delivery is now verified. Real charge processing and paid activation are distinct checks and were not executed.
 - Validate exact live offers, price mappings, cost/margin evidence, commissions and recipient eligibility before enabling collection or campaigns.
 - Continue separate provider/AI quality, operator/privacy and backup recovery work. This payment result clears none of those gates.
 - Confirm full plan-change/proration behavior and alternative account retry policies if offered.
@@ -45,6 +45,14 @@ Customer portal permits payment-method changes and cancellation at period end wi
 
 The release overlays only billing/readiness changes on the current production image, preserving the newer photo moderation implementation. The tested image identifiers and base image are in the evidence JSON. A database dump, original container configuration, original service/environment files and rollback container/image are retained privately. No schema migration is required. Deployment verification checks service health, unchanged billing/settings records, JodiUSA free access and blocked live collection.
 
-Production health, exact candidate image, persisted settings, JodiUSA free access and unchanged billing/settings records were verified after deployment. Unsigned webhook requests return HTTP 400. The old container remains stopped with automatic restart disabled, and the original configuration and database backup are retained. No genuine live webhook delivery is claimed.
+Production health, exact candidate image, persisted settings, JodiUSA free access and unchanged billing/settings records were verified after deployment. Unsigned webhook requests return HTTP 400. The old container remains stopped with automatic restart disabled, and the original configuration and database backup are retained. Genuine live non-payment webhook delivery was subsequently verified with 10 passing checks. The initial postdeployment receipt is retained as historical evidence.
 
 Detailed evidence: `jodibana-payment-recovery-readiness-20261103.json` (AgentVire: `docs/evidence/`).
+
+## Genuine live delivery verification
+
+Ten checks passed using Stripe's documented `billing_portal.configuration.updated` event. The existing endpoint temporarily listened for this non-payment event; an opaque verification marker was added to the owned portal metadata. Stripe delivered a live-mode event through the public HTTPS endpoint, which verified its signature and persisted one processed event. No handcrafted signature or direct database insertion was used. Original subscribed events, portal metadata and customer-facing features were restored. Billing/transaction/settings fingerprints and JodiUSA's free access were unchanged; collection stayed disabled.
+
+This verifies live transport, signing and persistence, not a real payment or paid activation. Stripe still reports `charges_enabled=false`, `payouts_enabled=false` and `details_submitted=false`. Onboarding is not complete. The owner has been asked to restore the minimized Stripe Dashboard window so the exact remaining form requirements can be reviewed; identity, banking and legal acceptance must use confirmed owner information.
+
+Reference: [Stripe event types](https://docs.stripe.com/api/events/types).
