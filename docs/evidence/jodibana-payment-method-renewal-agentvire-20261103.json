@@ -1,0 +1,12 @@
+{
+  "run_id": "jodibana-card-renewal-20261103",
+  "artifact": "208fe39aefb1532f97c39b4670312082",
+  "full_technical_approvals": 0,
+  "owner_commercial_decision": "approved_subject_to_all_gates",
+  "commercial_tasks_blocked_by_missing_validation": 51,
+  "commercial_tasks_completed": 0,
+  "campaigns_sent": 0,
+  "product_deployment_changed": false,
+  "audit_valid": true,
+  "no_google_cloud_preference_recorded": true
+}
