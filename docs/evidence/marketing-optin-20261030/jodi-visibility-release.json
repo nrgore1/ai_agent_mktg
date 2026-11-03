@@ -1,0 +1,8 @@
+{
+  "passed": true,
+  "image": "agentvire-optin-jodi:20261030-r2",
+  "source": "eb1d1e4a4cbc93e102bbddc0b8b093d73c43f5e7",
+  "registration_link_visible": true,
+  "notice_space_reserved": true,
+  "database_redis_media_unchanged": true
+}

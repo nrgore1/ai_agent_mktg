@@ -1,0 +1,12 @@
+{
+  "status": "passed",
+  "tls": true,
+  "login_page": true,
+  "health": {
+    "status": "ok",
+    "mode": "approval-governed",
+    "version": "0.5.1"
+  },
+  "private_report_access_denied": true,
+  "page_errors": []
+}

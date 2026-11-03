@@ -1,0 +1,11 @@
+{
+  "passed": true,
+  "source": "892cf9bcca29c1c0e58542a3cdf72927289b9aa8",
+  "image": "weddingos-api:serialized-save-20261030",
+  "rollback": "weddingos-api:rollback-save-20261030",
+  "health_and_release_match": true,
+  "anonymous_access_denied": true,
+  "web_worker_unchanged": true,
+  "schema_changes": 0,
+  "pricing_changes": 0
+}

@@ -1,0 +1,55 @@
+{
+  "passed": true,
+  "checks": [
+    {
+      "product": "WeddingOS",
+      "passed": true,
+      "checks": [
+        "unchecked optional choice",
+        "mobile layout",
+        "same-origin validation",
+        "explicit choice required",
+        "confirmation email in isolated outbox",
+        "confirmation action",
+        "token removed from address bar",
+        "replay denied",
+        "withdrawal",
+        "registration link"
+      ]
+    },
+    {
+      "product": "JodiUSA",
+      "passed": true,
+      "checks": [
+        "unchecked optional choice",
+        "mobile layout",
+        "same-origin validation",
+        "explicit choice required",
+        "confirmation email in isolated outbox",
+        "confirmation action",
+        "token removed from address bar",
+        "replay denied",
+        "withdrawal",
+        "registration link"
+      ]
+    },
+    {
+      "product": "Memoire Studio",
+      "passed": true,
+      "checks": [
+        "unchecked optional choice",
+        "mobile layout",
+        "same-origin validation",
+        "explicit choice required",
+        "confirmation email in isolated outbox",
+        "confirmation action",
+        "token removed from address bar",
+        "replay denied",
+        "withdrawal",
+        "registration link"
+      ]
+    }
+  ],
+  "synthetic_leads": 0,
+  "real_emails_sent": 0
+}

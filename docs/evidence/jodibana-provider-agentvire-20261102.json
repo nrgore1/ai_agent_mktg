@@ -1,0 +1,14 @@
+{
+  "run_id": "jodibana-provider-ops-20261102-08",
+  "products": 17,
+  "full_technical_approvals": 0,
+  "commercial_approvals": 0,
+  "commercial_tasks_unchanged": 51,
+  "audit_valid": true,
+  "cancellation": "passed_scoped",
+  "paid_tier": "failed_local_ai_gate",
+  "remaining_provider_gates": "blocked",
+  "fixes_deployed": true,
+  "jodiusa_free_grant_preserved": true,
+  "readiness_artifact_id": "5d69091c9455515fb2047929595dd5ae"
+}

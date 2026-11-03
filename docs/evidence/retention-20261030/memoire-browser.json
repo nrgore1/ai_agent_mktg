@@ -1,0 +1,9 @@
+{
+  "passed": true,
+  "real_signup_and_account_delete": true,
+  "confirmation_scope_visible": true,
+  "mailbox_followup_visible": true,
+  "shared_record_limits_visible": true,
+  "synthetic_only": true,
+  "customer_emails": 0
+}

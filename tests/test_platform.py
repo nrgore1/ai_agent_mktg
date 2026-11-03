@@ -35,6 +35,7 @@ class PlatformTests(unittest.TestCase):
   with self.assertRaises(Invalid):self.s.update('channels',1,{'terms_status':'verified'})
  def test_negative_budget_blocked(self):
   with self.assertRaises(Invalid):self.s.update('products',1,{'budget_cents':-1})
+ @patch.dict(os.environ,{"GROWTHPILOT_CONSENT_SECRET":"backup-test-key-only-"*3})
  def test_backup_restore(self):
   self.s.plan(1);backup=self.s.backup(Path(self.tmp.name)/'backups')
   with sqlite3.connect(Path(self.tmp.name)/'backups'/backup['file']) as db:self.assertEqual(db.execute("SELECT COUNT(*) FROM records WHERE kind='products'").fetchone()[0],17)

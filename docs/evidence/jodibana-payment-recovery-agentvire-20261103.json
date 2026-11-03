@@ -1,0 +1,13 @@
+{
+  "run_id": "jodibana-stripe-onboarding-20261103",
+  "artifact": "1aec4b8ca4d05ea09222a7f790fe1a98",
+  "regression_passed": 540,
+  "recovery_passed": 14,
+  "cleanup_passed": 6,
+  "full_technical_approvals": 0,
+  "commercial_approvals_preserved": 51,
+  "commercial_tasks_completed": 0,
+  "campaigns_sent": 0,
+  "product_deployment_changed": true,
+  "audit_valid": true
+}

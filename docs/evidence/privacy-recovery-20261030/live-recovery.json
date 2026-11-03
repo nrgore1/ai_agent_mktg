@@ -1,0 +1,26 @@
+{
+  "wedding": {
+    "service": "weddingos",
+    "account_reconciliation_pending": 0,
+    "may_reopen_accounts": true,
+    "media_and_provider_review_required": true
+  },
+  "jodi": {
+    "service": "jodibana",
+    "account_reconciliation_pending": 0,
+    "may_reopen_accounts": true,
+    "media_and_provider_review_required": true
+  },
+  "memoire": {
+    "service": "memoire",
+    "account_reconciliation_pending": 0,
+    "may_reopen_accounts": true,
+    "media_and_provider_review_required": true
+  },
+  "agent": {
+    "integrity": "ok",
+    "audit_valid": true,
+    "privacy_reconciled": true,
+    "journal_files": 0
+  }
+}

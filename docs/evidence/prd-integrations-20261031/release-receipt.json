@@ -1,0 +1,17 @@
+{
+  "release": "agentvire-0.5.0-prd",
+  "version": "0.5.0",
+  "previous": "8281172-privacy-v4",
+  "health": {
+    "status": "ok",
+    "mode": "approval-governed",
+    "version": "0.5.0"
+  },
+  "protected_data_preserved": true,
+  "existing_runtime_settings_preserved": true,
+  "other_services_unchanged": true,
+  "external_messages_sent": 0,
+  "rollback_image_retained": "growthpilot-staging:8281172-privacy-v4",
+  "integration_contracts": 9,
+  "qa_tests": 203
+}

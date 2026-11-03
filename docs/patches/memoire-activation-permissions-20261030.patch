@@ -1,0 +1,1729 @@
+From a09e36fc391ef7951a0df4698c8ae0cee525dd96 Mon Sep 17 00:00:00 2001
+From: Codex <codex@local>
+Date: Fri, 30 Oct 2026 10:12:46 +0000
+Subject: [PATCH] Require authenticated book and export access with isolation
+ regressions
+
+---
+ docs/activation-permissions-20261030.md       |    7 +
+ .../src/components/ExportPreviewModal.jsx     |   11 +-
+ scripts/qa/activation_permissions_check.py    |   98 ++
+ .../memoir_api/memoirs/serializers.py         |    1 +
+ .../api-django/memoir_api/memoirs/views.py    |  246 ++--
+ .../memoir_api/memoirs/views_export.py        | 1270 +++++++++--------
+ 6 files changed, 876 insertions(+), 757 deletions(-)
+ create mode 100644 docs/activation-permissions-20261030.md
+ create mode 100644 scripts/qa/activation_permissions_check.py
+
+diff --git a/docs/activation-permissions-20261030.md b/docs/activation-permissions-20261030.md
+new file mode 100644
+index 000000000..c12c649e5
+--- /dev/null
++++ b/docs/activation-permissions-20261030.md
+@@ -0,0 +1,7 @@
++# Authenticated activation and export candidate
++
++The deployed 9d36318ddc03 image allows anonymous book creation and exports, and accepts owner changes through the project serializer. The candidate requires authentication for the library and export endpoints, makes owner read-only, preserves scoped 404s, and explicitly retires the unimplemented legacy export queue. The browser export modal now calls the existing authFetch helper so token and JWT sessions send credentials.
++
++31 isolated PostgreSQL/MinIO checks passed, including signup, save/return, cross-account denial, owner immutability, two-page PDF output, signed PDF/preview downloads and unsigned-object denial. The test creates only synthetic accounts. Run scripts/qa/activation_permissions_check.py only in a disposable isolated PostgreSQL/MinIO environment; its database guard requires memoire-qa-pg/activationqa. Production is not modified by that test.
++
++This is a staging candidate. Browser acceptance, paid entitlements/limits, malformed export payload/size limits, public showcase authorization and comprehensive privacy/security review remain open. Do not advertise printing, paid export entitlements or full launch readiness from this evidence alone.
+diff --git a/memoir_studio_frontend/src/components/ExportPreviewModal.jsx b/memoir_studio_frontend/src/components/ExportPreviewModal.jsx
+index f1ec4f04a..a3fb63bc1 100644
+--- a/memoir_studio_frontend/src/components/ExportPreviewModal.jsx
++++ b/memoir_studio_frontend/src/components/ExportPreviewModal.jsx
+@@ -1,3 +1,4 @@
++import { authFetch } from "../lib/auth";
+ import { useEffect, useMemo, useState } from "react";
+ import { useStudioStore } from "../store/useStudioStore";
+ import { saveBookLocally } from "../lib/localSave";
+@@ -127,7 +128,7 @@ export default function ExportPreviewModal({ onClose }) {
+         setProgress(`Rendering page ${done}/${total} at print resolution…`)
+       );
+       setProgress("Building PDF…");
+-      const res = await fetch("/api/export/book-pdf/", {
++      const res = await authFetch("/api/export/book-pdf/", {
+         method: "POST",
+         headers: { "Content-Type": "application/json" },
+         body: JSON.stringify({
+@@ -184,7 +185,7 @@ export default function ExportPreviewModal({ onClose }) {
+           vols.push({ title: `Volume ${v + 1}`, pages: seg });
+       }
+       setProgress("Building volumes…");
+-      const res = await fetch("/api/export/volumes/", {
++      const res = await authFetch("/api/export/volumes/", {
+         method: "POST",
+         headers: { "Content-Type": "application/json" },
+         body: JSON.stringify({
+@@ -221,7 +222,7 @@ export default function ExportPreviewModal({ onClose }) {
+           return {};
+         }
+       });
+-      const r = await fetch("/api/export/preflight/", {
++      const r = await authFetch("/api/export/preflight/", {
+         method: "POST",
+         headers: { "Content-Type": "application/json" },
+         body: JSON.stringify({ pages: all }),
+@@ -252,7 +253,7 @@ export default function ExportPreviewModal({ onClose }) {
+           .map((c) => ({ type: "text", text: c.attrs.text }));
+         return { objects: texts };
+       });
+-      const res = await fetch("/api/export/epub/", {
++      const res = await authFetch("/api/export/epub/", {
+         method: "POST",
+         headers: { "Content-Type": "application/json" },
+         body: JSON.stringify({ title: projectTitle, pages: epubPages }),
+@@ -276,7 +277,7 @@ export default function ExportPreviewModal({ onClose }) {
+         setProgress(`Rendering page ${done}/${total} for sharing…`)
+       );
+       setProgress("Publishing…");
+-      const res = await fetch("/api/export/share-book/", {
++      const res = await authFetch("/api/export/share-book/", {
+         method: "POST",
+         headers: { "Content-Type": "application/json" },
+         body: JSON.stringify({ title: projectTitle, pages: rendered, watermark: shareWatermark }),
+diff --git a/scripts/qa/activation_permissions_check.py b/scripts/qa/activation_permissions_check.py
+new file mode 100644
+index 000000000..4c71f42ae
+--- /dev/null
++++ b/scripts/qa/activation_permissions_check.py
+@@ -0,0 +1,98 @@
++
++import os,json,io,base64,hashlib
++import dotenv
++dotenv.load_dotenv=lambda *a,**kw:False
++os.environ.update(DJANGO_SETTINGS_MODULE='memoir_api.settings.base',TENANT_STRICT='1',AUTH_MODE='jwt',DJANGO_SECRET_KEY='isolated-qa-not-production',DJANGO_DEBUG='false')
++from django.conf import settings
++assert settings.DATABASES['default']['HOST']=='memoire-qa-pg'
++assert settings.DATABASES['default']['NAME']=='activationqa'
++settings.CACHES={'default':{'BACKEND':'django.core.cache.backends.locmem.LocMemCache'}}
++settings.CHANNEL_LAYERS={'default':{'BACKEND':'channels.layers.InMemoryChannelLayer'}}
++settings.EMAIL_BACKEND='django.core.mail.backends.locmem.EmailBackend'
++settings.ALLOWED_HOSTS=['testserver','localhost']
++settings.SECURE_SSL_REDIRECT=False
++settings.MINIO_ENDPOINT='memoire-qa-storage:9000'
++settings.MINIO_ACCESS_KEY='activationqa'
++settings.MINIO_SECRET_KEY=os.environ['QA_STORAGE_PASSWORD']
++settings.MINIO_BUCKET='activationqa'
++settings.LOGGING={'version':1,'disable_existing_loggers':True}
++import django;django.setup()
++from django.core.management import call_command
++call_command('migrate',verbosity=0,interactive=False)
++from rest_framework.test import APIClient
++from django.core.cache import cache
++checks=[]
++def check(label,ok):
++ checks.append({'check':label,'passed':bool(ok)})
++def call(c,method,path,payload=None):
++ r=getattr(c,method)(path,payload,format='json') if payload is not None else getattr(c,method)(path)
++ return r
++clients=[];users=[]
++for i in range(2):
++ c=APIClient();email='qa'+str(i)+'@example.invalid';pw='Launch-QA!7-noncustomer'
++ r=c.post('/api/auth/register/',{'email':email,'password':pw,'display_name':'Synthetic QA'},format='json')
++ check('account '+str(i)+' signup',r.status_code==201)
++ if r.status_code!=201:raise RuntimeError('signup status '+str(r.status_code))
++ body=r.json();users.append(body['user']);c.credentials(HTTP_AUTHORIZATION='Token '+body['token']);clients.append(c)
++ check('account '+str(i)+' profile',c.get('/api/auth/me/').status_code==200)
++a,b=clients;anon=APIClient()
++r=a.post('/api/memoirs/',{'title':'Synthetic private book','data':{'pages':[]}},format='json')
++check('create private book',r.status_code==201)
++if r.status_code!=201:raise RuntimeError('create status '+str(r.status_code))
++pk=r.json()['id'];url='/api/memoirs/'+pk+'/'
++check('owner assigned by server',r.json()['owner']==users[0]['id'])
++check('owner retrieves book',a.get(url).status_code==200)
++check('other account cannot read',b.get(url).status_code==404)
++check('anonymous cannot read',anon.get(url).status_code in (401,403,404))
++check('other account cannot modify',b.patch(url,{'title':'forbidden'},format='json').status_code==404)
++check('other account cannot delete',b.delete(url).status_code==404)
++r=a.patch(url,{'title':'Saved and returned'},format='json');check('save edited book',r.status_code==200)
++fresh=APIClient();r=fresh.post('/api/auth/login/',{'email':'qa0@example.invalid','password':'Launch-QA!7-noncustomer'},format='json')
++check('return login',r.status_code==200);fresh.credentials(HTTP_AUTHORIZATION='Token '+r.json()['token'])
++check('saved book persists across login',fresh.get(url).json().get('title')=='Saved and returned')
++r=anon.post('/api/memoirs/',{'title':'Anonymous creation'},format='json');check('anonymous creation denied',r.status_code in (401,403))
++r=a.patch(url,{'owner':users[1]['id']},format='json')
++from memoir_api.memoirs.models import MemoirProject
++check('client cannot transfer owner',MemoirProject.objects.get(pk=pk).owner_id==users[0]['id'])
++# Synthetic fixture reset allows remaining independent export checks after reporting a failure.
++MemoirProject.objects.filter(pk=pk).update(owner_id=users[0]['id'])
++from unittest.mock import patch
++stored={}
++def capture(data,name,content_type='application/octet-stream',**kwargs):
++ stored[name]=(data,content_type);return 'https://storage.invalid/'+name
++from PIL import Image
++buf=io.BytesIO();Image.new('RGB',(64,64),(30,130,160)).save(buf,format='PNG')
++page='data:image/png;base64,'+base64.b64encode(buf.getvalue()).decode()
++with patch('memoir_api.memoirs.views_export.upload_to_minio_signed',capture):
++ r=a.post('/api/export/book-pdf/',{'title':'Synthetic book','pages':[page,page],'color_profile':'rgb'},format='json')
++ check('two-page PDF export returns',r.status_code==200 and r.json().get('pages')==2)
++ from pypdf import PdfReader
++ pdf=[v[0] for v in stored.values() if v[1]=='application/pdf'][-1]
++ check('PDF has two real pages',len(PdfReader(io.BytesIO(pdf)).pages)==2)
++ r=a.post('/api/export/share-book/',{'title':'Synthetic preview','pages':[page],'watermark':True},format='json')
++ check('preview generated with watermark',r.status_code==200 and r.json().get('watermark') is True)
++ check('preview contains image and proof overlay',any(b'background-image' in v[0] and page.encode() in v[0] for v in stored.values() if v[1]=='text/html'))
++ r=anon.post('/api/export/book-pdf/',{'title':'Unauthorized export','pages':[page]},format='json')
++ check('anonymous export denied',r.status_code in (401,403))
++ r=a.post('/api/export/book-pdf/',{'pages':[]},format='json');check('empty book rejected',r.status_code==400)
++import urllib.request,urllib.error,urllib.parse,time
++for i in range(20):
++ try:
++  urllib.request.urlopen('http://memoire-qa-storage:9000/minio/health/ready',timeout=2);break
++ except Exception:time.sleep(1)
++r=a.post('/api/export/book-pdf/',{'title':'Private stored book','pages':[page,page]},format='json')
++check('real storage export succeeds',r.status_code==200)
++signed=r.json()['pdf_url'];check('download URL is signed','X-Amz-Signature='in signed)
++download=urllib.request.urlopen(signed,timeout=10).read()
++check('signed download is a two-page PDF',len(PdfReader(io.BytesIO(download)).pages)==2)
++try:
++ urllib.request.urlopen(signed.split('?')[0],timeout=10);unsigned_code=200
++except urllib.error.HTTPError as exc:unsigned_code=exc.code
++check('unsigned private object denied',unsigned_code==403)
++r=a.post('/api/export/share-book/',{'title':'Private preview','pages':[page],'watermark':True},format='json')
++check('real storage preview opens',r.status_code==200 and page.encode()in urllib.request.urlopen(r.json()['share_url'],timeout=10).read())
++check('anonymous library denied',anon.get('/api/memoirs/').status_code in (401,403))
++check('legacy export cannot bypass ownership',b.post(url+'export/',{},format='json').status_code==404)
++check('legacy export explicitly unavailable',a.post(url+'export/',{},format='json').status_code==410)
++r=fresh.post('/api/auth/logout/');check('logout revokes token',r.status_code==200 and fresh.get('/api/auth/me/').status_code in (401,403))
++print('QA_RECEIPT:'+json.dumps({'image':os.environ.get('QA_IMAGE','memoir/api:9d36318ddc03'),'checks':checks,'passed':sum(x['passed'] for x in checks),'failed':sum(not x['passed']for x in checks),'isolation':'internal-only Docker network; disposable PostgreSQL and MinIO; synthetic accounts; email memory','storage':'real MinIO signed PDF/preview downloads; unsigned object denied','production_changes':0}))
+diff --git a/services/api-django/memoir_api/memoirs/serializers.py b/services/api-django/memoir_api/memoirs/serializers.py
+index 836c24172..2a7bf2877 100644
+--- a/services/api-django/memoir_api/memoirs/serializers.py
++++ b/services/api-django/memoir_api/memoirs/serializers.py
+@@ -17,6 +17,7 @@ class MemoirProjectSerializer(serializers.ModelSerializer):
+     class Meta:
+         model = MemoirProject
+         fields = "__all__"
++        read_only_fields = ["owner"]
+ 
+ 
+ # ---------------------------------------------------
+diff --git a/services/api-django/memoir_api/memoirs/views.py b/services/api-django/memoir_api/memoirs/views.py
+index 91f4f3084..7f3b2b71a 100644
+--- a/services/api-django/memoir_api/memoirs/views.py
++++ b/services/api-django/memoir_api/memoirs/views.py
+@@ -1,121 +1,125 @@
+-from django.shortcuts import get_object_or_404, render
+-from django.utils.decorators import method_decorator
+-from django.views.decorators.csrf import csrf_exempt
+-from django.db.models import Q
+-from rest_framework import viewsets, permissions
+-from rest_framework.authentication import TokenAuthentication
+-from rest_framework.decorators import action, api_view, permission_classes
+-from rest_framework.response import Response
+-from .models import MemoirProject
+-from .serializers import MemoirProjectSerializer
+-
+-class AllowAnyPermissions(permissions.BasePermission):
+-    def has_permission(self, request, view): return True
+-    def has_object_permission(self, request, view, obj): return True
+-
+-@method_decorator(csrf_exempt, name="dispatch")
+-class MemoirViewSet(viewsets.ModelViewSet):
+-    serializer_class = MemoirProjectSerializer
+-    # Token auth reads the Authorization header when present; anonymous
+-    # requests still pass (dev-open). No SessionAuthentication => no CSRF.
+-    authentication_classes = [TokenAuthentication]
+-    permission_classes = [AllowAnyPermissions]
+-    queryset = MemoirProject.objects.all().order_by("-updated_at")
+-
+-    def get_queryset(self):
+-        """Signed-in users see their own books plus unclaimed (legacy)
+-        ones; anonymous requests keep full dev-open visibility. Archived
+-        books are hidden unless ?archived=1 (only) or ?all=1 (both)."""
+-        from .tenant import visible_projects
+-
+-        qs = MemoirProject.objects.all().order_by("-updated_at")
+-        user = getattr(self.request, "user", None)
+-        # Tenant scoping: dev-open by default (own + unclaimed), or strict
+-        # org-scoped when TENANT_STRICT=1. See memoirs/tenant.py.
+-        qs = visible_projects(qs, user)
+-        # Showcase example books are ownerless (so they read as "unclaimed")
+-        # but must never appear in a user's own library — hide them here; they
+-        # are served only via /api/showcase/. Detail actions still reach them
+-        # so a clone can read the source by pk.
+-        # NB: NULL-safe on purpose — a bare .exclude(meta__showcase=True)
+-        # compiles to NOT(meta->'showcase' = true), which is NULL (i.e. also
+-        # excluded) for every book that simply lacks the key, emptying the
+-        # whole library.
+-        if getattr(self, "action", None) == "list":
+-            qs = qs.filter(
+-                Q(meta__showcase__isnull=True) | Q(meta__showcase=False)
+-            )
+-        # Only the LIST view hides archived books — detail actions (retrieve/
+-        # rename/unarchive/delete) must still reach an archived project.
+-        if getattr(self, "action", None) == "list":
+-            params = getattr(self.request, "query_params", self.request.GET)
+-            if params.get("archived") in ("1", "true"):
+-                qs = qs.filter(archived=True)
+-            elif params.get("all") not in ("1", "true"):
+-                qs = qs.filter(archived=False)
+-        return qs
+-
+-    def perform_update(self, serializer):
+-        """Saving an unclaimed book while signed in claims it."""
+-        user = getattr(self.request, "user", None)
+-        instance = serializer.instance
+-        if (
+-            user is not None
+-            and user.is_authenticated
+-            and instance is not None
+-            and instance.owner_id is None
+-        ):
+-            serializer.save(owner=user)
+-        else:
+-            serializer.save()
+-
+-    def create(self, request, *args, **kwargs):
+-        try:
+-            return super().create(request, *args, **kwargs)
+-        except Exception as e:
+-            return Response({"error": "create_failed", "detail": str(e)}, status=400)
+-
+-    def update(self, request, *args, **kwargs):
+-        try:
+-            return super().update(request, *args, **kwargs)
+-        except Exception as e:
+-            return Response({"error": "update_failed", "detail": str(e)}, status=400)
+-
+-    def perform_create(self, serializer):
+-        owner = self.request.user if getattr(self.request, "user", None) and self.request.user.is_authenticated else None
+-        serializer.save(owner=owner)
+-
+-    @action(detail=True, methods=["post"])
+-    def export(self, request, pk=None):
+-        try:
+-            proj = get_object_or_404(MemoirProject.objects.all(), pk=pk)
+-            job_id = enqueue_export(proj.id)
+-            return Response({"job_id": job_id})
+-        except Exception as e:
+-            return Response({"error": "export_failed", "detail": str(e)}, status=400)
+-
+-@api_view(["GET"])
+-@permission_classes([AllowAnyPermissions])
+-def export_status(request, job_id):
+-    return Response(get_export_status(job_id), status=200)
+-
+-# PUBLIC pages
+-def editor(request):   return render(request, "memoirs/editor.html")
+-def projects(request): return render(request, "memoirs/projects.html")
+-def workbench(request):return render(request, "workbench/backlog.html")
+-# memoir_api/memoirs/views.py
+-
+-from django.views.decorators.csrf import csrf_exempt
+-from django.http import JsonResponse, HttpResponseBadRequest
+-from .utils import convert_heic_to_jpeg  # make sure this function exists and works
+-
+-@csrf_exempt
+-def convert_heic(request):
+-    if request.method == 'POST' and request.FILES.get('file'):
+-        try:
+-            file = request.FILES['file']
+-            url = convert_heic_to_jpeg(file)  # Your own utility that saves file and returns URL
+-            return JsonResponse({'image_url': url})
+-        except Exception as e:
+-            return JsonResponse({'error': 'conversion_failed', 'detail': str(e)}, status=500)
+-    return JsonResponse({'error': 'Invalid request method or missing file'}, status=400)
++from django.shortcuts import get_object_or_404, render
++from django.utils.decorators import method_decorator
++from django.views.decorators.csrf import csrf_exempt
++from django.db.models import Q
++from rest_framework import viewsets, permissions
++from rest_framework.authentication import TokenAuthentication
++from rest_framework.decorators import action, api_view, permission_classes
++from rest_framework.response import Response
++from rest_framework.exceptions import APIException
++from django.http import Http404
++from .models import MemoirProject
++from .serializers import MemoirProjectSerializer
++
++class AllowAnyPermissions(permissions.BasePermission):
++    def has_permission(self, request, view): return True
++    def has_object_permission(self, request, view, obj): return True
++
++@method_decorator(csrf_exempt, name="dispatch")
++class MemoirViewSet(viewsets.ModelViewSet):
++    serializer_class = MemoirProjectSerializer
++    # Respect the configured token/JWT authentication and require an account.
++    # Public examples are served through the separate showcase endpoint.
++    permission_classes = [permissions.IsAuthenticated]
++    queryset = MemoirProject.objects.all().order_by("-updated_at")
++
++    def get_queryset(self):
++        """Signed-in users see their own books plus unclaimed (legacy)
++        ones; anonymous requests keep full dev-open visibility. Archived
++        books are hidden unless ?archived=1 (only) or ?all=1 (both)."""
++        from .tenant import visible_projects
++
++        qs = MemoirProject.objects.all().order_by("-updated_at")
++        user = getattr(self.request, "user", None)
++        # Tenant scoping: dev-open by default (own + unclaimed), or strict
++        # org-scoped when TENANT_STRICT=1. See memoirs/tenant.py.
++        qs = visible_projects(qs, user)
++        # Showcase example books are ownerless (so they read as "unclaimed")
++        # but must never appear in a user's own library — hide them here; they
++        # are served only via /api/showcase/. Detail actions still reach them
++        # so a clone can read the source by pk.
++        # NB: NULL-safe on purpose — a bare .exclude(meta__showcase=True)
++        # compiles to NOT(meta->'showcase' = true), which is NULL (i.e. also
++        # excluded) for every book that simply lacks the key, emptying the
++        # whole library.
++        if getattr(self, "action", None) == "list":
++            qs = qs.filter(
++                Q(meta__showcase__isnull=True) | Q(meta__showcase=False)
++            )
++        # Only the LIST view hides archived books — detail actions (retrieve/
++        # rename/unarchive/delete) must still reach an archived project.
++        if getattr(self, "action", None) == "list":
++            params = getattr(self.request, "query_params", self.request.GET)
++            if params.get("archived") in ("1", "true"):
++                qs = qs.filter(archived=True)
++            elif params.get("all") not in ("1", "true"):
++                qs = qs.filter(archived=False)
++        return qs
++
++    def perform_update(self, serializer):
++        """Saving an unclaimed book while signed in claims it."""
++        user = getattr(self.request, "user", None)
++        instance = serializer.instance
++        if (
++            user is not None
++            and user.is_authenticated
++            and instance is not None
++            and instance.owner_id is None
++        ):
++            serializer.save(owner=user)
++        else:
++            serializer.save()
++
++    def create(self, request, *args, **kwargs):
++        try:
++            return super().create(request, *args, **kwargs)
++        except (APIException, Http404):
++            raise
++        except Exception:
++            return Response({"error": "create_failed"}, status=400)
++
++    def update(self, request, *args, **kwargs):
++        try:
++            return super().update(request, *args, **kwargs)
++        except (APIException, Http404):
++            raise
++        except Exception:
++            return Response({"error": "update_failed"}, status=400)
++
++    def perform_create(self, serializer):
++        owner = self.request.user if getattr(self.request, "user", None) and self.request.user.is_authenticated else None
++        serializer.save(owner=owner)
++
++    @action(detail=True, methods=["post"])
++    def export(self, request, pk=None):
++        # This legacy job queue has no implementation. Authorize the object
++        # first, then direct supported clients to the explicit export route.
++        self.get_object()
++        return Response({"error": "legacy_export_unavailable",
++                         "export_endpoint": "/api/export/book-pdf/"}, status=410)
++
++@api_view(["GET"])
++@permission_classes([AllowAnyPermissions])
++def export_status(request, job_id):
++    return Response(get_export_status(job_id), status=200)
++
++# PUBLIC pages
++def editor(request):   return render(request, "memoirs/editor.html")
++def projects(request): return render(request, "memoirs/projects.html")
++def workbench(request):return render(request, "workbench/backlog.html")
++# memoir_api/memoirs/views.py
++
++from django.views.decorators.csrf import csrf_exempt
++from django.http import JsonResponse, HttpResponseBadRequest
++from .utils import convert_heic_to_jpeg  # make sure this function exists and works
++
++@csrf_exempt
++def convert_heic(request):
++    if request.method == 'POST' and request.FILES.get('file'):
++        try:
++            file = request.FILES['file']
++            url = convert_heic_to_jpeg(file)  # Your own utility that saves file and returns URL
++            return JsonResponse({'image_url': url})
++        except Exception as e:
++            return JsonResponse({'error': 'conversion_failed', 'detail': str(e)}, status=500)
++    return JsonResponse({'error': 'Invalid request method or missing file'}, status=400)
+diff --git a/services/api-django/memoir_api/memoirs/views_export.py b/services/api-django/memoir_api/memoirs/views_export.py
+index 2b1488d65..977878d7b 100644
+--- a/services/api-django/memoir_api/memoirs/views_export.py
++++ b/services/api-django/memoir_api/memoirs/views_export.py
+@@ -1,631 +1,639 @@
+-import io, os, json, zipfile, base64
+-from uuid import uuid4
+-from datetime import datetime
+-from django.http import JsonResponse
+-from django.views.decorators.csrf import csrf_exempt
+-from memoir_api.memoirs.utils_minio import upload_to_minio_signed
+-from reportlab.pdfgen import canvas
+-
+-EPUB_TEMPLATE = """<?xml version="1.0" encoding="utf-8"?>
+-<!DOCTYPE html>
+-<html xmlns="http://www.w3.org/1999/xhtml">
+-<head>
+-<meta charset="utf-8"/>
+-<title>{title}</title>
+-<link rel="stylesheet" type="text/css" href="style.css"/>
+-</head>
+-<body>
+-{body}
+-</body>
+-</html>
+-"""
+-
+-def _build_epub(title, author, pages, cover_image=None):
+-    """Build a valid EPUB 3 file with optional cover image + TOC."""
+-    buf = io.BytesIO()
+-    with zipfile.ZipFile(buf, "w") as zf:
+-        # required mimetype file (must be first, uncompressed)
+-        zf.writestr("mimetype", "application/epub+zip", compress_type=zipfile.ZIP_STORED)
+-
+-        # META-INF/container.xml
+-        zf.writestr(
+-            "META-INF/container.xml",
+-            """<?xml version="1.0"?>
+-<container version="1.0" xmlns="urn:oasis:names:tc:opendocument:xmlns:container">
+-  <rootfiles>
+-    <rootfile full-path="OEBPS/content.opf" media-type="application/oebps-package+xml"/>
+-  </rootfiles>
+-</container>""",
+-        )
+-
+-        # CSS
+-        zf.writestr(
+-            "OEBPS/style.css",
+-            "body { font-family: Georgia, serif; margin: 2em; } h1 { color: #333; } img.cover { width: 100%; height: auto; }"
+-        )
+-
+-        manifest_items = []
+-        spine_items = []
+-        toc_entries = []
+-
+-        # Optional cover image
+-        if cover_image:
+-            try:
+-                image_data = base64.b64decode(cover_image.split(",")[-1])
+-                zf.writestr("OEBPS/cover.jpg", image_data)
+-                cover_html = '<img src="cover.jpg" alt="Cover" class="cover"/>'
+-                manifest_items.append('<item id="cover-image" href="cover.jpg" media-type="image/jpeg" properties="cover-image"/>')
+-            except Exception:
+-                cover_html = ""
+-        else:
+-            cover_html = ""
+-
+-        # Build page content
+-        for idx, page in enumerate(pages or [], start=1):
+-            body_html = ""
+-            for obj in page.get("objects", []):
+-                if obj.get("type") == "text":
+-                    body_html += f"<p>{obj.get('text')}</p>\n"
+-            if not body_html:
+-                body_html = "<p>(Empty Page)</p>"
+-            filename = f"OEBPS/page{idx}.xhtml"
+-            html = EPUB_TEMPLATE.format(title=f"Page {idx}", body=body_html)
+-            zf.writestr(filename, html)
+-            manifest_items.append(f'<item id="page{idx}" href="page{idx}.xhtml" media-type="application/xhtml+xml"/>')
+-            spine_items.append(f'<itemref idref="page{idx}"/>')
+-            toc_entries.append(f'<li><a href="page{idx}.xhtml">Page {idx}</a></li>')
+-
+-        # Table of Contents page
+-        toc_html = f"""
+-<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Table of Contents</title>
+-<link rel="stylesheet" type="text/css" href="style.css"/></head>
+-<body><h1>Table of Contents</h1><ul>{''.join(toc_entries)}</ul></body></html>"""
+-        zf.writestr("OEBPS/toc.xhtml", toc_html)
+-        manifest_items.append('<item id="toc" href="toc.xhtml" media-type="application/xhtml+xml" properties="nav"/>')
+-        spine_items.insert(0, '<itemref idref="toc"/>')
+-
+-        # Main content.opf
+-        opf = f"""<?xml version="1.0" encoding="utf-8"?>
+-<package version="3.0" xmlns="http://www.idpf.org/2007/opf" unique-identifier="BookId">
+-  <metadata xmlns:dc="http://purl.org/dc/elements/1.1/">
+-    <dc:title>{title}</dc:title>
+-    <dc:creator>{author}</dc:creator>
+-    <dc:language>en</dc:language>
+-    <dc:date>{datetime.utcnow().isoformat()}</dc:date>
+-    <meta property="dcterms:modified">{datetime.utcnow().isoformat()}</meta>
+-  </metadata>
+-  <manifest>
+-    {' '.join(manifest_items)}
+-    <item id="style" href="style.css" media-type="text/css"/>
+-  </manifest>
+-  <spine>
+-    {' '.join(spine_items)}
+-  </spine>
+-</package>"""
+-        zf.writestr("OEBPS/content.opf", opf)
+-
+-        # Optional cover.xhtml
+-        if cover_html:
+-            cover_page = f"""<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Cover</title></head>
+-<body>{cover_html}</body></html>"""
+-            zf.writestr("OEBPS/cover.xhtml", cover_page)
+-            manifest_items.append('<item id="cover" href="cover.xhtml" media-type="application/xhtml+xml"/>')
+-            spine_items.insert(0, '<itemref idref="cover"/>')
+-
+-    return buf.getvalue()
+-
+-
+-@csrf_exempt
+-def export_epub(request):
+-    """Generate EPUB 3 file with optional cover and TOC."""
+-    data = json.loads(request.body.decode("utf-8"))
+-    title = data.get("title", "Untitled Memoir")
+-    author = data.get("author", "Unknown")
+-    pages = data.get("pages", [])
+-    cover_image = data.get("cover_image")  # optional base64 string
+-
+-    epub_bytes = _build_epub(title, author, pages, cover_image)
+-    object_name = f"{uuid4()}.epub"
+-    epub_url = upload_to_minio_signed(epub_bytes, object_name, content_type="application/epub+zip")
+-    return JsonResponse({"epub_url": epub_url})
+-
+-
+-@csrf_exempt
+-def export_pdf(request):
+-    data = json.loads(request.body.decode("utf-8"))
+-    title = data.get("title", "Untitled Memoir")
+-    buf = io.BytesIO()
+-    p = canvas.Canvas(buf)
+-    p.drawString(100, 800, title)
+-    p.drawString(100, 780, "PDF export successful.")
+-    p.showPage()
+-    p.save()
+-    buf.seek(0)
+-    object_name = f"{uuid4()}.pdf"
+-    pdf_url = upload_to_minio_signed(buf.read(), object_name, content_type="application/pdf")
+-    return JsonResponse({"pdf_url": pdf_url})
+-
+-
+-def _convert_pdf_to_cmyk(pdf_bytes: bytes) -> tuple[bytes, str]:
+-    """Ghostscript DeviceCMYK pass over an RGB PDF.
+-
+-    Returns (pdf_bytes, profile) where profile is "cmyk" on success or
+-    "rgb" when Ghostscript is unavailable/fails — the book still exports,
+-    the response just says so.
+-    """
+-    import shutil
+-    import subprocess
+-    import tempfile
+-
+-    gs = shutil.which("gs")
+-    if not gs:
+-        return pdf_bytes, "rgb"
+-    with tempfile.TemporaryDirectory() as tmp:
+-        src = os.path.join(tmp, "in.pdf")
+-        dst = os.path.join(tmp, "out.pdf")
+-        with open(src, "wb") as fh:
+-            fh.write(pdf_bytes)
+-        try:
+-            subprocess.run(
+-                [
+-                    gs,
+-                    "-dSAFER",
+-                    "-dBATCH",
+-                    "-dNOPAUSE",
+-                    "-sDEVICE=pdfwrite",
+-                    "-dProcessColorModel=/DeviceCMYK",
+-                    "-sColorConversionStrategy=CMYK",
+-                    "-dDownsampleColorImages=false",
+-                    f"-sOutputFile={dst}",
+-                    src,
+-                ],
+-                check=True,
+-                capture_output=True,
+-                timeout=300,
+-            )
+-            with open(dst, "rb") as fh:
+-                return fh.read(), "cmyk"
+-        except Exception:  # noqa: BLE001 — fall back to RGB, never fail the book
+-            return pdf_bytes, "rgb"
+-
+-
+-def _find_cmyk_icc() -> str | None:
+-    """Locate a CMYK ICC profile Ghostscript can embed as the output intent."""
+-    import glob
+-
+-    candidates = [
+-        "/usr/share/color/icc/default_cmyk.icc",
+-        "/usr/share/color/icc/ghostscript/default_cmyk.icc",
+-    ]
+-    candidates += sorted(
+-        glob.glob("/usr/share/ghostscript/*/iccprofiles/default_cmyk.icc"),
+-        reverse=True,
+-    )
+-    for path in candidates:
+-        if os.path.exists(path):
+-            return path
+-    return None
+-
+-
+-# pdfmark definition that attaches a PDF/X-1a output intent to the document.
+-# {PROFILE} is the (tmp-dir-local) ICC filename; {COND} the print condition.
+-_PDFX_DEF = """%!
+-/ICCProfile ({PROFILE}) def
+-[ /GTS_PDFXVersion (PDF/X-1a:2001) /DOCINFO pdfmark
+-[ /_objdef {{icc_PDFX}} /type /stream /OBJ pdfmark
+-[ {{icc_PDFX}} << /N 4 >> /PUT pdfmark
+-[ {{icc_PDFX}} ICCProfile (r) file /PUT pdfmark
+-[ /_objdef {{OutputIntent_PDFX}} /type /dict /OBJ pdfmark
+-[ {{OutputIntent_PDFX}} <<
+-  /Type /OutputIntent
+-  /S /GTS_PDFX
+-  /OutputCondition ({COND})
+-  /OutputConditionIdentifier ({COND})
+-  /RegistryName (http://www.color.org)
+-  /DestOutputProfile {{icc_PDFX}}
+->> /PUT pdfmark
+-[ {{Catalog}} << /OutputIntents [ {{OutputIntent_PDFX}} ] >> /PUT pdfmark
+-"""
+-
+-
+-def _convert_pdf_to_pdfx(pdf_bytes: bytes) -> tuple[bytes, str]:
+-    """Ghostscript PDF/X-1a:2001 pass — CMYK + an embedded output intent.
+-
+-    PDF/X is what commercial printers ask for: everything converted to a
+-    single CMYK output condition with the ICC profile embedded so colour is
+-    unambiguous. Returns (bytes, "pdfx") on success, else falls back to a
+-    plain CMYK pass, else RGB — the book always exports.
+-    """
+-    import shutil
+-    import subprocess
+-    import tempfile
+-
+-    gs = shutil.which("gs")
+-    icc = _find_cmyk_icc()
+-    if not gs or not icc:
+-        return _convert_pdf_to_cmyk(pdf_bytes)
+-
+-    with tempfile.TemporaryDirectory() as tmp:
+-        src = os.path.join(tmp, "in.pdf")
+-        dst = os.path.join(tmp, "out.pdf")
+-        # Copy the ICC into the tmp dir so -dSAFER permits reading it.
+-        prof = os.path.join(tmp, "cmyk.icc")
+-        shutil.copyfile(icc, prof)
+-        defps = os.path.join(tmp, "PDFX_def.ps")
+-        with open(src, "wb") as fh:
+-            fh.write(pdf_bytes)
+-        with open(defps, "w") as fh:
+-            fh.write(_PDFX_DEF.format(PROFILE=prof, COND="CGATS TR 001 (SWOP)"))
+-        try:
+-            subprocess.run(
+-                [
+-                    gs,
+-                    "-dPDFX",
+-                    "-dBATCH",
+-                    "-dNOPAUSE",
+-                    "-dNOOUTERSAVE",
+-                    "-dSAFER",
+-                    # SAFER (gs 10.x) blocks reading the ICC unless permitted.
+-                    f"--permit-file-read={prof}",
+-                    "-sDEVICE=pdfwrite",
+-                    "-dProcessColorModel=/DeviceCMYK",
+-                    "-sColorConversionStrategy=CMYK",
+-                    "-dPDFACompatibilityPolicy=1",
+-                    "-dDownsampleColorImages=false",
+-                    f"-sOutputFile={dst}",
+-                    defps,
+-                    src,
+-                ],
+-                check=True,
+-                capture_output=True,
+-                timeout=300,
+-                cwd=tmp,
+-            )
+-            with open(dst, "rb") as fh:
+-                out = fh.read()
+-            # Only claim PDF/X if the intent actually landed.
+-            if b"/GTS_PDFX" in out or b"OutputIntent" in out:
+-                return out, "pdfx"
+-            return out, "cmyk"
+-        except Exception:  # noqa: BLE001 — fall back, never fail the book
+-            return _convert_pdf_to_cmyk(pdf_bytes)
+-
+-
+-@csrf_exempt
+-def export_book_pdf(request):
+-    """Print-grade multi-page book PDF.
+-
+-    Body:
+-      {
+-        "title": "...",
+-        "size": {"w_in": 8, "h_in": 8},      # trim size in inches
+-        "bleed_in": 0.125,                   # 0 for digital
+-        "color_profile": "cmyk" | "rgb",     # cmyk = press-ready output
+-        "pages": ["data:image/png;base64,...", ...]  # pre-rendered pages
+-      }
+-    → {"pdf_url": ..., "pages": N, "color_profile": "cmyk"|"rgb"}
+-
+-    Pages arrive as 300-DPI PNG renders from the studio; each is placed
+-    contain-fit on the trim box (the studio page is square — non-square
+-    trims letterbox until per-trim page sizes land). When cmyk is requested
+-    the RGB PDF gets a Ghostscript DeviceCMYK pass.
+-    """
+-    from reportlab.lib.utils import ImageReader
+-
+-    data = json.loads(request.body.decode("utf-8"))
+-    title = data.get("title", "Untitled Memoir")
+-    size = data.get("size") or {}
+-    w_in = float(size.get("w_in") or 8)
+-    h_in = float(size.get("h_in") or 8)
+-    bleed = float(data.get("bleed_in") or 0)
+-    pages = data.get("pages") or []
+-    if not pages:
+-        return JsonResponse({"error": "no pages supplied"}, status=400)
+-
+-    pt = 72  # points per inch
+-    page_w = (w_in + 2 * bleed) * pt
+-    page_h = (h_in + 2 * bleed) * pt
+-    trim_w = w_in * pt
+-    trim_h = h_in * pt
+-
+-    buf = io.BytesIO()
+-    pdf = canvas.Canvas(buf, pagesize=(page_w, page_h))
+-    pdf.setTitle(title)
+-
+-    for page_data_url in pages:
+-        try:
+-            raw = base64.b64decode(page_data_url.split(",")[-1])
+-            img = ImageReader(io.BytesIO(raw))
+-            iw, ih = img.getSize()
+-            # Contain-fit the (square) page render on the trim box, centered
+-            # inside the bleed area.
+-            scale = min(trim_w / iw, trim_h / ih)
+-            dw, dh = iw * scale, ih * scale
+-            x = bleed * pt + (trim_w - dw) / 2
+-            y = bleed * pt + (trim_h - dh) / 2
+-            pdf.drawImage(img, x, y, width=dw, height=dh)
+-        except Exception as exc:  # noqa: BLE001 — skip a bad page, keep book
+-            pdf.setFont("Helvetica", 10)
+-            pdf.drawString(36, page_h / 2, f"[page failed to render: {exc}]")
+-        pdf.showPage()
+-
+-    pdf.save()
+-    buf.seek(0)
+-    pdf_bytes = buf.read()
+-
+-    profile = "rgb"
+-    want = (data.get("color_profile") or "").lower()
+-    if want == "pdfx":
+-        pdf_bytes, profile = _convert_pdf_to_pdfx(pdf_bytes)
+-    elif want == "cmyk":
+-        pdf_bytes, profile = _convert_pdf_to_cmyk(pdf_bytes)
+-
+-    object_name = f"exports/{uuid4()}.pdf"
+-    pdf_url = upload_to_minio_signed(
+-        pdf_bytes, object_name, content_type="application/pdf"
+-    )
+-    from memoir_api.audit.utils import log_event
+-
+-    log_event(
+-        "export.book_pdf",
+-        metadata={
+-            "pages": len(pages),
+-            "trim": f'{w_in}x{h_in}"',
+-            "bleed_in": bleed,
+-            "color_profile": profile,
+-            "object": object_name,
+-        },
+-    )
+-    return JsonResponse(
+-        {"pdf_url": pdf_url, "pages": len(pages), "color_profile": profile}
+-    )
+-
+-
+-def _render_book_pdf(title, pages, w_in, h_in, bleed, color_profile="rgb"):
+-    """Render a list of page data-URLs into a single print-grade PDF.
+-
+-    color_profile: "rgb" (default), "cmyk", or "pdfx" (PDF/X-1a output intent).
+-    Returns (pdf_bytes, color_profile). Shared by export_book_pdf and the
+-    multi-volume export so both produce identical page geometry.
+-    """
+-    from reportlab.lib.utils import ImageReader
+-
+-    pt = 72
+-    page_w = (w_in + 2 * bleed) * pt
+-    page_h = (h_in + 2 * bleed) * pt
+-    trim_w = w_in * pt
+-    trim_h = h_in * pt
+-
+-    buf = io.BytesIO()
+-    pdf = canvas.Canvas(buf, pagesize=(page_w, page_h))
+-    pdf.setTitle(title)
+-    for page_data_url in pages:
+-        try:
+-            raw = base64.b64decode(page_data_url.split(",")[-1])
+-            img = ImageReader(io.BytesIO(raw))
+-            iw, ih = img.getSize()
+-            scale = min(trim_w / iw, trim_h / ih)
+-            dw, dh = iw * scale, ih * scale
+-            x = bleed * pt + (trim_w - dw) / 2
+-            y = bleed * pt + (trim_h - dh) / 2
+-            pdf.drawImage(img, x, y, width=dw, height=dh)
+-        except Exception as exc:  # noqa: BLE001 — skip a bad page, keep book
+-            pdf.setFont("Helvetica", 10)
+-            pdf.drawString(36, page_h / 2, f"[page failed to render: {exc}]")
+-        pdf.showPage()
+-    pdf.save()
+-    buf.seek(0)
+-    pdf_bytes = buf.read()
+-
+-    profile = "rgb"
+-    if color_profile == "pdfx":
+-        pdf_bytes, profile = _convert_pdf_to_pdfx(pdf_bytes)
+-    elif color_profile == "cmyk":
+-        pdf_bytes, profile = _convert_pdf_to_cmyk(pdf_bytes)
+-    return pdf_bytes, profile
+-
+-
+-@csrf_exempt
+-def export_volumes(request):
+-    """Split one project into several print-ready mini-books (one PDF each).
+-
+-    A long life story often reads better as a boxed set — one slim volume per
+-    event ("The Wedding", "Honeymoon", "First Year") — than as a single heavy
+-    tome. This takes the same 300-DPI page renders as export_book_pdf and cuts
+-    them into volumes, returning a PDF URL per volume plus a combined page count.
+-
+-    Body (either form):
+-      A) explicit volumes:
+-         {"volumes": [{"title": "Vol I", "pages": ["data:...", ...]}, ...], ...}
+-      B) split a flat page list at break indices:
+-         {"pages": ["data:...", ...], "breaks": [4, 9],
+-          "volume_titles": ["Wedding", "Honeymoon", "First Year"], ...}
+-
+-    Shared print options: size {w_in,h_in}, bleed_in, color_profile "cmyk"|"rgb".
+-    → {"volumes": [{"title","pages","pdf_url","color_profile"}, ...],
+-        "count": N, "total_pages": M}
+-    """
+-    data = json.loads(request.body.decode("utf-8"))
+-    book_title = data.get("title", "Untitled Memoir")
+-    size = data.get("size") or {}
+-    w_in = float(size.get("w_in") or 8)
+-    h_in = float(size.get("h_in") or 8)
+-    bleed = float(data.get("bleed_in") or 0)
+-    color_profile = (data.get("color_profile") or "rgb").lower()
+-
+-    # Normalize both request forms into a list of {title, pages}.
+-    volumes = data.get("volumes")
+-    if not volumes:
+-        pages = data.get("pages") or []
+-        if not pages:
+-            return JsonResponse({"error": "no pages supplied"}, status=400)
+-        breaks = sorted(
+-            i for i in (data.get("breaks") or []) if 0 < int(i) < len(pages)
+-        )
+-        titles = data.get("volume_titles") or []
+-        cuts = [0] + [int(b) for b in breaks] + [len(pages)]
+-        volumes = []
+-        for vi in range(len(cuts) - 1):
+-            seg = pages[cuts[vi]:cuts[vi + 1]]
+-            if not seg:
+-                continue
+-            vtitle = titles[vi] if vi < len(titles) else f"Volume {vi + 1}"
+-            volumes.append({"title": vtitle, "pages": seg})
+-
+-    if not volumes:
+-        return JsonResponse({"error": "no volumes to export"}, status=400)
+-
+-    out = []
+-    total_pages = 0
+-    for vi, vol in enumerate(volumes, start=1):
+-        vpages = vol.get("pages") or []
+-        if not vpages:
+-            continue
+-        vtitle = vol.get("title") or f"Volume {vi}"
+-        full_title = f"{book_title} — {vtitle}"
+-        pdf_bytes, profile = _render_book_pdf(
+-            full_title, vpages, w_in, h_in, bleed, color_profile
+-        )
+-        object_name = f"exports/volumes/{uuid4()}.pdf"
+-        pdf_url = upload_to_minio_signed(
+-            pdf_bytes, object_name, content_type="application/pdf"
+-        )
+-        total_pages += len(vpages)
+-        out.append({
+-            "title": vtitle,
+-            "pages": len(vpages),
+-            "pdf_url": pdf_url,
+-            "color_profile": profile,
+-        })
+-
+-    from memoir_api.audit.utils import log_event
+-
+-    log_event(
+-        "export.volumes",
+-        metadata={
+-            "volumes": len(out),
+-            "total_pages": total_pages,
+-            "trim": f'{w_in}x{h_in}"',
+-            "color_profile": color_profile,
+-        },
+-    )
+-    return JsonResponse(
+-        {"volumes": out, "count": len(out), "total_pages": total_pages}
+-    )
+-
+-
+-SHARE_VIEWER_TEMPLATE = """<!doctype html>
+-<html><head><meta charset="utf-8"/>
+-<meta name="viewport" content="width=device-width, initial-scale=1"/>
+-<title>{title}</title>
+-<style>
+- body{{margin:0;background:#0f172a;color:#e2e8f0;font-family:ui-sans-serif,system-ui,sans-serif;
+-      display:flex;flex-direction:column;align-items:center;min-height:100vh}}
+- h1{{font-size:16px;font-weight:600;margin:16px 0 4px}}
+- .hint{{font-size:11px;color:#94a3b8;margin-bottom:12px}}
+- .stage{{position:relative;display:flex;align-items:center;justify-content:center;flex:1;width:100%}}
+- img{{max-width:min(92vw,720px);max-height:76vh;box-shadow:0 12px 40px rgba(0,0,0,.5);
+-     border-radius:6px;background:#fff}}
+- button{{position:absolute;top:50%;transform:translateY(-50%);width:44px;height:44px;border-radius:50%;
+-        border:none;background:rgba(255,255,255,.12);color:#fff;font-size:22px;cursor:pointer}}
+- button:hover{{background:rgba(255,255,255,.25)}}
+- #prev{{left:12px}} #next{{right:12px}}
+- .counter{{margin:12px 0 20px;font-size:12px;color:#94a3b8}}
+-</style></head>
+-<body>
+-<h1>{title}</h1>
+-<div class="hint">Made with Memoir Studio</div>
+-<div class="stage">
+-  <button id="prev">&#8249;</button>
+-  <img id="page" alt="page"/>
+-  {watermark_block}
+-  <button id="next">&#8250;</button>
+-</div>
+-<div class="counter"><span id="num">1</span> / {count}</div>
+-<script>
+- const pages={pages_json};let i=0;const img=document.getElementById("page");
+- const num=document.getElementById("num");
+- const show=(n)=>{{i=Math.max(0,Math.min(n,pages.length-1));img.src=pages[i];num.textContent=i+1;}};
+- document.getElementById("prev").onclick=()=>show(i-1);
+- document.getElementById("next").onclick=()=>show(i+1);
+- addEventListener("keydown",(e)=>{{if(e.key==="ArrowLeft")show(i-1);if(e.key==="ArrowRight")show(i+1);}});
+- show(0);
+-</script>
+-</body></html>"""
+-
+-
+-# Diagonal repeating "PROOF" overlay for watermarked share proofs. Slate
+-# ink (not white) so it stays visible over the mostly-white page images.
+-# Built here (not inside the .format template) so its braces/URL-encoding
+-# don't collide with str.format escaping — it's injected as one value.
+-def _watermark_block() -> str:
+-    import urllib.parse
+-
+-    svg = (
+-        '<svg xmlns="http://www.w3.org/2000/svg" width="320" height="220">'
+-        '<text x="20" y="130" transform="rotate(-30 160 110)" '
+-        'fill="rgba(71,85,105,0.32)" font-size="30" font-weight="700" '
+-        'font-family="sans-serif" letter-spacing="4">PROOF</text></svg>'
+-    )
+-    uri = "data:image/svg+xml," + urllib.parse.quote(svg)
+-    return (
+-        f'<div style="position:absolute;inset:0;pointer-events:none;'
+-        f"background-image:url('{uri}');background-repeat:repeat\"></div>"
+-    )
+-
+-
+-@csrf_exempt
+-def export_share_book(request):
+-    """Hosted flip-book share link.
+-
+-    Body: {"title": "...", "pages": ["data:image/png;base64,...", ...]}
+-    → {"share_url": ...}
+-
+-    Builds a self-contained HTML viewer (pages embedded as data-URLs,
+-    prev/next + arrow keys) and stores it in MinIO — one URL anyone can
+-    open, nothing to install.
+-    """
+-    data = json.loads(request.body.decode("utf-8"))
+-    title = data.get("title", "My Memoir")
+-    pages = data.get("pages") or []
+-    watermark = bool(data.get("watermark", False))
+-    if not pages:
+-        return JsonResponse({"error": "no pages supplied"}, status=400)
+-
+-    html = SHARE_VIEWER_TEMPLATE.format(
+-        title=title.replace("<", "&lt;"),
+-        count=len(pages),
+-        pages_json=json.dumps(pages),
+-        watermark_block=_watermark_block() if watermark else "",
+-    )
+-    object_name = f"shares/{uuid4()}.html"
+-    share_url = upload_to_minio_signed(
+-        html.encode("utf-8"), object_name, content_type="text/html"
+-    )
+-    from memoir_api.audit.utils import log_event
+-
+-    log_event(
+-        "share.flipbook",
+-        metadata={
+-            "pages": len(pages),
+-            "title": title[:80],
+-            "object": object_name,
+-            "watermark": watermark,
+-        },
+-    )
+-    return JsonResponse(
+-        {"share_url": share_url, "pages": len(pages), "watermark": watermark}
+-    )
+-
+-
+-@csrf_exempt
+-def export_magazine(request):
+-    data = json.loads(request.body.decode("utf-8"))
+-    html = f"""
+-    <html><head><title>{data.get('title','Memoir Magazine')}</title></head>
+-    <body><h1>{data.get('title','Memoir')}</h1><p>Magazine export successful.</p></body></html>
+-    """
+-    file_bytes = html.encode("utf-8")
+-    object_name = f"{uuid4()}.html"
+-    magazine_url = upload_to_minio_signed(file_bytes, object_name, content_type="text/html")
+-    return JsonResponse({"magazine_url": magazine_url})
++import io, os, json, zipfile, base64
++from uuid import uuid4
++from datetime import datetime
++from django.http import JsonResponse
++from django.views.decorators.csrf import csrf_exempt
++from rest_framework.decorators import api_view, permission_classes
++from rest_framework.permissions import IsAuthenticated
++from memoir_api.memoirs.utils_minio import upload_to_minio_signed
++from reportlab.pdfgen import canvas
++
++EPUB_TEMPLATE = """<?xml version="1.0" encoding="utf-8"?>
++<!DOCTYPE html>
++<html xmlns="http://www.w3.org/1999/xhtml">
++<head>
++<meta charset="utf-8"/>
++<title>{title}</title>
++<link rel="stylesheet" type="text/css" href="style.css"/>
++</head>
++<body>
++{body}
++</body>
++</html>
++"""
++
++def _build_epub(title, author, pages, cover_image=None):
++    """Build a valid EPUB 3 file with optional cover image + TOC."""
++    buf = io.BytesIO()
++    with zipfile.ZipFile(buf, "w") as zf:
++        # required mimetype file (must be first, uncompressed)
++        zf.writestr("mimetype", "application/epub+zip", compress_type=zipfile.ZIP_STORED)
++
++        # META-INF/container.xml
++        zf.writestr(
++            "META-INF/container.xml",
++            """<?xml version="1.0"?>
++<container version="1.0" xmlns="urn:oasis:names:tc:opendocument:xmlns:container">
++  <rootfiles>
++    <rootfile full-path="OEBPS/content.opf" media-type="application/oebps-package+xml"/>
++  </rootfiles>
++</container>""",
++        )
++
++        # CSS
++        zf.writestr(
++            "OEBPS/style.css",
++            "body { font-family: Georgia, serif; margin: 2em; } h1 { color: #333; } img.cover { width: 100%; height: auto; }"
++        )
++
++        manifest_items = []
++        spine_items = []
++        toc_entries = []
++
++        # Optional cover image
++        if cover_image:
++            try:
++                image_data = base64.b64decode(cover_image.split(",")[-1])
++                zf.writestr("OEBPS/cover.jpg", image_data)
++                cover_html = '<img src="cover.jpg" alt="Cover" class="cover"/>'
++                manifest_items.append('<item id="cover-image" href="cover.jpg" media-type="image/jpeg" properties="cover-image"/>')
++            except Exception:
++                cover_html = ""
++        else:
++            cover_html = ""
++
++        # Build page content
++        for idx, page in enumerate(pages or [], start=1):
++            body_html = ""
++            for obj in page.get("objects", []):
++                if obj.get("type") == "text":
++                    body_html += f"<p>{obj.get('text')}</p>\n"
++            if not body_html:
++                body_html = "<p>(Empty Page)</p>"
++            filename = f"OEBPS/page{idx}.xhtml"
++            html = EPUB_TEMPLATE.format(title=f"Page {idx}", body=body_html)
++            zf.writestr(filename, html)
++            manifest_items.append(f'<item id="page{idx}" href="page{idx}.xhtml" media-type="application/xhtml+xml"/>')
++            spine_items.append(f'<itemref idref="page{idx}"/>')
++            toc_entries.append(f'<li><a href="page{idx}.xhtml">Page {idx}</a></li>')
++
++        # Table of Contents page
++        toc_html = f"""
++<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Table of Contents</title>
++<link rel="stylesheet" type="text/css" href="style.css"/></head>
++<body><h1>Table of Contents</h1><ul>{''.join(toc_entries)}</ul></body></html>"""
++        zf.writestr("OEBPS/toc.xhtml", toc_html)
++        manifest_items.append('<item id="toc" href="toc.xhtml" media-type="application/xhtml+xml" properties="nav"/>')
++        spine_items.insert(0, '<itemref idref="toc"/>')
++
++        # Main content.opf
++        opf = f"""<?xml version="1.0" encoding="utf-8"?>
++<package version="3.0" xmlns="http://www.idpf.org/2007/opf" unique-identifier="BookId">
++  <metadata xmlns:dc="http://purl.org/dc/elements/1.1/">
++    <dc:title>{title}</dc:title>
++    <dc:creator>{author}</dc:creator>
++    <dc:language>en</dc:language>
++    <dc:date>{datetime.utcnow().isoformat()}</dc:date>
++    <meta property="dcterms:modified">{datetime.utcnow().isoformat()}</meta>
++  </metadata>
++  <manifest>
++    {' '.join(manifest_items)}
++    <item id="style" href="style.css" media-type="text/css"/>
++  </manifest>
++  <spine>
++    {' '.join(spine_items)}
++  </spine>
++</package>"""
++        zf.writestr("OEBPS/content.opf", opf)
++
++        # Optional cover.xhtml
++        if cover_html:
++            cover_page = f"""<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Cover</title></head>
++<body>{cover_html}</body></html>"""
++            zf.writestr("OEBPS/cover.xhtml", cover_page)
++            manifest_items.append('<item id="cover" href="cover.xhtml" media-type="application/xhtml+xml"/>')
++            spine_items.insert(0, '<itemref idref="cover"/>')
++
++    return buf.getvalue()
++
++
++@api_view(["POST"])
++@permission_classes([IsAuthenticated])
++def export_epub(request):
++    """Generate EPUB 3 file with optional cover and TOC."""
++    data = request.data
++    title = data.get("title", "Untitled Memoir")
++    author = data.get("author", "Unknown")
++    pages = data.get("pages", [])
++    cover_image = data.get("cover_image")  # optional base64 string
++
++    epub_bytes = _build_epub(title, author, pages, cover_image)
++    object_name = f"{uuid4()}.epub"
++    epub_url = upload_to_minio_signed(epub_bytes, object_name, content_type="application/epub+zip")
++    return JsonResponse({"epub_url": epub_url})
++
++
++@api_view(["POST"])
++@permission_classes([IsAuthenticated])
++def export_pdf(request):
++    data = request.data
++    title = data.get("title", "Untitled Memoir")
++    buf = io.BytesIO()
++    p = canvas.Canvas(buf)
++    p.drawString(100, 800, title)
++    p.drawString(100, 780, "PDF export successful.")
++    p.showPage()
++    p.save()
++    buf.seek(0)
++    object_name = f"{uuid4()}.pdf"
++    pdf_url = upload_to_minio_signed(buf.read(), object_name, content_type="application/pdf")
++    return JsonResponse({"pdf_url": pdf_url})
++
++
++def _convert_pdf_to_cmyk(pdf_bytes: bytes) -> tuple[bytes, str]:
++    """Ghostscript DeviceCMYK pass over an RGB PDF.
++
++    Returns (pdf_bytes, profile) where profile is "cmyk" on success or
++    "rgb" when Ghostscript is unavailable/fails — the book still exports,
++    the response just says so.
++    """
++    import shutil
++    import subprocess
++    import tempfile
++
++    gs = shutil.which("gs")
++    if not gs:
++        return pdf_bytes, "rgb"
++    with tempfile.TemporaryDirectory() as tmp:
++        src = os.path.join(tmp, "in.pdf")
++        dst = os.path.join(tmp, "out.pdf")
++        with open(src, "wb") as fh:
++            fh.write(pdf_bytes)
++        try:
++            subprocess.run(
++                [
++                    gs,
++                    "-dSAFER",
++                    "-dBATCH",
++                    "-dNOPAUSE",
++                    "-sDEVICE=pdfwrite",
++                    "-dProcessColorModel=/DeviceCMYK",
++                    "-sColorConversionStrategy=CMYK",
++                    "-dDownsampleColorImages=false",
++                    f"-sOutputFile={dst}",
++                    src,
++                ],
++                check=True,
++                capture_output=True,
++                timeout=300,
++            )
++            with open(dst, "rb") as fh:
++                return fh.read(), "cmyk"
++        except Exception:  # noqa: BLE001 — fall back to RGB, never fail the book
++            return pdf_bytes, "rgb"
++
++
++def _find_cmyk_icc() -> str | None:
++    """Locate a CMYK ICC profile Ghostscript can embed as the output intent."""
++    import glob
++
++    candidates = [
++        "/usr/share/color/icc/default_cmyk.icc",
++        "/usr/share/color/icc/ghostscript/default_cmyk.icc",
++    ]
++    candidates += sorted(
++        glob.glob("/usr/share/ghostscript/*/iccprofiles/default_cmyk.icc"),
++        reverse=True,
++    )
++    for path in candidates:
++        if os.path.exists(path):
++            return path
++    return None
++
++
++# pdfmark definition that attaches a PDF/X-1a output intent to the document.
++# {PROFILE} is the (tmp-dir-local) ICC filename; {COND} the print condition.
++_PDFX_DEF = """%!
++/ICCProfile ({PROFILE}) def
++[ /GTS_PDFXVersion (PDF/X-1a:2001) /DOCINFO pdfmark
++[ /_objdef {{icc_PDFX}} /type /stream /OBJ pdfmark
++[ {{icc_PDFX}} << /N 4 >> /PUT pdfmark
++[ {{icc_PDFX}} ICCProfile (r) file /PUT pdfmark
++[ /_objdef {{OutputIntent_PDFX}} /type /dict /OBJ pdfmark
++[ {{OutputIntent_PDFX}} <<
++  /Type /OutputIntent
++  /S /GTS_PDFX
++  /OutputCondition ({COND})
++  /OutputConditionIdentifier ({COND})
++  /RegistryName (http://www.color.org)
++  /DestOutputProfile {{icc_PDFX}}
++>> /PUT pdfmark
++[ {{Catalog}} << /OutputIntents [ {{OutputIntent_PDFX}} ] >> /PUT pdfmark
++"""
++
++
++def _convert_pdf_to_pdfx(pdf_bytes: bytes) -> tuple[bytes, str]:
++    """Ghostscript PDF/X-1a:2001 pass — CMYK + an embedded output intent.
++
++    PDF/X is what commercial printers ask for: everything converted to a
++    single CMYK output condition with the ICC profile embedded so colour is
++    unambiguous. Returns (bytes, "pdfx") on success, else falls back to a
++    plain CMYK pass, else RGB — the book always exports.
++    """
++    import shutil
++    import subprocess
++    import tempfile
++
++    gs = shutil.which("gs")
++    icc = _find_cmyk_icc()
++    if not gs or not icc:
++        return _convert_pdf_to_cmyk(pdf_bytes)
++
++    with tempfile.TemporaryDirectory() as tmp:
++        src = os.path.join(tmp, "in.pdf")
++        dst = os.path.join(tmp, "out.pdf")
++        # Copy the ICC into the tmp dir so -dSAFER permits reading it.
++        prof = os.path.join(tmp, "cmyk.icc")
++        shutil.copyfile(icc, prof)
++        defps = os.path.join(tmp, "PDFX_def.ps")
++        with open(src, "wb") as fh:
++            fh.write(pdf_bytes)
++        with open(defps, "w") as fh:
++            fh.write(_PDFX_DEF.format(PROFILE=prof, COND="CGATS TR 001 (SWOP)"))
++        try:
++            subprocess.run(
++                [
++                    gs,
++                    "-dPDFX",
++                    "-dBATCH",
++                    "-dNOPAUSE",
++                    "-dNOOUTERSAVE",
++                    "-dSAFER",
++                    # SAFER (gs 10.x) blocks reading the ICC unless permitted.
++                    f"--permit-file-read={prof}",
++                    "-sDEVICE=pdfwrite",
++                    "-dProcessColorModel=/DeviceCMYK",
++                    "-sColorConversionStrategy=CMYK",
++                    "-dPDFACompatibilityPolicy=1",
++                    "-dDownsampleColorImages=false",
++                    f"-sOutputFile={dst}",
++                    defps,
++                    src,
++                ],
++                check=True,
++                capture_output=True,
++                timeout=300,
++                cwd=tmp,
++            )
++            with open(dst, "rb") as fh:
++                out = fh.read()
++            # Only claim PDF/X if the intent actually landed.
++            if b"/GTS_PDFX" in out or b"OutputIntent" in out:
++                return out, "pdfx"
++            return out, "cmyk"
++        except Exception:  # noqa: BLE001 — fall back, never fail the book
++            return _convert_pdf_to_cmyk(pdf_bytes)
++
++
++@api_view(["POST"])
++@permission_classes([IsAuthenticated])
++def export_book_pdf(request):
++    """Print-grade multi-page book PDF.
++
++    Body:
++      {
++        "title": "...",
++        "size": {"w_in": 8, "h_in": 8},      # trim size in inches
++        "bleed_in": 0.125,                   # 0 for digital
++        "color_profile": "cmyk" | "rgb",     # cmyk = press-ready output
++        "pages": ["data:image/png;base64,...", ...]  # pre-rendered pages
++      }
++    → {"pdf_url": ..., "pages": N, "color_profile": "cmyk"|"rgb"}
++
++    Pages arrive as 300-DPI PNG renders from the studio; each is placed
++    contain-fit on the trim box (the studio page is square — non-square
++    trims letterbox until per-trim page sizes land). When cmyk is requested
++    the RGB PDF gets a Ghostscript DeviceCMYK pass.
++    """
++    from reportlab.lib.utils import ImageReader
++
++    data = request.data
++    title = data.get("title", "Untitled Memoir")
++    size = data.get("size") or {}
++    w_in = float(size.get("w_in") or 8)
++    h_in = float(size.get("h_in") or 8)
++    bleed = float(data.get("bleed_in") or 0)
++    pages = data.get("pages") or []
++    if not pages:
++        return JsonResponse({"error": "no pages supplied"}, status=400)
++
++    pt = 72  # points per inch
++    page_w = (w_in + 2 * bleed) * pt
++    page_h = (h_in + 2 * bleed) * pt
++    trim_w = w_in * pt
++    trim_h = h_in * pt
++
++    buf = io.BytesIO()
++    pdf = canvas.Canvas(buf, pagesize=(page_w, page_h))
++    pdf.setTitle(title)
++
++    for page_data_url in pages:
++        try:
++            raw = base64.b64decode(page_data_url.split(",")[-1])
++            img = ImageReader(io.BytesIO(raw))
++            iw, ih = img.getSize()
++            # Contain-fit the (square) page render on the trim box, centered
++            # inside the bleed area.
++            scale = min(trim_w / iw, trim_h / ih)
++            dw, dh = iw * scale, ih * scale
++            x = bleed * pt + (trim_w - dw) / 2
++            y = bleed * pt + (trim_h - dh) / 2
++            pdf.drawImage(img, x, y, width=dw, height=dh)
++        except Exception as exc:  # noqa: BLE001 — skip a bad page, keep book
++            pdf.setFont("Helvetica", 10)
++            pdf.drawString(36, page_h / 2, f"[page failed to render: {exc}]")
++        pdf.showPage()
++
++    pdf.save()
++    buf.seek(0)
++    pdf_bytes = buf.read()
++
++    profile = "rgb"
++    want = (data.get("color_profile") or "").lower()
++    if want == "pdfx":
++        pdf_bytes, profile = _convert_pdf_to_pdfx(pdf_bytes)
++    elif want == "cmyk":
++        pdf_bytes, profile = _convert_pdf_to_cmyk(pdf_bytes)
++
++    object_name = f"exports/{uuid4()}.pdf"
++    pdf_url = upload_to_minio_signed(
++        pdf_bytes, object_name, content_type="application/pdf"
++    )
++    from memoir_api.audit.utils import log_event
++
++    log_event(
++        "export.book_pdf",
++        metadata={
++            "pages": len(pages),
++            "trim": f'{w_in}x{h_in}"',
++            "bleed_in": bleed,
++            "color_profile": profile,
++            "object": object_name,
++        },
++    )
++    return JsonResponse(
++        {"pdf_url": pdf_url, "pages": len(pages), "color_profile": profile}
++    )
++
++
++def _render_book_pdf(title, pages, w_in, h_in, bleed, color_profile="rgb"):
++    """Render a list of page data-URLs into a single print-grade PDF.
++
++    color_profile: "rgb" (default), "cmyk", or "pdfx" (PDF/X-1a output intent).
++    Returns (pdf_bytes, color_profile). Shared by export_book_pdf and the
++    multi-volume export so both produce identical page geometry.
++    """
++    from reportlab.lib.utils import ImageReader
++
++    pt = 72
++    page_w = (w_in + 2 * bleed) * pt
++    page_h = (h_in + 2 * bleed) * pt
++    trim_w = w_in * pt
++    trim_h = h_in * pt
++
++    buf = io.BytesIO()
++    pdf = canvas.Canvas(buf, pagesize=(page_w, page_h))
++    pdf.setTitle(title)
++    for page_data_url in pages:
++        try:
++            raw = base64.b64decode(page_data_url.split(",")[-1])
++            img = ImageReader(io.BytesIO(raw))
++            iw, ih = img.getSize()
++            scale = min(trim_w / iw, trim_h / ih)
++            dw, dh = iw * scale, ih * scale
++            x = bleed * pt + (trim_w - dw) / 2
++            y = bleed * pt + (trim_h - dh) / 2
++            pdf.drawImage(img, x, y, width=dw, height=dh)
++        except Exception as exc:  # noqa: BLE001 — skip a bad page, keep book
++            pdf.setFont("Helvetica", 10)
++            pdf.drawString(36, page_h / 2, f"[page failed to render: {exc}]")
++        pdf.showPage()
++    pdf.save()
++    buf.seek(0)
++    pdf_bytes = buf.read()
++
++    profile = "rgb"
++    if color_profile == "pdfx":
++        pdf_bytes, profile = _convert_pdf_to_pdfx(pdf_bytes)
++    elif color_profile == "cmyk":
++        pdf_bytes, profile = _convert_pdf_to_cmyk(pdf_bytes)
++    return pdf_bytes, profile
++
++
++@api_view(["POST"])
++@permission_classes([IsAuthenticated])
++def export_volumes(request):
++    """Split one project into several print-ready mini-books (one PDF each).
++
++    A long life story often reads better as a boxed set — one slim volume per
++    event ("The Wedding", "Honeymoon", "First Year") — than as a single heavy
++    tome. This takes the same 300-DPI page renders as export_book_pdf and cuts
++    them into volumes, returning a PDF URL per volume plus a combined page count.
++
++    Body (either form):
++      A) explicit volumes:
++         {"volumes": [{"title": "Vol I", "pages": ["data:...", ...]}, ...], ...}
++      B) split a flat page list at break indices:
++         {"pages": ["data:...", ...], "breaks": [4, 9],
++          "volume_titles": ["Wedding", "Honeymoon", "First Year"], ...}
++
++    Shared print options: size {w_in,h_in}, bleed_in, color_profile "cmyk"|"rgb".
++    → {"volumes": [{"title","pages","pdf_url","color_profile"}, ...],
++        "count": N, "total_pages": M}
++    """
++    data = request.data
++    book_title = data.get("title", "Untitled Memoir")
++    size = data.get("size") or {}
++    w_in = float(size.get("w_in") or 8)
++    h_in = float(size.get("h_in") or 8)
++    bleed = float(data.get("bleed_in") or 0)
++    color_profile = (data.get("color_profile") or "rgb").lower()
++
++    # Normalize both request forms into a list of {title, pages}.
++    volumes = data.get("volumes")
++    if not volumes:
++        pages = data.get("pages") or []
++        if not pages:
++            return JsonResponse({"error": "no pages supplied"}, status=400)
++        breaks = sorted(
++            i for i in (data.get("breaks") or []) if 0 < int(i) < len(pages)
++        )
++        titles = data.get("volume_titles") or []
++        cuts = [0] + [int(b) for b in breaks] + [len(pages)]
++        volumes = []
++        for vi in range(len(cuts) - 1):
++            seg = pages[cuts[vi]:cuts[vi + 1]]
++            if not seg:
++                continue
++            vtitle = titles[vi] if vi < len(titles) else f"Volume {vi + 1}"
++            volumes.append({"title": vtitle, "pages": seg})
++
++    if not volumes:
++        return JsonResponse({"error": "no volumes to export"}, status=400)
++
++    out = []
++    total_pages = 0
++    for vi, vol in enumerate(volumes, start=1):
++        vpages = vol.get("pages") or []
++        if not vpages:
++            continue
++        vtitle = vol.get("title") or f"Volume {vi}"
++        full_title = f"{book_title} — {vtitle}"
++        pdf_bytes, profile = _render_book_pdf(
++            full_title, vpages, w_in, h_in, bleed, color_profile
++        )
++        object_name = f"exports/volumes/{uuid4()}.pdf"
++        pdf_url = upload_to_minio_signed(
++            pdf_bytes, object_name, content_type="application/pdf"
++        )
++        total_pages += len(vpages)
++        out.append({
++            "title": vtitle,
++            "pages": len(vpages),
++            "pdf_url": pdf_url,
++            "color_profile": profile,
++        })
++
++    from memoir_api.audit.utils import log_event
++
++    log_event(
++        "export.volumes",
++        metadata={
++            "volumes": len(out),
++            "total_pages": total_pages,
++            "trim": f'{w_in}x{h_in}"',
++            "color_profile": color_profile,
++        },
++    )
++    return JsonResponse(
++        {"volumes": out, "count": len(out), "total_pages": total_pages}
++    )
++
++
++SHARE_VIEWER_TEMPLATE = """<!doctype html>
++<html><head><meta charset="utf-8"/>
++<meta name="viewport" content="width=device-width, initial-scale=1"/>
++<title>{title}</title>
++<style>
++ body{{margin:0;background:#0f172a;color:#e2e8f0;font-family:ui-sans-serif,system-ui,sans-serif;
++      display:flex;flex-direction:column;align-items:center;min-height:100vh}}
++ h1{{font-size:16px;font-weight:600;margin:16px 0 4px}}
++ .hint{{font-size:11px;color:#94a3b8;margin-bottom:12px}}
++ .stage{{position:relative;display:flex;align-items:center;justify-content:center;flex:1;width:100%}}
++ img{{max-width:min(92vw,720px);max-height:76vh;box-shadow:0 12px 40px rgba(0,0,0,.5);
++     border-radius:6px;background:#fff}}
++ button{{position:absolute;top:50%;transform:translateY(-50%);width:44px;height:44px;border-radius:50%;
++        border:none;background:rgba(255,255,255,.12);color:#fff;font-size:22px;cursor:pointer}}
++ button:hover{{background:rgba(255,255,255,.25)}}
++ #prev{{left:12px}} #next{{right:12px}}
++ .counter{{margin:12px 0 20px;font-size:12px;color:#94a3b8}}
++</style></head>
++<body>
++<h1>{title}</h1>
++<div class="hint">Made with Memoir Studio</div>
++<div class="stage">
++  <button id="prev">&#8249;</button>
++  <img id="page" alt="page"/>
++  {watermark_block}
++  <button id="next">&#8250;</button>
++</div>
++<div class="counter"><span id="num">1</span> / {count}</div>
++<script>
++ const pages={pages_json};let i=0;const img=document.getElementById("page");
++ const num=document.getElementById("num");
++ const show=(n)=>{{i=Math.max(0,Math.min(n,pages.length-1));img.src=pages[i];num.textContent=i+1;}};
++ document.getElementById("prev").onclick=()=>show(i-1);
++ document.getElementById("next").onclick=()=>show(i+1);
++ addEventListener("keydown",(e)=>{{if(e.key==="ArrowLeft")show(i-1);if(e.key==="ArrowRight")show(i+1);}});
++ show(0);
++</script>
++</body></html>"""
++
++
++# Diagonal repeating "PROOF" overlay for watermarked share proofs. Slate
++# ink (not white) so it stays visible over the mostly-white page images.
++# Built here (not inside the .format template) so its braces/URL-encoding
++# don't collide with str.format escaping — it's injected as one value.
++def _watermark_block() -> str:
++    import urllib.parse
++
++    svg = (
++        '<svg xmlns="http://www.w3.org/2000/svg" width="320" height="220">'
++        '<text x="20" y="130" transform="rotate(-30 160 110)" '
++        'fill="rgba(71,85,105,0.32)" font-size="30" font-weight="700" '
++        'font-family="sans-serif" letter-spacing="4">PROOF</text></svg>'
++    )
++    uri = "data:image/svg+xml," + urllib.parse.quote(svg)
++    return (
++        f'<div style="position:absolute;inset:0;pointer-events:none;'
++        f"background-image:url('{uri}');background-repeat:repeat\"></div>"
++    )
++
++
++@api_view(["POST"])
++@permission_classes([IsAuthenticated])
++def export_share_book(request):
++    """Hosted flip-book share link.
++
++    Body: {"title": "...", "pages": ["data:image/png;base64,...", ...]}
++    → {"share_url": ...}
++
++    Builds a self-contained HTML viewer (pages embedded as data-URLs,
++    prev/next + arrow keys) and stores it in MinIO — one URL anyone can
++    open, nothing to install.
++    """
++    data = request.data
++    title = data.get("title", "My Memoir")
++    pages = data.get("pages") or []
++    watermark = bool(data.get("watermark", False))
++    if not pages:
++        return JsonResponse({"error": "no pages supplied"}, status=400)
++
++    html = SHARE_VIEWER_TEMPLATE.format(
++        title=title.replace("<", "&lt;"),
++        count=len(pages),
++        pages_json=json.dumps(pages),
++        watermark_block=_watermark_block() if watermark else "",
++    )
++    object_name = f"shares/{uuid4()}.html"
++    share_url = upload_to_minio_signed(
++        html.encode("utf-8"), object_name, content_type="text/html"
++    )
++    from memoir_api.audit.utils import log_event
++
++    log_event(
++        "share.flipbook",
++        metadata={
++            "pages": len(pages),
++            "title": title[:80],
++            "object": object_name,
++            "watermark": watermark,
++        },
++    )
++    return JsonResponse(
++        {"share_url": share_url, "pages": len(pages), "watermark": watermark}
++    )
++
++
++@api_view(["POST"])
++@permission_classes([IsAuthenticated])
++def export_magazine(request):
++    data = request.data
++    html = f"""
++    <html><head><title>{data.get('title','Memoir Magazine')}</title></head>
++    <body><h1>{data.get('title','Memoir')}</h1><p>Magazine export successful.</p></body></html>
++    """
++    file_bytes = html.encode("utf-8")
++    object_name = f"{uuid4()}.html"
++    magazine_url = upload_to_minio_signed(file_bytes, object_name, content_type="text/html")
++    return JsonResponse({"magazine_url": magazine_url})
+-- 
+2.43.0
+

@@ -1,0 +1,31 @@
+# Product development backlogs
+
+AgentVire release acceptance covers the marketing operating system. It does not complete or deploy the following product-specific work. Each product retains its own readiness evidence and engineering release gates.
+
+| Product group | Separate backlog and evidence | Release condition |
+|---|---|---|
+| LiqMint Individual and Institutional | [Signup staging](fullstack-signup-staging.md), [integration checks](staging-integrations-20261028.md) | Real product activation and market/SMDP evidence remain product-owned |
+| OraToPlus | [Local grading evaluation](ora-qwen-backup-2026-10-29.md), [human references](ora-local-human-anchors-2026-10-29.md) | Restore numeric grades only after all human-reference gates pass |
+| WeddingOS | [Life-events strategy](life-events-ecosystem-strategy-2026-10-29.md), [media and recovery](privacy-media-recovery-2026-10-30.md) | Product signup, free tools, media and recovery releases remain separate |
+| Jodibana and JodiUSA tenant | [Tenant acceptance and rights](tenant-optin-consent-rights-2026-10-30.md), [retention integration](retention-account-integration-2026-10-30.md) | Tenant acceptance, entitlements, sender and product changes require their own evidence |
+| Memoire and CoffeeBook | [Life-events strategy](life-events-ecosystem-strategy-2026-10-29.md), [privacy evidence](privacy-media-recovery-2026-10-30.md) | One shared commercial track; separate product operations evidence |
+| Other portfolio products | [Strategy execution](strategy-execution.md), [launch readiness](launch-readiness-2026-10-30.md) | Verify capabilities and actual activation before public claims |
+| SDIS, One-Man Hedge Fund, Quantsys, SMDP Design, Stablecoin Pipeline | Existing internal product backlogs and strategy execution | Remain internal until the founder changes scope |
+
+Postmark provider-history deletion remains dependent on account-level configuration and provider enablement. It is not marked complete by an AgentVire deployment. Existing per-product execution records and measured statuses are preserved.
+
+Tier and billing findings across all waves: [1 November product backlog](product-billing-backlog-20261101.md). [Measured qualification report](wave-billing-qualification-20261101.md) distinguishes component checks from full sandbox acceptance.
+
+[Targeted billing fixes and staging results](billing-fix-staging-20261101.md): five OraToPlus/Memoire failures fixed in candidates; production deployment and Jodibana sandbox credentials remain pending. Product code stays on separate product branches/backlogs.
+
+Latest follow-up: [Approved production deployments and Jodibana sandbox results](billing-deployment-sandbox-20261101.md). OraToPlus/Memoire deployment and sandbox-credential holds are cleared. Jodibana recurring billing and refund reconciliation remain measured failures; all commercial task states are unchanged. Earlier evidence above is historical.
+
+Current Jodibana status: [failed-payment recovery and live readiness](jodibana-payment-recovery-readiness-20261103.md). Deployed with live collection disabled. 540 regressions, 14 genuine test recovery checks and six cleanup checks pass. Restricted live Stripe credentials, webhook and portal are prepared; 10 genuine live non-payment delivery checks now pass; Stripe business onboarding checks now pass, with charges/payouts enabled at Stripe and application collection still disabled. Owner commercial approval remains subject to all gates. No full launch approval or live transactions. JodiUSA remains free. No Google Cloud.
+
+### Jodibana: privacy/storage repair — 3 November 2026
+
+[Current evidence and remaining gates](jodibana-launch-gates-20261103.md). Repaired production privacy configuration drift and misleading storage checks; 564 regression checks, eight runtime assertions, four recovery assertions and a 140-table isolated restore pass. Persisted wiring and rollback verified. Collection remains disabled and JodiUSA remains free. Provider/AI quality, operator review, retained/provider data, off-site recovery, alert delivery, economics and campaign eligibility remain open. Commercial approval is already recorded subject to all gates. Product fixes remain on Jodibana's separate branch/backlog.
+
+### Owner-selected external backup — 3 November 2026
+
+[Evidence](jodibana-external-backup-20261103.md). Encrypted copy written to the owner's WD D: drive; authenticated read and isolated restore of 140 database tables, 44 media files and AgentVire SQLite integrity pass. The owner-approved targeted disk repair fixed recorded issues, but the drive remains dirty / Scan Needed; the online scan requests a broader offline repair, for which separate approval was requested. Disk health, portable recovery-key escrow, historical deletion continuity, schedule/alerts and full recovery remain open. No commercial or collection change.

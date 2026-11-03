@@ -21,4 +21,4 @@ cd ~/growthpilot-staging/current
 docker compose -p growthpilot-staging --env-file ../../shared/.env -f compose.staging.yaml -f compose.kimi.yaml ps
 ```
 
-Initial credentials are inside `/app/data/initial-login.txt` in `growthpilot-staging-growthpilot-1`. Retrieve privately using docker exec, then change the password. Do not paste them into chat or logs. Shared env contains the exact installed Kimi tag. Local Kimi inference depends on the Windows reverse SSH tunnel; it does not run if the computer is off.
+Initial credentials are inside `/app/data/initial-login.txt` in `growthpilot-staging-growthpilot-1`. Retrieve privately using docker exec, then change the password. Do not paste them into chat or logs. Shared env contains the exact installed Kimi tag. The inspected AgentVire inference endpoint is http://172.16.1.1:11436 through the bounded bridge. Verify its upstream availability independently; a listening bridge or healthy application does not prove inference is available. Historic tunnel instructions are not evidence of current upstream health. See the current programmer manual.

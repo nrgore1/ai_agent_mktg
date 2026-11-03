@@ -134,6 +134,12 @@ class Manager:
   if payload.get('sender')!=('naren@vireoka.com' if p['id'] in (1,2) else 'naren@atmakosh.com'):raise Invalid('Sender does not match product')
   if not payload.get('content','').strip() or not payload.get('account','').strip():raise Invalid('Exact content and account required')
   if any(c not in p.get('approved_claims',[]) for c in payload.get('claims',[])):raise Invalid('Unsupported product claim')
+  if payload.get('kind')=='calendar_handoff':
+   from .integrations import calendar_event
+   calendar_event(payload.get('calendar_event'))
+   calendar_url=urlsplit(payload.get('destination',''))
+   if calendar_url.username or calendar_url.password or calendar_url.port not in (None,443):raise Invalid('Invalid calendar destination')
+   if payload.get('channel') not in ('calendar.google.com','outlook.office.com','outlook.live.com'):raise Invalid('Calendar destination required')
   if payload['connector']=='manual':
    host=(urlsplit(payload.get('destination','')).hostname or '').removeprefix('www.')
    if host!=payload.get('channel') or not payload['destination'].startswith('https://'):raise Invalid('Exact destination must belong to selected channel')
@@ -142,6 +148,9 @@ class Manager:
   elif payload['connector']=='postmark':
    lead=self.s.get(db,'leads',payload.get('lead_id'))
    if lead['product_id']!=p['id'] or lead.get('email')!=payload.get('recipient') or lead.get('consent')!='opt_in' or not lead.get('source'):raise Invalid('Product-specific opt-in lead, consent source and exact recipient required')
+   from .marketing_consent import MarketingConsent
+   from .marketing_registry import BrandRegistry
+   MarketingConsent(self.s,brands=BrandRegistry(self.s).all(db)).validate_lead(db,lead,payload)
    if lead.get('suppressed') or any(x['email'].lower()==payload['recipient'].lower() for x in self.s.rows(db,'suppressions')):raise Invalid('Recipient suppressed')
    postmark.envelope(payload,a['id'])
   else:raise Invalid('Unsupported manager connector')
@@ -174,7 +183,9 @@ class Manager:
     approval=a.get('approval')
     if self.s.paused(db) or a['status']!='approved' or not approval or approval['hash']!=digest(a['payload']) or approval['version']!=a['version'] or dt.datetime.fromisoformat(approval['expires_at'])<=current:raise Invalid('Current, unexpired founder approval required')
     if a['payload']['connector']!='manual':raise Invalid('Manual package required')
-    if command=='export':return {'package':a['payload'],'payload_hash':a['payload_hash'],'version':a['version'],'delivery':'manual; not submitted by export'}
+    if command=='export':
+     self.s.audit(db,'launch_export',id,{'hash':a['payload_hash'],'version':a['version']},actor)
+     return {'package':a['payload'],'payload_hash':a['payload_hash'],'version':a['version'],'delivery':'manual; not submitted by export'}
     url=data.get('receipt_url','');host=(urlsplit(url).hostname or '').removeprefix('www.')
     if not url.startswith('https://') or host!=a['payload']['channel'] or not data.get('note'):raise Invalid('Submission URL on the approved channel and a receipt note required')
     a.update(status='submitted',receipt={'at':now(),'url':url,'note':str(data['note'])[:2000],'payload_hash':a['payload_hash'],'verification':'founder_reported','external_delivery':'reported_by_founder'})
@@ -188,4 +199,12 @@ class Manager:
    content=f"Hi {lead['name']},\n\nThanks for opting in to information about {p['name']}. {profile['offer']}.\n\nA useful first step: {profile['steps'][0]}.\n\n{profile['question']}\n\nIf you’d like a walkthrough, reply with the workflow you want to evaluate and a suitable time.\n\nNarendra Gore\n{sender}\n\nTo stop these marketing updates: {{{{DOUBLE_PLACEHOLDER}}}}"
    content=content.replace('{{DOUBLE_PLACEHOLDER}}','{{{ pm:unsubscribe }}}')
    payload={'product_id':p['id'],'campaign_id':cid,'connector':'postmark','server_id':account.get('server_id'),'message_stream':account.get('stream'),'kind':'outreach','channel':'postmark','destination':lead['email'],'sender':sender,'account':postmark.account_key(p['id']),'recipient':lead['email'],'lead_id':lead['id'],'title':p['name']+' — your next evaluation step','content':content,'claims':[],'evidence':[{'source':lead['source'],'note':'Lead consent and interest source; product claims still require founder review'}],'cost_cents':0,'usage_note':'Postmark usage is billed under the existing account; no new purchase or ad spend is authorized. Actual costs are reported separately.','attestations':{'product_facts':False,'channel_rules':False,'destination':False,'founder_written':False}}
+   if lead.get('marketing_consent_id'):
+    from .marketing_consent import MarketingConsent, BRANDS, PREFIX
+    from .marketing_registry import BrandRegistry
+    service=MarketingConsent(self.s,brands=BrandRegistry(self.s).all(db));brand=service.brands[lead['marketing_brand']]
+    payload['marketing_brand']=lead['marketing_brand'];service.validate_lead(db,lead,payload)
+    record=self.s.get(db,'marketing_subscriptions',lead['marketing_consent_id'])
+    payload['title']=brand['name']+' — updates you requested'
+    payload['content']='Thanks for choosing '+brand['name']+' email updates.\n\nFounder draft: add a verified update about '+brand['topics']+'.\n\nVisit https://'+brand['host']+'/\n\nQuestions: '+brand['reply_to']+'\n\nStop these product updates: https://'+brand['host']+PREFIX+'withdraw#'+service.withdrawal_token(record)+'\n\n{{{ pm:unsubscribe }}}'
    a={'id':aid,'product_id':p['id'],'campaign_id':cid,'payload':payload,'payload_hash':digest(payload),'version':1,'status':'pending','approval':None,'receipt':None,'created_at':now(),'program_id':'launch-learn'};self.s.save(db,'actions',a);self.s.audit(db,'outreach_prepared',aid,{'lead_id':lead_id},actor);return a

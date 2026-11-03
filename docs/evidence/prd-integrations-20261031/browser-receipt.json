@@ -1,0 +1,11 @@
+{
+  "status": "passed",
+  "login": true,
+  "integration_desk": true,
+  "crm_preview_import": true,
+  "consent_not_granted": true,
+  "calendar_review_approve_download": true,
+  "utc_time_verified": true,
+  "external_messages": 0,
+  "page_errors": []
+}

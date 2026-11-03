@@ -1,0 +1,1249 @@
+{
+  "run_id": "jodibana-activation-limits-20261101-07",
+  "recorded_at": "2026-11-02T02:04:03.194777+00:00",
+  "strategy_revision": "d0ff586208e01074e2cc27dc4e9ce3a714a020c21a3ea45a9642bb25998f636a",
+  "source": "docs/jodibana-activation-limits-20261101.md; docs/evidence/jodibana-activation-limits-20261101.json. Separate Jodibana product backlog; no commercial approval.",
+  "products": [
+    {
+      "product_id": 1,
+      "wave": 1,
+      "source_version": "sha256:e09143f3d8836a09d564c549e248ee03f94cb3fd5d698ddc5cdc508ee95f9a4c",
+      "environment": "isolated_deployed_image",
+      "cases": [
+        {
+          "checks_failed": 0,
+          "checks_passed": 1,
+          "evidence": "Bundled wallet-transfer entitlement test validates the basic/free allowance. This is a component-level check, not full signup, plan-catalog or browser acceptance.",
+          "key": "free_tier",
+          "level": "offline_product_tests",
+          "status": "partial"
+        },
+        {
+          "checks_failed": 0,
+          "checks_passed": 1,
+          "evidence": "Bundled paid wallet-transfer entitlement test passes. Existing paid-plan backend behavior only; no proposed offer or actual payment has been activated.",
+          "key": "paid_tier",
+          "level": "offline_product_tests",
+          "status": "partial"
+        },
+        {
+          "checks_failed": 0,
+          "checks_passed": 1,
+          "evidence": "Bundled wallet-transfer quota tests exercise an exhausted allowance and its boundary. Concurrency and full user-interface coverage remain outstanding.",
+          "key": "usage_limits",
+          "level": "offline_product_tests",
+          "status": "partial"
+        },
+        {
+          "checks_failed": 0,
+          "checks_passed": 1,
+          "evidence": "Bundled billing/wallet tests enforce account or tier binding in the selected paths. All paid endpoints and tenant boundaries still require end-to-end coverage.",
+          "key": "cross_tier_denial",
+          "level": "offline_product_tests",
+          "status": "partial"
+        },
+        {
+          "checks_failed": 0,
+          "checks_passed": 0,
+          "evidence": "Not run: version-matched product end-to-end test environment and safe provider sandbox remain unverified.",
+          "key": "sandbox_checkout",
+          "level": "not_run",
+          "status": "blocked"
+        },
+        {
+          "checks_failed": 0,
+          "checks_passed": 1,
+          "evidence": "Bundled billing reconciliation tests cover event identity and subscription binding with mocked provider events. Real signed sandbox delivery, retries and provider state remain untested.",
+          "key": "webhooks",
+          "level": "offline_product_tests",
+          "status": "partial"
+        },
+        {
+          "checks_failed": 0,
+          "checks_passed": 1,
+          "evidence": "Bundled cancellation/offboarding tests passed in an isolated SQLite test database. Provider cancellation, period-end and pending-invoice behavior still need sandbox reconciliation.",
+          "key": "cancellation",
+          "level": "offline_product_tests",
+          "status": "partial"
+        },
+        {
+          "checks_failed": 0,
+          "checks_passed": 1,
+          "evidence": "Bundled billing-service test classifies refund/dispute events. Actual full/partial sandbox refunds, ledger reconciliation and quota effects remain untested.",
+          "key": "refunds",
+          "level": "offline_product_tests",
+          "status": "partial"
+        }
+      ],
+      "note": "Prior 1 November evidence retained; not rerun in this targeted fix cycle. 17 of 17 selected deployed-code component tests passed; 0 failed; 0 setup errors. Offline synthetic fixtures; no live account or charge. Full browser/provider acceptance and journey prerequisites remain open."
+    },
+    {
+      "product_id": 2,
+      "wave": 1,
+      "source_version": "sha256:51c5b34a27199cba9ba176e9406caf6e92d0b7122d11e98555fe9ff11c74b36c",
+      "environment": "isolated_deployed_image",
+      "cases": [
+        {
+          "checks_failed": 0,
+          "checks_passed": 1,
+          "evidence": "Bundled wallet-transfer entitlement test validates the basic/free allowance. This is a component-level check, not full signup, plan-catalog or browser acceptance.",
+          "key": "free_tier",
+          "level": "offline_product_tests",
+          "status": "partial"
+        },
+        {
+          "checks_failed": 0,
+          "checks_passed": 1,
+          "evidence": "Bundled paid wallet-transfer entitlement test passes. Existing paid-plan backend behavior only; no proposed offer or actual payment has been activated.",
+          "key": "paid_tier",
+          "level": "offline_product_tests",
+          "status": "partial"
+        },
+        {
+          "checks_failed": 0,
+          "checks_passed": 1,
+          "evidence": "Bundled wallet-transfer quota tests exercise an exhausted allowance and its boundary. Concurrency and full user-interface coverage remain outstanding.",
+          "key": "usage_limits",
+          "level": "offline_product_tests",
+          "status": "partial"
+        },
+        {
+          "checks_failed": 0,
+          "checks_passed": 1,
+          "evidence": "Bundled billing/wallet tests enforce account or tier binding in the selected paths. All paid endpoints and tenant boundaries still require end-to-end coverage.",
+          "key": "cross_tier_denial",
+          "level": "offline_product_tests",
+          "status": "partial"
+        },
+        {
+          "checks_failed": 0,
+          "checks_passed": 0,
+          "evidence": "Not run: version-matched product end-to-end test environment and safe provider sandbox remain unverified.",
+          "key": "sandbox_checkout",
+          "level": "not_run",
+          "status": "blocked"
+        },
+        {
+          "checks_failed": 0,
+          "checks_passed": 1,
+          "evidence": "Bundled billing reconciliation tests cover event identity and subscription binding with mocked provider events. Real signed sandbox delivery, retries and provider state remain untested.",
+          "key": "webhooks",
+          "level": "offline_product_tests",
+          "status": "partial"
+        },
+        {
+          "checks_failed": 0,
+          "checks_passed": 1,
+          "evidence": "Bundled cancellation/offboarding tests passed in an isolated SQLite test database. Provider cancellation, period-end and pending-invoice behavior still need sandbox reconciliation.",
+          "key": "cancellation",
+          "level": "offline_product_tests",
+          "status": "partial"
+        },
+        {
+          "checks_failed": 0,
+          "checks_passed": 0,
+          "evidence": "Not run: version-matched product end-to-end test environment and safe provider sandbox remain unverified.",
+          "key": "refunds",
+          "level": "not_run",
+          "status": "blocked"
+        }
+      ],
+      "note": "Prior 1 November evidence retained; not rerun in this targeted fix cycle. 85 of 85 selected deployed-code component tests passed; 0 failed; 0 setup errors. Offline synthetic fixtures; no live account or charge. Full browser/provider acceptance and journey prerequisites remain open."
+    },
+    {
+      "product_id": 3,
+      "wave": 1,
+      "source_version": "sha256:ac0b636af8c39b7ca23d2dc1642ce489d6ba47a6833b463dff964cf78f864285",
+      "environment": "isolated_deployed_image",
+      "cases": [
+        {
+          "checks_failed": 0,
+          "checks_passed": 2,
+          "evidence": "Free practice resolves on and free users cannot resolve the growth AI-coach feature when released.",
+          "key": "free_tier",
+          "level": "offline_product_tests",
+          "status": "partial"
+        },
+        {
+          "checks_failed": 0,
+          "checks_passed": 4,
+          "evidence": "Candidate tests deny suspended, unpaid, past-due and unknown statuses while preserving active/explicit-trial eligibility. Also deny production mock upgrades. Exact tested image is now deployed with owner approval.",
+          "key": "paid_tier",
+          "level": "offline_product_tests",
+          "status": "partial"
+        },
+        {
+          "checks_failed": 0,
+          "checks_passed": 0,
+          "evidence": "Not run: version-matched product end-to-end test environment and safe provider sandbox remain unverified.",
+          "key": "usage_limits",
+          "level": "not_run",
+          "status": "blocked"
+        },
+        {
+          "checks_failed": 0,
+          "checks_passed": 2,
+          "evidence": "Active free-to-growth and growth-to-enterprise denials pass. Unpaid/suspended paid eligibility is separately failing under paid-tier and cancellation categories.",
+          "key": "cross_tier_denial",
+          "level": "offline_product_tests",
+          "status": "partial"
+        },
+        {
+          "checks_failed": 0,
+          "checks_passed": 0,
+          "evidence": "Not run: version-matched product end-to-end test environment and safe provider sandbox remain unverified.",
+          "key": "sandbox_checkout",
+          "level": "not_run",
+          "status": "blocked"
+        },
+        {
+          "checks_failed": 0,
+          "checks_passed": 6,
+          "evidence": "Original signature checks and unpaid checkout denial now pass. Added PostgreSQL tests verify signed paid activation, duplicate replay, delayed success and missing binding. Synthetic signed events; actual Stripe sandbox delivery and full out-of-order/refund reconciliation are still blocked. Tested image now deployed.",
+          "key": "webhooks",
+          "level": "offline_product_tests",
+          "status": "partial"
+        },
+        {
+          "checks_failed": 0,
+          "checks_passed": 1,
+          "evidence": "Suspended paid subscriptions no longer resolve paid features in the candidate. This clears the original helper failure, not complete provider cancellation or refund lifecycle acceptance. Tested image now deployed.",
+          "key": "cancellation",
+          "level": "offline_product_tests",
+          "status": "partial"
+        },
+        {
+          "checks_failed": 0,
+          "checks_passed": 0,
+          "evidence": "Not run: version-matched product end-to-end test environment and safe provider sandbox remain unverified.",
+          "key": "refunds",
+          "level": "not_run",
+          "status": "blocked"
+        }
+      ],
+      "note": "OWNER-APPROVED DEPLOYMENT COMPLETE. All three original failures fixed; 36/36 isolated checks pass in the exact deployed image. Public health and protected billing access verified; rollback retained. Actual provider lifecycle, journey prerequisites and numeric grading remain separately gated."
+    },
+    {
+      "product_id": 4,
+      "wave": 1,
+      "source_version": "sha256:4c3126849aefc50a8b4e16e6ca5c9dbcd94ed6e45c62eb8425a0ac12b5476cda",
+      "environment": "isolated_deployed_image",
+      "cases": [
+        {
+          "checks_failed": 0,
+          "checks_passed": 3,
+          "evidence": "Registered owner accepted, unsupported tool and owner injection rejected. Eleven free-tool router/model tests ran in total; no database/browser end-to-end claim.",
+          "key": "free_tier",
+          "level": "offline_product_tests",
+          "status": "partial"
+        },
+        {
+          "checks_failed": 0,
+          "checks_passed": 0,
+          "evidence": "Not run: version-matched product end-to-end test environment and safe provider sandbox remain unverified.",
+          "key": "paid_tier",
+          "level": "not_run",
+          "status": "blocked"
+        },
+        {
+          "checks_failed": 0,
+          "checks_passed": 5,
+          "evidence": "The 20-plan cap rejects the next save; the twentieth plan is allowed; safe retries do not consume quota; oversized and nonfinite payloads are rejected.",
+          "key": "usage_limits",
+          "level": "offline_product_tests",
+          "status": "partial"
+        },
+        {
+          "checks_failed": 0,
+          "checks_passed": 3,
+          "evidence": "Unauthenticated save and foreign-plan overwrite are denied; missing/foreign delete is denied. Cross-account free-tool isolation only: paid workspace/API tier coverage is not yet verified.",
+          "key": "cross_tier_denial",
+          "level": "offline_product_tests",
+          "status": "partial"
+        },
+        {
+          "checks_failed": 0,
+          "checks_passed": 0,
+          "evidence": "Not run: version-matched product end-to-end test environment and safe provider sandbox remain unverified.",
+          "key": "sandbox_checkout",
+          "level": "not_run",
+          "status": "blocked"
+        },
+        {
+          "checks_failed": 0,
+          "checks_passed": 0,
+          "evidence": "Not run: version-matched product end-to-end test environment and safe provider sandbox remain unverified.",
+          "key": "webhooks",
+          "level": "not_run",
+          "status": "blocked"
+        },
+        {
+          "checks_failed": 0,
+          "checks_passed": 0,
+          "evidence": "Not run: version-matched product end-to-end test environment and safe provider sandbox remain unverified.",
+          "key": "cancellation",
+          "level": "not_run",
+          "status": "blocked"
+        },
+        {
+          "checks_failed": 0,
+          "checks_passed": 0,
+          "evidence": "Not run: version-matched product end-to-end test environment and safe provider sandbox remain unverified.",
+          "key": "refunds",
+          "level": "not_run",
+          "status": "blocked"
+        }
+      ],
+      "note": "Prior 1 November evidence retained; not rerun in this targeted fix cycle. 11 of 11 selected deployed-code component tests passed; 0 failed; 0 setup errors. Offline synthetic fixtures; no live account or charge. Full browser/provider acceptance and journey prerequisites remain open."
+    },
+    {
+      "product_id": 5,
+      "wave": 2,
+      "source_version": "sha256:d1b1d195251166932f0748dda0f86c49af13d7d4bcb4208b7e0392b8e44feb12",
+      "environment": "isolated_deployed_image",
+      "cases": [
+        {
+          "checks_failed": 0,
+          "checks_passed": 3,
+          "evidence": "Free catalog has one book and no HD export; unknown plan falls back to free; registered free HD-export gate denies access.",
+          "key": "free_tier",
+          "level": "offline_product_tests",
+          "status": "partial"
+        },
+        {
+          "checks_failed": 0,
+          "checks_passed": 3,
+          "evidence": "Personal HD export is allowed; personal/family do not receive Studio white-label entitlement. Current deployed catalog only.",
+          "key": "paid_tier",
+          "level": "offline_product_tests",
+          "status": "partial"
+        },
+        {
+          "checks_failed": 0,
+          "checks_passed": 6,
+          "evidence": "Original six allowance/boundary checks pass in the candidate. Real PostgreSQL tests also reject nonpositive/nonintegral/bool quantities, deny anonymous/zero allowance, serialize monthly reset and allow only one of two concurrent requests to spend the last credit. No skipped concurrency test. Exact tested image is deployed and healthy.",
+          "key": "usage_limits",
+          "level": "offline_product_tests",
+          "status": "partial"
+        },
+        {
+          "checks_failed": 0,
+          "checks_passed": 3,
+          "evidence": "Registered free premium gate denies and registered Personal premium gate allows; Family cannot claim Studio white-label in catalog. Anonymous and every protected API path remain unverified.",
+          "key": "cross_tier_denial",
+          "level": "offline_product_tests",
+          "status": "partial"
+        },
+        {
+          "checks_failed": 0,
+          "checks_passed": 0,
+          "evidence": "Not run: version-matched product end-to-end test environment and safe provider sandbox remain unverified.",
+          "key": "sandbox_checkout",
+          "level": "not_run",
+          "status": "blocked"
+        },
+        {
+          "checks_failed": 0,
+          "checks_passed": 0,
+          "evidence": "Not run: version-matched product end-to-end test environment and safe provider sandbox remain unverified.",
+          "key": "webhooks",
+          "level": "not_run",
+          "status": "blocked"
+        },
+        {
+          "checks_failed": 0,
+          "checks_passed": 0,
+          "evidence": "Not run: version-matched product end-to-end test environment and safe provider sandbox remain unverified.",
+          "key": "cancellation",
+          "level": "not_run",
+          "status": "blocked"
+        },
+        {
+          "checks_failed": 0,
+          "checks_passed": 0,
+          "evidence": "Not run: version-matched product end-to-end test environment and safe provider sandbox remain unverified.",
+          "key": "refunds",
+          "level": "not_run",
+          "status": "blocked"
+        }
+      ],
+      "note": "OWNER-APPROVED DEPLOYMENT COMPLETE. Both original quota failures fixed; 25/25 isolated checks pass including PostgreSQL concurrency with the actual user model. Exact tested image deployed, public health and protected access verified, rollback retained. Broader checkout/cancellation/refund and journey gates remain open."
+    },
+    {
+      "product_id": 6,
+      "wave": 2,
+      "source_version": "sha256:230e7d2ffd7d761b6a30aa321d0ad5d9db8245a13244c10f2278f82f6f831f2d",
+      "environment": "isolated_deployed_image",
+      "cases": [
+        {
+          "checks_failed": 0,
+          "checks_passed": 18,
+          "evidence": "JodiUSA identity-bound free grant preserved and existing Starter quotas tested. Complete synthetic member activation, matching, saved-state and return-browser checks pass. Actual operator-demo review/community validation and broader free-product operational release prerequisites remain open; this is not a full launch approval.",
+          "key": "free_tier",
+          "level": "sandbox_e2e",
+          "status": "partial"
+        },
+        {
+          "checks_failed": 0,
+          "checks_passed": 216,
+          "evidence": "Full existing-tier catalogue entitlement matrix passes this run; earlier real failed-renewal/retry recovery evidence is retained. End-to-end external capabilities, owner plan-change/cancellation operations, production paid-provider setup and full retry-exhaustion policy still require evidence. Proposed paid tiers are not approved or activated.",
+          "key": "paid_tier",
+          "level": "sandbox_e2e",
+          "status": "partial"
+        },
+        {
+          "checks_failed": 0,
+          "checks_passed": 249,
+          "evidence": "249 actual HTTP assertions verify existing 8/25/100 daily limits, enterprise unlimited matching beyond 100, denied overflow, idempotent repeats, pass at cap, next-day reset, admission denial without user/invitation side effects and recovery after deletion. PostgreSQL additionally verifies concurrent final slot/like, bulk admission, tenant moves, expired/future plans and metadata ceilings. JodiUSA commercial caps remain unlimited. Operational resource/rate limits and third-party service quotas are outside this commercial usage gate.",
+          "key": "usage_limits",
+          "level": "sandbox_e2e",
+          "status": "passed"
+        },
+        {
+          "checks_failed": 0,
+          "checks_passed": 216,
+          "evidence": "Actual owner-console HTTP and runtime assertions cover all 27 catalogue keys across all four existing tiers (216 checks). Unavailable feature toggles return 403 and unavailable features stay off. Regression tests also forge enabled rows and test tenant/owner isolation; browser tests verify separate host sessions. Passing availability gates does not attest every external feature provider.",
+          "key": "cross_tier_denial",
+          "level": "sandbox_e2e",
+          "status": "passed"
+        },
+        {
+          "checks_failed": 0,
+          "checks_passed": 7,
+          "evidence": "Standard Checkout selected explicitly. Actual hosted test payment returns to application, signed callback activates correct tenant, monthly renewal and annual interval/unpaid denial pass. Complete owner-initiated plan-management journey remains open.",
+          "key": "sandbox_checkout",
+          "level": "sandbox_e2e",
+          "status": "partial"
+        },
+        {
+          "checks_failed": 0,
+          "checks_passed": 12,
+          "evidence": "Twelve final provider recovery assertions pass through registered signed HTTPS. Includes pending-to-success, success-to-failure, exact reversal, failed refund notice, signed records and late-event stability. Three real original events were resent. Invalid binding and API outage roll back acknowledgement; concurrent duplicate reversals pass on PostgreSQL. All cross-event ordering and production alert/retry operations are not fully certified.",
+          "key": "webhooks",
+          "level": "sandbox_e2e",
+          "status": "partial"
+        },
+        {
+          "checks_failed": 0,
+          "checks_passed": 6,
+          "evidence": "Scheduled cancellation retains current access; actual test-clock natural expiry deactivates local access and removes paid tier, signed deletion recorded. Explicit cancellation also passes. Customer-facing cancellation-management journey remains open.",
+          "key": "cancellation",
+          "level": "sandbox_e2e",
+          "status": "partial"
+        },
+        {
+          "checks_failed": 0,
+          "checks_passed": 15,
+          "evidence": "Supported USD single-payment refund flow passes: 9 real-provider refund assertions plus 4 partial/full ledger assertions and 2 operator-browser refund assertions. Pending refunds are not settled cash; successful refunds debit once; later failure credits once and flags follow-up. Signed delayed events, real replay, invalid bindings, outages and concurrent reversals are tested. No automatic replacement payment or refund of real funds. Unsupported proration/multi-payment scope is excluded.",
+          "key": "refunds",
+          "level": "sandbox_e2e",
+          "status": "passed"
+        }
+      ],
+      "note": "Activation/quota fixes deployed. 437 PostgreSQL checks, 466 live-service HTTP assertions and 17 browser assertions pass. Existing-tier feature matrix, finite daily quotas, replay/concurrency and member admission boundaries verified; JodiUSA free grant preserved. Usage and cross-tier cases pass within the documented scope. Broader journey/entitlement approval remains blocked by operator-demo review and remaining operational/provider gates. Proposed paid tiers remain pending; no outreach."
+    },
+    {
+      "product_id": 7,
+      "wave": 3,
+      "source_version": "sha256:d1b1d195251166932f0748dda0f86c49af13d7d4bcb4208b7e0392b8e44feb12",
+      "environment": "shared_product",
+      "cases": [
+        {
+          "checks_failed": 0,
+          "checks_passed": 3,
+          "evidence": "Free catalog has one book and no HD export; unknown plan falls back to free; registered free HD-export gate denies access.",
+          "key": "free_tier",
+          "level": "offline_product_tests",
+          "status": "partial"
+        },
+        {
+          "checks_failed": 0,
+          "checks_passed": 3,
+          "evidence": "Personal HD export is allowed; personal/family do not receive Studio white-label entitlement. Current deployed catalog only.",
+          "key": "paid_tier",
+          "level": "offline_product_tests",
+          "status": "partial"
+        },
+        {
+          "checks_failed": 0,
+          "checks_passed": 6,
+          "evidence": "Original six allowance/boundary checks pass in the candidate. Real PostgreSQL tests also reject nonpositive/nonintegral/bool quantities, deny anonymous/zero allowance, serialize monthly reset and allow only one of two concurrent requests to spend the last credit. No skipped concurrency test. Exact tested image is deployed and healthy.",
+          "key": "usage_limits",
+          "level": "offline_product_tests",
+          "status": "partial"
+        },
+        {
+          "checks_failed": 0,
+          "checks_passed": 3,
+          "evidence": "Registered free premium gate denies and registered Personal premium gate allows; Family cannot claim Studio white-label in catalog. Anonymous and every protected API path remain unverified.",
+          "key": "cross_tier_denial",
+          "level": "offline_product_tests",
+          "status": "partial"
+        },
+        {
+          "checks_failed": 0,
+          "checks_passed": 0,
+          "evidence": "Not run: version-matched product end-to-end test environment and safe provider sandbox remain unverified.",
+          "key": "sandbox_checkout",
+          "level": "not_run",
+          "status": "blocked"
+        },
+        {
+          "checks_failed": 0,
+          "checks_passed": 0,
+          "evidence": "Not run: version-matched product end-to-end test environment and safe provider sandbox remain unverified.",
+          "key": "webhooks",
+          "level": "not_run",
+          "status": "blocked"
+        },
+        {
+          "checks_failed": 0,
+          "checks_passed": 0,
+          "evidence": "Not run: version-matched product end-to-end test environment and safe provider sandbox remain unverified.",
+          "key": "cancellation",
+          "level": "not_run",
+          "status": "blocked"
+        },
+        {
+          "checks_failed": 0,
+          "checks_passed": 0,
+          "evidence": "Not run: version-matched product end-to-end test environment and safe provider sandbox remain unverified.",
+          "key": "refunds",
+          "level": "not_run",
+          "status": "blocked"
+        }
+      ],
+      "note": "CoffeeBook shares the deployed Memoire quota fix and its 25 passing checks; no duplicate test count. CoffeeBook journey and full billing acceptance remain open."
+    },
+    {
+      "product_id": 8,
+      "wave": 3,
+      "source_version": "",
+      "environment": "not_available",
+      "cases": [
+        {
+          "checks_failed": 0,
+          "checks_passed": 0,
+          "evidence": "Not run: version-matched product end-to-end test environment and safe provider sandbox remain unverified.",
+          "key": "free_tier",
+          "level": "not_run",
+          "status": "blocked"
+        },
+        {
+          "checks_failed": 0,
+          "checks_passed": 0,
+          "evidence": "Not run: version-matched product end-to-end test environment and safe provider sandbox remain unverified.",
+          "key": "paid_tier",
+          "level": "not_run",
+          "status": "blocked"
+        },
+        {
+          "checks_failed": 0,
+          "checks_passed": 0,
+          "evidence": "Not run: version-matched product end-to-end test environment and safe provider sandbox remain unverified.",
+          "key": "usage_limits",
+          "level": "not_run",
+          "status": "blocked"
+        },
+        {
+          "checks_failed": 0,
+          "checks_passed": 0,
+          "evidence": "Not run: version-matched product end-to-end test environment and safe provider sandbox remain unverified.",
+          "key": "cross_tier_denial",
+          "level": "not_run",
+          "status": "blocked"
+        },
+        {
+          "checks_failed": 0,
+          "checks_passed": 0,
+          "evidence": "Not run: version-matched product end-to-end test environment and safe provider sandbox remain unverified.",
+          "key": "sandbox_checkout",
+          "level": "not_run",
+          "status": "blocked"
+        },
+        {
+          "checks_failed": 0,
+          "checks_passed": 0,
+          "evidence": "Not run: version-matched product end-to-end test environment and safe provider sandbox remain unverified.",
+          "key": "webhooks",
+          "level": "not_run",
+          "status": "blocked"
+        },
+        {
+          "checks_failed": 0,
+          "checks_passed": 0,
+          "evidence": "Not run: version-matched product end-to-end test environment and safe provider sandbox remain unverified.",
+          "key": "cancellation",
+          "level": "not_run",
+          "status": "blocked"
+        },
+        {
+          "checks_failed": 0,
+          "checks_passed": 0,
+          "evidence": "Not run: version-matched product end-to-end test environment and safe provider sandbox remain unverified.",
+          "key": "refunds",
+          "level": "not_run",
+          "status": "blocked"
+        }
+      ],
+      "note": "Prior 1 November evidence retained; not rerun in this targeted fix cycle. Public destination responds over HTTPS. Deployed commercial scope, current paid catalog and isolated tier/billing fixtures have not been verified; no automatic inapplicability or launch approval inferred."
+    },
+    {
+      "product_id": 9,
+      "wave": 2,
+      "source_version": "",
+      "environment": "not_available",
+      "cases": [
+        {
+          "checks_failed": 0,
+          "checks_passed": 0,
+          "evidence": "Not run: version-matched product end-to-end test environment and safe provider sandbox remain unverified.",
+          "key": "free_tier",
+          "level": "not_run",
+          "status": "blocked"
+        },
+        {
+          "checks_failed": 0,
+          "checks_passed": 0,
+          "evidence": "Not run: version-matched product end-to-end test environment and safe provider sandbox remain unverified.",
+          "key": "paid_tier",
+          "level": "not_run",
+          "status": "blocked"
+        },
+        {
+          "checks_failed": 0,
+          "checks_passed": 0,
+          "evidence": "Not run: version-matched product end-to-end test environment and safe provider sandbox remain unverified.",
+          "key": "usage_limits",
+          "level": "not_run",
+          "status": "blocked"
+        },
+        {
+          "checks_failed": 0,
+          "checks_passed": 0,
+          "evidence": "Not run: version-matched product end-to-end test environment and safe provider sandbox remain unverified.",
+          "key": "cross_tier_denial",
+          "level": "not_run",
+          "status": "blocked"
+        },
+        {
+          "checks_failed": 0,
+          "checks_passed": 0,
+          "evidence": "Not run: version-matched product end-to-end test environment and safe provider sandbox remain unverified.",
+          "key": "sandbox_checkout",
+          "level": "not_run",
+          "status": "blocked"
+        },
+        {
+          "checks_failed": 0,
+          "checks_passed": 0,
+          "evidence": "Not run: version-matched product end-to-end test environment and safe provider sandbox remain unverified.",
+          "key": "webhooks",
+          "level": "not_run",
+          "status": "blocked"
+        },
+        {
+          "checks_failed": 0,
+          "checks_passed": 0,
+          "evidence": "Not run: version-matched product end-to-end test environment and safe provider sandbox remain unverified.",
+          "key": "cancellation",
+          "level": "not_run",
+          "status": "blocked"
+        },
+        {
+          "checks_failed": 0,
+          "checks_passed": 0,
+          "evidence": "Not run: version-matched product end-to-end test environment and safe provider sandbox remain unverified.",
+          "key": "refunds",
+          "level": "not_run",
+          "status": "blocked"
+        }
+      ],
+      "note": "Prior 1 November evidence retained; not rerun in this targeted fix cycle. Atmasphere registry points to atmakosh.com. Identity/destination mismatch must be resolved before selecting a valid tier suite. HTTP 200 is not evidence of the Atmasphere application."
+    },
+    {
+      "product_id": 10,
+      "wave": 3,
+      "source_version": "confirmed-internal-scope-portfolio-review-20261029",
+      "environment": "internal_only",
+      "cases": [
+        {
+          "checks_failed": 0,
+          "checks_passed": 0,
+          "evidence": "Not run: version-matched product end-to-end test environment and safe provider sandbox remain unverified.",
+          "key": "free_tier",
+          "level": "not_run",
+          "status": "blocked"
+        },
+        {
+          "checks_failed": 0,
+          "checks_passed": 0,
+          "evidence": "Current portfolio scope and founder instruction keep this product internal with no public commercial launch. Public paid-tier/checkout lifecycle is outside this release; this does not certify absence of internal integrations or technical readiness.",
+          "key": "paid_tier",
+          "level": "source_verified",
+          "status": "not_applicable"
+        },
+        {
+          "checks_failed": 0,
+          "checks_passed": 0,
+          "evidence": "Not run: version-matched product end-to-end test environment and safe provider sandbox remain unverified.",
+          "key": "usage_limits",
+          "level": "not_run",
+          "status": "blocked"
+        },
+        {
+          "checks_failed": 0,
+          "checks_passed": 0,
+          "evidence": "Not run: version-matched product end-to-end test environment and safe provider sandbox remain unverified.",
+          "key": "cross_tier_denial",
+          "level": "not_run",
+          "status": "blocked"
+        },
+        {
+          "checks_failed": 0,
+          "checks_passed": 0,
+          "evidence": "Current portfolio scope and founder instruction keep this product internal with no public commercial launch. Public paid-tier/checkout lifecycle is outside this release; this does not certify absence of internal integrations or technical readiness.",
+          "key": "sandbox_checkout",
+          "level": "source_verified",
+          "status": "not_applicable"
+        },
+        {
+          "checks_failed": 0,
+          "checks_passed": 0,
+          "evidence": "Current portfolio scope and founder instruction keep this product internal with no public commercial launch. Public paid-tier/checkout lifecycle is outside this release; this does not certify absence of internal integrations or technical readiness.",
+          "key": "webhooks",
+          "level": "source_verified",
+          "status": "not_applicable"
+        },
+        {
+          "checks_failed": 0,
+          "checks_passed": 0,
+          "evidence": "Current portfolio scope and founder instruction keep this product internal with no public commercial launch. Public paid-tier/checkout lifecycle is outside this release; this does not certify absence of internal integrations or technical readiness.",
+          "key": "cancellation",
+          "level": "source_verified",
+          "status": "not_applicable"
+        },
+        {
+          "checks_failed": 0,
+          "checks_passed": 0,
+          "evidence": "Current portfolio scope and founder instruction keep this product internal with no public commercial launch. Public paid-tier/checkout lifecycle is outside this release; this does not certify absence of internal integrations or technical readiness.",
+          "key": "refunds",
+          "level": "source_verified",
+          "status": "not_applicable"
+        }
+      ],
+      "note": "Prior 1 November evidence retained; not rerun in this targeted fix cycle. Confirmed internal-only scope: no public paid launch or campaign is authorized. Internal authorization, quotas and first-value tests remain open. Revisit billing categories if scope changes."
+    },
+    {
+      "product_id": 11,
+      "wave": 3,
+      "source_version": "confirmed-internal-scope-portfolio-review-20261029",
+      "environment": "internal_only",
+      "cases": [
+        {
+          "checks_failed": 0,
+          "checks_passed": 0,
+          "evidence": "Not run: version-matched product end-to-end test environment and safe provider sandbox remain unverified.",
+          "key": "free_tier",
+          "level": "not_run",
+          "status": "blocked"
+        },
+        {
+          "checks_failed": 0,
+          "checks_passed": 0,
+          "evidence": "Current portfolio scope and founder instruction keep this product internal with no public commercial launch. Public paid-tier/checkout lifecycle is outside this release; this does not certify absence of internal integrations or technical readiness.",
+          "key": "paid_tier",
+          "level": "source_verified",
+          "status": "not_applicable"
+        },
+        {
+          "checks_failed": 0,
+          "checks_passed": 0,
+          "evidence": "Not run: version-matched product end-to-end test environment and safe provider sandbox remain unverified.",
+          "key": "usage_limits",
+          "level": "not_run",
+          "status": "blocked"
+        },
+        {
+          "checks_failed": 0,
+          "checks_passed": 0,
+          "evidence": "Not run: version-matched product end-to-end test environment and safe provider sandbox remain unverified.",
+          "key": "cross_tier_denial",
+          "level": "not_run",
+          "status": "blocked"
+        },
+        {
+          "checks_failed": 0,
+          "checks_passed": 0,
+          "evidence": "Current portfolio scope and founder instruction keep this product internal with no public commercial launch. Public paid-tier/checkout lifecycle is outside this release; this does not certify absence of internal integrations or technical readiness.",
+          "key": "sandbox_checkout",
+          "level": "source_verified",
+          "status": "not_applicable"
+        },
+        {
+          "checks_failed": 0,
+          "checks_passed": 0,
+          "evidence": "Current portfolio scope and founder instruction keep this product internal with no public commercial launch. Public paid-tier/checkout lifecycle is outside this release; this does not certify absence of internal integrations or technical readiness.",
+          "key": "webhooks",
+          "level": "source_verified",
+          "status": "not_applicable"
+        },
+        {
+          "checks_failed": 0,
+          "checks_passed": 0,
+          "evidence": "Current portfolio scope and founder instruction keep this product internal with no public commercial launch. Public paid-tier/checkout lifecycle is outside this release; this does not certify absence of internal integrations or technical readiness.",
+          "key": "cancellation",
+          "level": "source_verified",
+          "status": "not_applicable"
+        },
+        {
+          "checks_failed": 0,
+          "checks_passed": 0,
+          "evidence": "Current portfolio scope and founder instruction keep this product internal with no public commercial launch. Public paid-tier/checkout lifecycle is outside this release; this does not certify absence of internal integrations or technical readiness.",
+          "key": "refunds",
+          "level": "source_verified",
+          "status": "not_applicable"
+        }
+      ],
+      "note": "Prior 1 November evidence retained; not rerun in this targeted fix cycle. Confirmed internal-only scope: no public paid launch or campaign is authorized. Internal authorization, quotas and first-value tests remain open. Revisit billing categories if scope changes."
+    },
+    {
+      "product_id": 12,
+      "wave": 3,
+      "source_version": "confirmed-internal-scope-portfolio-review-20261029",
+      "environment": "internal_only",
+      "cases": [
+        {
+          "checks_failed": 0,
+          "checks_passed": 0,
+          "evidence": "Not run: version-matched product end-to-end test environment and safe provider sandbox remain unverified.",
+          "key": "free_tier",
+          "level": "not_run",
+          "status": "blocked"
+        },
+        {
+          "checks_failed": 0,
+          "checks_passed": 0,
+          "evidence": "Current portfolio scope and founder instruction keep this product internal with no public commercial launch. Public paid-tier/checkout lifecycle is outside this release; this does not certify absence of internal integrations or technical readiness.",
+          "key": "paid_tier",
+          "level": "source_verified",
+          "status": "not_applicable"
+        },
+        {
+          "checks_failed": 0,
+          "checks_passed": 0,
+          "evidence": "Not run: version-matched product end-to-end test environment and safe provider sandbox remain unverified.",
+          "key": "usage_limits",
+          "level": "not_run",
+          "status": "blocked"
+        },
+        {
+          "checks_failed": 0,
+          "checks_passed": 0,
+          "evidence": "Not run: version-matched product end-to-end test environment and safe provider sandbox remain unverified.",
+          "key": "cross_tier_denial",
+          "level": "not_run",
+          "status": "blocked"
+        },
+        {
+          "checks_failed": 0,
+          "checks_passed": 0,
+          "evidence": "Current portfolio scope and founder instruction keep this product internal with no public commercial launch. Public paid-tier/checkout lifecycle is outside this release; this does not certify absence of internal integrations or technical readiness.",
+          "key": "sandbox_checkout",
+          "level": "source_verified",
+          "status": "not_applicable"
+        },
+        {
+          "checks_failed": 0,
+          "checks_passed": 0,
+          "evidence": "Current portfolio scope and founder instruction keep this product internal with no public commercial launch. Public paid-tier/checkout lifecycle is outside this release; this does not certify absence of internal integrations or technical readiness.",
+          "key": "webhooks",
+          "level": "source_verified",
+          "status": "not_applicable"
+        },
+        {
+          "checks_failed": 0,
+          "checks_passed": 0,
+          "evidence": "Current portfolio scope and founder instruction keep this product internal with no public commercial launch. Public paid-tier/checkout lifecycle is outside this release; this does not certify absence of internal integrations or technical readiness.",
+          "key": "cancellation",
+          "level": "source_verified",
+          "status": "not_applicable"
+        },
+        {
+          "checks_failed": 0,
+          "checks_passed": 0,
+          "evidence": "Current portfolio scope and founder instruction keep this product internal with no public commercial launch. Public paid-tier/checkout lifecycle is outside this release; this does not certify absence of internal integrations or technical readiness.",
+          "key": "refunds",
+          "level": "source_verified",
+          "status": "not_applicable"
+        }
+      ],
+      "note": "Prior 1 November evidence retained; not rerun in this targeted fix cycle. Confirmed internal-only scope: no public paid launch or campaign is authorized. Internal authorization, quotas and first-value tests remain open. Revisit billing categories if scope changes."
+    },
+    {
+      "product_id": 13,
+      "wave": 3,
+      "source_version": "confirmed-internal-scope-portfolio-review-20261029",
+      "environment": "internal_only",
+      "cases": [
+        {
+          "checks_failed": 0,
+          "checks_passed": 0,
+          "evidence": "Not run: version-matched product end-to-end test environment and safe provider sandbox remain unverified.",
+          "key": "free_tier",
+          "level": "not_run",
+          "status": "blocked"
+        },
+        {
+          "checks_failed": 0,
+          "checks_passed": 0,
+          "evidence": "Current portfolio scope and founder instruction keep this product internal with no public commercial launch. Public paid-tier/checkout lifecycle is outside this release; this does not certify absence of internal integrations or technical readiness.",
+          "key": "paid_tier",
+          "level": "source_verified",
+          "status": "not_applicable"
+        },
+        {
+          "checks_failed": 0,
+          "checks_passed": 0,
+          "evidence": "Not run: version-matched product end-to-end test environment and safe provider sandbox remain unverified.",
+          "key": "usage_limits",
+          "level": "not_run",
+          "status": "blocked"
+        },
+        {
+          "checks_failed": 0,
+          "checks_passed": 0,
+          "evidence": "Not run: version-matched product end-to-end test environment and safe provider sandbox remain unverified.",
+          "key": "cross_tier_denial",
+          "level": "not_run",
+          "status": "blocked"
+        },
+        {
+          "checks_failed": 0,
+          "checks_passed": 0,
+          "evidence": "Current portfolio scope and founder instruction keep this product internal with no public commercial launch. Public paid-tier/checkout lifecycle is outside this release; this does not certify absence of internal integrations or technical readiness.",
+          "key": "sandbox_checkout",
+          "level": "source_verified",
+          "status": "not_applicable"
+        },
+        {
+          "checks_failed": 0,
+          "checks_passed": 0,
+          "evidence": "Current portfolio scope and founder instruction keep this product internal with no public commercial launch. Public paid-tier/checkout lifecycle is outside this release; this does not certify absence of internal integrations or technical readiness.",
+          "key": "webhooks",
+          "level": "source_verified",
+          "status": "not_applicable"
+        },
+        {
+          "checks_failed": 0,
+          "checks_passed": 0,
+          "evidence": "Current portfolio scope and founder instruction keep this product internal with no public commercial launch. Public paid-tier/checkout lifecycle is outside this release; this does not certify absence of internal integrations or technical readiness.",
+          "key": "cancellation",
+          "level": "source_verified",
+          "status": "not_applicable"
+        },
+        {
+          "checks_failed": 0,
+          "checks_passed": 0,
+          "evidence": "Current portfolio scope and founder instruction keep this product internal with no public commercial launch. Public paid-tier/checkout lifecycle is outside this release; this does not certify absence of internal integrations or technical readiness.",
+          "key": "refunds",
+          "level": "source_verified",
+          "status": "not_applicable"
+        }
+      ],
+      "note": "Prior 1 November evidence retained; not rerun in this targeted fix cycle. Confirmed internal-only scope: no public paid launch or campaign is authorized. Internal authorization, quotas and first-value tests remain open. Revisit billing categories if scope changes."
+    },
+    {
+      "product_id": 14,
+      "wave": 3,
+      "source_version": "confirmed-internal-scope-portfolio-review-20261029",
+      "environment": "internal_only",
+      "cases": [
+        {
+          "checks_failed": 0,
+          "checks_passed": 0,
+          "evidence": "Not run: version-matched product end-to-end test environment and safe provider sandbox remain unverified.",
+          "key": "free_tier",
+          "level": "not_run",
+          "status": "blocked"
+        },
+        {
+          "checks_failed": 0,
+          "checks_passed": 0,
+          "evidence": "Current portfolio scope and founder instruction keep this product internal with no public commercial launch. Public paid-tier/checkout lifecycle is outside this release; this does not certify absence of internal integrations or technical readiness.",
+          "key": "paid_tier",
+          "level": "source_verified",
+          "status": "not_applicable"
+        },
+        {
+          "checks_failed": 0,
+          "checks_passed": 0,
+          "evidence": "Not run: version-matched product end-to-end test environment and safe provider sandbox remain unverified.",
+          "key": "usage_limits",
+          "level": "not_run",
+          "status": "blocked"
+        },
+        {
+          "checks_failed": 0,
+          "checks_passed": 0,
+          "evidence": "Not run: version-matched product end-to-end test environment and safe provider sandbox remain unverified.",
+          "key": "cross_tier_denial",
+          "level": "not_run",
+          "status": "blocked"
+        },
+        {
+          "checks_failed": 0,
+          "checks_passed": 0,
+          "evidence": "Current portfolio scope and founder instruction keep this product internal with no public commercial launch. Public paid-tier/checkout lifecycle is outside this release; this does not certify absence of internal integrations or technical readiness.",
+          "key": "sandbox_checkout",
+          "level": "source_verified",
+          "status": "not_applicable"
+        },
+        {
+          "checks_failed": 0,
+          "checks_passed": 0,
+          "evidence": "Current portfolio scope and founder instruction keep this product internal with no public commercial launch. Public paid-tier/checkout lifecycle is outside this release; this does not certify absence of internal integrations or technical readiness.",
+          "key": "webhooks",
+          "level": "source_verified",
+          "status": "not_applicable"
+        },
+        {
+          "checks_failed": 0,
+          "checks_passed": 0,
+          "evidence": "Current portfolio scope and founder instruction keep this product internal with no public commercial launch. Public paid-tier/checkout lifecycle is outside this release; this does not certify absence of internal integrations or technical readiness.",
+          "key": "cancellation",
+          "level": "source_verified",
+          "status": "not_applicable"
+        },
+        {
+          "checks_failed": 0,
+          "checks_passed": 0,
+          "evidence": "Current portfolio scope and founder instruction keep this product internal with no public commercial launch. Public paid-tier/checkout lifecycle is outside this release; this does not certify absence of internal integrations or technical readiness.",
+          "key": "refunds",
+          "level": "source_verified",
+          "status": "not_applicable"
+        }
+      ],
+      "note": "Prior 1 November evidence retained; not rerun in this targeted fix cycle. Confirmed internal-only scope: no public paid launch or campaign is authorized. Internal authorization, quotas and first-value tests remain open. Revisit billing categories if scope changes."
+    },
+    {
+      "product_id": 15,
+      "wave": 3,
+      "source_version": "",
+      "environment": "not_available",
+      "cases": [
+        {
+          "checks_failed": 0,
+          "checks_passed": 0,
+          "evidence": "Not run: version-matched product end-to-end test environment and safe provider sandbox remain unverified.",
+          "key": "free_tier",
+          "level": "not_run",
+          "status": "blocked"
+        },
+        {
+          "checks_failed": 0,
+          "checks_passed": 0,
+          "evidence": "Not run: version-matched product end-to-end test environment and safe provider sandbox remain unverified.",
+          "key": "paid_tier",
+          "level": "not_run",
+          "status": "blocked"
+        },
+        {
+          "checks_failed": 0,
+          "checks_passed": 0,
+          "evidence": "Not run: version-matched product end-to-end test environment and safe provider sandbox remain unverified.",
+          "key": "usage_limits",
+          "level": "not_run",
+          "status": "blocked"
+        },
+        {
+          "checks_failed": 0,
+          "checks_passed": 0,
+          "evidence": "Not run: version-matched product end-to-end test environment and safe provider sandbox remain unverified.",
+          "key": "cross_tier_denial",
+          "level": "not_run",
+          "status": "blocked"
+        },
+        {
+          "checks_failed": 0,
+          "checks_passed": 0,
+          "evidence": "Not run: version-matched product end-to-end test environment and safe provider sandbox remain unverified.",
+          "key": "sandbox_checkout",
+          "level": "not_run",
+          "status": "blocked"
+        },
+        {
+          "checks_failed": 0,
+          "checks_passed": 0,
+          "evidence": "Not run: version-matched product end-to-end test environment and safe provider sandbox remain unverified.",
+          "key": "webhooks",
+          "level": "not_run",
+          "status": "blocked"
+        },
+        {
+          "checks_failed": 0,
+          "checks_passed": 0,
+          "evidence": "Not run: version-matched product end-to-end test environment and safe provider sandbox remain unverified.",
+          "key": "cancellation",
+          "level": "not_run",
+          "status": "blocked"
+        },
+        {
+          "checks_failed": 0,
+          "checks_passed": 0,
+          "evidence": "Not run: version-matched product end-to-end test environment and safe provider sandbox remain unverified.",
+          "key": "refunds",
+          "level": "not_run",
+          "status": "blocked"
+        }
+      ],
+      "note": "Prior 1 November evidence retained; not rerun in this targeted fix cycle. Public destination responds over HTTPS. Deployed commercial scope, current paid catalog and isolated tier/billing fixtures have not been verified; no automatic inapplicability or launch approval inferred."
+    },
+    {
+      "product_id": 16,
+      "wave": 3,
+      "source_version": "",
+      "environment": "not_available",
+      "cases": [
+        {
+          "checks_failed": 0,
+          "checks_passed": 0,
+          "evidence": "Not run: version-matched product end-to-end test environment and safe provider sandbox remain unverified.",
+          "key": "free_tier",
+          "level": "not_run",
+          "status": "blocked"
+        },
+        {
+          "checks_failed": 0,
+          "checks_passed": 0,
+          "evidence": "Not run: version-matched product end-to-end test environment and safe provider sandbox remain unverified.",
+          "key": "paid_tier",
+          "level": "not_run",
+          "status": "blocked"
+        },
+        {
+          "checks_failed": 0,
+          "checks_passed": 0,
+          "evidence": "Not run: version-matched product end-to-end test environment and safe provider sandbox remain unverified.",
+          "key": "usage_limits",
+          "level": "not_run",
+          "status": "blocked"
+        },
+        {
+          "checks_failed": 0,
+          "checks_passed": 0,
+          "evidence": "Not run: version-matched product end-to-end test environment and safe provider sandbox remain unverified.",
+          "key": "cross_tier_denial",
+          "level": "not_run",
+          "status": "blocked"
+        },
+        {
+          "checks_failed": 0,
+          "checks_passed": 0,
+          "evidence": "Not run: version-matched product end-to-end test environment and safe provider sandbox remain unverified.",
+          "key": "sandbox_checkout",
+          "level": "not_run",
+          "status": "blocked"
+        },
+        {
+          "checks_failed": 0,
+          "checks_passed": 0,
+          "evidence": "Not run: version-matched product end-to-end test environment and safe provider sandbox remain unverified.",
+          "key": "webhooks",
+          "level": "not_run",
+          "status": "blocked"
+        },
+        {
+          "checks_failed": 0,
+          "checks_passed": 0,
+          "evidence": "Not run: version-matched product end-to-end test environment and safe provider sandbox remain unverified.",
+          "key": "cancellation",
+          "level": "not_run",
+          "status": "blocked"
+        },
+        {
+          "checks_failed": 0,
+          "checks_passed": 0,
+          "evidence": "Not run: version-matched product end-to-end test environment and safe provider sandbox remain unverified.",
+          "key": "refunds",
+          "level": "not_run",
+          "status": "blocked"
+        }
+      ],
+      "note": "Prior 1 November evidence retained; not rerun in this targeted fix cycle. Public destination responds over HTTPS. Deployed commercial scope, current paid catalog and isolated tier/billing fixtures have not been verified; no automatic inapplicability or launch approval inferred."
+    },
+    {
+      "product_id": 17,
+      "wave": 3,
+      "source_version": "",
+      "environment": "not_available",
+      "cases": [
+        {
+          "checks_failed": 0,
+          "checks_passed": 0,
+          "evidence": "Not run: version-matched product end-to-end test environment and safe provider sandbox remain unverified.",
+          "key": "free_tier",
+          "level": "not_run",
+          "status": "blocked"
+        },
+        {
+          "checks_failed": 0,
+          "checks_passed": 0,
+          "evidence": "Not run: version-matched product end-to-end test environment and safe provider sandbox remain unverified.",
+          "key": "paid_tier",
+          "level": "not_run",
+          "status": "blocked"
+        },
+        {
+          "checks_failed": 0,
+          "checks_passed": 0,
+          "evidence": "Not run: version-matched product end-to-end test environment and safe provider sandbox remain unverified.",
+          "key": "usage_limits",
+          "level": "not_run",
+          "status": "blocked"
+        },
+        {
+          "checks_failed": 0,
+          "checks_passed": 0,
+          "evidence": "Not run: version-matched product end-to-end test environment and safe provider sandbox remain unverified.",
+          "key": "cross_tier_denial",
+          "level": "not_run",
+          "status": "blocked"
+        },
+        {
+          "checks_failed": 0,
+          "checks_passed": 0,
+          "evidence": "Not run: version-matched product end-to-end test environment and safe provider sandbox remain unverified.",
+          "key": "sandbox_checkout",
+          "level": "not_run",
+          "status": "blocked"
+        },
+        {
+          "checks_failed": 0,
+          "checks_passed": 0,
+          "evidence": "Not run: version-matched product end-to-end test environment and safe provider sandbox remain unverified.",
+          "key": "webhooks",
+          "level": "not_run",
+          "status": "blocked"
+        },
+        {
+          "checks_failed": 0,
+          "checks_passed": 0,
+          "evidence": "Not run: version-matched product end-to-end test environment and safe provider sandbox remain unverified.",
+          "key": "cancellation",
+          "level": "not_run",
+          "status": "blocked"
+        },
+        {
+          "checks_failed": 0,
+          "checks_passed": 0,
+          "evidence": "Not run: version-matched product end-to-end test environment and safe provider sandbox remain unverified.",
+          "key": "refunds",
+          "level": "not_run",
+          "status": "blocked"
+        }
+      ],
+      "note": "Prior 1 November evidence retained; not rerun in this targeted fix cycle. Public destination responds over HTTPS. Deployed commercial scope, current paid catalog and isolated tier/billing fixtures have not been verified; no automatic inapplicability or launch approval inferred."
+    }
+  ]
+}

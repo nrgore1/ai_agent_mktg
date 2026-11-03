@@ -1,0 +1,21 @@
+{
+  "review_date": "2026-10-30",
+  "source_baseline": "5a75aa658c239d7319ae11d973f07326a24f3744",
+  "runtime_image": "growthpilot-staging:8281172-privacy-v4",
+  "test_command": "python3 -m unittest discover -s tests",
+  "test_result": {
+    "passed": 187,
+    "failed": 0,
+    "seconds": 67.979
+  },
+  "inventory": {
+    "products": 17,
+    "channels": 50,
+    "execution_tasks": 279,
+    "products_requiring_verification": 17
+  },
+  "release_scope": "original mock-capable marketing core documented; full integrations and product launches remain conditional",
+  "runtime_changed": false,
+  "commercial_execution_changed": false,
+  "private_inputs_committed": false
+}

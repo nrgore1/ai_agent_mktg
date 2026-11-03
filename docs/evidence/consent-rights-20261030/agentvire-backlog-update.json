@@ -1,0 +1,16 @@
+{
+  "passed": true,
+  "counts": {
+    "completed": 79,
+    "pending": 38,
+    "blocked": 87,
+    "in_progress": 6,
+    "awaiting_approval": 51
+  },
+  "completed_this_release": 4,
+  "retention_account_provider_backup_followups": 3,
+  "owner_acceptance": "pending",
+  "audit_valid": true,
+  "commercial_changes": 0,
+  "customer_emails": 0
+}

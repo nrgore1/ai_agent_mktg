@@ -1,0 +1,58 @@
+# Jodibana payment recovery and live readiness — 3 November 2026
+
+## Current result
+
+Deployed with live collection disabled. The restricted Stripe live key authenticated to the expected Jodibana account. A live webhook and restricted customer portal were created. Stripe now confirms charges and payouts enabled, account details submitted and no current account requirements. Application collection remains explicitly disabled. No real payment, paid tier or campaign was activated. JodiUSA retains all features at no cost.
+
+Owner commercial approval remains **approved subject to all gates**. This is not a full launch approval. Product changes are tracked in Jodibana's separate backlog; AgentVire records evidence and retains unresolved gates.
+
+## Changes
+
+- Reconcile retry schedules arriving through `invoice.updated`, using current Stripe invoice state. Late updates cannot reopen paid invoices.
+- Reconcile provider terminal invoice events without claiming payment.
+- Prevent the local overdue-invoice command from writing off Stripe-owned debt.
+- Require explicit live collection enablement, live keys, signing secret, Standard Checkout, restricted portal and secure site origin before creating live Checkout or payment intents.
+- Add `python manage.py payment_readiness --provider`: read-only configuration, live-account capability, webhook coverage and portal verification. It reports a blocked result while collection is intentionally disabled or provider prerequisites fail. It never enables collection or makes a payment.
+- Replace the misleading Google-storage startup instruction with provider-neutral persistent-volume guidance. No Google Cloud service was configured or used.
+
+## Verification
+
+540 tests passed with PostgreSQL in an isolated environment without provider credentials or production data. The first run passed 538 and failed two stale photo-publication expectations; the rerun used tests shipped with the current production moderation code and passed all 540. No moderation behavior was weakened.
+
+14 real Stripe test-mode recovery checks passed. The corrected payment method recovered naturally on attempt two. The persistently failing subscription reached nine attempts, then Stripe canceled it; Jodibana removed access and retained the unpaid invoice as open debt. Genuine signed `invoice.updated` delivery reconciled current schedules and preserved paid status. This is evidence for the observed account policy, not every possible retry policy.
+
+Six explicit cleanup checks passed. Only paid synthetic invoices were refunded ($147 total test money); the remaining test debt was explicitly voided after recording the natural outcome. Temporary callback and proxy route were removed, isolated services stopped, and five public sites returned HTTP 200. No cancellation was treated as an automatic refund.
+
+## Live configuration
+
+Key name: `Jodibana VPS billing 2026-11-03`. Read permissions: Accounts, Balance, Charges and Refunds, Invoices, Prices, Subscriptions. Write permissions: Checkout Sessions, Customer Portal, Payment Intents, Webhook Endpoints. Zero connected-account or payout permissions. Credentials are outside source control in private VPS files.
+
+Webhook: `https://jodibana.com/saas/webhooks/stripe/`. Required events cover checkout completion/async success, paid/failed/updated/voided/uncollectible invoices, subscription updates/deletion and refund/charge reconciliation. The live signing secret is separate from test credentials.
+
+Customer portal permits payment-method changes and cancellation at period end without proration. Plan changes, customer-detail changes and invoice history are disabled. The application creates each session with its verified tenant-specific billing return URL; the portal default returns to the public home page.
+
+`STRIPE_STANDARD_CHECKOUT=true`, `STRIPE_TEST_STANDARD_CHECKOUT=false`, `STRIPE_LIVE_PAYMENTS_ENABLED=false` are the intended production settings. Configuring a key does not constitute launch approval or enable collection.
+
+## Remaining gates
+
+- Stripe business/account onboarding provider checks have passed. Operator tax/business review and all remaining launch gates still apply.
+- Genuine live signing/delivery is now verified. Real charge processing and paid activation are distinct checks and were not executed.
+- Validate exact live offers, price mappings, cost/margin evidence, commissions and recipient eligibility before enabling collection or campaigns.
+- Continue separate provider/AI quality, operator/privacy and backup recovery work. This payment result clears none of those gates.
+- Confirm full plan-change/proration behavior and alternative account retry policies if offered.
+
+## Release and rollback
+
+The release overlays only billing/readiness changes on the current production image, preserving the newer photo moderation implementation. The tested image identifiers and base image are in the evidence JSON. A database dump, original container configuration, original service/environment files and rollback container/image are retained privately. No schema migration is required. Deployment verification checks service health, unchanged billing/settings records, JodiUSA free access and blocked live collection.
+
+Production health, exact candidate image, persisted settings, JodiUSA free access and unchanged billing/settings records were verified after deployment. Unsigned webhook requests return HTTP 400. The old container remains stopped with automatic restart disabled, and the original configuration and database backup are retained. Genuine live non-payment webhook delivery was subsequently verified with 10 passing checks. The initial postdeployment receipt is retained as historical evidence.
+
+Detailed evidence: `jodibana-payment-recovery-readiness-20261103.json` (AgentVire: `docs/evidence/`).
+
+## Genuine live delivery verification
+
+Ten checks passed using Stripe's documented `billing_portal.configuration.updated` event. The existing endpoint temporarily listened for this non-payment event; an opaque verification marker was added to the owned portal metadata. Stripe delivered a live-mode event through the public HTTPS endpoint, which verified its signature and persisted one processed event. No handcrafted signature or direct database insertion was used. Original subscribed events, portal metadata and customer-facing features were restored. Billing/transaction/settings fingerprints and JodiUSA's free access were unchanged; collection stayed disabled.
+
+This verifies live transport, signing and persistence, not a real payment or paid activation. A subsequent read-only check confirmed `charges_enabled=true`, `payouts_enabled=true`, `details_submitted=true` and no current account requirements. JodiUSA free access was reverified. The app retains `STRIPE_LIVE_PAYMENTS_ENABLED=false`. Earlier onboarding-incomplete receipts are historical; the dated `onboarding` receipt records the current provider state. No new agreement was accepted by automation and no real charge was made.
+
+Reference: [Stripe event types](https://docs.stripe.com/api/events/types).

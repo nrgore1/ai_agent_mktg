@@ -1,0 +1,54 @@
+{
+  "health": {
+    "status": "ok",
+    "mode": "approval-governed",
+    "version": "0.5.1"
+  },
+  "exact_code_files_verified": 39,
+  "run_id": "wave-qualification-20261101-01",
+  "execution_counts": {
+    "completed": 88,
+    "pending": 44,
+    "blocked": 90,
+    "in_progress": 6,
+    "awaiting_approval": 51
+  },
+  "audit_valid": true,
+  "protected_execution_and_integrations": 401,
+  "release_receipt": {
+    "release": "agentvire-0.5.1-qualification",
+    "version": "0.5.1",
+    "commit": "821d5c2",
+    "previous_release": "agentvire-0.5.0-prd",
+    "rollback_image": "growthpilot-staging:agentvire-0.5.0-prd",
+    "image": "sha256:006a1206183fc8a581d0bc9777fc7107dbd57cbc180488fcb1ec9eb12bf017d4",
+    "health": {
+      "status": "ok",
+      "mode": "approval-governed",
+      "version": "0.5.1"
+    },
+    "agentvire_tests_passed": 219,
+    "product_tests_passed": 198,
+    "product_tests_failed": 5,
+    "unique_product_tests": 203,
+    "other_services_unchanged": true,
+    "settings_and_protected_files_preserved": true,
+    "provider_writes": 0,
+    "external_messages": 0,
+    "qualification": {
+      "run_id": "wave-qualification-20261101-01",
+      "products": 17,
+      "technical_approvals": 0,
+      "commercial_approvals": 0,
+      "execution_counts": {
+        "completed": 88,
+        "pending": 44,
+        "blocked": 90,
+        "in_progress": 6,
+        "awaiting_approval": 51
+      },
+      "commercial_tasks_preserved": 51,
+      "audit_valid": true
+    }
+  }
+}

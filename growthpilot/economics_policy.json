@@ -1,0 +1,80 @@
+{
+  "id": "us-product-economics-draft-v1",
+  "version": 1,
+  "jurisdiction": "United States; state and sector scope unresolved",
+  "status": "draft_internal_policy",
+  "scope": {
+    "product_ids": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17
+    ],
+    "commercial_skus_only": true,
+    "excluded": [
+      "Customer assets/AUM",
+      "Vendor funds, tax and tips where not platform revenue",
+      "Restricted charitable funds",
+      "Duplicate inter-product revenue"
+    ]
+  },
+  "margin_formula": "CM2 = (recognized net platform revenue - direct delivery - payment fees - attributable support/compliance - measured shared delivery allocation - partner compensation) / recognized net platform revenue",
+  "threshold_cm2": "0.60",
+  "threshold_status": "Proposed internal planning floor, NOT a U.S. regulatory threshold",
+  "timing": {
+    "period": "monthly",
+    "data_freshness_days": 7,
+    "rerun_before": [
+      "price change",
+      "service coverage change",
+      "commission change",
+      "withdrawal"
+    ],
+    "review": "monthly finance close and before each proposed commercial change"
+  },
+  "regulatory": {
+    "status": "not_evaluable",
+    "rule_reference": null,
+    "scope": null,
+    "margin_formula": null,
+    "threshold": null,
+    "effective_at": null,
+    "transition_deadline": null,
+    "reviewer": null,
+    "reason": "U.S. jurisdiction alone does not identify a regulator, rule or prescribed margin definition. No regulatory margin or capital pass is asserted."
+  },
+  "cost_challenge": {
+    "original_assumption": "Treat shared VPS/local inference capacity and founder support as free because there is no incremental provider charge per request.",
+    "objection": "This can overstate full service contribution. Shared delivery cost and attributable labor need a documented allocation; a regulator-specific rejection cannot be inferred without an applicable rule.",
+    "revised_basis": "Metered compute/storage/requests plus logged support/compliance hours, reconciled to supplier invoices and payroll. Allocate each shared pool once; retain a separate idle-capacity cost center.",
+    "illustrative_rerun": "Until measured cost pools exist, show support at 6% of baseline revenue and shared delivery at 12% as explicit assumptions, not live costs."
+  },
+  "reconciliation": {
+    "pricing": "Catalog price \u00d7 quantities is a forecast, not recognized revenue.",
+    "finance": "Gross margin requires a documented COGS classification; annual prepayments are not automatically one month of revenue.",
+    "commissions": "Use contract-defined eligible collected net fees, collection/refund timing and attribution; payables are not revenue.",
+    "regulatory": "A prescribed calculation needs its own sourced rule pack and bridge; never substitute CM2."
+  },
+  "partner_policy": {
+    "draft_terms": "For ordinary software only: proposed 10\u201320% of attributable collected net subscription fees for up to 12 months, no double referral/reseller credit; commission must leave the approved contribution floor. Product-specific terms and financial-sector restrictions take precedence.",
+    "eligible_base": "Collected software fees less tax, refunds, credits and pass-through amounts; check contract/recognition differences.",
+    "timing": "After collection and the agreed refund hold; monthly reconciliation with contractual clawbacks and dispute process.",
+    "profit_sharing": "Share only attributable program contribution under a written agreement. Sharing the partner\u2019s whole-company profit requires a separately negotiated arrangement and auditable access; none is assumed."
+  },
+  "zero_dollar_policy": "Zero paid-media/directory spend. Founder labor, support, content production, hosting and partner commissions still count in unit economics and CAC.",
+  "sales_gate": "Remote founder-led sales until repeatable wins. A hire needs a qualified pipeline, retention evidence, expected incremental contribution above fully loaded selling cost, and adequate runway. Physical travel requires documented incremental deal value; no automatic revenue threshold is treated as law.",
+  "approval": "Recommendations only. Founder approval plus relevant finance/legal/commercial review is required before price, scope, partner terms, withdrawal or capital actions. No execution connector exists in this module."
+}

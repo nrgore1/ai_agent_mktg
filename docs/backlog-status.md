@@ -1,3 +1,7 @@
+# Current AgentVire release boundary
+
+The current integration scope is recorded in [release 0.5.0](prd-integrations-0.5.0.md). CRM CSV exchange, calendar export and a nine-provider status desk are implemented. The historical ledger below is retained as a dated implementation record, not the current account configuration. Product-specific work is tracked separately in [the product backlog index](product-backlogs.md).
+
 # Backlog implementation status — 0.2.0
 
 This is an implementation ledger, not a declaration that all commercial integrations are live.

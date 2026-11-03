@@ -1,0 +1,12 @@
+{
+  "run_id": "wave-billing-deployed-20261101-03",
+  "products": 17,
+  "technical_approvals": 0,
+  "commercial_approvals": 0,
+  "commercial_tasks_unchanged": 51,
+  "audit_valid": true,
+  "oratoplus_memoire_deployed": true,
+  "jodibana_sandbox_key_valid": true,
+  "jodibana_production_unchanged": true,
+  "jodibana_lifecycle_failures": 2
+}

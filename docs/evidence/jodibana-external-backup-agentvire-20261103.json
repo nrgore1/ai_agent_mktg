@@ -1,0 +1,9 @@
+{
+  "artifact": "324d38c856e750f5b222b9c3f7a8e0e2",
+  "scoped_backup_task_completed": true,
+  "offsite_recovery_status": "in_progress",
+  "full_recovery_approved": false,
+  "commercial_tasks_preserved": 51,
+  "audit_valid": true,
+  "live_collection_enabled": false
+}

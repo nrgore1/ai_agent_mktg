@@ -1,0 +1,12 @@
+{
+  "run_id": "jodibana-payment-recovery-20261101-06",
+  "products": 17,
+  "full_technical_approvals": 0,
+  "commercial_approvals": 0,
+  "commercial_tasks_unchanged": 51,
+  "audit_valid": true,
+  "supported_refund_case": "passed",
+  "recovery_fix_deployed": true,
+  "jodiusa_free_grant_preserved": true,
+  "readiness_artifact_id": "f6b371ffeec459839f02e90ede761197"
+}

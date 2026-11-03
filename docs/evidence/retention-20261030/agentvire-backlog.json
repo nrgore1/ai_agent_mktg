@@ -1,0 +1,35 @@
+{
+  "passed": true,
+  "counts": {
+    "completed": 85,
+    "pending": 41,
+    "blocked": 87,
+    "in_progress": 3,
+    "awaiting_approval": 51
+  },
+  "completed_this_release": 6,
+  "remaining_external_retention_tasks": 3,
+  "retention": {
+    "last_sweep": {
+      "aged_contacts": 0,
+      "apply": true,
+      "at": "2026-10-31T00:26:23.697878+00:00",
+      "expired_private_links": 0,
+      "expired_rate_limits": 0,
+      "id": "current",
+      "managed_backups": 0,
+      "policy": {
+        "managed_backup_days": 30,
+        "pending_days": 7,
+        "rate_limit_days": 2,
+        "version": "2026-10-30-v1",
+        "withdrawn_days": 30
+      }
+    },
+    "account_erasure_receipts": 0,
+    "mailbox_verification_pending": 0
+  },
+  "audit_valid": true,
+  "commercial_changes": 0,
+  "customer_emails": 0
+}

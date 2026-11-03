@@ -1,0 +1,134 @@
+{
+  "build": {
+    "base_image": "sha256:4dcc2411d876bbdeeabf6ae53c4cbe9a75cbb59acf05b07b3a251655be58c21f",
+    "image": "sha256:6bda5ba1c5c1a4215b597eca07fd39364b88d70d8363d551bb1629d717cb82d0",
+    "qa_image": "sha256:83e8f214192cbfb12491871670efe81ddf38f9e5c85d7b0489d40fad49c18de0"
+  },
+  "tests": {
+    "tests": 564,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 0,
+    "exit_code": 0,
+    "database": "PostgreSQL 16",
+    "network": "internal; no provider access",
+    "production_data_mounted": false,
+    "provider_credentials": false,
+    "image": "sha256:83e8f214192cbfb12491871670efe81ddf38f9e5c85d7b0489d40fad49c18de0",
+    "concurrency_test_sha256": "c45d17a1fe4f42254a2f7254c9383813f0aedee974e9221dab6ca9f2e47d4394"
+  },
+  "staging": {
+    "checks": {
+      "no_critical_operational_checks": true,
+      "actual_media_mount": true,
+      "actual_journal_mount": true,
+      "signed_account_export": true,
+      "signed_tenant_preferences": true,
+      "missing_key_fails_closed": true,
+      "jodiusa_free": true,
+      "collection_blocked": true
+    },
+    "passed": 8,
+    "failed": 0,
+    "customer_emails": 0,
+    "live_transactions": 0,
+    "operational_problem_codes": [
+      "domains.unverified"
+    ]
+  },
+  "native-recovery": {
+    "passed": true,
+    "restored_deleted_account_blocked": true,
+    "reused_id_protected": true,
+    "unsafe_paths_rejected": true,
+    "corrupt_checkpoint_rejected": true
+  },
+  "restore": {
+    "restore_passed": true,
+    "all_public_table_counts_match_live": true,
+    "tables": 140,
+    "restore_seconds": 4.83,
+    "dump_bytes": 3016848,
+    "dump_sha256": "a0815f00bf6309fdbff4eafdc787408be87f8f49807ce52db89cc5e4f031e642",
+    "network": "none",
+    "production_writes": 0,
+    "offsite_disaster_recovery_verified": false,
+    "historical_privacy_continuity_verified": false,
+    "temporary_restore_removed": true
+  },
+  "deployment": {
+    "image": "sha256:6bda5ba1c5c1a4215b597eca07fd39364b88d70d8363d551bb1629d717cb82d0",
+    "rollback_container": "jodibana-web-1-before-ops-20261103",
+    "healthy": true,
+    "configuration_persisted": true,
+    "database_migrations": 0,
+    "verification": {
+      "ops_no_critical": true,
+      "signed_privacy_export": true,
+      "billing_and_settings_unchanged": true,
+      "free_grant_preserved": true,
+      "live_checkout_blocked": true,
+      "readiness": {
+        "configuration": {
+          "live_secret_present": true,
+          "live_publishable_key_present": true,
+          "webhook_secret_present": true,
+          "standard_checkout_selected": true,
+          "sandbox_override_disabled": true,
+          "restricted_portal_configured": true,
+          "secure_site_origin": true,
+          "live_collection_enabled": false
+        },
+        "provider_checks": {
+          "authenticated_live_mode": true,
+          "charges_enabled": true,
+          "payouts_enabled": true,
+          "details_submitted": true,
+          "no_current_account_requirements": true,
+          "required_live_webhook_registered": true,
+          "restricted_live_portal_valid": true
+        },
+        "provider_checked": true,
+        "ready": false,
+        "collection_enabled": false,
+        "mutations": 0,
+        "scope": "payment configuration; not full product or economic approval",
+        "remaining_external_checks": [
+          "Registered endpoint signing verified with genuine delivery",
+          "Account and tax settings reviewed by operator",
+          "Observed cost/margin, exact offer and other launch gates"
+        ]
+      }
+    },
+    "health": {
+      "https://jodibana.com/": 200,
+      "https://jodiusa.com/": 200,
+      "https://agentvire.com/": 200
+    },
+    "live_collection_enabled": false,
+    "live_transactions": 0,
+    "paid_tiers_activated": false
+  },
+  "postdeployment": {
+    "environment_persisted": true,
+    "journal_mount_persisted": true,
+    "image_persisted": true,
+    "healthy": true,
+    "rollback_stopped": true,
+    "live_collection_enabled": false,
+    "google_cloud_configured": false,
+    "recorded_at": "2026-11-03T23:27:28.380713+00:00"
+  },
+  "journal": {
+    "accounts": 0,
+    "objects": 0,
+    "checkpoint_present": false,
+    "signed_journal_verified": true
+  },
+  "recorded_at": "2026-11-03T23:29:07.220505+00:00",
+  "status": "scoped_privacy_storage_repair_deployed",
+  "full_launch_approved": false,
+  "live_collection_enabled": false,
+  "commercial_execution_count": 0,
+  "google_cloud_used": false
+}

@@ -1,0 +1,24 @@
+{
+  "passed": true,
+  "checks": [
+    {
+      "brand": "weddingos",
+      "accepted": true,
+      "recipient": "Postmark blackhole test sink",
+      "stream": "outbound"
+    },
+    {
+      "brand": "jodiusa",
+      "accepted": true,
+      "recipient": "Postmark blackhole test sink",
+      "stream": "outbound"
+    },
+    {
+      "brand": "memoire",
+      "accepted": true,
+      "recipient": "Postmark blackhole test sink",
+      "stream": "outbound"
+    }
+  ],
+  "customer_emails": 0
+}

@@ -1,0 +1,25 @@
+{
+  "counts": {
+    "completed": 88,
+    "pending": 44,
+    "blocked": 90,
+    "in_progress": 6,
+    "awaiting_approval": 51
+  },
+  "total_tasks": 279,
+  "audit_valid": true,
+  "source_changed": false,
+  "commercial_execution_enabled": false,
+  "financial_source_unchanged": true,
+  "products_campaigns_actions_events_unchanged": true,
+  "prepared_artifacts_unchanged": true,
+  "all51_commercial_tasks_unchanged": true,
+  "all_other_tasks_unchanged": true,
+  "stt_backup": "pending",
+  "tts_backup": "pending",
+  "local_text_backup": "pending_unqualified",
+  "ora_journey": "blocked",
+  "report_id": "ora-stronger-local-backup-20261101",
+  "evidence_sha256": "bf81f6c96c361b860b4323bfa6de9440eddd48eff3f97f48f9285ba975bd7327",
+  "source_commit": "790a3cb"
+}

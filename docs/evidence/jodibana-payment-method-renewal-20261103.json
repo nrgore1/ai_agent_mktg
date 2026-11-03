@@ -1,0 +1,300 @@
+{
+  "regression": {
+    "tests": 518,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 0,
+    "exit_code": 0,
+    "database": "PostgreSQL 16",
+    "network": "internal; no provider access",
+    "production_data_mounted": false,
+    "provider_credentials": false,
+    "image": "sha256:c5c0723bfea7728d5c3c22f19c897b6189007ab3f8ce89bfbb27445745fd3aed",
+    "concurrency_test_sha256": "c45d17a1fe4f42254a2f7254c9383813f0aedee974e9221dab6ca9f2e47d4394"
+  },
+  "current_billing_source_regression": {
+    "tests": 522,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 0,
+    "exit_code": 0,
+    "database": "PostgreSQL 16",
+    "network": "internal; no provider access",
+    "production_data_mounted": false,
+    "provider_credentials": false,
+    "image": "sha256:c5c0723bfea7728d5c3c22f19c897b6189007ab3f8ce89bfbb27445745fd3aed",
+    "concurrency_test_sha256": "c45d17a1fe4f42254a2f7254c9383813f0aedee974e9221dab6ca9f2e47d4394"
+  },
+  "current_runtime_test_attempt": {
+    "error": "Traceback (most recent call last):\n  File \"<stdin>\", line 3, in <module>\nModuleNotFoundError: No module named 'pytest'\n",
+    "database": "PostgreSQL 16",
+    "network": "internal; no provider access",
+    "production_data_mounted": false,
+    "provider_credentials": false,
+    "image": "sha256:0c1015e2e3f0c5c2a27bc1d102098df01b5ff73224716ebd840c1d08d1e8b52e",
+    "concurrency_test_sha256": "c45d17a1fe4f42254a2f7254c9383813f0aedee974e9221dab6ca9f2e47d4394"
+  },
+  "hosted_browser": {
+    "checks": [
+      {
+        "name": "test_mode_visible",
+        "passed": true
+      },
+      {
+        "name": "active_synthetic_subscription_visible",
+        "passed": true
+      },
+      {
+        "name": "hosted_card_fields_visible",
+        "passed": true
+      },
+      {
+        "name": "replacement_test_card_visible",
+        "passed": true
+      }
+    ],
+    "passed": 4,
+    "failed": 0,
+    "synthetic_only": true
+  },
+  "hosted_update": {
+    "checks": [
+      {
+        "name": "hosted_new_card_saved_to_correct_customer",
+        "passed": true
+      },
+      {
+        "name": "hosted_update_cleared_old_subscription_override",
+        "passed": true
+      },
+      {
+        "name": "effective_default_is_replacement",
+        "passed": true
+      },
+      {
+        "name": "offer_and_period_preserved",
+        "passed": true
+      },
+      {
+        "name": "no_extra_charge_on_hosted_update",
+        "passed": true
+      },
+      {
+        "name": "local_access_preserved",
+        "passed": true
+      }
+    ],
+    "passed": 6,
+    "failed": 0,
+    "scope": "actual hosted portal; provider state inspected without API mutation",
+    "live_transactions": 0
+  },
+  "hosted_renewal": {
+    "checks": [
+      {
+        "name": "natural_monthly_renewal_at_existing_price",
+        "passed": true
+      },
+      {
+        "name": "renewal_charged_replacement_card",
+        "passed": true
+      },
+      {
+        "name": "separate_local_renewal_invoice",
+        "passed": true
+      },
+      {
+        "name": "payment_link_and_amount_reconciled",
+        "passed": true
+      },
+      {
+        "name": "paid_access_retained",
+        "passed": true
+      },
+      {
+        "name": "no_extra_recurring_agreement",
+        "passed": true
+      },
+      {
+        "name": "initial_invoice_unchanged",
+        "passed": true
+      },
+      {
+        "name": "genuine_signed_invoice_event_processed",
+        "passed": true
+      }
+    ],
+    "passed": 8,
+    "failed": 0,
+    "scope": "hosted",
+    "natural_test_clock_renewal": true,
+    "live_transactions": 0
+  },
+  "backend_update": {
+    "checks": [
+      {
+        "name": "initial_signed_payment_and_access",
+        "passed": true
+      },
+      {
+        "name": "replacement_test_card_attached_via_api",
+        "passed": true
+      },
+      {
+        "name": "subscription_override_precedence_observed",
+        "passed": true
+      },
+      {
+        "name": "effective_default_is_replacement",
+        "passed": true
+      },
+      {
+        "name": "offer_and_period_unchanged",
+        "passed": true
+      },
+      {
+        "name": "no_extra_charge_on_card_update",
+        "passed": true
+      }
+    ],
+    "passed": 6,
+    "failed": 0,
+    "scope": "test API setup only; hosted card update is a separate gate",
+    "live_transactions": 0
+  },
+  "backend_renewal": {
+    "checks": [
+      {
+        "name": "natural_monthly_renewal_at_existing_price",
+        "passed": true
+      },
+      {
+        "name": "renewal_charged_replacement_card",
+        "passed": true
+      },
+      {
+        "name": "separate_local_renewal_invoice",
+        "passed": true
+      },
+      {
+        "name": "payment_link_and_amount_reconciled",
+        "passed": true
+      },
+      {
+        "name": "paid_access_retained",
+        "passed": true
+      },
+      {
+        "name": "no_extra_recurring_agreement",
+        "passed": true
+      },
+      {
+        "name": "initial_invoice_unchanged",
+        "passed": true
+      },
+      {
+        "name": "genuine_signed_invoice_event_processed",
+        "passed": true
+      }
+    ],
+    "passed": 8,
+    "failed": 0,
+    "scope": "backend",
+    "natural_test_clock_renewal": true,
+    "live_transactions": 0
+  },
+  "payment_cleanup": {
+    "checks": [
+      {
+        "name": "hosted_synthetic_agreement_canceled",
+        "passed": true
+      },
+      {
+        "name": "hosted_initial_and_renewal_refunds_reconciled",
+        "passed": true
+      },
+      {
+        "name": "hosted_refund_ledger_exact",
+        "passed": true
+      },
+      {
+        "name": "backend_synthetic_agreement_canceled",
+        "passed": true
+      },
+      {
+        "name": "backend_initial_and_renewal_refunds_reconciled",
+        "passed": true
+      },
+      {
+        "name": "backend_refund_ledger_exact",
+        "passed": true
+      }
+    ],
+    "passed": 6,
+    "failed": 0,
+    "live_transactions": 0,
+    "test_amount_refunded_usd": 196,
+    "purpose": "explicit test cleanup, not automatic refund on cancellation"
+  },
+  "environment_cleanup": {
+    "temporary_callback_deleted": true,
+    "temporary_route_removed": true,
+    "synthetic_receivers_stopped": true,
+    "test_data_retained_privately": true,
+    "public_health": {
+      "https://agentvire.com/": 200,
+      "https://jodiusa.com/": 200,
+      "https://jodibana.com/": 200,
+      "https://weddingos.pro/": 200,
+      "https://memoirbookstudio.com/": 200
+    },
+    "live_transactions": 0
+  },
+  "versions": {
+    "jodi-full-qa": {
+      "image": "sha256:c5c0723bfea7728d5c3c22f19c897b6189007ab3f8ce89bfbb27445745fd3aed",
+      "billing_source_hashes": {
+        "saas/payment_operations.py": "ecc28d4e904489396f4e272d8a2fa0e12c192ac360eb4981799ff775ef8779c2",
+        "saas/stripe_reconciliation.py": "0f0574734fdd469736a9599016680faecf2a5b2b4a42ebc7973f9d8b094cf14a",
+        "saas/billing_hardening.py": "67adee98120562a2311ba5991133f75b5b9b3690bfffa0930846674ca5582d40",
+        "saas/recovery.py": "ca056bec9e01a62d34da46050378734ce17a89166c9317f3e56a7a10218f6bc9",
+        "saas/services.py": "d10a37ad91904c0ab244663ecb0435192408f35dc8ad00df949351e12326af56",
+        "saas/views.py": "a0356a4822f20e550462c69ebceedc097f52643059aa2283b5ce638e5c4e6ec0"
+      },
+      "running": true
+    },
+    "jodibana-web-1": {
+      "image": "sha256:0c1015e2e3f0c5c2a27bc1d102098df01b5ff73224716ebd840c1d08d1e8b52e",
+      "billing_source_hashes": {
+        "saas/payment_operations.py": "ecc28d4e904489396f4e272d8a2fa0e12c192ac360eb4981799ff775ef8779c2",
+        "saas/stripe_reconciliation.py": "0f0574734fdd469736a9599016680faecf2a5b2b4a42ebc7973f9d8b094cf14a",
+        "saas/billing_hardening.py": "67adee98120562a2311ba5991133f75b5b9b3690bfffa0930846674ca5582d40",
+        "saas/recovery.py": "ca056bec9e01a62d34da46050378734ce17a89166c9317f3e56a7a10218f6bc9",
+        "saas/services.py": "92278658bfedd6a74b9b4b0652b8cfdac7ccde1462e5429b064e590ddc26a31d",
+        "saas/views.py": "a0356a4822f20e550462c69ebceedc097f52643059aa2283b5ce638e5c4e6ec0"
+      },
+      "running": true
+    },
+    "billing_sources_match": false
+  },
+  "recorded_at": "2026-11-03T20:05:18.298149+00:00",
+  "recorded_date": "2026-11-03 America/New_York",
+  "status": "hosted_payment_method_and_monthly_renewal_passed_scoped",
+  "owner_commercial_approval": "approved_subject_to_all_gates",
+  "full_launch_approved": false,
+  "product_deployment_changed": false,
+  "google_cloud_requested": false,
+  "no_google_cloud_policy": true,
+  "google_cloud_configuration_present": false,
+  "campaigns_sent": 0,
+  "live_transactions": 0,
+  "limitations": [
+    "Synthetic existing $49/month USD plan; not validation of proposed price economics or all plan changes.",
+    "Initial setup fixture missed its first callback before routing was ready; canceled/refunded and replaced after route verification.",
+    "Two headless hosted attempts timed out; a human-verification frame was observed. Visible-browser test completed. No CAPTCHA was solved or bypassed by automation.",
+    "522 checks used the current production services.py in the known test runtime, not the entire current slim production image. Its direct pytest attempt could not run because pytest is absent. Five other core payment files matched exactly; the services.py difference adds optional photo moderation.",
+    "Production payment credentials/signing/portal were not enabled or revalidated. Existing production readiness holds remain.",
+    "No general local-AI, TURN, Telegram, operator/legal/privacy or off-site recovery gate is cleared by this payment result.",
+    "Owner commercial approval supersedes prior pending-approval notes, but all 51 commercial tasks still have incomplete dependencies. No launch/commercial execution gate passed."
+  ]
+}

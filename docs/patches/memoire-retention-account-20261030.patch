@@ -1,0 +1,228 @@
+From 6468fb7b6a69fda8f511be36d117dd3e5c698eea Mon Sep 17 00:00:00 2001
+From: Codex <codex@local>
+Date: Sat, 31 Oct 2026 00:24:56 +0000
+Subject: [PATCH] Integrate marketing privacy and preserve shared workspaces
+ during account deletion
+
+---
+ .../src/components/AccountMenu.jsx            |  7 ++-
+ scripts/qa/account_retention_staging_check.py | 49 ++++++++++++++++
+ .../memoir_api/memoirs/privacy_client.py      | 41 +++++++++++++
+ .../memoir_api/memoirs/views_account.py       | 57 ++++++++++---------
+ 4 files changed, 125 insertions(+), 29 deletions(-)
+ create mode 100644 scripts/qa/account_retention_staging_check.py
+ create mode 100644 services/api-django/memoir_api/memoirs/privacy_client.py
+
+diff --git a/memoir_studio_frontend/src/components/AccountMenu.jsx b/memoir_studio_frontend/src/components/AccountMenu.jsx
+index c1d19ceb1..ffbec36fe 100644
+--- a/memoir_studio_frontend/src/components/AccountMenu.jsx
++++ b/memoir_studio_frontend/src/components/AccountMenu.jsx
+@@ -60,7 +60,7 @@ export default function AccountMenu() {
+   // GDPR/CCPA right-to-erasure: type DELETE to confirm, then sign out.
+   const deleteAccount = async () => {
+     const typed = window.prompt(
+-      "This permanently deletes your account and all your books. Type DELETE to confirm."
++      "This deletes your account and owned books. Shared workspace records, provider history and backups have separate retention. Marketing consent requires the private email link because signup does not verify your email. Type DELETE to confirm."
+     );
+     if (typed !== "DELETE") return;
+     setBusy(true);
+@@ -70,11 +70,12 @@ export default function AccountMenu() {
+         headers: { "Content-Type": "application/json", ...authHeaders() },
+         body: JSON.stringify({ confirm: "DELETE" }),
+       });
+-      if (!res.ok) throw new Error(`delete failed (${res.status})`);
++      const result = await res.json();
++      if (!res.ok) throw new Error(result.detail || result.error || "Deletion could not be completed. Please retry.");
+       await logout();
+       setAuth(null);
+       setOpen(false);
+-      alert("Your account and data have been deleted.");
++      alert("Your account and owned books were deleted. " + (result.next_step || "Use Email preferences to manage marketing consent.") + " Shared workspace records, provider history and backups have separate retention.");
+     } catch (e) {
+       setError(e.message);
+     } finally {
+diff --git a/scripts/qa/account_retention_staging_check.py b/scripts/qa/account_retention_staging_check.py
+new file mode 100644
+index 000000000..eeb71b61e
+--- /dev/null
++++ b/scripts/qa/account_retention_staging_check.py
+@@ -0,0 +1,49 @@
++import os,json,sys
++sys.path.insert(0,'/app')
++import dotenv
++dotenv.load_dotenv=lambda *a,**kw:False
++os.environ.update(DJANGO_SETTINGS_MODULE='memoir_api.settings.base',TENANT_STRICT='1',AUTH_MODE='jwt',DJANGO_SECRET_KEY='isolated-retention-qa-key',DJANGO_DEBUG='false')
++from django.conf import settings
++assert settings.DATABASES['default']['NAME']=='memoireqa'
++assert settings.DATABASES['default']['HOST']=='retention-pg-qa'
++settings.CACHES={'default':{'BACKEND':'django.core.cache.backends.locmem.LocMemCache'}}
++settings.CHANNEL_LAYERS={'default':{'BACKEND':'channels.layers.InMemoryChannelLayer'}}
++settings.EMAIL_BACKEND='django.core.mail.backends.locmem.EmailBackend'
++settings.ALLOWED_HOSTS=['testserver'];settings.SECURE_SSL_REDIRECT=False
++settings.LOGGING={'version':1,'disable_existing_loggers':True}
++import django;django.setup()
++from django.core.management import call_command
++call_command('migrate',verbosity=0,interactive=False)
++from django.contrib.auth import get_user_model
++from rest_framework.test import APIClient
++from rest_framework.authtoken.models import Token
++from memoir_api.commerce.models import Organization,Membership
++from memoir_api.memoirs.models import MemoirProject,Comment,MemoryJar
++from memoir_api.memoirs.privacy_client import PrivacyUnavailable
++from unittest.mock import patch
++checks=[]
++def check(name,ok):
++    checks.append({'check':name,'passed':bool(ok)});assert ok,name
++user=get_user_model().objects.create_user(email='memoire-unverified@example.com',password='Synthetic-password-2026!')
++other=get_user_model().objects.create_user(email='memoire-other@example.com',password='Synthetic-password-2026!')
++org=Organization.objects.create(name='Shared synthetic workspace')
++Membership.objects.create(org=org,user=user,role='owner');other_member=Membership.objects.create(org=org,user=other,role='editor')
++book=MemoirProject.objects.create(owner=user,title='Private synthetic book')
++otherbook=MemoirProject.objects.create(owner=other,title='Other owner book')
++Comment.objects.create(project_id=book.pk,text='Synthetic private comment');MemoryJar.objects.create(project_id=book.pk,text='Synthetic note')
++client=APIClient();client.credentials(HTTP_AUTHORIZATION='Token '+Token.objects.create(user=user).key)
++anon=APIClient()
++check('anonymous account deletion denied',anon.post('/api/account/delete/',{'confirm':'DELETE'},format='json').status_code in [401,403])
++check('explicit deletion required',client.post('/api/account/delete/',{},format='json').status_code==400)
++check('last shared owner must transfer ownership',client.post('/api/account/delete/',{'confirm':'DELETE'},format='json').status_code==409)
++other_member.role='owner';other_member.save()
++with patch('memoir_api.memoirs.views_account.privacy_call',side_effect=PrivacyUnavailable('Synthetic outage')):
++    check('outage leaves request retryable',client.post('/api/account/delete/',{'confirm':'DELETE'},format='json').status_code==503)
++check('outage preserves data',get_user_model().objects.filter(pk=user.pk).exists() and MemoirProject.objects.filter(pk=book.pk).exists())
++result=client.post('/api/account/delete/',{'confirm':'DELETE'},format='json')
++check('account deletion completes',result.status_code==200 and result.json()['deleted'])
++check('unverified marketing needs mailbox proof',result.json()['marketing']['status']=='verification_required')
++check('shared workspace and other member preserved',Organization.objects.filter(pk=org.pk).exists() and Membership.objects.filter(user=other,org=org).exists() and MemoirProject.objects.filter(pk=otherbook.pk).exists())
++check('owned records and UUID-linked legacy data removed',not MemoirProject.objects.filter(pk=book.pk).exists() and not Comment.objects.filter(project_id=book.pk).exists() and not MemoryJar.objects.filter(project_id=book.pk).exists())
++check('deleted token cannot export',client.get('/api/account/export/').status_code in [401,403])
++print('RESULT:'+json.dumps({'passed':True,'checks':checks,'customer_emails':0}))
+diff --git a/services/api-django/memoir_api/memoirs/privacy_client.py b/services/api-django/memoir_api/memoirs/privacy_client.py
+new file mode 100644
+index 000000000..6bafee1c6
+--- /dev/null
++++ b/services/api-django/memoir_api/memoirs/privacy_client.py
+@@ -0,0 +1,41 @@
++"""Server-only, product-scoped privacy link. Never accepts caller-supplied email."""
++import hashlib
++import hmac
++import json
++import os
++import time
++import urllib.request
++
++
++class PrivacyUnavailable(RuntimeError):
++    pass
++
++
++def privacy_call(brand, email, event_id, operation):
++    key = os.environ.get("AGENTVIRE_PRIVACY_KEY", "")
++    service = os.environ.get("AGENTVIRE_PRIVACY_SERVICE", "")
++    if not key:
++        if os.environ.get("AGENTVIRE_PRIVACY_REQUIRED") == "true":
++            raise PrivacyUnavailable("Privacy connection unavailable; deletion was not completed. Please retry.")
++        return {"status": "not_connected"}
++    if len(key) < 32 or not service:
++        raise PrivacyUnavailable("Privacy connection is not configured")
++    path = "/internal/marketing/account"
++    payload = {"brand": brand, "email": email.strip().lower(), "event_id": str(event_id), "operation": operation}
++    body = json.dumps(payload, sort_keys=True, separators=(",", ":")).encode()
++    stamp = str(time.time())
++    message = "\n".join([service, stamp, "POST", path, hashlib.sha256(body).hexdigest()])
++    signature = hmac.new(key.encode(), message.encode(), hashlib.sha256).hexdigest()
++    url = os.environ.get("AGENTVIRE_PRIVACY_URL", "http://growthpilot-agentvire:8098") + path
++    request = urllib.request.Request(url, data=body, headers={
++        "Content-Type": "application/json", "X-Privacy-Service": service,
++        "X-Privacy-Time": stamp, "X-Privacy-Signature": signature,
++    })
++    try:
++        with urllib.request.urlopen(request, timeout=15) as response:
++            result = json.loads(response.read(131072))
++        if result.get("status") not in {"erased", "verification_required", "exported"}:
++            raise ValueError("Unexpected privacy response")
++        return result
++    except Exception as exc:
++        raise PrivacyUnavailable("Privacy connection unavailable; deletion was not completed. Please retry.") from exc
+diff --git a/services/api-django/memoir_api/memoirs/views_account.py b/services/api-django/memoir_api/memoirs/views_account.py
+index 4409697d6..d490ef64c 100644
+--- a/services/api-django/memoir_api/memoirs/views_account.py
++++ b/services/api-django/memoir_api/memoirs/views_account.py
+@@ -6,6 +6,8 @@ POST /api/account/delete/   {confirm:"DELETE"} â†’ erase my data + account
+ """
+ 
+ from django.http import JsonResponse
++from django.db import transaction
++from .privacy_client import privacy_call, PrivacyUnavailable
+ from rest_framework import permissions
+ from rest_framework.authentication import TokenAuthentication
+ from rest_framework.response import Response
+@@ -38,6 +40,7 @@ class AccountExportView(APIView):
+         templates = PersonalTemplate.objects.filter(owner=u)
+         versions = ProjectVersion.objects.filter(project__owner=u)
+         bundle = {
++            "marketing_consent": {"status":"mailbox_verification_required","preferences_url":"/marketing-updates/","note":"Use a fresh private email link to export marketing consent; product registration does not verify email ownership."},
+             "account": {
+                 "email": u.email,
+                 "display_name": getattr(u, "display_name", ""),
+@@ -90,30 +93,32 @@ class AccountDeleteView(APIView):
+                 status=400,
+             )
+         u = request.user
+-        deleted = {
+-            "projects": MemoirProject.objects.filter(owner=u).count(),
+-            "templates": PersonalTemplate.objects.filter(owner=u).count(),
+-        }
+-        # Projects cascade to events/versions/chunks; templates are owned.
+-        MemoirProject.objects.filter(owner=u).delete()
+-        PersonalTemplate.objects.filter(owner=u).delete()
+-        # Commerce org/membership + auth token, if the apps are present.
+-        try:
+-            from memoir_api.commerce.models import Membership, Organization
+-
+-            org_ids = list(
+-                Membership.objects.filter(user=u).values_list("org_id", flat=True)
+-            )
++        from memoir_api.commerce.models import Membership, Organization
++        from django.contrib.auth import get_user_model
++        with transaction.atomic():
++            u = get_user_model().objects.select_for_update().get(pk=u.pk)
++            memberships = list(Membership.objects.filter(user=u).select_related("org"))
++            org_ids = [m.org_id for m in memberships]
++            list(Organization.objects.select_for_update().filter(pk__in=org_ids))
++            for membership in memberships:
++                others = Membership.objects.filter(org_id=membership.org_id).exclude(user=u)
++                if membership.role == "owner" and others.exists() and not others.filter(role="owner").exists():
++                    return Response({"error":"transfer_ownership_required","detail":"Assign another owner before deleting your account in a shared workspace."},status=409)
++            try:
++                marketing = privacy_call("memoire",u.email,"account:"+str(u.uuid),"request_erasure")
++            except PrivacyUnavailable as exc:
++                return Response({"error":"privacy_unavailable","detail":str(exc)},status=503)
++            project_ids = list(MemoirProject.objects.filter(owner=u).values_list("id",flat=True))
++            deleted = {"projects":len(project_ids),"templates":PersonalTemplate.objects.filter(owner=u).count()}
++            # These legacy records use UUID values rather than cascading foreign keys.
++            from .models import Comment, MemoryJar
++            Comment.objects.filter(project_id__in=project_ids).delete()
++            MemoryJar.objects.filter(project_id__in=project_ids).delete()
++            MemoirProject.objects.filter(owner=u).delete()
++            PersonalTemplate.objects.filter(owner=u).delete()
+             Membership.objects.filter(user=u).delete()
+-            Organization.objects.filter(id__in=org_ids).delete()
+-        except Exception:
+-            pass
+-        try:
+-            from rest_framework.authtoken.models import Token
+-
+-            Token.objects.filter(user=u).delete()
+-        except Exception:
+-            pass
+-        email = u.email
+-        u.delete()
+-        return Response({"deleted": True, "account": email, "removed": deleted})
++            # Organizations and financial records belong to the workspace, not just this user.
++            u.delete()
++        return Response({"deleted":True,"removed":deleted,"marketing":marketing,
++                         "retained":"Shared organizations, financial records, provider records and historical backups have separate retention.",
++                         "next_step":"If this address has marketing consent, use the private link sent by email to delete it. You may also request a fresh link at /marketing-updates/."})
+-- 
+2.43.0
+

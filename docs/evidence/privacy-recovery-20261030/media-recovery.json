@@ -1,0 +1,23 @@
+[
+  {
+    "store": "jodi-media",
+    "restored_files": 34,
+    "restored_bytes": 45977691,
+    "archive_sha256": "d05c5b639049761b99ecafd8a7dc2e82c6ba606f9092b1f6c7dcda7b4ea46cae",
+    "safe_restore_verified": true
+  },
+  {
+    "store": "memoire-files",
+    "restored_files": 0,
+    "restored_bytes": 0,
+    "archive_sha256": "9c6482e956454fb6ee5c2a8c487c0939926f56fbdc57d69a9ca03450915ff5cd",
+    "safe_restore_verified": true
+  },
+  {
+    "store": "memoire-objects",
+    "restored_files": 169,
+    "restored_bytes": 15026625,
+    "archive_sha256": "6d4af744e11cb8e4a6de068f1eb5165ee6778bc90c3ef59d00c10d4bf5503123",
+    "safe_restore_verified": true
+  }
+]

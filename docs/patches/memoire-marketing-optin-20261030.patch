@@ -1,0 +1,64 @@
+From 611bd879e4b734040e0ee5d1a6e6840774cffcf2 Mon Sep 17 00:00:00 2001
+From: Codex <codex@local>
+Date: Fri, 30 Oct 2026 11:57:22 +0000
+Subject: [PATCH] Add optional confirmed marketing email preferences
+
+---
+ memoir_studio_frontend/nginx.conf                 | 15 +++++++++++++++
+ memoir_studio_frontend/src/pages/LandingPage.jsx  |  1 +
+ memoir_studio_frontend/src/pages/RegisterPage.jsx |  1 +
+ 3 files changed, 17 insertions(+)
+
+diff --git a/memoir_studio_frontend/nginx.conf b/memoir_studio_frontend/nginx.conf
+index d0449e40d..e46f18f1e 100644
+--- a/memoir_studio_frontend/nginx.conf
++++ b/memoir_studio_frontend/nginx.conf
+@@ -16,6 +16,21 @@ server {
+         try_files $uri /index.html;
+     }
+ 
++
++    # Only the public consent endpoints are exposed; account cookies stay here.
++    location ^~ /marketing-updates/ {
++        resolver 127.0.0.11 valid=10s;
++        set $consent_service http://growthpilot-agentvire:8098;
++        proxy_pass $consent_service$request_uri;
++        proxy_set_header Host $host;
++        proxy_set_header Cookie "";
++        proxy_set_header Authorization "";
++        proxy_set_header X-Forwarded-For "";
++        client_max_body_size 16k;
++        proxy_connect_timeout 5s;
++        proxy_read_timeout 30s;
++    }
++
+     # SPA fallback for Vite/React
+     location / {
+         try_files $uri /index.html;
+diff --git a/memoir_studio_frontend/src/pages/LandingPage.jsx b/memoir_studio_frontend/src/pages/LandingPage.jsx
+index 9bbb1be12..15c2bc5b8 100644
+--- a/memoir_studio_frontend/src/pages/LandingPage.jsx
++++ b/memoir_studio_frontend/src/pages/LandingPage.jsx
+@@ -411,6 +411,7 @@ export default function LandingPage() {
+             <Link to="/register" className="hover:text-slate-700">Start free</Link>
+             <Link to="/about" className="hover:text-slate-700">About</Link>
+             <Link to="/refunds" className="hover:text-slate-700">Refunds</Link>
++            <a href="/marketing-updates/" className="hover:text-slate-700">Optional email updates</a>
+             <Link to="/compliance" className="hover:text-slate-700">Privacy &amp; data</Link>
+             <Link to="/terms" className="hover:text-slate-700">Terms &amp; Conditions</Link>
+             <a href="mailto:support@atmakosh.com" className="hover:text-slate-700">Contact</a>
+diff --git a/memoir_studio_frontend/src/pages/RegisterPage.jsx b/memoir_studio_frontend/src/pages/RegisterPage.jsx
+index 230d0a6d9..db8f6e396 100644
+--- a/memoir_studio_frontend/src/pages/RegisterPage.jsx
++++ b/memoir_studio_frontend/src/pages/RegisterPage.jsx
+@@ -66,6 +66,7 @@ export default function RegisterPage() {
+           Free forever for your first book. No credit card required.
+         </p>
+       </form>
++      <p className="text-xs text-slate-500 text-center mt-4"><a href="/marketing-updates/" className="text-indigo-600 hover:underline">Optional email updates</a> — a separate choice; not required for an account.</p>
+       <p className="text-xs text-slate-500 text-center mt-4">
+         Already have an account?{" "}
+         <Link to={`/login?next=${encodeURIComponent(next)}`} className="text-indigo-600 font-medium hover:underline">
+-- 
+2.43.0
+

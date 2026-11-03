@@ -1,0 +1,2013 @@
+{
+  "regression": {
+    "tests": 437,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 0,
+    "exit_code": 0,
+    "database": "PostgreSQL 16",
+    "network": "internal; no provider access",
+    "production_data_mounted": false,
+    "provider_credentials": false,
+    "image": "sha256:230e7d2ffd7d761b6a30aa321d0ad5d9db8245a13244c10f2278f82f6f831f2d",
+    "concurrency_test_sha256": "c45d17a1fe4f42254a2f7254c9383813f0aedee974e9221dab6ca9f2e47d4394"
+  },
+  "http": {
+    "checks": [
+      {
+        "name": "starter:feature:advanced_analytics",
+        "passed": true
+      },
+      {
+        "name": "starter:runtime:advanced_analytics",
+        "passed": true
+      },
+      {
+        "name": "starter:feature:advanced_filters",
+        "passed": true
+      },
+      {
+        "name": "starter:runtime:advanced_filters",
+        "passed": true
+      },
+      {
+        "name": "starter:feature:ai_conversation_starters",
+        "passed": true
+      },
+      {
+        "name": "starter:runtime:ai_conversation_starters",
+        "passed": true
+      },
+      {
+        "name": "starter:feature:ai_curated_matches",
+        "passed": true
+      },
+      {
+        "name": "starter:runtime:ai_curated_matches",
+        "passed": true
+      },
+      {
+        "name": "starter:feature:ai_safety_abuse_detection",
+        "passed": true
+      },
+      {
+        "name": "starter:runtime:ai_safety_abuse_detection",
+        "passed": true
+      },
+      {
+        "name": "starter:feature:basic_profile",
+        "passed": true
+      },
+      {
+        "name": "starter:runtime:basic_profile",
+        "passed": true
+      },
+      {
+        "name": "starter:feature:basic_safety",
+        "passed": true
+      },
+      {
+        "name": "starter:runtime:basic_safety",
+        "passed": true
+      },
+      {
+        "name": "starter:feature:compatibility_scores",
+        "passed": true
+      },
+      {
+        "name": "starter:runtime:compatibility_scores",
+        "passed": true
+      },
+      {
+        "name": "starter:feature:friend_networking_modes",
+        "passed": true
+      },
+      {
+        "name": "starter:runtime:friend_networking_modes",
+        "passed": true
+      },
+      {
+        "name": "starter:feature:gamified_trust",
+        "passed": true
+      },
+      {
+        "name": "starter:runtime:gamified_trust",
+        "passed": true
+      },
+      {
+        "name": "starter:feature:geo_proximity",
+        "passed": true
+      },
+      {
+        "name": "starter:runtime:geo_proximity",
+        "passed": true
+      },
+      {
+        "name": "starter:feature:in_app_video_voice",
+        "passed": true
+      },
+      {
+        "name": "starter:runtime:in_app_video_voice",
+        "passed": true
+      },
+      {
+        "name": "starter:feature:limited_daily_matches",
+        "passed": true
+      },
+      {
+        "name": "starter:runtime:limited_daily_matches",
+        "passed": true
+      },
+      {
+        "name": "starter:feature:opening_moves",
+        "passed": true
+      },
+      {
+        "name": "starter:runtime:opening_moves",
+        "passed": true
+      },
+      {
+        "name": "starter:feature:premium_perks",
+        "passed": true
+      },
+      {
+        "name": "starter:runtime:premium_perks",
+        "passed": true
+      },
+      {
+        "name": "starter:feature:profile_prompts",
+        "passed": true
+      },
+      {
+        "name": "starter:runtime:profile_prompts",
+        "passed": true
+      },
+      {
+        "name": "starter:feature:profile_reviews",
+        "passed": true
+      },
+      {
+        "name": "starter:runtime:profile_reviews",
+        "passed": true
+      },
+      {
+        "name": "starter:feature:simple_communication",
+        "passed": true
+      },
+      {
+        "name": "starter:runtime:simple_communication",
+        "passed": true
+      },
+      {
+        "name": "starter:feature:social_integrations",
+        "passed": true
+      },
+      {
+        "name": "starter:runtime:social_integrations",
+        "passed": true
+      },
+      {
+        "name": "starter:feature:specific_profile_likes",
+        "passed": true
+      },
+      {
+        "name": "starter:runtime:specific_profile_likes",
+        "passed": true
+      },
+      {
+        "name": "starter:feature:swipe_matching",
+        "passed": true
+      },
+      {
+        "name": "starter:runtime:swipe_matching",
+        "passed": true
+      },
+      {
+        "name": "starter:feature:travel_passport_mode",
+        "passed": true
+      },
+      {
+        "name": "starter:runtime:travel_passport_mode",
+        "passed": true
+      },
+      {
+        "name": "starter:feature:unlimited_daily_matches",
+        "passed": true
+      },
+      {
+        "name": "starter:runtime:unlimited_daily_matches",
+        "passed": true
+      },
+      {
+        "name": "starter:feature:verification_incognito",
+        "passed": true
+      },
+      {
+        "name": "starter:runtime:verification_incognito",
+        "passed": true
+      },
+      {
+        "name": "starter:feature:virtual_gifts",
+        "passed": true
+      },
+      {
+        "name": "starter:runtime:virtual_gifts",
+        "passed": true
+      },
+      {
+        "name": "starter:feature:voice_audio_prompts",
+        "passed": true
+      },
+      {
+        "name": "starter:runtime:voice_audio_prompts",
+        "passed": true
+      },
+      {
+        "name": "starter:feature:women_first_messaging",
+        "passed": true
+      },
+      {
+        "name": "starter:runtime:women_first_messaging",
+        "passed": true
+      },
+      {
+        "name": "starter:like:1",
+        "passed": true
+      },
+      {
+        "name": "starter:like:2",
+        "passed": true
+      },
+      {
+        "name": "starter:like:3",
+        "passed": true
+      },
+      {
+        "name": "starter:like:4",
+        "passed": true
+      },
+      {
+        "name": "starter:like:5",
+        "passed": true
+      },
+      {
+        "name": "starter:like:6",
+        "passed": true
+      },
+      {
+        "name": "starter:like:7",
+        "passed": true
+      },
+      {
+        "name": "starter:like:8",
+        "passed": true
+      },
+      {
+        "name": "starter:overflow_denied",
+        "passed": true
+      },
+      {
+        "name": "starter:repeat_no_extra_charge",
+        "passed": true
+      },
+      {
+        "name": "starter:pass_at_cap",
+        "passed": true
+      },
+      {
+        "name": "starter:next_day_reset",
+        "passed": true
+      },
+      {
+        "name": "growth:feature:advanced_analytics",
+        "passed": true
+      },
+      {
+        "name": "growth:runtime:advanced_analytics",
+        "passed": true
+      },
+      {
+        "name": "growth:feature:advanced_filters",
+        "passed": true
+      },
+      {
+        "name": "growth:runtime:advanced_filters",
+        "passed": true
+      },
+      {
+        "name": "growth:feature:ai_conversation_starters",
+        "passed": true
+      },
+      {
+        "name": "growth:runtime:ai_conversation_starters",
+        "passed": true
+      },
+      {
+        "name": "growth:feature:ai_curated_matches",
+        "passed": true
+      },
+      {
+        "name": "growth:runtime:ai_curated_matches",
+        "passed": true
+      },
+      {
+        "name": "growth:feature:ai_safety_abuse_detection",
+        "passed": true
+      },
+      {
+        "name": "growth:runtime:ai_safety_abuse_detection",
+        "passed": true
+      },
+      {
+        "name": "growth:feature:basic_profile",
+        "passed": true
+      },
+      {
+        "name": "growth:runtime:basic_profile",
+        "passed": true
+      },
+      {
+        "name": "growth:feature:basic_safety",
+        "passed": true
+      },
+      {
+        "name": "growth:runtime:basic_safety",
+        "passed": true
+      },
+      {
+        "name": "growth:feature:compatibility_scores",
+        "passed": true
+      },
+      {
+        "name": "growth:runtime:compatibility_scores",
+        "passed": true
+      },
+      {
+        "name": "growth:feature:friend_networking_modes",
+        "passed": true
+      },
+      {
+        "name": "growth:runtime:friend_networking_modes",
+        "passed": true
+      },
+      {
+        "name": "growth:feature:gamified_trust",
+        "passed": true
+      },
+      {
+        "name": "growth:runtime:gamified_trust",
+        "passed": true
+      },
+      {
+        "name": "growth:feature:geo_proximity",
+        "passed": true
+      },
+      {
+        "name": "growth:runtime:geo_proximity",
+        "passed": true
+      },
+      {
+        "name": "growth:feature:in_app_video_voice",
+        "passed": true
+      },
+      {
+        "name": "growth:runtime:in_app_video_voice",
+        "passed": true
+      },
+      {
+        "name": "growth:feature:limited_daily_matches",
+        "passed": true
+      },
+      {
+        "name": "growth:runtime:limited_daily_matches",
+        "passed": true
+      },
+      {
+        "name": "growth:feature:opening_moves",
+        "passed": true
+      },
+      {
+        "name": "growth:runtime:opening_moves",
+        "passed": true
+      },
+      {
+        "name": "growth:feature:premium_perks",
+        "passed": true
+      },
+      {
+        "name": "growth:runtime:premium_perks",
+        "passed": true
+      },
+      {
+        "name": "growth:feature:profile_prompts",
+        "passed": true
+      },
+      {
+        "name": "growth:runtime:profile_prompts",
+        "passed": true
+      },
+      {
+        "name": "growth:feature:profile_reviews",
+        "passed": true
+      },
+      {
+        "name": "growth:runtime:profile_reviews",
+        "passed": true
+      },
+      {
+        "name": "growth:feature:simple_communication",
+        "passed": true
+      },
+      {
+        "name": "growth:runtime:simple_communication",
+        "passed": true
+      },
+      {
+        "name": "growth:feature:social_integrations",
+        "passed": true
+      },
+      {
+        "name": "growth:runtime:social_integrations",
+        "passed": true
+      },
+      {
+        "name": "growth:feature:specific_profile_likes",
+        "passed": true
+      },
+      {
+        "name": "growth:runtime:specific_profile_likes",
+        "passed": true
+      },
+      {
+        "name": "growth:feature:swipe_matching",
+        "passed": true
+      },
+      {
+        "name": "growth:runtime:swipe_matching",
+        "passed": true
+      },
+      {
+        "name": "growth:feature:travel_passport_mode",
+        "passed": true
+      },
+      {
+        "name": "growth:runtime:travel_passport_mode",
+        "passed": true
+      },
+      {
+        "name": "growth:feature:unlimited_daily_matches",
+        "passed": true
+      },
+      {
+        "name": "growth:runtime:unlimited_daily_matches",
+        "passed": true
+      },
+      {
+        "name": "growth:feature:verification_incognito",
+        "passed": true
+      },
+      {
+        "name": "growth:runtime:verification_incognito",
+        "passed": true
+      },
+      {
+        "name": "growth:feature:virtual_gifts",
+        "passed": true
+      },
+      {
+        "name": "growth:runtime:virtual_gifts",
+        "passed": true
+      },
+      {
+        "name": "growth:feature:voice_audio_prompts",
+        "passed": true
+      },
+      {
+        "name": "growth:runtime:voice_audio_prompts",
+        "passed": true
+      },
+      {
+        "name": "growth:feature:women_first_messaging",
+        "passed": true
+      },
+      {
+        "name": "growth:runtime:women_first_messaging",
+        "passed": true
+      },
+      {
+        "name": "growth:like:1",
+        "passed": true
+      },
+      {
+        "name": "growth:like:2",
+        "passed": true
+      },
+      {
+        "name": "growth:like:3",
+        "passed": true
+      },
+      {
+        "name": "growth:like:4",
+        "passed": true
+      },
+      {
+        "name": "growth:like:5",
+        "passed": true
+      },
+      {
+        "name": "growth:like:6",
+        "passed": true
+      },
+      {
+        "name": "growth:like:7",
+        "passed": true
+      },
+      {
+        "name": "growth:like:8",
+        "passed": true
+      },
+      {
+        "name": "growth:like:9",
+        "passed": true
+      },
+      {
+        "name": "growth:like:10",
+        "passed": true
+      },
+      {
+        "name": "growth:like:11",
+        "passed": true
+      },
+      {
+        "name": "growth:like:12",
+        "passed": true
+      },
+      {
+        "name": "growth:like:13",
+        "passed": true
+      },
+      {
+        "name": "growth:like:14",
+        "passed": true
+      },
+      {
+        "name": "growth:like:15",
+        "passed": true
+      },
+      {
+        "name": "growth:like:16",
+        "passed": true
+      },
+      {
+        "name": "growth:like:17",
+        "passed": true
+      },
+      {
+        "name": "growth:like:18",
+        "passed": true
+      },
+      {
+        "name": "growth:like:19",
+        "passed": true
+      },
+      {
+        "name": "growth:like:20",
+        "passed": true
+      },
+      {
+        "name": "growth:like:21",
+        "passed": true
+      },
+      {
+        "name": "growth:like:22",
+        "passed": true
+      },
+      {
+        "name": "growth:like:23",
+        "passed": true
+      },
+      {
+        "name": "growth:like:24",
+        "passed": true
+      },
+      {
+        "name": "growth:like:25",
+        "passed": true
+      },
+      {
+        "name": "growth:overflow_denied",
+        "passed": true
+      },
+      {
+        "name": "growth:repeat_no_extra_charge",
+        "passed": true
+      },
+      {
+        "name": "growth:pass_at_cap",
+        "passed": true
+      },
+      {
+        "name": "growth:next_day_reset",
+        "passed": true
+      },
+      {
+        "name": "pro:feature:advanced_analytics",
+        "passed": true
+      },
+      {
+        "name": "pro:runtime:advanced_analytics",
+        "passed": true
+      },
+      {
+        "name": "pro:feature:advanced_filters",
+        "passed": true
+      },
+      {
+        "name": "pro:runtime:advanced_filters",
+        "passed": true
+      },
+      {
+        "name": "pro:feature:ai_conversation_starters",
+        "passed": true
+      },
+      {
+        "name": "pro:runtime:ai_conversation_starters",
+        "passed": true
+      },
+      {
+        "name": "pro:feature:ai_curated_matches",
+        "passed": true
+      },
+      {
+        "name": "pro:runtime:ai_curated_matches",
+        "passed": true
+      },
+      {
+        "name": "pro:feature:ai_safety_abuse_detection",
+        "passed": true
+      },
+      {
+        "name": "pro:runtime:ai_safety_abuse_detection",
+        "passed": true
+      },
+      {
+        "name": "pro:feature:basic_profile",
+        "passed": true
+      },
+      {
+        "name": "pro:runtime:basic_profile",
+        "passed": true
+      },
+      {
+        "name": "pro:feature:basic_safety",
+        "passed": true
+      },
+      {
+        "name": "pro:runtime:basic_safety",
+        "passed": true
+      },
+      {
+        "name": "pro:feature:compatibility_scores",
+        "passed": true
+      },
+      {
+        "name": "pro:runtime:compatibility_scores",
+        "passed": true
+      },
+      {
+        "name": "pro:feature:friend_networking_modes",
+        "passed": true
+      },
+      {
+        "name": "pro:runtime:friend_networking_modes",
+        "passed": true
+      },
+      {
+        "name": "pro:feature:gamified_trust",
+        "passed": true
+      },
+      {
+        "name": "pro:runtime:gamified_trust",
+        "passed": true
+      },
+      {
+        "name": "pro:feature:geo_proximity",
+        "passed": true
+      },
+      {
+        "name": "pro:runtime:geo_proximity",
+        "passed": true
+      },
+      {
+        "name": "pro:feature:in_app_video_voice",
+        "passed": true
+      },
+      {
+        "name": "pro:runtime:in_app_video_voice",
+        "passed": true
+      },
+      {
+        "name": "pro:feature:limited_daily_matches",
+        "passed": true
+      },
+      {
+        "name": "pro:runtime:limited_daily_matches",
+        "passed": true
+      },
+      {
+        "name": "pro:feature:opening_moves",
+        "passed": true
+      },
+      {
+        "name": "pro:runtime:opening_moves",
+        "passed": true
+      },
+      {
+        "name": "pro:feature:premium_perks",
+        "passed": true
+      },
+      {
+        "name": "pro:runtime:premium_perks",
+        "passed": true
+      },
+      {
+        "name": "pro:feature:profile_prompts",
+        "passed": true
+      },
+      {
+        "name": "pro:runtime:profile_prompts",
+        "passed": true
+      },
+      {
+        "name": "pro:feature:profile_reviews",
+        "passed": true
+      },
+      {
+        "name": "pro:runtime:profile_reviews",
+        "passed": true
+      },
+      {
+        "name": "pro:feature:simple_communication",
+        "passed": true
+      },
+      {
+        "name": "pro:runtime:simple_communication",
+        "passed": true
+      },
+      {
+        "name": "pro:feature:social_integrations",
+        "passed": true
+      },
+      {
+        "name": "pro:runtime:social_integrations",
+        "passed": true
+      },
+      {
+        "name": "pro:feature:specific_profile_likes",
+        "passed": true
+      },
+      {
+        "name": "pro:runtime:specific_profile_likes",
+        "passed": true
+      },
+      {
+        "name": "pro:feature:swipe_matching",
+        "passed": true
+      },
+      {
+        "name": "pro:runtime:swipe_matching",
+        "passed": true
+      },
+      {
+        "name": "pro:feature:travel_passport_mode",
+        "passed": true
+      },
+      {
+        "name": "pro:runtime:travel_passport_mode",
+        "passed": true
+      },
+      {
+        "name": "pro:feature:unlimited_daily_matches",
+        "passed": true
+      },
+      {
+        "name": "pro:runtime:unlimited_daily_matches",
+        "passed": true
+      },
+      {
+        "name": "pro:feature:verification_incognito",
+        "passed": true
+      },
+      {
+        "name": "pro:runtime:verification_incognito",
+        "passed": true
+      },
+      {
+        "name": "pro:feature:virtual_gifts",
+        "passed": true
+      },
+      {
+        "name": "pro:runtime:virtual_gifts",
+        "passed": true
+      },
+      {
+        "name": "pro:feature:voice_audio_prompts",
+        "passed": true
+      },
+      {
+        "name": "pro:runtime:voice_audio_prompts",
+        "passed": true
+      },
+      {
+        "name": "pro:feature:women_first_messaging",
+        "passed": true
+      },
+      {
+        "name": "pro:runtime:women_first_messaging",
+        "passed": true
+      },
+      {
+        "name": "pro:like:1",
+        "passed": true
+      },
+      {
+        "name": "pro:like:2",
+        "passed": true
+      },
+      {
+        "name": "pro:like:3",
+        "passed": true
+      },
+      {
+        "name": "pro:like:4",
+        "passed": true
+      },
+      {
+        "name": "pro:like:5",
+        "passed": true
+      },
+      {
+        "name": "pro:like:6",
+        "passed": true
+      },
+      {
+        "name": "pro:like:7",
+        "passed": true
+      },
+      {
+        "name": "pro:like:8",
+        "passed": true
+      },
+      {
+        "name": "pro:like:9",
+        "passed": true
+      },
+      {
+        "name": "pro:like:10",
+        "passed": true
+      },
+      {
+        "name": "pro:like:11",
+        "passed": true
+      },
+      {
+        "name": "pro:like:12",
+        "passed": true
+      },
+      {
+        "name": "pro:like:13",
+        "passed": true
+      },
+      {
+        "name": "pro:like:14",
+        "passed": true
+      },
+      {
+        "name": "pro:like:15",
+        "passed": true
+      },
+      {
+        "name": "pro:like:16",
+        "passed": true
+      },
+      {
+        "name": "pro:like:17",
+        "passed": true
+      },
+      {
+        "name": "pro:like:18",
+        "passed": true
+      },
+      {
+        "name": "pro:like:19",
+        "passed": true
+      },
+      {
+        "name": "pro:like:20",
+        "passed": true
+      },
+      {
+        "name": "pro:like:21",
+        "passed": true
+      },
+      {
+        "name": "pro:like:22",
+        "passed": true
+      },
+      {
+        "name": "pro:like:23",
+        "passed": true
+      },
+      {
+        "name": "pro:like:24",
+        "passed": true
+      },
+      {
+        "name": "pro:like:25",
+        "passed": true
+      },
+      {
+        "name": "pro:like:26",
+        "passed": true
+      },
+      {
+        "name": "pro:like:27",
+        "passed": true
+      },
+      {
+        "name": "pro:like:28",
+        "passed": true
+      },
+      {
+        "name": "pro:like:29",
+        "passed": true
+      },
+      {
+        "name": "pro:like:30",
+        "passed": true
+      },
+      {
+        "name": "pro:like:31",
+        "passed": true
+      },
+      {
+        "name": "pro:like:32",
+        "passed": true
+      },
+      {
+        "name": "pro:like:33",
+        "passed": true
+      },
+      {
+        "name": "pro:like:34",
+        "passed": true
+      },
+      {
+        "name": "pro:like:35",
+        "passed": true
+      },
+      {
+        "name": "pro:like:36",
+        "passed": true
+      },
+      {
+        "name": "pro:like:37",
+        "passed": true
+      },
+      {
+        "name": "pro:like:38",
+        "passed": true
+      },
+      {
+        "name": "pro:like:39",
+        "passed": true
+      },
+      {
+        "name": "pro:like:40",
+        "passed": true
+      },
+      {
+        "name": "pro:like:41",
+        "passed": true
+      },
+      {
+        "name": "pro:like:42",
+        "passed": true
+      },
+      {
+        "name": "pro:like:43",
+        "passed": true
+      },
+      {
+        "name": "pro:like:44",
+        "passed": true
+      },
+      {
+        "name": "pro:like:45",
+        "passed": true
+      },
+      {
+        "name": "pro:like:46",
+        "passed": true
+      },
+      {
+        "name": "pro:like:47",
+        "passed": true
+      },
+      {
+        "name": "pro:like:48",
+        "passed": true
+      },
+      {
+        "name": "pro:like:49",
+        "passed": true
+      },
+      {
+        "name": "pro:like:50",
+        "passed": true
+      },
+      {
+        "name": "pro:like:51",
+        "passed": true
+      },
+      {
+        "name": "pro:like:52",
+        "passed": true
+      },
+      {
+        "name": "pro:like:53",
+        "passed": true
+      },
+      {
+        "name": "pro:like:54",
+        "passed": true
+      },
+      {
+        "name": "pro:like:55",
+        "passed": true
+      },
+      {
+        "name": "pro:like:56",
+        "passed": true
+      },
+      {
+        "name": "pro:like:57",
+        "passed": true
+      },
+      {
+        "name": "pro:like:58",
+        "passed": true
+      },
+      {
+        "name": "pro:like:59",
+        "passed": true
+      },
+      {
+        "name": "pro:like:60",
+        "passed": true
+      },
+      {
+        "name": "pro:like:61",
+        "passed": true
+      },
+      {
+        "name": "pro:like:62",
+        "passed": true
+      },
+      {
+        "name": "pro:like:63",
+        "passed": true
+      },
+      {
+        "name": "pro:like:64",
+        "passed": true
+      },
+      {
+        "name": "pro:like:65",
+        "passed": true
+      },
+      {
+        "name": "pro:like:66",
+        "passed": true
+      },
+      {
+        "name": "pro:like:67",
+        "passed": true
+      },
+      {
+        "name": "pro:like:68",
+        "passed": true
+      },
+      {
+        "name": "pro:like:69",
+        "passed": true
+      },
+      {
+        "name": "pro:like:70",
+        "passed": true
+      },
+      {
+        "name": "pro:like:71",
+        "passed": true
+      },
+      {
+        "name": "pro:like:72",
+        "passed": true
+      },
+      {
+        "name": "pro:like:73",
+        "passed": true
+      },
+      {
+        "name": "pro:like:74",
+        "passed": true
+      },
+      {
+        "name": "pro:like:75",
+        "passed": true
+      },
+      {
+        "name": "pro:like:76",
+        "passed": true
+      },
+      {
+        "name": "pro:like:77",
+        "passed": true
+      },
+      {
+        "name": "pro:like:78",
+        "passed": true
+      },
+      {
+        "name": "pro:like:79",
+        "passed": true
+      },
+      {
+        "name": "pro:like:80",
+        "passed": true
+      },
+      {
+        "name": "pro:like:81",
+        "passed": true
+      },
+      {
+        "name": "pro:like:82",
+        "passed": true
+      },
+      {
+        "name": "pro:like:83",
+        "passed": true
+      },
+      {
+        "name": "pro:like:84",
+        "passed": true
+      },
+      {
+        "name": "pro:like:85",
+        "passed": true
+      },
+      {
+        "name": "pro:like:86",
+        "passed": true
+      },
+      {
+        "name": "pro:like:87",
+        "passed": true
+      },
+      {
+        "name": "pro:like:88",
+        "passed": true
+      },
+      {
+        "name": "pro:like:89",
+        "passed": true
+      },
+      {
+        "name": "pro:like:90",
+        "passed": true
+      },
+      {
+        "name": "pro:like:91",
+        "passed": true
+      },
+      {
+        "name": "pro:like:92",
+        "passed": true
+      },
+      {
+        "name": "pro:like:93",
+        "passed": true
+      },
+      {
+        "name": "pro:like:94",
+        "passed": true
+      },
+      {
+        "name": "pro:like:95",
+        "passed": true
+      },
+      {
+        "name": "pro:like:96",
+        "passed": true
+      },
+      {
+        "name": "pro:like:97",
+        "passed": true
+      },
+      {
+        "name": "pro:like:98",
+        "passed": true
+      },
+      {
+        "name": "pro:like:99",
+        "passed": true
+      },
+      {
+        "name": "pro:like:100",
+        "passed": true
+      },
+      {
+        "name": "pro:overflow_denied",
+        "passed": true
+      },
+      {
+        "name": "pro:repeat_no_extra_charge",
+        "passed": true
+      },
+      {
+        "name": "pro:pass_at_cap",
+        "passed": true
+      },
+      {
+        "name": "pro:next_day_reset",
+        "passed": true
+      },
+      {
+        "name": "enterprise:feature:advanced_analytics",
+        "passed": true
+      },
+      {
+        "name": "enterprise:runtime:advanced_analytics",
+        "passed": true
+      },
+      {
+        "name": "enterprise:feature:advanced_filters",
+        "passed": true
+      },
+      {
+        "name": "enterprise:runtime:advanced_filters",
+        "passed": true
+      },
+      {
+        "name": "enterprise:feature:ai_conversation_starters",
+        "passed": true
+      },
+      {
+        "name": "enterprise:runtime:ai_conversation_starters",
+        "passed": true
+      },
+      {
+        "name": "enterprise:feature:ai_curated_matches",
+        "passed": true
+      },
+      {
+        "name": "enterprise:runtime:ai_curated_matches",
+        "passed": true
+      },
+      {
+        "name": "enterprise:feature:ai_safety_abuse_detection",
+        "passed": true
+      },
+      {
+        "name": "enterprise:runtime:ai_safety_abuse_detection",
+        "passed": true
+      },
+      {
+        "name": "enterprise:feature:basic_profile",
+        "passed": true
+      },
+      {
+        "name": "enterprise:runtime:basic_profile",
+        "passed": true
+      },
+      {
+        "name": "enterprise:feature:basic_safety",
+        "passed": true
+      },
+      {
+        "name": "enterprise:runtime:basic_safety",
+        "passed": true
+      },
+      {
+        "name": "enterprise:feature:compatibility_scores",
+        "passed": true
+      },
+      {
+        "name": "enterprise:runtime:compatibility_scores",
+        "passed": true
+      },
+      {
+        "name": "enterprise:feature:friend_networking_modes",
+        "passed": true
+      },
+      {
+        "name": "enterprise:runtime:friend_networking_modes",
+        "passed": true
+      },
+      {
+        "name": "enterprise:feature:gamified_trust",
+        "passed": true
+      },
+      {
+        "name": "enterprise:runtime:gamified_trust",
+        "passed": true
+      },
+      {
+        "name": "enterprise:feature:geo_proximity",
+        "passed": true
+      },
+      {
+        "name": "enterprise:runtime:geo_proximity",
+        "passed": true
+      },
+      {
+        "name": "enterprise:feature:in_app_video_voice",
+        "passed": true
+      },
+      {
+        "name": "enterprise:runtime:in_app_video_voice",
+        "passed": true
+      },
+      {
+        "name": "enterprise:feature:limited_daily_matches",
+        "passed": true
+      },
+      {
+        "name": "enterprise:runtime:limited_daily_matches",
+        "passed": true
+      },
+      {
+        "name": "enterprise:feature:opening_moves",
+        "passed": true
+      },
+      {
+        "name": "enterprise:runtime:opening_moves",
+        "passed": true
+      },
+      {
+        "name": "enterprise:feature:premium_perks",
+        "passed": true
+      },
+      {
+        "name": "enterprise:runtime:premium_perks",
+        "passed": true
+      },
+      {
+        "name": "enterprise:feature:profile_prompts",
+        "passed": true
+      },
+      {
+        "name": "enterprise:runtime:profile_prompts",
+        "passed": true
+      },
+      {
+        "name": "enterprise:feature:profile_reviews",
+        "passed": true
+      },
+      {
+        "name": "enterprise:runtime:profile_reviews",
+        "passed": true
+      },
+      {
+        "name": "enterprise:feature:simple_communication",
+        "passed": true
+      },
+      {
+        "name": "enterprise:runtime:simple_communication",
+        "passed": true
+      },
+      {
+        "name": "enterprise:feature:social_integrations",
+        "passed": true
+      },
+      {
+        "name": "enterprise:runtime:social_integrations",
+        "passed": true
+      },
+      {
+        "name": "enterprise:feature:specific_profile_likes",
+        "passed": true
+      },
+      {
+        "name": "enterprise:runtime:specific_profile_likes",
+        "passed": true
+      },
+      {
+        "name": "enterprise:feature:swipe_matching",
+        "passed": true
+      },
+      {
+        "name": "enterprise:runtime:swipe_matching",
+        "passed": true
+      },
+      {
+        "name": "enterprise:feature:travel_passport_mode",
+        "passed": true
+      },
+      {
+        "name": "enterprise:runtime:travel_passport_mode",
+        "passed": true
+      },
+      {
+        "name": "enterprise:feature:unlimited_daily_matches",
+        "passed": true
+      },
+      {
+        "name": "enterprise:runtime:unlimited_daily_matches",
+        "passed": true
+      },
+      {
+        "name": "enterprise:feature:verification_incognito",
+        "passed": true
+      },
+      {
+        "name": "enterprise:runtime:verification_incognito",
+        "passed": true
+      },
+      {
+        "name": "enterprise:feature:virtual_gifts",
+        "passed": true
+      },
+      {
+        "name": "enterprise:runtime:virtual_gifts",
+        "passed": true
+      },
+      {
+        "name": "enterprise:feature:voice_audio_prompts",
+        "passed": true
+      },
+      {
+        "name": "enterprise:runtime:voice_audio_prompts",
+        "passed": true
+      },
+      {
+        "name": "enterprise:feature:women_first_messaging",
+        "passed": true
+      },
+      {
+        "name": "enterprise:runtime:women_first_messaging",
+        "passed": true
+      },
+      {
+        "name": "enterprise:like:1",
+        "passed": true
+      },
+      {
+        "name": "enterprise:like:2",
+        "passed": true
+      },
+      {
+        "name": "enterprise:like:3",
+        "passed": true
+      },
+      {
+        "name": "enterprise:like:4",
+        "passed": true
+      },
+      {
+        "name": "enterprise:like:5",
+        "passed": true
+      },
+      {
+        "name": "enterprise:like:6",
+        "passed": true
+      },
+      {
+        "name": "enterprise:like:7",
+        "passed": true
+      },
+      {
+        "name": "enterprise:like:8",
+        "passed": true
+      },
+      {
+        "name": "enterprise:like:9",
+        "passed": true
+      },
+      {
+        "name": "enterprise:like:10",
+        "passed": true
+      },
+      {
+        "name": "enterprise:like:11",
+        "passed": true
+      },
+      {
+        "name": "enterprise:like:12",
+        "passed": true
+      },
+      {
+        "name": "enterprise:like:13",
+        "passed": true
+      },
+      {
+        "name": "enterprise:like:14",
+        "passed": true
+      },
+      {
+        "name": "enterprise:like:15",
+        "passed": true
+      },
+      {
+        "name": "enterprise:like:16",
+        "passed": true
+      },
+      {
+        "name": "enterprise:like:17",
+        "passed": true
+      },
+      {
+        "name": "enterprise:like:18",
+        "passed": true
+      },
+      {
+        "name": "enterprise:like:19",
+        "passed": true
+      },
+      {
+        "name": "enterprise:like:20",
+        "passed": true
+      },
+      {
+        "name": "enterprise:like:21",
+        "passed": true
+      },
+      {
+        "name": "enterprise:like:22",
+        "passed": true
+      },
+      {
+        "name": "enterprise:like:23",
+        "passed": true
+      },
+      {
+        "name": "enterprise:like:24",
+        "passed": true
+      },
+      {
+        "name": "enterprise:like:25",
+        "passed": true
+      },
+      {
+        "name": "enterprise:like:26",
+        "passed": true
+      },
+      {
+        "name": "enterprise:like:27",
+        "passed": true
+      },
+      {
+        "name": "enterprise:like:28",
+        "passed": true
+      },
+      {
+        "name": "enterprise:like:29",
+        "passed": true
+      },
+      {
+        "name": "enterprise:like:30",
+        "passed": true
+      },
+      {
+        "name": "enterprise:like:31",
+        "passed": true
+      },
+      {
+        "name": "enterprise:like:32",
+        "passed": true
+      },
+      {
+        "name": "enterprise:like:33",
+        "passed": true
+      },
+      {
+        "name": "enterprise:like:34",
+        "passed": true
+      },
+      {
+        "name": "enterprise:like:35",
+        "passed": true
+      },
+      {
+        "name": "enterprise:like:36",
+        "passed": true
+      },
+      {
+        "name": "enterprise:like:37",
+        "passed": true
+      },
+      {
+        "name": "enterprise:like:38",
+        "passed": true
+      },
+      {
+        "name": "enterprise:like:39",
+        "passed": true
+      },
+      {
+        "name": "enterprise:like:40",
+        "passed": true
+      },
+      {
+        "name": "enterprise:like:41",
+        "passed": true
+      },
+      {
+        "name": "enterprise:like:42",
+        "passed": true
+      },
+      {
+        "name": "enterprise:like:43",
+        "passed": true
+      },
+      {
+        "name": "enterprise:like:44",
+        "passed": true
+      },
+      {
+        "name": "enterprise:like:45",
+        "passed": true
+      },
+      {
+        "name": "enterprise:like:46",
+        "passed": true
+      },
+      {
+        "name": "enterprise:like:47",
+        "passed": true
+      },
+      {
+        "name": "enterprise:like:48",
+        "passed": true
+      },
+      {
+        "name": "enterprise:like:49",
+        "passed": true
+      },
+      {
+        "name": "enterprise:like:50",
+        "passed": true
+      },
+      {
+        "name": "enterprise:like:51",
+        "passed": true
+      },
+      {
+        "name": "enterprise:like:52",
+        "passed": true
+      },
+      {
+        "name": "enterprise:like:53",
+        "passed": true
+      },
+      {
+        "name": "enterprise:like:54",
+        "passed": true
+      },
+      {
+        "name": "enterprise:like:55",
+        "passed": true
+      },
+      {
+        "name": "enterprise:like:56",
+        "passed": true
+      },
+      {
+        "name": "enterprise:like:57",
+        "passed": true
+      },
+      {
+        "name": "enterprise:like:58",
+        "passed": true
+      },
+      {
+        "name": "enterprise:like:59",
+        "passed": true
+      },
+      {
+        "name": "enterprise:like:60",
+        "passed": true
+      },
+      {
+        "name": "enterprise:like:61",
+        "passed": true
+      },
+      {
+        "name": "enterprise:like:62",
+        "passed": true
+      },
+      {
+        "name": "enterprise:like:63",
+        "passed": true
+      },
+      {
+        "name": "enterprise:like:64",
+        "passed": true
+      },
+      {
+        "name": "enterprise:like:65",
+        "passed": true
+      },
+      {
+        "name": "enterprise:like:66",
+        "passed": true
+      },
+      {
+        "name": "enterprise:like:67",
+        "passed": true
+      },
+      {
+        "name": "enterprise:like:68",
+        "passed": true
+      },
+      {
+        "name": "enterprise:like:69",
+        "passed": true
+      },
+      {
+        "name": "enterprise:like:70",
+        "passed": true
+      },
+      {
+        "name": "enterprise:like:71",
+        "passed": true
+      },
+      {
+        "name": "enterprise:like:72",
+        "passed": true
+      },
+      {
+        "name": "enterprise:like:73",
+        "passed": true
+      },
+      {
+        "name": "enterprise:like:74",
+        "passed": true
+      },
+      {
+        "name": "enterprise:like:75",
+        "passed": true
+      },
+      {
+        "name": "enterprise:like:76",
+        "passed": true
+      },
+      {
+        "name": "enterprise:like:77",
+        "passed": true
+      },
+      {
+        "name": "enterprise:like:78",
+        "passed": true
+      },
+      {
+        "name": "enterprise:like:79",
+        "passed": true
+      },
+      {
+        "name": "enterprise:like:80",
+        "passed": true
+      },
+      {
+        "name": "enterprise:like:81",
+        "passed": true
+      },
+      {
+        "name": "enterprise:like:82",
+        "passed": true
+      },
+      {
+        "name": "enterprise:like:83",
+        "passed": true
+      },
+      {
+        "name": "enterprise:like:84",
+        "passed": true
+      },
+      {
+        "name": "enterprise:like:85",
+        "passed": true
+      },
+      {
+        "name": "enterprise:like:86",
+        "passed": true
+      },
+      {
+        "name": "enterprise:like:87",
+        "passed": true
+      },
+      {
+        "name": "enterprise:like:88",
+        "passed": true
+      },
+      {
+        "name": "enterprise:like:89",
+        "passed": true
+      },
+      {
+        "name": "enterprise:like:90",
+        "passed": true
+      },
+      {
+        "name": "enterprise:like:91",
+        "passed": true
+      },
+      {
+        "name": "enterprise:like:92",
+        "passed": true
+      },
+      {
+        "name": "enterprise:like:93",
+        "passed": true
+      },
+      {
+        "name": "enterprise:like:94",
+        "passed": true
+      },
+      {
+        "name": "enterprise:like:95",
+        "passed": true
+      },
+      {
+        "name": "enterprise:like:96",
+        "passed": true
+      },
+      {
+        "name": "enterprise:like:97",
+        "passed": true
+      },
+      {
+        "name": "enterprise:like:98",
+        "passed": true
+      },
+      {
+        "name": "enterprise:like:99",
+        "passed": true
+      },
+      {
+        "name": "enterprise:like:100",
+        "passed": true
+      },
+      {
+        "name": "enterprise:like:101",
+        "passed": true
+      },
+      {
+        "name": "enterprise:unlimited_no_meter",
+        "passed": true
+      },
+      {
+        "name": "signup:capacity_denial_no_orphan_or_invite_spend",
+        "passed": true
+      },
+      {
+        "name": "signup:deletion_releases_capacity",
+        "passed": true
+      },
+      {
+        "name": "jodiusa:free_grant_preserved",
+        "passed": true
+      }
+    ],
+    "passed": 466,
+    "failed": 0,
+    "transport": "actual HTTP through running ASGI, PostgreSQL and Redis; CSRF authenticated sessions",
+    "synthetic_only": true,
+    "payment_provider_calls": 0,
+    "external_emails": 0
+  },
+  "browser": {
+    "checks": [
+      {
+        "name": "member_0_registration_to_activation",
+        "passed": true
+      },
+      {
+        "name": "incomplete_profile_returns_actionable_guidance",
+        "passed": true
+      },
+      {
+        "name": "member_0_complete_profile_and_photo",
+        "passed": true
+      },
+      {
+        "name": "member_0_saved_profile_survives_reload",
+        "passed": true
+      },
+      {
+        "name": "member_1_registration_to_activation",
+        "passed": true
+      },
+      {
+        "name": "member_1_complete_profile_and_photo",
+        "passed": true
+      },
+      {
+        "name": "member_1_saved_profile_survives_reload",
+        "passed": true
+      },
+      {
+        "name": "member_0_discovers_test_member",
+        "passed": true
+      },
+      {
+        "name": "member_0_first_value_like",
+        "passed": true
+      },
+      {
+        "name": "member_0_like_persisted",
+        "passed": true
+      },
+      {
+        "name": "member_1_discovers_test_member",
+        "passed": true
+      },
+      {
+        "name": "member_1_first_value_like",
+        "passed": true
+      },
+      {
+        "name": "mutual_match_created",
+        "passed": true
+      },
+      {
+        "name": "member_1_like_persisted",
+        "passed": true
+      },
+      {
+        "name": "tenant_host_does_not_share_member_session",
+        "passed": true
+      },
+      {
+        "name": "logout_removes_private_access",
+        "passed": true
+      },
+      {
+        "name": "fresh_session_login_restores_own_saved_profile",
+        "passed": true
+      }
+    ],
+    "passed": 17,
+    "failed": 0,
+    "environment": "isolated synthetic full-stack browser; local email sink"
+  },
+  "deployment": {
+    "image": "sha256:230e7d2ffd7d761b6a30aa321d0ad5d9db8245a13244c10f2278f82f6f831f2d",
+    "rollback_container": "jodibana-web-1-before-activation-20261101",
+    "healthy": true,
+    "database_migrations": 0,
+    "settings_preserved": true,
+    "live_provider_calls": 0,
+    "verification": {
+      "billing_and_settings_unchanged": true,
+      "free_grant_preserved": true
+    },
+    "paid_tiers_activated": false
+  },
+  "cleanup": {
+    "image": "sha256:230e7d2ffd7d761b6a30aa321d0ad5d9db8245a13244c10f2278f82f6f831f2d",
+    "qa_image_matches_deployment": true,
+    "qa_containers_stopped": [
+      "jodi-full-qa",
+      "jodi-full-qa-db",
+      "jodi-full-qa-redis"
+    ],
+    "synthetic_data_private": true,
+    "schema_changes_required": false,
+    "jodiusa_free_unlimited_confirmed": true,
+    "public_http": {
+      "https://jodibana.com/": 200,
+      "https://jodiusa.com/": 200,
+      "https://agentvire.com/": 200
+    },
+    "provider_mutations": 0,
+    "real_customer_outreach": 0
+  },
+  "paid_tiers_pending_approval": true,
+  "commissions_changed": false,
+  "campaigns_changed": false,
+  "other_products_rerun": false,
+  "recorded_at": "2026-11-02T02:04:03.194777+00:00",
+  "scope_notes": [
+    "Existing Starter/Growth/Pro/Enterprise catalogue only; no proposed paid offering activated.",
+    "437 PostgreSQL regressions include 124 new catalogue, capacity, replay and concurrent boundary tests.",
+    "466 assertions used actual HTTP, CSRF-protected authenticated sessions, ASGI, PostgreSQL and Redis on the final image. All profiles, operators and email delivery were isolated synthetic fixtures.",
+    "Member browser journey includes two registrations, incomplete-profile recovery, main/extra photo submission, saved profile reload, mutual matching, persisted likes, host session isolation, logout and fresh-session return.",
+    "Feature availability/toggle/runtime gating was verified; this is not a certification of external AI, video, gifts, identity-verification or social-provider functionality.",
+    "Existing plan metadata can lower a quota but cannot raise its catalogue ceiling. All stored member profiles count; editing at capacity is allowed; deleting a profile releases a slot. Imports and tenant moves use the same admission guard.",
+    "JodiUSA retains its identity-bound all-feature zero-cost grant and unlimited commercial member/like caps; operator choices, safety controls and marketing acceptance remain separate.",
+    "Jodibana strategy activation is operator_demo_reviewed with a community-owner validation plan. Synthetic engineering checks cannot attest an actual operator review. The journey task remains blocked, with evidence attached.",
+    "Previous real Stripe checkout/refund/recovery evidence is retained, not rerun this turn. Production paid-provider setup, retry-exhaustion operations and other incomplete cases remain open.",
+    "Browser harness corrected navigation waits, unique fixture labels and the API mutual field; no failed test was approved. The request-user wrapper issue detected in the first candidate was fixed before the final clean regression run."
+  ]
+}

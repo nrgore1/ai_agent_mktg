@@ -1,0 +1,43 @@
+{
+  "checks": {
+    "llm": {
+      "id": "llm",
+      "checked_at": "2026-10-31T05:31:48.126462+00:00",
+      "status": "healthy",
+      "external_mutations": 0,
+      "model": "hf.co/mradermacher/Kimi-VL-A3B-Instruct-GGUF:Q2_K",
+      "note": "Availability verified; generation quality is evaluated separately."
+    },
+    "email": {
+      "id": "email",
+      "checked_at": "2026-10-31T05:31:48.378290+00:00",
+      "status": "healthy",
+      "external_mutations": 0,
+      "accounts": [
+        "liqmint_individual",
+        "liqmint_institutional",
+        "atmakosh"
+      ],
+      "note": "Server identities and broadcast streams verified; no email sent."
+    },
+    "github": {
+      "id": "github",
+      "checked_at": "2026-10-31T05:31:49.035221+00:00",
+      "status": "healthy",
+      "external_mutations": 0,
+      "note": "Repository readable; publishing permissions were not tested."
+    }
+  },
+  "payments": {
+    "status": "fresh",
+    "captured_at": "2026-10-31T05:27:49.221401+00:00",
+    "margin_ready": false
+  },
+  "audit_valid": true,
+  "external_messages": 0,
+  "public_health": {
+    "status": "ok",
+    "mode": "approval-governed",
+    "version": "0.5.0"
+  }
+}

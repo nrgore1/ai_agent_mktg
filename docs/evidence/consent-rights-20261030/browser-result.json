@@ -1,0 +1,54 @@
+{
+  "passed": true,
+  "checks": [
+    {
+      "product": "WeddingOS",
+      "passed": true,
+      "confirmed_permission": true,
+      "fresh_email_verification": true,
+      "json_export": true,
+      "cross_product_export_denied": true,
+      "explicit_delete": true,
+      "old_link_revoked": true,
+      "privacy_works_while_collection_off": false
+    },
+    {
+      "product": "JodiUSA",
+      "passed": true,
+      "confirmed_permission": true,
+      "fresh_email_verification": true,
+      "json_export": true,
+      "cross_product_export_denied": true,
+      "explicit_delete": true,
+      "old_link_revoked": true,
+      "privacy_works_while_collection_off": true
+    },
+    {
+      "product": "Memoire Studio",
+      "passed": true,
+      "confirmed_permission": true,
+      "fresh_email_verification": true,
+      "json_export": true,
+      "cross_product_export_denied": true,
+      "explicit_delete": true,
+      "old_link_revoked": true,
+      "privacy_works_while_collection_off": false
+    },
+    {
+      "product": "Alpha Community",
+      "passed": true,
+      "confirmed_permission": true,
+      "fresh_email_verification": true,
+      "json_export": true,
+      "cross_product_export_denied": true,
+      "explicit_delete": true,
+      "old_link_revoked": true,
+      "privacy_works_while_collection_off": true
+    }
+  ],
+  "owner_acceptance_verified": true,
+  "disabled_tenant_controls_verified": true,
+  "active_email_fields_after_deletion": 0,
+  "customer_emails": 0,
+  "charges_created": 0
+}

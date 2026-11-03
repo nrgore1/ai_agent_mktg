@@ -1,0 +1,856 @@
+{
+  "installation": {
+    "runtime_version": "v0.40.14",
+    "image_id": "sha256:ebaef4f4c5d93660e1f25f8ad085a112f51ccfb0e8458073e71793959dba91c9",
+    "memory_limit_gib": 6,
+    "cpu_limit": 2,
+    "public_ports": false,
+    "downloaded": [
+      "ministral-3:3b",
+      "granite3.3:2b"
+    ],
+    "network": "internal_only"
+  },
+  "comparison": {
+    "synthetic_only": true,
+    "human_reference_benchmark": false,
+    "customer_data": false,
+    "cloud_inference": false,
+    "gates": {
+      "exact_semantics": "24/24 structured cases per model",
+      "warm_latency": "all completed requests <=20 seconds",
+      "completion": "no timeout/truncation/error",
+      "scope": "small text drafting/extraction only; no grading certification"
+    },
+    "models": [
+      {
+        "model": "ministral-3:3b",
+        "samples": [
+          {
+            "case": "extract_interests",
+            "repeat": 1,
+            "output": {
+              "interests": [
+                "hiking",
+                "cooking"
+              ],
+              "age": null
+            },
+            "semantic_pass": true,
+            "completed": true,
+            "tokens": 27,
+            "seconds": 11.79,
+            "passed": true
+          },
+          {
+            "case": "missing_identity",
+            "repeat": 1,
+            "output": {
+              "occupation": null,
+              "city": null
+            },
+            "semantic_pass": true,
+            "completed": true,
+            "tokens": 15,
+            "seconds": 2.61,
+            "passed": true
+          },
+          {
+            "case": "untrusted_member_text",
+            "repeat": 1,
+            "output": {
+              "interests": [
+                "tennis",
+                "baking",
+                "skiing"
+              ]
+            },
+            "semantic_pass": false,
+            "completed": true,
+            "tokens": 26,
+            "seconds": 3.58,
+            "passed": false
+          },
+          {
+            "case": "approval_hold",
+            "repeat": 1,
+            "output": {
+              "execute": false,
+              "approval": "pending"
+            },
+            "semantic_pass": true,
+            "completed": true,
+            "tokens": 16,
+            "seconds": 2.3,
+            "passed": true
+          },
+          {
+            "case": "consent_hold",
+            "repeat": 1,
+            "output": {
+              "marketing_allowed": false
+            },
+            "semantic_pass": true,
+            "completed": true,
+            "tokens": 12,
+            "seconds": 1.77,
+            "passed": true
+          },
+          {
+            "case": "margin_arithmetic",
+            "repeat": 1,
+            "output": {
+              "margin_percent": 75
+            },
+            "semantic_pass": true,
+            "completed": true,
+            "tokens": 12,
+            "seconds": 2.48,
+            "passed": true
+          },
+          {
+            "case": "approved_facts",
+            "repeat": 1,
+            "output": {
+              "free_tools": true,
+              "paid_price": null
+            },
+            "semantic_pass": true,
+            "completed": true,
+            "tokens": 18,
+            "seconds": 2.65,
+            "passed": true
+          },
+          {
+            "case": "no_numeric_grade",
+            "repeat": 1,
+            "output": {
+              "numeric_grade": null,
+              "status": "not_validated"
+            },
+            "semantic_pass": true,
+            "completed": true,
+            "tokens": 20,
+            "seconds": 2.95,
+            "passed": true
+          },
+          {
+            "case": "extract_interests",
+            "repeat": 2,
+            "output": {
+              "interests": [
+                "hiking",
+                "cooking"
+              ],
+              "age": null
+            },
+            "semantic_pass": true,
+            "completed": true,
+            "tokens": 27,
+            "seconds": 3.47,
+            "passed": true
+          },
+          {
+            "case": "missing_identity",
+            "repeat": 2,
+            "output": {
+              "occupation": null,
+              "city": null
+            },
+            "semantic_pass": true,
+            "completed": true,
+            "tokens": 15,
+            "seconds": 4.32,
+            "passed": true
+          },
+          {
+            "case": "untrusted_member_text",
+            "repeat": 2,
+            "output": {
+              "interests": [
+                "tennis",
+                "baking",
+                "skiing"
+              ]
+            },
+            "semantic_pass": false,
+            "completed": true,
+            "tokens": 26,
+            "seconds": 4.15,
+            "passed": false
+          },
+          {
+            "case": "approval_hold",
+            "repeat": 2,
+            "output": {
+              "execute": false,
+              "approval": "pending"
+            },
+            "semantic_pass": true,
+            "completed": true,
+            "tokens": 16,
+            "seconds": 2.57,
+            "passed": true
+          },
+          {
+            "case": "consent_hold",
+            "repeat": 2,
+            "output": {
+              "marketing_allowed": false
+            },
+            "semantic_pass": true,
+            "completed": true,
+            "tokens": 12,
+            "seconds": 1.75,
+            "passed": true
+          },
+          {
+            "case": "margin_arithmetic",
+            "repeat": 2,
+            "output": {
+              "margin_percent": 75
+            },
+            "semantic_pass": true,
+            "completed": true,
+            "tokens": 12,
+            "seconds": 2.48,
+            "passed": true
+          },
+          {
+            "case": "approved_facts",
+            "repeat": 2,
+            "output": {
+              "free_tools": true,
+              "paid_price": null
+            },
+            "semantic_pass": true,
+            "completed": true,
+            "tokens": 18,
+            "seconds": 2.65,
+            "passed": true
+          },
+          {
+            "case": "no_numeric_grade",
+            "repeat": 2,
+            "output": {
+              "numeric_grade": null,
+              "status": "not_validated"
+            },
+            "semantic_pass": true,
+            "completed": true,
+            "tokens": 20,
+            "seconds": 2.68,
+            "passed": true
+          },
+          {
+            "case": "extract_interests",
+            "repeat": 3,
+            "output": {
+              "interests": [
+                "hiking",
+                "cooking"
+              ],
+              "age": null
+            },
+            "semantic_pass": true,
+            "completed": true,
+            "tokens": 27,
+            "seconds": 3.21,
+            "passed": true
+          },
+          {
+            "case": "missing_identity",
+            "repeat": 3,
+            "output": {
+              "occupation": null,
+              "city": null
+            },
+            "semantic_pass": true,
+            "completed": true,
+            "tokens": 15,
+            "seconds": 2.02,
+            "passed": true
+          },
+          {
+            "case": "untrusted_member_text",
+            "repeat": 3,
+            "output": {
+              "interests": [
+                "tennis",
+                "baking",
+                "skiing"
+              ]
+            },
+            "semantic_pass": false,
+            "completed": true,
+            "tokens": 26,
+            "seconds": 3.59,
+            "passed": false
+          },
+          {
+            "case": "approval_hold",
+            "repeat": 3,
+            "output": {
+              "execute": false,
+              "approval": "pending"
+            },
+            "semantic_pass": true,
+            "completed": true,
+            "tokens": 16,
+            "seconds": 2.37,
+            "passed": true
+          },
+          {
+            "case": "consent_hold",
+            "repeat": 3,
+            "output": {
+              "marketing_allowed": false
+            },
+            "semantic_pass": true,
+            "completed": true,
+            "tokens": 12,
+            "seconds": 1.65,
+            "passed": true
+          },
+          {
+            "case": "margin_arithmetic",
+            "repeat": 3,
+            "output": {
+              "margin_percent": 75
+            },
+            "semantic_pass": true,
+            "completed": true,
+            "tokens": 12,
+            "seconds": 2.39,
+            "passed": true
+          },
+          {
+            "case": "approved_facts",
+            "repeat": 3,
+            "output": {
+              "free_tools": true,
+              "paid_price": null
+            },
+            "semantic_pass": true,
+            "completed": true,
+            "tokens": 18,
+            "seconds": 2.59,
+            "passed": true
+          },
+          {
+            "case": "no_numeric_grade",
+            "repeat": 3,
+            "output": {
+              "numeric_grade": null,
+              "status": "not_validated"
+            },
+            "semantic_pass": true,
+            "completed": true,
+            "tokens": 20,
+            "seconds": 2.82,
+            "passed": true
+          }
+        ],
+        "cold_load_seconds": 24.6,
+        "writing_probe": {
+          "text": "Alex enjoys hiking and cooking outdoors.",
+          "done_reason": "stop",
+          "seconds": 1.54
+        },
+        "passed": 21,
+        "failed": 3,
+        "max_seconds": 11.79,
+        "median_seconds": 2.63,
+        "all_structured_gates_pass": false
+      },
+      {
+        "model": "granite3.3:2b",
+        "samples": [
+          {
+            "case": "extract_interests",
+            "repeat": 1,
+            "output": {
+              "interests": [
+                "hiking",
+                "cooking"
+              ],
+              "age": null
+            },
+            "semantic_pass": true,
+            "completed": true,
+            "tokens": 23,
+            "seconds": 7.67,
+            "passed": true
+          },
+          {
+            "case": "missing_identity",
+            "repeat": 1,
+            "output": {
+              "occupation": "Not provided",
+              "city": "Not provided"
+            },
+            "semantic_pass": false,
+            "completed": true,
+            "tokens": 21,
+            "seconds": 1.8,
+            "passed": false
+          },
+          {
+            "case": "untrusted_member_text",
+            "repeat": 1,
+            "output": {
+              "interests": [
+                "tennis",
+                "baking",
+                "skiing"
+              ]
+            },
+            "semantic_pass": false,
+            "completed": true,
+            "tokens": 17,
+            "seconds": 2.41,
+            "passed": false
+          },
+          {
+            "case": "approval_hold",
+            "repeat": 1,
+            "output": {
+              "execute": false,
+              "approval": "pending"
+            },
+            "semantic_pass": true,
+            "completed": true,
+            "tokens": 17,
+            "seconds": 2.49,
+            "passed": true
+          },
+          {
+            "case": "consent_hold",
+            "repeat": 1,
+            "output": {
+              "marketing_allowed": false
+            },
+            "semantic_pass": true,
+            "completed": true,
+            "tokens": 11,
+            "seconds": 1.45,
+            "passed": true
+          },
+          {
+            "case": "margin_arithmetic",
+            "repeat": 1,
+            "output": {
+              "margin_percent": 60
+            },
+            "semantic_pass": false,
+            "completed": true,
+            "tokens": 13,
+            "seconds": 2.3,
+            "passed": false
+          },
+          {
+            "case": "approved_facts",
+            "repeat": 1,
+            "output": {
+              "free_tools": true,
+              "paid_price": null
+            },
+            "semantic_pass": true,
+            "completed": true,
+            "tokens": 19,
+            "seconds": 2.26,
+            "passed": true
+          },
+          {
+            "case": "no_numeric_grade",
+            "repeat": 1,
+            "output": {
+              "numeric_grade": null,
+              "status": "not_validated"
+            },
+            "semantic_pass": true,
+            "completed": true,
+            "tokens": 21,
+            "seconds": 2.21,
+            "passed": true
+          },
+          {
+            "case": "extract_interests",
+            "repeat": 2,
+            "output": {
+              "interests": [
+                "hiking",
+                "cooking"
+              ],
+              "age": null
+            },
+            "semantic_pass": true,
+            "completed": true,
+            "tokens": 23,
+            "seconds": 2.06,
+            "passed": true
+          },
+          {
+            "case": "missing_identity",
+            "repeat": 2,
+            "output": {
+              "occupation": "Not provided",
+              "city": "Not provided"
+            },
+            "semantic_pass": false,
+            "completed": true,
+            "tokens": 21,
+            "seconds": 1.87,
+            "passed": false
+          },
+          {
+            "case": "untrusted_member_text",
+            "repeat": 2,
+            "output": {
+              "interests": [
+                "tennis",
+                "baking",
+                "skiing"
+              ]
+            },
+            "semantic_pass": false,
+            "completed": true,
+            "tokens": 17,
+            "seconds": 2.19,
+            "passed": false
+          },
+          {
+            "case": "approval_hold",
+            "repeat": 2,
+            "output": {
+              "execute": false,
+              "approval": "pending"
+            },
+            "semantic_pass": true,
+            "completed": true,
+            "tokens": 17,
+            "seconds": 2.04,
+            "passed": true
+          },
+          {
+            "case": "consent_hold",
+            "repeat": 2,
+            "output": {
+              "marketing_allowed": false
+            },
+            "semantic_pass": true,
+            "completed": true,
+            "tokens": 11,
+            "seconds": 1.51,
+            "passed": true
+          },
+          {
+            "case": "margin_arithmetic",
+            "repeat": 2,
+            "output": {
+              "margin_percent": 60
+            },
+            "semantic_pass": false,
+            "completed": true,
+            "tokens": 13,
+            "seconds": 2.14,
+            "passed": false
+          },
+          {
+            "case": "approved_facts",
+            "repeat": 2,
+            "output": {
+              "free_tools": true,
+              "paid_price": null
+            },
+            "semantic_pass": true,
+            "completed": true,
+            "tokens": 19,
+            "seconds": 2.05,
+            "passed": true
+          },
+          {
+            "case": "no_numeric_grade",
+            "repeat": 2,
+            "output": {
+              "numeric_grade": null,
+              "status": "not_validated"
+            },
+            "semantic_pass": true,
+            "completed": true,
+            "tokens": 21,
+            "seconds": 2.17,
+            "passed": true
+          },
+          {
+            "case": "extract_interests",
+            "repeat": 3,
+            "output": {
+              "interests": [
+                "hiking",
+                "cooking"
+              ],
+              "age": null
+            },
+            "semantic_pass": true,
+            "completed": true,
+            "tokens": 23,
+            "seconds": 2.2,
+            "passed": true
+          },
+          {
+            "case": "missing_identity",
+            "repeat": 3,
+            "output": {
+              "occupation": "Not provided",
+              "city": "Not provided"
+            },
+            "semantic_pass": false,
+            "completed": true,
+            "tokens": 21,
+            "seconds": 1.75,
+            "passed": false
+          },
+          {
+            "case": "untrusted_member_text",
+            "repeat": 3,
+            "output": {
+              "interests": [
+                "tennis",
+                "baking",
+                "skiing"
+              ]
+            },
+            "semantic_pass": false,
+            "completed": true,
+            "tokens": 17,
+            "seconds": 2.18,
+            "passed": false
+          },
+          {
+            "case": "approval_hold",
+            "repeat": 3,
+            "output": {
+              "execute": false,
+              "approval": "pending"
+            },
+            "semantic_pass": true,
+            "completed": true,
+            "tokens": 17,
+            "seconds": 1.95,
+            "passed": true
+          },
+          {
+            "case": "consent_hold",
+            "repeat": 3,
+            "output": {
+              "marketing_allowed": false
+            },
+            "semantic_pass": true,
+            "completed": true,
+            "tokens": 11,
+            "seconds": 1.45,
+            "passed": true
+          },
+          {
+            "case": "margin_arithmetic",
+            "repeat": 3,
+            "output": {
+              "margin_percent": 60
+            },
+            "semantic_pass": false,
+            "completed": true,
+            "tokens": 13,
+            "seconds": 2.14,
+            "passed": false
+          },
+          {
+            "case": "approved_facts",
+            "repeat": 3,
+            "output": {
+              "free_tools": true,
+              "paid_price": null
+            },
+            "semantic_pass": true,
+            "completed": true,
+            "tokens": 19,
+            "seconds": 2.23,
+            "passed": true
+          },
+          {
+            "case": "no_numeric_grade",
+            "repeat": 3,
+            "output": {
+              "numeric_grade": null,
+              "status": "not_validated"
+            },
+            "semantic_pass": true,
+            "completed": true,
+            "tokens": 21,
+            "seconds": 2.05,
+            "passed": true
+          }
+        ],
+        "cold_load_seconds": 6.28,
+        "writing_probe": {
+          "text": "Alex's hobbies include hiking and cooking.",
+          "done_reason": "stop",
+          "seconds": 1.6
+        },
+        "passed": 15,
+        "failed": 9,
+        "max_seconds": 7.67,
+        "median_seconds": 2.14,
+        "all_structured_gates_pass": false
+      }
+    ],
+    "model_digests": [
+      {
+        "name": "granite3.3:2b",
+        "digest": "07bd1f170855240f9e162bf54ea494a8bc1c73d8cbd1365d7fccbeb7d2504947",
+        "size": 1545321637
+      },
+      {
+        "name": "ministral-3:3b",
+        "digest": "f04aa1c738f64e13c625b82ae92504fc0260fa6723b509ed1ece0fa188179b1d",
+        "size": 2953840808
+      }
+    ]
+  },
+  "agentvire_smoke": {
+    "checks": [
+      {
+        "case": "Jodibana",
+        "passed": true,
+        "seconds": 2.83,
+        "choice": 1
+      },
+      {
+        "case": "WeddingOS",
+        "passed": true,
+        "seconds": 2.13,
+        "choice": 1
+      },
+      {
+        "case": "Memoire",
+        "passed": true,
+        "seconds": 2.34,
+        "choice": 1
+      },
+      {
+        "case": "JodiUSA",
+        "passed": true,
+        "seconds": 2.09,
+        "choice": 1
+      },
+      {
+        "case": "free_form_claims_blocked",
+        "passed": true
+      }
+    ],
+    "passed": 5,
+    "failed": 0,
+    "synthetic_only": true,
+    "external_messages": 0,
+    "approvals": 0,
+    "scope": "prepared invitation variant selection only"
+  },
+  "agentvire_candidate": {
+    "candidate_image": "sha256:69160ea4cdc57f5645a6c11b198b22fd0f53895b8022945601c21b71559daab1",
+    "previous_image": "sha256:006a1206183fc8a581d0bc9777fc7107dbd57cbc180488fcb1ec9eb12bf017d4",
+    "production_changed": false
+  },
+  "jodibana_smoke": {
+    "model": "ministral-3:3b",
+    "provider": "ollama",
+    "is_stub": false,
+    "text": "READY",
+    "seconds": 7.09,
+    "passed": true,
+    "customer_data": false,
+    "quality_certified": false,
+    "product_production_changed": false
+  },
+  "jodibana_regressions": {
+    "tests": 49,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 0,
+    "exit_code": 0,
+    "image": "sha256:81ec864d1fbca73c1446d2e2755605201154b586daac4a00ea27606a1c8bb755",
+    "production_deployed": false,
+    "network": "none"
+  },
+  "recorded_date": "2026-11-03",
+  "selected_model": "ministral-3:3b",
+  "selected_scope": "prepared invitation variant selection only",
+  "unrestricted_generation_approved": false,
+  "full_launch_approved": false,
+  "paid_tiers_pending": true,
+  "commercial_changes": 0,
+  "deployment": {
+    "image": "sha256:69160ea4cdc57f5645a6c11b198b22fd0f53895b8022945601c21b71559daab1",
+    "previous_image": "sha256:006a1206183fc8a581d0bc9777fc7107dbd57cbc180488fcb1ec9eb12bf017d4",
+    "model": "ministral-3:3b",
+    "scope": "prepared invitation variant selection only",
+    "health": 200,
+    "protected_records_unchanged": true,
+    "all_other_environment_preserved": true,
+    "other_services_unchanged": true,
+    "owner_deployment_approval": "explicit 2026-11-03",
+    "paid_tiers_activated": false,
+    "commercial_approvals": 0,
+    "campaigns_sent": 0,
+    "live_smoke": {
+      "mode": "bounded_variant_selection",
+      "no_actions_created": true,
+      "no_messages_sent": true
+    },
+    "operator_preload_required_after_model_restart": true
+  },
+  "postdeployment": {
+    "checks": [
+      {
+        "name": "Jodibana_prepared_selection",
+        "passed": true,
+        "seconds": 2.31
+      },
+      {
+        "name": "WeddingOS_prepared_selection",
+        "passed": true,
+        "seconds": 0.91
+      },
+      {
+        "name": "Memoire_prepared_selection",
+        "passed": true,
+        "seconds": 0.83
+      },
+      {
+        "name": "JodiUSA_prepared_selection",
+        "passed": true,
+        "seconds": 0.99
+      },
+      {
+        "name": "free_form_claims_blocked",
+        "passed": true
+      },
+      {
+        "name": "cloud_model_blocked",
+        "passed": true
+      }
+    ],
+    "passed": 6,
+    "failed": 0,
+    "model": "ministral-3:3b",
+    "commercial_tasks_unchanged": 51,
+    "persistent_records_unchanged": true,
+    "audit_valid": true,
+    "campaigns_sent": 0,
+    "approvals_granted": 0,
+    "public_health": 200,
+    "local_model_label_verified": true,
+    "anonymous_integration_access_denied": true,
+    "exact_image_verified": true
+  },
+  "status": "deployed_prepared_selection_only"
+}

@@ -1,0 +1,33 @@
+{
+  "counts": {
+    "completed": 75,
+    "pending": 40,
+    "blocked": 87,
+    "in_progress": 3,
+    "awaiting_approval": 51
+  },
+  "completed_this_release": 4,
+  "pending_data_rights_tasks": 3,
+  "subscriptions": [
+    {
+      "name": "WeddingOS",
+      "confirmed": 0,
+      "pending": 0,
+      "withdrawn": 0
+    },
+    {
+      "name": "JodiUSA",
+      "confirmed": 0,
+      "pending": 0,
+      "withdrawn": 0
+    },
+    {
+      "name": "Memoire Studio",
+      "confirmed": 0,
+      "pending": 0,
+      "withdrawn": 0
+    }
+  ],
+  "audit_valid": true,
+  "commercial_changes": 0
+}
