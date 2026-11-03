@@ -2,7 +2,7 @@
 
 ## Current result
 
-Staging passed; production deployment awaiting approval. The restricted Stripe live key authenticated to the expected Jodibana account. A live webhook and restricted customer portal were created. Stripe reports charges disabled, payouts disabled and account details not submitted. Business onboarding remains an owner task. No real payment, paid tier or campaign was activated. JodiUSA retains all features at no cost.
+Deployed with live collection disabled. The restricted Stripe live key authenticated to the expected Jodibana account. A live webhook and restricted customer portal were created. Stripe reports charges disabled, payouts disabled and account details not submitted. Business onboarding remains an owner task. No real payment, paid tier or campaign was activated. JodiUSA retains all features at no cost.
 
 Owner commercial approval remains **approved subject to all gates**. This is not a full launch approval. Product changes are tracked in Jodibana's separate backlog; AgentVire records evidence and retains unresolved gates.
 
@@ -44,5 +44,7 @@ Customer portal permits payment-method changes and cancellation at period end wi
 ## Release and rollback
 
 The release overlays only billing/readiness changes on the current production image, preserving the newer photo moderation implementation. The tested image identifiers and base image are in the evidence JSON. A database dump, original container configuration, original service/environment files and rollback container/image are retained privately. No schema migration is required. Deployment verification checks service health, unchanged billing/settings records, JodiUSA free access and blocked live collection.
+
+Production health, exact candidate image, persisted settings, JodiUSA free access and unchanged billing/settings records were verified after deployment. Unsigned webhook requests return HTTP 400. The old container remains stopped with automatic restart disabled, and the original configuration and database backup are retained. No genuine live webhook delivery is claimed.
 
 Detailed evidence: `jodibana-payment-recovery-readiness-20261103.json` (AgentVire: `docs/evidence/`).

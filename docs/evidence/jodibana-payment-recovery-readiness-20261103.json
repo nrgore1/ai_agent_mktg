@@ -525,9 +525,9 @@
     },
     "production_changed": false
   },
-  "recorded_at": "2026-11-03T22:35:30.099668+00:00",
-  "status": "failed_payment_recovery_passed_staging_live_setup_incomplete",
-  "production_deployed": false,
+  "recorded_at": "2026-11-03T22:42:30.917428+00:00",
+  "status": "payment_recovery_deployed_live_collection_disabled",
+  "production_deployed": true,
   "live_transactions": 0,
   "commercial_execution_count": 0,
   "full_launch_approved": false,
@@ -568,16 +568,81 @@
     ],
     "connected_account_permissions": 0,
     "key_saved_privately_on_vps": true,
-    "key_installed_in_running_service": false,
-    "blocker": "Production deployment requires explicit approval after automatic review; Stripe business onboarding incomplete.",
+    "key_installed_in_running_service": true,
+    "blocker": "Stripe business onboarding, genuine live delivery and remaining launch gates incomplete.",
     "collection_enabled": false
   },
   "limitations": [
     "Synthetic existing $49 monthly plan, not proposed price or margin validation.",
     "Retry policy observed: nine total attempts followed by cancellation, with unpaid invoice open. Other account-specific recovery policies need separate evidence.",
-    "Billing candidate staged only; current production image retained.",
+    "Tested candidate deployed; rollback retained; live collection explicitly disabled.",
     "Initial run used stale profile tests: 538 passed and two moderation expectation failures. Rerun with current production test sources passed all 540.",
-    "Live account capabilities, signing delivery, restricted portal, Standard Checkout configuration and operator tax review still required.",
+    "Live account capabilities, genuine signing delivery and operator tax review remain open; live portal and webhook configuration verified.",
     "Provider/AI quality, privacy/recovery, exact campaign consent and economics remain separate open launch gates."
-  ]
+  ],
+  "deployment": {
+    "image": "sha256:4dcc2411d876bbdeeabf6ae53c4cbe9a75cbb59acf05b07b3a251655be58c21f",
+    "rollback_container": "jodibana-web-1-before-live-20261103",
+    "healthy": true,
+    "configuration_persisted": true,
+    "database_migrations": 0,
+    "verification": {
+      "billing_and_settings_unchanged": true,
+      "free_grant_preserved": true,
+      "live_checkout_blocked": true,
+      "readiness": {
+        "configuration": {
+          "live_secret_present": true,
+          "live_publishable_key_present": true,
+          "webhook_secret_present": true,
+          "standard_checkout_selected": true,
+          "sandbox_override_disabled": true,
+          "restricted_portal_configured": true,
+          "secure_site_origin": true,
+          "live_collection_enabled": false
+        },
+        "provider_checks": {
+          "authenticated_live_mode": true,
+          "charges_enabled": false,
+          "payouts_enabled": false,
+          "details_submitted": false,
+          "no_current_account_requirements": true,
+          "required_live_webhook_registered": true,
+          "restricted_live_portal_valid": true
+        },
+        "provider_checked": true,
+        "ready": false,
+        "collection_enabled": false,
+        "mutations": 0,
+        "scope": "payment configuration; not full product or economic approval",
+        "remaining_external_checks": [
+          "Registered endpoint signing verified with genuine delivery",
+          "Account and tax settings reviewed by operator",
+          "Observed cost/margin, exact offer and other launch gates"
+        ]
+      }
+    },
+    "health": {
+      "https://jodibana.com/": 200,
+      "https://jodiusa.com/": 200,
+      "https://agentvire.com/": 200
+    },
+    "live_collection_enabled": false,
+    "live_transactions": 0,
+    "paid_tiers_activated": false
+  },
+  "postdeployment": {
+    "production_healthy": true,
+    "image_matches_tested_candidate": true,
+    "runtime_settings_match": true,
+    "configuration_persists": true,
+    "duplicate_updated_settings": false,
+    "unsigned_live_webhook_rejected_http": 400,
+    "genuine_live_webhook_delivery_verified": false,
+    "rollback_stopped_and_restart_disabled": true,
+    "google_cloud_configured": false,
+    "live_collection_enabled": false,
+    "live_transactions": 0
+  },
+  "deployment_approval": "Explicit owner approval: Approve production deployment with collection disabled."
 }

@@ -1,6 +1,6 @@
 {
-  "run_id": "jodibana-payment-recovery-20261103",
-  "artifact": "c5e30f8c83e45bf5b2a19b548d4c874a",
+  "run_id": "jodibana-payment-recovery-deployed-20261103",
+  "artifact": "805769299e425521941936a54246f614",
   "regression_passed": 540,
   "recovery_passed": 14,
   "cleanup_passed": 6,
@@ -8,6 +8,6 @@
   "commercial_approvals_preserved": 51,
   "commercial_tasks_completed": 0,
   "campaigns_sent": 0,
-  "product_deployment_changed": false,
+  "product_deployment_changed": true,
   "audit_valid": true
 }
