@@ -1,0 +1,583 @@
+{
+  "regression": {
+    "tests": 540,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 0,
+    "exit_code": 0,
+    "database": "PostgreSQL 16",
+    "network": "internal; no provider access",
+    "production_data_mounted": false,
+    "provider_credentials": false,
+    "image": "sha256:341892f3ed6195ea0baad785873dd2dada4d7830b6733e4e377f17b69f9940ef",
+    "concurrency_test_sha256": "c45d17a1fe4f42254a2f7254c9383813f0aedee974e9221dab6ca9f2e47d4394"
+  },
+  "recovery": {
+    "checks": [
+      {
+        "name": "exhaustion_genuine_invoice_updated_processed",
+        "passed": true
+      },
+      {
+        "name": "exhaustion_one_local_invoice",
+        "passed": true
+      },
+      {
+        "name": "exhaustion_initial_invoice_not_changed",
+        "passed": true
+      },
+      {
+        "name": "provider_exhausted_nine_attempts",
+        "passed": true
+      },
+      {
+        "name": "canceled_access_removed",
+        "passed": true
+      },
+      {
+        "name": "unpaid_debt_not_marked_paid_or_written_off",
+        "passed": true
+      },
+      {
+        "name": "recovery_schedule_current",
+        "passed": true
+      },
+      {
+        "name": "intermediate_retry_schedule_matched",
+        "passed": true
+      },
+      {
+        "name": "retry_genuine_invoice_updated_processed",
+        "passed": true
+      },
+      {
+        "name": "retry_one_local_invoice",
+        "passed": true
+      },
+      {
+        "name": "retry_initial_invoice_not_changed",
+        "passed": true
+      },
+      {
+        "name": "natural_retry_recovered_after_method_fix",
+        "passed": true
+      },
+      {
+        "name": "recovered_invoice_and_access",
+        "passed": true
+      },
+      {
+        "name": "late_invoice_updated_does_not_reopen_paid",
+        "passed": true
+      }
+    ],
+    "passed": 14,
+    "failed": 0,
+    "observations": {
+      "exhaustion": [
+        {
+          "fixture": "exhaustion",
+          "clock": "ready",
+          "frozen_time": 1796339395,
+          "period_end": 1796335695,
+          "provider_subscription": "past_due",
+          "invoice_status": "open",
+          "attempt_count": 1,
+          "next_payment_attempt": 1796499307,
+          "local_invoice": "open",
+          "local_recovery": {
+            "state": "payment_failed",
+            "access_policy": "provider_status_controls_existing_access",
+            "attempt_count": 1,
+            "provider_status": "open",
+            "attention_required": true,
+            "next_payment_attempt": 1796499307
+          },
+          "local_active": true,
+          "local_provider_status": "past_due"
+        },
+        {
+          "fixture": "exhaustion",
+          "clock": "ready",
+          "frozen_time": 1796499367,
+          "period_end": 1796335695,
+          "provider_subscription": "past_due",
+          "invoice_status": "open",
+          "attempt_count": 2,
+          "next_payment_attempt": 1796657387,
+          "local_invoice": "open",
+          "local_recovery": {
+            "state": "payment_failed",
+            "access_policy": "provider_status_controls_existing_access",
+            "attempt_count": 2,
+            "provider_status": "open",
+            "attention_required": true,
+            "next_payment_attempt": 1796657387
+          },
+          "local_active": true,
+          "local_provider_status": "past_due"
+        },
+        {
+          "fixture": "exhaustion",
+          "clock": "ready",
+          "frozen_time": 1796657447,
+          "period_end": 1796335695,
+          "provider_subscription": "past_due",
+          "invoice_status": "open",
+          "attempt_count": 3,
+          "next_payment_attempt": 1796806448,
+          "local_invoice": "open",
+          "local_recovery": {
+            "state": "payment_failed",
+            "access_policy": "provider_status_controls_existing_access",
+            "attempt_count": 3,
+            "provider_status": "open",
+            "attention_required": true,
+            "next_payment_attempt": 1796806448
+          },
+          "local_active": true,
+          "local_provider_status": "past_due"
+        },
+        {
+          "fixture": "exhaustion",
+          "clock": "ready",
+          "frozen_time": 1796806508,
+          "period_end": 1796335695,
+          "provider_subscription": "past_due",
+          "invoice_status": "open",
+          "attempt_count": 4,
+          "next_payment_attempt": 1796955278,
+          "local_invoice": "open",
+          "local_recovery": {
+            "state": "payment_failed",
+            "access_policy": "provider_status_controls_existing_access",
+            "attempt_count": 4,
+            "provider_status": "open",
+            "attention_required": true,
+            "next_payment_attempt": 1796955278
+          },
+          "local_active": true,
+          "local_provider_status": "past_due"
+        },
+        {
+          "fixture": "exhaustion",
+          "clock": "ready",
+          "frozen_time": 1796806508,
+          "period_end": 1796335695,
+          "provider_subscription": "past_due",
+          "invoice_status": "open",
+          "attempt_count": 4,
+          "next_payment_attempt": 1796955278,
+          "local_invoice": "open",
+          "local_recovery": {
+            "state": "payment_failed",
+            "access_policy": "provider_status_controls_existing_access",
+            "attempt_count": 4,
+            "provider_status": "open",
+            "attention_required": true,
+            "next_payment_attempt": 1796955278
+          },
+          "local_active": true,
+          "local_provider_status": "past_due"
+        },
+        {
+          "fixture": "exhaustion",
+          "clock": "ready",
+          "frozen_time": 1796955338,
+          "period_end": 1796335695,
+          "provider_subscription": "past_due",
+          "invoice_status": "open",
+          "attempt_count": 5,
+          "next_payment_attempt": 1797116272,
+          "local_invoice": "open",
+          "local_recovery": {
+            "state": "payment_failed",
+            "access_policy": "provider_status_controls_existing_access",
+            "attempt_count": 5,
+            "provider_status": "open",
+            "attention_required": true,
+            "next_payment_attempt": 1797116272
+          },
+          "local_active": true,
+          "local_provider_status": "past_due"
+        },
+        {
+          "fixture": "exhaustion",
+          "clock": "ready",
+          "frozen_time": 1797116332,
+          "period_end": 1796335695,
+          "provider_subscription": "past_due",
+          "invoice_status": "open",
+          "attempt_count": 6,
+          "next_payment_attempt": 1797263271,
+          "local_invoice": "open",
+          "local_recovery": {
+            "state": "payment_failed",
+            "access_policy": "provider_status_controls_existing_access",
+            "attempt_count": 6,
+            "provider_status": "open",
+            "attention_required": true,
+            "next_payment_attempt": 1797263271
+          },
+          "local_active": true,
+          "local_provider_status": "past_due"
+        },
+        {
+          "fixture": "exhaustion",
+          "clock": "ready",
+          "frozen_time": 1797263331,
+          "period_end": 1796335695,
+          "provider_subscription": "past_due",
+          "invoice_status": "open",
+          "attempt_count": 7,
+          "next_payment_attempt": 1797416183,
+          "local_invoice": "open",
+          "local_recovery": {
+            "state": "payment_failed",
+            "access_policy": "provider_status_controls_existing_access",
+            "attempt_count": 7,
+            "provider_status": "open",
+            "attention_required": true,
+            "next_payment_attempt": 1797416183
+          },
+          "local_active": true,
+          "local_provider_status": "past_due"
+        },
+        {
+          "fixture": "exhaustion",
+          "clock": "ready",
+          "frozen_time": 1797416243,
+          "period_end": 1796335695,
+          "provider_subscription": "past_due",
+          "invoice_status": "open",
+          "attempt_count": 8,
+          "next_payment_attempt": 1797549383,
+          "local_invoice": "open",
+          "local_recovery": {
+            "state": "payment_failed",
+            "access_policy": "provider_status_controls_existing_access",
+            "attempt_count": 8,
+            "provider_status": "open",
+            "attention_required": true,
+            "next_payment_attempt": 1797549383
+          },
+          "local_active": true,
+          "local_provider_status": "past_due"
+        },
+        {
+          "fixture": "exhaustion",
+          "clock": "ready",
+          "frozen_time": 1797549443,
+          "period_end": 1796335695,
+          "provider_subscription": "canceled",
+          "invoice_status": "open",
+          "attempt_count": 9,
+          "next_payment_attempt": null,
+          "local_invoice": "open",
+          "local_recovery": {
+            "state": "payment_failed",
+            "access_policy": "provider_status_controls_existing_access",
+            "attempt_count": 9,
+            "provider_status": "open",
+            "attention_required": true,
+            "next_payment_attempt": null
+          },
+          "local_active": false,
+          "local_provider_status": "canceled"
+        }
+      ],
+      "retry": [
+        {
+          "fixture": "retry",
+          "clock": "ready",
+          "frozen_time": 1796339406,
+          "period_end": 1796335706,
+          "provider_subscription": "past_due",
+          "invoice_status": "open",
+          "attempt_count": 1,
+          "next_payment_attempt": 1796495760,
+          "local_invoice": "open",
+          "local_recovery": {
+            "state": "payment_failed",
+            "access_policy": "provider_status_controls_existing_access",
+            "attempt_count": 1,
+            "provider_status": "open",
+            "attention_required": true,
+            "next_payment_attempt": 1796495760
+          },
+          "local_active": true,
+          "local_provider_status": "past_due"
+        },
+        {
+          "fixture": "retry",
+          "clock": "ready",
+          "frozen_time": 1796495820,
+          "period_end": 1796335706,
+          "provider_subscription": "active",
+          "invoice_status": "paid",
+          "attempt_count": 2,
+          "next_payment_attempt": null,
+          "local_invoice": "paid",
+          "local_recovery": {
+            "state": "paid",
+            "attention_required": false
+          },
+          "local_active": true,
+          "local_provider_status": "active"
+        },
+        {
+          "fixture": "retry",
+          "clock": "ready",
+          "frozen_time": 1796495820,
+          "period_end": 1796335706,
+          "provider_subscription": "active",
+          "invoice_status": "paid",
+          "attempt_count": 2,
+          "next_payment_attempt": null,
+          "local_invoice": "paid",
+          "local_recovery": {
+            "state": "paid",
+            "attention_required": false
+          },
+          "local_active": true,
+          "local_provider_status": "active"
+        },
+        {
+          "fixture": "retry",
+          "clock": "ready",
+          "frozen_time": 1796495820,
+          "period_end": 1796335706,
+          "provider_subscription": "active",
+          "invoice_status": "paid",
+          "attempt_count": 2,
+          "next_payment_attempt": null,
+          "local_invoice": "paid",
+          "local_recovery": {
+            "state": "paid",
+            "attention_required": false
+          },
+          "local_active": true,
+          "local_provider_status": "active"
+        },
+        {
+          "fixture": "retry",
+          "clock": "ready",
+          "frozen_time": 1796495820,
+          "period_end": 1796335706,
+          "provider_subscription": "active",
+          "invoice_status": "paid",
+          "attempt_count": 2,
+          "next_payment_attempt": null,
+          "local_invoice": "paid",
+          "local_recovery": {
+            "state": "paid",
+            "attention_required": false
+          },
+          "local_active": true,
+          "local_provider_status": "active"
+        },
+        {
+          "fixture": "retry",
+          "clock": "ready",
+          "frozen_time": 1796495820,
+          "period_end": 1796335706,
+          "provider_subscription": "active",
+          "invoice_status": "paid",
+          "attempt_count": 2,
+          "next_payment_attempt": null,
+          "local_invoice": "paid",
+          "local_recovery": {
+            "state": "paid",
+            "attention_required": false
+          },
+          "local_active": true,
+          "local_provider_status": "active"
+        },
+        {
+          "fixture": "retry",
+          "clock": "ready",
+          "frozen_time": 1796495820,
+          "period_end": 1796335706,
+          "provider_subscription": "active",
+          "invoice_status": "paid",
+          "attempt_count": 2,
+          "next_payment_attempt": null,
+          "local_invoice": "paid",
+          "local_recovery": {
+            "state": "paid",
+            "attention_required": false
+          },
+          "local_active": true,
+          "local_provider_status": "active"
+        },
+        {
+          "fixture": "retry",
+          "clock": "ready",
+          "frozen_time": 1796495820,
+          "period_end": 1796335706,
+          "provider_subscription": "active",
+          "invoice_status": "paid",
+          "attempt_count": 2,
+          "next_payment_attempt": null,
+          "local_invoice": "paid",
+          "local_recovery": {
+            "state": "paid",
+            "attention_required": false
+          },
+          "local_active": true,
+          "local_provider_status": "active"
+        },
+        {
+          "fixture": "retry",
+          "clock": "ready",
+          "frozen_time": 1796495820,
+          "period_end": 1796335706,
+          "provider_subscription": "active",
+          "invoice_status": "paid",
+          "attempt_count": 2,
+          "next_payment_attempt": null,
+          "local_invoice": "paid",
+          "local_recovery": {
+            "state": "paid",
+            "attention_required": false
+          },
+          "local_active": true,
+          "local_provider_status": "active"
+        },
+        {
+          "fixture": "retry",
+          "clock": "ready",
+          "frozen_time": 1796495820,
+          "period_end": 1796335706,
+          "provider_subscription": "active",
+          "invoice_status": "paid",
+          "attempt_count": 2,
+          "next_payment_attempt": null,
+          "local_invoice": "paid",
+          "local_recovery": {
+            "state": "paid",
+            "attention_required": false
+          },
+          "local_active": true,
+          "local_provider_status": "active"
+        }
+      ]
+    },
+    "provider_policy_observed": "nine total attempts then cancellation; unpaid invoice remains open",
+    "candidate_staging": true,
+    "production_deployed": false,
+    "live_transactions": 0
+  },
+  "payment_cleanup": {
+    "checks": [
+      {
+        "name": "exhaustion_test_agreement_closed",
+        "passed": true
+      },
+      {
+        "name": "exhaustion_paid_only_refunds_and_explicit_void_reconciled",
+        "passed": true
+      },
+      {
+        "name": "exhaustion_refund_ledger_exact",
+        "passed": true
+      },
+      {
+        "name": "retry_test_agreement_closed",
+        "passed": true
+      },
+      {
+        "name": "retry_paid_only_refunds_and_explicit_void_reconciled",
+        "passed": true
+      },
+      {
+        "name": "retry_refund_ledger_exact",
+        "passed": true
+      }
+    ],
+    "passed": 6,
+    "failed": 0,
+    "live_transactions": 0,
+    "test_amount_refunded_usd": 147.0,
+    "purpose": "explicit cleanup after recording natural terminal outcome; refunds never inferred from cancellation"
+  },
+  "environment_cleanup": {
+    "temporary_callback_deleted": true,
+    "temporary_route_removed": true,
+    "synthetic_receivers_stopped": true,
+    "test_data_retained_privately": true,
+    "public_health": {
+      "https://agentvire.com/": 200,
+      "https://jodiusa.com/": 200,
+      "https://jodibana.com/": 200,
+      "https://weddingos.pro/": 200,
+      "https://memoirbookstudio.com/": 200
+    },
+    "live_transactions": 0
+  },
+  "build": {
+    "base_image": "sha256:0c1015e2e3f0c5c2a27bc1d102098df01b5ff73224716ebd840c1d08d1e8b52e",
+    "image": "sha256:4dcc2411d876bbdeeabf6ae53c4cbe9a75cbb59acf05b07b3a251655be58c21f",
+    "qa_image": "sha256:341892f3ed6195ea0baad785873dd2dada4d7830b6733e4e377f17b69f9940ef",
+    "test_tool_versions": {
+      "pytest": "8.3.5",
+      "pytest-django": "4.11.1"
+    },
+    "production_changed": false
+  },
+  "recorded_at": "2026-11-03T22:35:30.099668+00:00",
+  "status": "failed_payment_recovery_passed_staging_live_setup_incomplete",
+  "production_deployed": false,
+  "live_transactions": 0,
+  "commercial_execution_count": 0,
+  "full_launch_approved": false,
+  "no_google_cloud": true,
+  "provision": {
+    "key_authenticated": true,
+    "configuration_created": true,
+    "live_transactions": 0,
+    "collection_enabled": false,
+    "account_match": true,
+    "charges_enabled": false,
+    "payouts_enabled": false,
+    "details_submitted": false,
+    "requirements": {
+      "currently_due": null,
+      "past_due": null,
+      "disabled_reason": null
+    },
+    "live_webhook_registered": true,
+    "restricted_portal_created": true
+  },
+  "live_setup": {
+    "restricted_key_created_in_dashboard": true,
+    "approved_by_owner": true,
+    "read_permissions": [
+      "Accounts",
+      "Balance",
+      "Charges and Refunds",
+      "Invoices",
+      "Prices",
+      "Subscriptions"
+    ],
+    "write_permissions": [
+      "Checkout Sessions",
+      "Customer Portal",
+      "Payment Intents",
+      "Webhook Endpoints"
+    ],
+    "connected_account_permissions": 0,
+    "key_saved_privately_on_vps": true,
+    "key_installed_in_running_service": false,
+    "blocker": "Production deployment requires explicit approval after automatic review; Stripe business onboarding incomplete.",
+    "collection_enabled": false
+  },
+  "limitations": [
+    "Synthetic existing $49 monthly plan, not proposed price or margin validation.",
+    "Retry policy observed: nine total attempts followed by cancellation, with unpaid invoice open. Other account-specific recovery policies need separate evidence.",
+    "Billing candidate staged only; current production image retained.",
+    "Initial run used stale profile tests: 538 passed and two moderation expectation failures. Rerun with current production test sources passed all 540.",
+    "Live account capabilities, signing delivery, restricted portal, Standard Checkout configuration and operator tax review still required.",
+    "Provider/AI quality, privacy/recovery, exact campaign consent and economics remain separate open launch gates."
+  ]
+}
