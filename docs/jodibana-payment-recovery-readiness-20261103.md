@@ -2,7 +2,7 @@
 
 ## Current result
 
-Deployed with live collection disabled. The restricted Stripe live key authenticated to the expected Jodibana account. A live webhook and restricted customer portal were created. Stripe reports charges disabled, payouts disabled and account details not submitted. Business onboarding remains an owner task. No real payment, paid tier or campaign was activated. JodiUSA retains all features at no cost.
+Deployed with live collection disabled. The restricted Stripe live key authenticated to the expected Jodibana account. A live webhook and restricted customer portal were created. Stripe now confirms charges and payouts enabled, account details submitted and no current account requirements. Application collection remains explicitly disabled. No real payment, paid tier or campaign was activated. JodiUSA retains all features at no cost.
 
 Owner commercial approval remains **approved subject to all gates**. This is not a full launch approval. Product changes are tracked in Jodibana's separate backlog; AgentVire records evidence and retains unresolved gates.
 
@@ -35,7 +35,7 @@ Customer portal permits payment-method changes and cancellation at period end wi
 
 ## Remaining gates
 
-- Complete Stripe business/account onboarding; verify charges, payouts and details-submitted flags afterward. Review operator tax and business settings.
+- Stripe business/account onboarding provider checks have passed. Operator tax/business review and all remaining launch gates still apply.
 - Genuine live signing/delivery is now verified. Real charge processing and paid activation are distinct checks and were not executed.
 - Validate exact live offers, price mappings, cost/margin evidence, commissions and recipient eligibility before enabling collection or campaigns.
 - Continue separate provider/AI quality, operator/privacy and backup recovery work. This payment result clears none of those gates.
@@ -53,6 +53,6 @@ Detailed evidence: `jodibana-payment-recovery-readiness-20261103.json` (AgentVir
 
 Ten checks passed using Stripe's documented `billing_portal.configuration.updated` event. The existing endpoint temporarily listened for this non-payment event; an opaque verification marker was added to the owned portal metadata. Stripe delivered a live-mode event through the public HTTPS endpoint, which verified its signature and persisted one processed event. No handcrafted signature or direct database insertion was used. Original subscribed events, portal metadata and customer-facing features were restored. Billing/transaction/settings fingerprints and JodiUSA's free access were unchanged; collection stayed disabled.
 
-This verifies live transport, signing and persistence, not a real payment or paid activation. Stripe still reports `charges_enabled=false`, `payouts_enabled=false` and `details_submitted=false`. Onboarding is not complete. The owner has been asked to restore the minimized Stripe Dashboard window so the exact remaining form requirements can be reviewed; identity, banking and legal acceptance must use confirmed owner information.
+This verifies live transport, signing and persistence, not a real payment or paid activation. A subsequent read-only check confirmed `charges_enabled=true`, `payouts_enabled=true`, `details_submitted=true` and no current account requirements. JodiUSA free access was reverified. The app retains `STRIPE_LIVE_PAYMENTS_ENABLED=false`. Earlier onboarding-incomplete receipts are historical; the dated `onboarding` receipt records the current provider state. No new agreement was accepted by automation and no real charge was made.
 
 Reference: [Stripe event types](https://docs.stripe.com/api/events/types).

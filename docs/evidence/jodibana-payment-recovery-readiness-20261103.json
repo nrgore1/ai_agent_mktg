@@ -525,8 +525,8 @@
     },
     "production_changed": false
   },
-  "recorded_at": "2026-11-03T22:56:12.525370+00:00",
-  "status": "live_webhook_verified_business_onboarding_incomplete",
+  "recorded_at": "2026-11-03T23:07:27.909186+00:00",
+  "status": "stripe_onboarding_verified_collection_disabled",
   "production_deployed": true,
   "live_transactions": 0,
   "commercial_execution_count": 0,
@@ -569,16 +569,17 @@
     "connected_account_permissions": 0,
     "key_saved_privately_on_vps": true,
     "key_installed_in_running_service": true,
-    "blocker": "Stripe business onboarding and remaining launch gates incomplete.",
+    "blocker": "Operator tax/account review, exact offers/economics and remaining launch gates; application collection intentionally disabled.",
     "collection_enabled": false,
-    "genuine_live_delivery_verified": true
+    "genuine_live_delivery_verified": true,
+    "business_onboarding_verified": true
   },
   "limitations": [
     "Synthetic existing $49 monthly plan, not proposed price or margin validation.",
     "Retry policy observed: nine total attempts followed by cancellation, with unpaid invoice open. Other account-specific recovery policies need separate evidence.",
     "Tested candidate deployed; rollback retained; live collection explicitly disabled.",
     "Initial run used stale profile tests: 538 passed and two moderation expectation failures. Rerun with current production test sources passed all 540.",
-    "Genuine live non-payment event signing/delivery verified; live account capabilities and operator tax review remain open. No real charge or paid activation was tested.",
+    "Stripe details submitted, charges/payouts enabled and no current account requirements verified. Live signing/delivery already passed; operator tax/account review and launch gates remain. No real charge or paid activation tested.",
     "Provider/AI quality, privacy/recovery, exact campaign consent and economics remain separate open launch gates."
   ],
   "deployment": {
@@ -675,5 +676,43 @@
       "past_due": null,
       "disabled_reason": null
     }
+  },
+  "onboarding": {
+    "provider_readiness": {
+      "configuration": {
+        "live_secret_present": true,
+        "live_publishable_key_present": true,
+        "webhook_secret_present": true,
+        "standard_checkout_selected": true,
+        "sandbox_override_disabled": true,
+        "restricted_portal_configured": true,
+        "secure_site_origin": true,
+        "live_collection_enabled": false
+      },
+      "provider_checks": {
+        "authenticated_live_mode": true,
+        "charges_enabled": true,
+        "payouts_enabled": true,
+        "details_submitted": true,
+        "no_current_account_requirements": true,
+        "required_live_webhook_registered": true,
+        "restricted_live_portal_valid": true
+      },
+      "provider_checked": true,
+      "ready": false,
+      "collection_enabled": false,
+      "mutations": 0,
+      "scope": "payment configuration; not full product or economic approval",
+      "remaining_external_checks": [
+        "Registered endpoint signing verified with genuine delivery",
+        "Account and tax settings reviewed by operator",
+        "Observed cost/margin, exact offer and other launch gates"
+      ]
+    },
+    "jodiusa_free_preserved": true,
+    "live_collection_enabled": false,
+    "mutations": 0,
+    "live_transactions": 0,
+    "recorded_at": "2026-11-03T23:07:05.019156+00:00"
   }
 }

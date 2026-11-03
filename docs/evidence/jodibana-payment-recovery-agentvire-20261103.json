@@ -1,6 +1,6 @@
 {
-  "run_id": "jodibana-live-delivery-20261103",
-  "artifact": "53614b732ae6534cbc28e029cb82d273",
+  "run_id": "jodibana-stripe-onboarding-20261103",
+  "artifact": "1aec4b8ca4d05ea09222a7f790fe1a98",
   "regression_passed": 540,
   "recovery_passed": 14,
   "cleanup_passed": 6,
