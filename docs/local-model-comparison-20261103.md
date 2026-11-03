@@ -6,7 +6,7 @@
 
 **Select Mistral only for choosing between prepared invitation drafts.** Do not enable unrestricted customer-facing generation, automatic pricing/commissions, numeric grading or campaign execution. Both candidates failed broader quality checks. Their language-model outputs cannot approve an action or override application permissions.
 
-Production deployment is pending explicit owner approval. Automatic approval review rejected changing the running AgentVire image/model configuration because it interpreted the authorization as local testing only. The tested candidate is not activated; the installed model service is private.
+The owner explicitly approved production deployment on 3 November 2026. The prepared-invitation selection update is now deployed with local Mistral. Six live checks passed: four bounded product selections, free-form claims denial and cloud-model denial. Public health, accurate interface labels, anonymous-access denial, exact image, protected records and the audit chain were verified. All other service settings and running services were preserved. Broader generation and product launch gates remain open; see the deployment receipt.
 
 The AgentVire candidate accepts only the two explicitly authorized small model names in addition to the existing Kimi route; cloud tags and unreviewed names remain rejected. Small models can return only a choice of 1 or 2. The application supplies the entire invitation text. It rejects incomplete output, unknown choices and free-form approved-claims drafting. A read-only readiness check requires the exact model to be loaded with a 2,048-token context; it never loads a model on a user request. Cold/unavailable models preserve the draft and require operator preload. Generation has a 20-second timeout.
 
@@ -44,7 +44,7 @@ Private VPS evaluation root: `~/jodibana-local-models-20261103`. The local model
 
 Preload the selected model with context 2048, CPU layers only, two threads, memory mapping enabled and `keep_alive=-1`; verify `/api/ps` before exposing generation. The application deliberately refuses a cold model. After a model-container restart, operator preload is required. Do not increase context or allow concurrent model loading without a new resource/reliability evaluation. The running local test service can be stopped without removing its persisted model files.
 
-The prior AgentVire image is retained as `growthpilot-staging:before-local-models-20261103`; the deployment candidate and proposed Compose override are stored separately. Production deployment, if approved, replaces only AgentVire’s image and the two model endpoint/name settings, verifies protected records and preserves all other environment settings. A failed verification rolls back to the previous Compose files. No database migration is required. Jodibana’s candidate is a separate backlog item and is not included in that deployment.
+The prior AgentVire image is retained as `growthpilot-staging:before-local-models-20261103`; the deployment candidate and proposed Compose override are stored separately. The explicitly approved production deployment replaced only AgentVire’s image and the two model endpoint/name settings, verifies protected records and preserves all other environment settings. The deployment retains the previous Compose files and image for rollback. The first operator cold preload exceeded 100 seconds under VPS load; allowing up to 300 seconds for operator preload resolved readiness before deployment. User-facing calls retain their 20-second deadline, and cold-model refusal remains enabled. No database migration is required. Jodibana’s candidate is a separate backlog item and is not included in that deployment.
 
 The interrupted Stripe test fixture was canceled and its synthetic payment refunded; the provider showed only the original 4242 test card. No replacement card or renewal check is claimed passed. The temporary callback/route was removed and the isolated payment services stopped. Existing public sites returned HTTPS 200 afterward. Payment-method updates, production Stripe credentials/signing and other launch gates remain open.
 
@@ -54,7 +54,7 @@ AgentVire records the measured results without changing the existing portfolio q
 
 Remaining work:
 
-1. Explicit production approval for the prepared-selection AgentVire update, then post-deployment verification; this is distinct from general model-quality approval.
+1. Completed: explicitly approved production deployment of prepared selection and live verification. This is distinct from general model-quality approval.
 2. Fresh adversarial/source-grounding examples and stronger content validation before free-form profiles or campaign claims.
 3. Use deterministic application calculations for margins/commissions; do not delegate financial arithmetic or approval decisions to a small language model.
 4. Complete Jodibana’s card-update/default-method/renewal checks on a new owned synthetic fixture, along with remaining payment/provider launch gates.

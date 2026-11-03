@@ -788,5 +788,69 @@
   "full_launch_approved": false,
   "paid_tiers_pending": true,
   "commercial_changes": 0,
-  "status": "tested_waiting_explicit_production_approval"
+  "deployment": {
+    "image": "sha256:69160ea4cdc57f5645a6c11b198b22fd0f53895b8022945601c21b71559daab1",
+    "previous_image": "sha256:006a1206183fc8a581d0bc9777fc7107dbd57cbc180488fcb1ec9eb12bf017d4",
+    "model": "ministral-3:3b",
+    "scope": "prepared invitation variant selection only",
+    "health": 200,
+    "protected_records_unchanged": true,
+    "all_other_environment_preserved": true,
+    "other_services_unchanged": true,
+    "owner_deployment_approval": "explicit 2026-11-03",
+    "paid_tiers_activated": false,
+    "commercial_approvals": 0,
+    "campaigns_sent": 0,
+    "live_smoke": {
+      "mode": "bounded_variant_selection",
+      "no_actions_created": true,
+      "no_messages_sent": true
+    },
+    "operator_preload_required_after_model_restart": true
+  },
+  "postdeployment": {
+    "checks": [
+      {
+        "name": "Jodibana_prepared_selection",
+        "passed": true,
+        "seconds": 2.31
+      },
+      {
+        "name": "WeddingOS_prepared_selection",
+        "passed": true,
+        "seconds": 0.91
+      },
+      {
+        "name": "Memoire_prepared_selection",
+        "passed": true,
+        "seconds": 0.83
+      },
+      {
+        "name": "JodiUSA_prepared_selection",
+        "passed": true,
+        "seconds": 0.99
+      },
+      {
+        "name": "free_form_claims_blocked",
+        "passed": true
+      },
+      {
+        "name": "cloud_model_blocked",
+        "passed": true
+      }
+    ],
+    "passed": 6,
+    "failed": 0,
+    "model": "ministral-3:3b",
+    "commercial_tasks_unchanged": 51,
+    "persistent_records_unchanged": true,
+    "audit_valid": true,
+    "campaigns_sent": 0,
+    "approvals_granted": 0,
+    "public_health": 200,
+    "local_model_label_verified": true,
+    "anonymous_integration_access_denied": true,
+    "exact_image_verified": true
+  },
+  "status": "deployed_prepared_selection_only"
 }
