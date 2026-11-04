@@ -8,7 +8,7 @@ The founder can create named accounts in Accounts and integrations, select one c
 | --- | --- |
 | CEO | Assigned unit workflows, finance evidence and relationship opportunities |
 | CFO | Financial evidence, relevant workflow steps and CFO AI results |
-| CMO | Sales and campaign workflows, non-investor relationship opportunities and CMO results |
+| CMO | Sales and campaign workflows, customer, design-partner and champion opportunities and CMO results |
 | CTO | Engineering and technical workflow steps and CTO results |
 | COO | Onboarding, service, fulfillment and operations steps and COO results |
 
@@ -20,4 +20,8 @@ The database migration adds must_change with a default of zero. Existing users c
 
 The blocked headline reports launch tasks, not failed test cases. On this release, 140 effective blockers consisted of 28 direct readiness tasks, 51 commercial-condition holds and 61 pending tasks waiting on dependencies. Forty-five blocked tasks concerned internal-only products and require scope review. No task was marked complete by the explanatory UI change.
 
-Validation: 307 automated tests passed in the exact VPS candidate; five role dashboards passed browser tests including initial password changes, direct-link restrictions and mobile layout. Production verification confirmed ten scoped accounts, protected anonymous paths, security headers, the founder account controls and the same 140-task breakdown. Pricing, commissions, campaigns and product services were not executed by this release.
+Validation: 308 automated tests passed in the exact VPS candidate; five role dashboards passed browser tests including initial password changes, direct-link restrictions and mobile layout. Production verification confirmed ten scoped accounts, protected anonymous paths, security headers, the founder account controls and the same 140-task breakdown. Pricing, commissions, campaigns and product services were not executed by this release.
+
+## Remaining security work
+
+Track MFA enrollment and recovery, an independent penetration test, and edge-level traffic protection as follow-up work. Current authenticated read budgets are process-local. Account owners remain responsible for sharing only appropriate information with authorized colleagues. Documents and source projections are not committed to the public repository.

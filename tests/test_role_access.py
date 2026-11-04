@@ -69,3 +69,11 @@ class RoleAccessTests(unittest.TestCase):
   self.assertIsNone(self.i.login(u['username'],'Private-Reset-Password','local'))
   with self.s.db() as db:
    self.assertNotIn('Private-Reset-Password',str([dict(r) for r in db.execute('SELECT * FROM audit')]))
+
+ def test_cmo_source_view_defaults_closed_for_ambiguous_investor_partner_records(self):
+  from growthpilot.role_access import scope_summary
+  u,_=self.account();d=self.os.summary(u)
+  d['vanguard']['records']=[{'id':k,'unit_id':'weddingos','kind':k,'name':'PRIVATE FUNDING' if k in ('investor','partner','unknown') else 'Customer research'} for k in ('investor','partner','unknown','design_partner','customer','champion')]
+  d=scope_summary(u,d)
+  self.assertEqual({r['kind'] for r in d['vanguard']['records']},{'design_partner','customer','champion'})
+  self.assertNotIn('PRIVATE FUNDING',str(d))

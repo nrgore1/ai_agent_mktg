@@ -55,6 +55,8 @@
   "page_errors": [],
   "tls": "browser default validation",
   "commercial_execution_enabled": false,
-  "image_id": "sha256:e5d894638c6aee62e69c45d92a73a41aae10b0f888cdd0ed7ea8fdb64167ea31",
-  "automated_tests_passed": 307
+  "image_id": "sha256:5dd69cf0188bb5ffd437aca305804cb09d13e74feeede6020524fcefbc89c821",
+  "automated_tests_passed": 308,
+  "rollback_image_id": "sha256:e5d894638c6aee62e69c45d92a73a41aae10b0f888cdd0ed7ea8fdb64167ea31",
+  "ambiguous_investor_partner_records_restricted": true
 }

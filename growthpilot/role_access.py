@@ -37,7 +37,7 @@ def scope_summary(user, result):
  result['cases']=visible
  caseids={c['id'] for c in visible}
  result['role_workers']['jobs']=[j for j in result['role_workers']['jobs'] if j['case_id'] in caseids and j['role'] in roles.get(j['unit_id'],set())]
- records=[r for r in result['vanguard']['records'] if roles.get(r.get('unit_id'),set()) & {'CEO','CMO'} and (r.get('kind')!='investor' or 'CEO' in roles.get(r.get('unit_id'),set()))]
+ records=[r for r in result['vanguard']['records'] if roles.get(r.get('unit_id'),set()) & {'CEO','CMO'} and ('CEO' in roles.get(r.get('unit_id'),set()) or r.get('kind') in ('design_partner','customer','champion'))]
  result['vanguard']['records']=records
  result['vanguard']['source_count']=len(records)
  result['marketing_decisions']=[]
