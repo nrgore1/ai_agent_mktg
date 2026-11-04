@@ -155,7 +155,8 @@ class BusinessOS:
     'external_execution':False,'can_assign':user['role']=='founder','can_review':user['role']=='founder',
     'note':'Case completion records an attested workflow outcome, not product launch approval, a sent campaign, a signed contract or a settled payment.'}
    from .business_runtime import BusinessRuntime
-   return BusinessRuntime(self.store).enrich(db,user,result)
+   from .role_access import scope_summary
+   return scope_summary(user,BusinessRuntime(self.store).enrich(db,user,result))
  def dispatch(self,command,data,user):
   if user.get('role')=='viewer': raise PermissionError('Read-only account')
   with self.store.db() as db:

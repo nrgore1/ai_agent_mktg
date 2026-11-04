@@ -17,12 +17,18 @@ def main():
  parser=argparse.ArgumentParser();parser.add_argument('--host',default='127.0.0.1');parser.add_argument('--port',type=int,default=8098);args=parser.parse_args()
  path=Path(os.environ.get('GROWTHPILOT_DB','data/growthpilot.db'));path.parent.mkdir(parents=True,exist_ok=True)
  store=Platform(path);identity=Identity(store);identity.bootstrap(path.parent);subscriptions=MarketingConsent(store);registry=BrandRegistry(store);MarketingRights(subscriptions).reconcile_erasure()
+ from .request_limits import ReadLimits
+ read_limits=ReadLimits()
  secure=os.environ.get('GROWTHPILOT_SECURE_COOKIE')=='true'
  class Handler(BaseHTTPRequestHandler):
   def log_message(self,*args):pass
   def send(self,status,obj,ctype='application/json',cookie=None):
    body=json.dumps(obj).encode() if ctype=='application/json' else obj
    self.send_response(status);self.send_header('Content-Type',ctype);self.send_header('Content-Length',str(len(body)));self.send_header('Cache-Control','no-store');self.send_header('X-Content-Type-Options','nosniff');self.send_header('X-Frame-Options','DENY');self.send_header('Referrer-Policy','no-referrer');self.send_header('Content-Security-Policy',"default-src 'self'; script-src 'self'; style-src 'self'; frame-ancestors 'none'; base-uri 'none'; form-action 'self'")
+   self.send_header('X-Robots-Tag','noindex, nofollow, noarchive, nosnippet')
+   self.send_header('Permissions-Policy','camera=(), microphone=(), geolocation=()')
+   if secure:self.send_header('Strict-Transport-Security','max-age=31536000')
+   if status==429:self.send_header('Retry-After','60')
    if cookie:self.send_header('Set-Cookie',cookie)
    self.end_headers();self.wfile.write(body)
   def raw_session(self):
@@ -33,11 +39,13 @@ def main():
   def allowed(self,user,product_id):
    return user['role'] in ('founder','admin') or product_id in user['products']
   def readable_state(self,user):
+   if user['role']=='business':
+    with store.db() as db:return {'products':[],'paused':store.paused(db)}
    state=store.snapshot()
    if user['role'] not in ('founder','admin'):
     ids=user['products'];state['products']=[p for p in state['products'] if p['id'] in ids]
     for key in ('campaigns','actions','leads','events','experiments','schedules','jobs','evidence','notifications','suppressions','reports'):state[key]=[r for r in state[key] if r.get('product_id') in ids]
-    state['launch_desk']={}
+    state['launch_desk']={};state['roadmap']={};state['integration_status']={};state['channels']=[]
     state['audit']=[];state['deliveries']=[];state['report']={};state['metrics']={}
    return state
   def origin_ok(self):
@@ -45,6 +53,7 @@ def main():
    return not origin or urlsplit(origin).netloc==self.headers.get('Host')
   def do_GET(self):
    path=urlsplit(self.path).path
+   if path=='/robots.txt':return self.send(200,b'User-agent: *\nDisallow: /\n','text/plain')
    if path=='/health':return self.send(200,{'status':'ok','mode':'approval-governed','version':'0.5.1'})
    if path.startswith(PREFIX):
     try:
@@ -57,12 +66,16 @@ def main():
    assets={'/':'index.html','/app.js':'app.js','/style.css':'style.css','/console.js':'console.js','/roadmap.js':'roadmap.js','/launchdesk.js':'launchdesk.js','/strategyos.js':'strategyos.js','/execution.js':'execution.js','/integrations.js':'integrations.js'}
    assets['/business.js']='business.js'
    assets['/business-runtime.js']='business-runtime.js'
+   assets['/role-dashboard.js']='role-dashboard.js'
    if path in assets:
     ctype='text/html; charset=utf-8' if path=='/' else 'text/css' if path.endswith('.css') else 'text/javascript'
     return self.send(200,(Path(__file__).parent/'static'/assets[path]).read_bytes(),ctype)
    user=self.user()
    if not user:return self.send(401,{'error':'Sign in required'})
+   if path not in ('/api/me',) and not read_limits.allow(user['username']):return self.send(429,{'error':'Too many data requests; retry in one minute'})
    try:
+    if user.get('must_change') and path not in ('/api/me','/api/state'): return self.send(403,{'error':'Change your temporary password first'})
+    if user['role']=='business' and path not in ('/api/me','/api/state','/api/business'):return self.send(403,{'error':'This view is outside your assigned role'})
     if path=='/api/business':
      from .business_os import BusinessOS
      return self.send(200,BusinessOS(store).summary(user))
@@ -87,6 +100,7 @@ def main():
     if path=='/api/users' and user['role'] in ('founder','admin'):return self.send(200,identity.users())
     if path=='/api/audit/verify' and user['role'] in ('founder','admin'):return self.send(200,store.verify_audit())
     return self.send(404,{'error':'Not found'})
+   except PermissionError as e:return self.send(403,{'error':str(e)})
    except (Invalid,ValueError):return self.send(400,{'error':'Invalid request'})
   def do_POST(self):
    if not self.origin_ok():return self.send(403,{'error':'Origin rejected'})
@@ -129,6 +143,14 @@ def main():
      identity.logout(self.raw_session());return self.send(200,{'ok':True},cookie='gp_session=; HttpOnly; SameSite=Strict; Path=/; Max-Age=0')
     if path=='/api/password':
      identity.change_password(user['username'],data.get('old',''),data.get('new',''));return self.send(200,{'ok':True,'sign_in_again':True},cookie='gp_session=; HttpOnly; SameSite=Strict; Path=/; Max-Age=0')
+    if user.get('must_change'):return self.send(403,{'error':'Change your temporary password first'})
+    if user['role']=='business' and path not in ('/api/business/create','/api/business/record','/api/business/schedule','/api/business/close','/api/business/opportunity-case'):return self.send(403,{'error':'Action outside your assigned role'})
+    if path=='/api/role-accounts/manage':
+     from .role_access import manage_account
+     return self.send(200,manage_account(identity,data,user))
+    if path=='/api/role-accounts':
+     from .role_access import create_account
+     return self.send(200,create_account(identity,data,user))
     if user['role']=='viewer':return self.send(403,{'error':'Read-only account'})
     admin=user['role'] in ('founder','admin')
     if path in ('/api/pause','/api/tick','/api/users','/api/backup','/api/keys','/api/actions/batch','/api/roadmap','/api/manager/prepare','/api/manager/review','/api/manager/outreach','/api/manager/record') and not admin:return self.send(403,{'error':'Administrator required'})
@@ -150,6 +172,7 @@ def main():
      runtime=BusinessRuntime(store)
      commands={'worker-control':runtime.control,'worker-retry':runtime.retry,'opportunity-case':runtime.opportunity_case,'bootstrap':runtime.bootstrap}
      result=commands[command](data,user) if command in commands else BusinessOS(store).dispatch(command,data,user)
+     if user['role']=='business':result={k:v for k,v in result.items() if k in ('id','case_id','created','existing','version','cursor','unit_id','company_id')}
     elif path.startswith('/api/integrations/'):
      if not admin:return self.send(403,{'error':'Administrator required for integrations'})
      from .integrations import IntegrationHub
@@ -189,7 +212,9 @@ def main():
      result=store.external_action(data)
     elif path=='/api/keys':result=store.ingest_key(data.get('product_id'),data.get('name','analytics'))
     elif path=='/api/backup':result=store.backup(pathlib_backup(path))
-    elif path=='/api/users':result=identity.create(data.get('username',''),data.get('password',''),data.get('role','operator'),data.get('products',[]))
+    elif path=='/api/users':
+     if user['role']!='founder':return self.send(403,{'error':'Founder required to create accounts'})
+     result=identity.create(data.get('username',''),data.get('password',''),data.get('role','operator'),data.get('products',[]))
     elif path=='/api/actions/batch':
      items=data.get('items',[])
      if not isinstance(items,list) or not 1<=len(items)<=20:raise Invalid('Batch must contain 1–20 explicit actions and hashes')

@@ -1,0 +1,60 @@
+{
+  "passed": true,
+  "role_accounts": 10,
+  "blocked_breakdown": {
+    "direct_readiness": 28,
+    "commercial_conditions": 51,
+    "waiting_on_dependencies": 61,
+    "internal_product_items": 45,
+    "total": 140
+  },
+  "anonymous_paths": [
+    {
+      "path": "/api/state",
+      "status": 401
+    },
+    {
+      "path": "/api/business",
+      "status": 401
+    },
+    {
+      "path": "/api/execution",
+      "status": 401
+    },
+    {
+      "path": "/api/users",
+      "status": 401
+    },
+    {
+      "path": "/data/growthpilot.db",
+      "status": 401
+    },
+    {
+      "path": "/.env",
+      "status": 401
+    },
+    {
+      "path": "/.git/config",
+      "status": 401
+    },
+    {
+      "path": "/docs/",
+      "status": 401
+    },
+    {
+      "path": "/backups/",
+      "status": 401
+    }
+  ],
+  "headers": {
+    "robots": "noindex, nofollow, noarchive, nosnippet",
+    "cache": "no-store",
+    "hsts": "max-age=31536000",
+    "frames": "DENY"
+  },
+  "page_errors": [],
+  "tls": "browser default validation",
+  "commercial_execution_enabled": false,
+  "image_id": "sha256:e5d894638c6aee62e69c45d92a73a41aae10b0f888cdd0ed7ea8fdb64167ea31",
+  "automated_tests_passed": 307
+}
