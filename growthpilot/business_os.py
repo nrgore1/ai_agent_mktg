@@ -144,7 +144,7 @@ class BusinessOS:
    users=[{'username':r['id'],'role':r['role'],'products':__import__('json').loads(r['products'])} for r in db.execute('SELECT id,role,products FROM users WHERE enabled=1')] if user['role']=='founder' else []
    mapped={p for u in UNITS for p in u['product_ids']}
    unmapped=[{'id':p['id'],'name':p['name']} for p in self.store.rows(db,'products') if p['id'] not in mapped] if self._privileged(user) else []
-   return {'companies':[c for c in COMPANIES if any(u['company_id']==c['id'] for u in units)],'units':units,'roles':ROLES,'processes':PROCESSES,'cases':sorted(cases,key=lambda c:c['updated_at'],reverse=True),
+   result={'companies':[c for c in COMPANIES if any(u['company_id']==c['id'] for u in units)],'units':units,'roles':ROLES,'processes':PROCESSES,'cases':sorted(cases,key=lambda c:c['updated_at'],reverse=True),
     'assignments':assignments,'users':users,'unmapped_products':unmapped,'paused':self.store.paused(db),'as_of':now(),
     'marketing_decisions':[{'id':a['id'],'product_id':a['product_id'],'status':a['status']} for a in actions if a['status'] in ('pending','approved','queued','unknown')],
     'connections':[{'name':'AgentVire campaigns, pipelines and readiness','status':'Local records','note':'Current records are read directly. Campaign publishing retains its existing controls.'},
@@ -154,6 +154,8 @@ class BusinessOS:
      {'name':'Local AI executive agents','status':'Workflow roles only','note':'These are deterministic role workflows, not autonomous executive model workers. Existing qualified local-model features remain separate.'}],
     'external_execution':False,'can_assign':user['role']=='founder','can_review':user['role']=='founder',
     'note':'Case completion records an attested workflow outcome, not product launch approval, a sent campaign, a signed contract or a settled payment.'}
+   from .business_runtime import BusinessRuntime
+   return BusinessRuntime(self.store).enrich(db,user,result)
  def dispatch(self,command,data,user):
   if user.get('role')=='viewer': raise PermissionError('Read-only account')
   with self.store.db() as db:

@@ -1,0 +1,174 @@
+{
+  "release_date_local": "2026-11-03",
+  "regression": {
+    "passed": true,
+    "tests": 295,
+    "seconds": 129.311
+  },
+  "qa": {
+    "passed": true,
+    "image": "agentvire-business:connectors-20261103",
+    "image_id": "sha256:45e9637ebfecc02a57f6e536e0550a791e889d38a3e8cbc7469d841ed2fee609",
+    "qa_container": "agentvire-connectors-qa-20261103",
+    "tests": ".............................................................\n----------------------------------------------------------------------\nRan 61 tests in 10.411s\n\nOK\n",
+    "model_checks": [
+      {
+        "role": "CEO",
+        "choice": 1,
+        "model": "ministral-3:3b",
+        "elapsed_seconds": 2.249,
+        "valid": true
+      },
+      {
+        "role": "CEO",
+        "choice": 1,
+        "model": "ministral-3:3b",
+        "elapsed_seconds": 0.778,
+        "valid": true
+      },
+      {
+        "role": "CFO",
+        "choice": 2,
+        "model": "ministral-3:3b",
+        "elapsed_seconds": 2.16,
+        "valid": true
+      },
+      {
+        "role": "CFO",
+        "choice": 2,
+        "model": "ministral-3:3b",
+        "elapsed_seconds": 0.767,
+        "valid": true
+      },
+      {
+        "role": "CMO",
+        "choice": 1,
+        "model": "ministral-3:3b",
+        "elapsed_seconds": 2.007,
+        "valid": true
+      },
+      {
+        "role": "CMO",
+        "choice": 1,
+        "model": "ministral-3:3b",
+        "elapsed_seconds": 0.775,
+        "valid": true
+      },
+      {
+        "role": "CTO",
+        "choice": 3,
+        "model": "ministral-3:3b",
+        "elapsed_seconds": 2.175,
+        "valid": true
+      },
+      {
+        "role": "CTO",
+        "choice": 3,
+        "model": "ministral-3:3b",
+        "elapsed_seconds": 0.782,
+        "valid": true
+      },
+      {
+        "role": "COO",
+        "choice": 1,
+        "model": "ministral-3:3b",
+        "elapsed_seconds": 2.28,
+        "valid": true
+      },
+      {
+        "role": "COO",
+        "choice": 1,
+        "model": "ministral-3:3b",
+        "elapsed_seconds": 0.856,
+        "valid": true
+      }
+    ],
+    "quality_scope": "Bounded role-selection validity, not autonomous business decision accuracy",
+    "external_actions": 0,
+    "source_hashes": {
+      "growthpilot/server.py": "700c284edded4c461c6feac07c02628012cc92df29fd65b7e2e12a0bcc773e88",
+      "growthpilot/static/index.html": "0a7667d780024f4fe682ee2a0189047857a8a27fc89d2ff1fda6133d72effe46",
+      "growthpilot/business_os.py": "1785e958d245b66fc9ce828eeb915bcb8fe4d0eb5e0fc98e5168d9f36266122a",
+      "growthpilot/business_runtime.py": "d8744a5590b72f7df3b93e7e3ea75065ea8c6b14edbda6616eed6c8e1911d223",
+      "growthpilot/static/business-runtime.js": "34e9c6b8fa56367d5bcd40c831e82128cbe0a90bd2a830ee2f19db60d4d95c8b"
+    }
+  },
+  "browser_synthetic": {
+    "passed": true,
+    "source_case": true,
+    "company_isolation": true,
+    "finance_unknowns": true,
+    "finance_role_boundary": true,
+    "mobile": true,
+    "page_errors": []
+  },
+  "browser_production": {
+    "passed": true,
+    "created": 19,
+    "existing": 0,
+    "total": 19,
+    "idempotent": true,
+    "workers_enabled": true,
+    "external_actions": 0,
+    "source_records": 541,
+    "finance": "provisional evidence, books not finalized",
+    "role_views": true,
+    "execution_view": true,
+    "cases_all_pending": true,
+    "https_validation": "browser_default_no_bypass",
+    "page_errors": []
+  },
+  "deployment": {
+    "deployed": true,
+    "image": "agentvire-business:connectors-20261103",
+    "image_id": "sha256:45e9637ebfecc02a57f6e536e0550a791e889d38a3e8cbc7469d841ed2fee609",
+    "rollback_image": "agentvire-business:20261103-tested",
+    "configuration_preserved": true,
+    "protected_data_preserved": true,
+    "other_services_unchanged": true,
+    "anonymous_denied": true,
+    "qa_tests": 61,
+    "external_actions_executed": 0
+  },
+  "bridge": {
+    "read_only": true,
+    "records": 541,
+    "schedule_minutes": 5,
+    "contact_email_access": false,
+    "update_access": false,
+    "scheduled_refresh_verified_at": "2026-11-04T02:45:01.428512+00:00",
+    "connected": true,
+    "contact_email_denied": true,
+    "update_denied": true,
+    "schedule": "every five minutes",
+    "direction": "Vanguard to AgentVire",
+    "source_mutations": 0
+  },
+  "workers_production": {
+    "cases": 19,
+    "all_pending": true,
+    "jobs": {
+      "ready": 19
+    },
+    "ready_roles": {
+      "CEO": 5,
+      "COO": 2,
+      "CFO": 7,
+      "CMO": 3,
+      "CTO": 2
+    },
+    "external_actions": 0,
+    "workers_enabled": true,
+    "audit_valid": true
+  },
+  "final_browser": {
+    "passed": true,
+    "ready_recommendations": 19,
+    "roles": 5,
+    "no_stale_results": true,
+    "cases_pending": true,
+    "external_actions": 0,
+    "source_fresh": true,
+    "page_errors": []
+  }
+}

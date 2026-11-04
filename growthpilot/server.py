@@ -56,6 +56,7 @@ def main():
     except Invalid:return self.send(404,{'error':'Unknown subscription site'})
    assets={'/':'index.html','/app.js':'app.js','/style.css':'style.css','/console.js':'console.js','/roadmap.js':'roadmap.js','/launchdesk.js':'launchdesk.js','/strategyos.js':'strategyos.js','/execution.js':'execution.js','/integrations.js':'integrations.js'}
    assets['/business.js']='business.js'
+   assets['/business-runtime.js']='business-runtime.js'
    if path in assets:
     ctype='text/html; charset=utf-8' if path=='/' else 'text/css' if path.endswith('.css') else 'text/javascript'
     return self.send(200,(Path(__file__).parent/'static'/assets[path]).read_bytes(),ctype)
@@ -144,7 +145,11 @@ def main():
     if 'product_id' in data and not self.allowed(user,data['product_id']):return self.send(403,{'error':'Product access denied'})
     if path.startswith('/api/business/'):
      from .business_os import BusinessOS
-     result=BusinessOS(store).dispatch(path.removeprefix('/api/business/'),data,user)
+     command=path.removeprefix('/api/business/')
+     from .business_runtime import BusinessRuntime
+     runtime=BusinessRuntime(store)
+     commands={'worker-control':runtime.control,'worker-retry':runtime.retry,'opportunity-case':runtime.opportunity_case,'bootstrap':runtime.bootstrap}
+     result=commands[command](data,user) if command in commands else BusinessOS(store).dispatch(command,data,user)
     elif path.startswith('/api/integrations/'):
      if not admin:return self.send(403,{'error':'Administrator required for integrations'})
      from .integrations import IntegrationHub
@@ -204,6 +209,13 @@ def main():
    except Exception:
     logging.exception('API operation failed');return self.send(500,{'error':'Operation not confirmed; inspect server logs'})
  def pathlib_backup(unused):return path.parent/'backups'
+ def role_worker():
+  from .business_runtime import BusinessRuntime
+  runtime=BusinessRuntime(store)
+  while True:
+   try:runtime.tick()
+   except Exception:logging.exception('Business role worker failed; no external action authorized')
+   time.sleep(15)
  def worker():
   last_backup='';last_retention=''
   while True:
@@ -219,6 +231,7 @@ def main():
    except Exception:logging.exception('Background workflow failed')
    time.sleep(15)
  threading.Thread(target=worker,daemon=True).start()
+ threading.Thread(target=role_worker,daemon=True).start()
  print(f'GrowthPilot: http://{args.host}:{args.port}; initial credentials stored beside database',flush=True)
  ThreadingHTTPServer((args.host,args.port),Handler).serve_forever()
 if __name__=='__main__':main()

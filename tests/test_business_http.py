@@ -60,3 +60,31 @@ class BusinessHttpTests(unittest.TestCase):
   o,c=self.client();self.call(o,'logout',{},c)
   with self.assertRaises(urllib.error.HTTPError) as e:self.call(o,'business')
   self.assertEqual(e.exception.code,401)
+
+ def test_runtime_control_is_founder_only_and_csrf_protected(self):
+  o,c=self.client()
+  with self.assertRaises(urllib.error.HTTPError) as e:self.call(o,'business/worker-control',{'enabled':True})
+  self.assertEqual(e.exception.code,403)
+  a,ac=self.client('operator')
+  with self.assertRaises(urllib.error.HTTPError) as e:self.call(a,'business/worker-control',{'enabled':True},ac)
+  self.assertEqual(e.exception.code,403)
+  self.assertTrue(self.call(o,'business/worker-control',{'enabled':True},c)['enabled'])
+  self.assertFalse(self.call(o,'business/worker-control',{'enabled':False},c)['enabled'])
+ def test_bootstrap_requires_founder_and_is_idempotent(self):
+  o,c=self.client();data={'review_date':'2026-11-05','finance_review_date':'2026-11-10'}
+  a=self.call(o,'business/bootstrap',data,c);b=self.call(o,'business/bootstrap',data,c)
+  self.assertEqual(a['created'],11);self.assertEqual(b['created'],0);self.assertEqual(a['external_actions'],0)
+  operator,csrf=self.client('operator')
+  with self.assertRaises(urllib.error.HTTPError) as e:self.call(operator,'business/bootstrap',data,csrf)
+  self.assertEqual(e.exception.code,403)
+ def test_runtime_evidence_assets_and_no_config_injection(self):
+  o,c=self.client();data=self.call(o,'business')
+  self.assertEqual(data['vanguard']['status'],'not_connected');self.assertEqual(data['finance']['status'],'not_connected')
+  self.assertFalse(data['role_workers']['external_execution'])
+  with self.assertRaises(urllib.error.HTTPError) as e:self.call(o,'business/worker-control',{'enabled':True,'endpoint':'https://external.example'},c)
+  self.assertEqual(e.exception.code,400)
+  self.assertIn(b'/business-runtime.js',urllib.request.urlopen(self.url+'/').read())
+ def test_no_opportunity_creation_without_fresh_source(self):
+  o,c=self.client()
+  with self.assertRaises(urllib.error.HTTPError) as e:self.call(o,'business/opportunity-case',{'source_id':10,'due_date':'2026-11-05'},c)
+  self.assertEqual(e.exception.code,400)

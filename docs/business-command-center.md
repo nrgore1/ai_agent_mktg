@@ -95,23 +95,23 @@ Updates run inside the existing serialized SQLite transaction. Every case mutati
 
 Evidence history is retained in each case. The audit chain includes actor, transition, version and a hash of the resulting case. The database remains an application-scoped store, not database-enforced tenant isolation. Existing administrators remain privileged. Global pause blocks case mutation and decisions while allowing access administration, including revocation.
 
-No new cloud service, model worker or third-party dependency is installed. The seven pods are logical role workspaces. The existing qualified local model functionality is unchanged.
+The seven pods are logical role workspaces. The follow-on operational integration adds local bounded role workers using the existing qualified Mistral model, without a new cloud service.
 
 ## Connection and data boundaries
 
 Current local lead, campaign, approval and readiness records are read directly with business-unit scope. Existing marketing approvals remain in the exact-action Approvals desk. Their presence in the decision view does not renew or broaden them.
 
-Vanguard is a manual-reference handoff in this release. No dedicated synchronization is claimed. Accounting is not connected; actual revenue and margin deliberately remain null rather than fabricated or inferred from illustrative scenarios. Product services and Veda/Kairo use referenced evidence rather than newly provisioned execution adapters. Corporate P&L, cash, contract status, tenant provisioning and vendor fulfillment need their own verified integrations.
+The follow-on integration refreshes a read-only Vanguard mirror every five minutes and connects existing expense/payment evidence. Books are not finalized; actual revenue and margin deliberately remain null rather than fabricated or inferred from illustrative scenarios. Product services and Veda/Kairo use referenced evidence rather than newly provisioned execution adapters. Corporate P&L, cash, contract status, tenant provisioning and vendor fulfillment need their own verified integrations.
 
 The 75% margin policy is retained in economic-review criteria. It is not automatically calculated by a workflow checkbox. Free-service exceptions need explicit funding treatment. Founder sweat equity and recovery remain distinct from cash expenses and recognized accounting treatment.
 
 ## Remaining Agent OS backlog
 
-1. **P0: Vanguard handoff.** Stable relationship IDs, source ownership, stage mapping, consent/suppression references, idempotent updates and conflict reconciliation. Acceptance: duplicate/stale events cannot create duplicate actions or transfer approval implicitly.
+1. **Delivered: inbound Vanguard handoff.** Stable IDs, scoped read-only mirror, source-stage labels, freshness checks and idempotent cases. Consent and approval are not transferred. Bidirectional updates and conflict reconciliation remain separate work.
 2. **P0: Reconciled company finance.** Select and connect the accounting source; map entity, business unit, period and allocation basis. Acceptance: source-to-ledger reconciliation and scoped read/write denial; unresolved figures stay unknown.
 3. **P0: Remaining product mapping.** Confirm ownership and placement of the retained portfolio records. Acceptance: no inferred legal transfer or automatic pooling of contacts or funds.
 4. **P1: Durable cross-system events.** Outbox, bounded retries, idempotent consumers and ambiguous-outcome reconciliation. Acceptance: restart/replay cannot duplicate an external effect.
-5. **P1: Local agent workers.** Role-specific task contracts, model qualification, context isolation, tool scopes and resource budgets. Acceptance: prompt injection and unauthorized tools cannot bypass deterministic controls.
+5. **Delivered: bounded local role preparation.** Five roles select prepared next actions under scoped evidence, leases, retries and budgets. Broader generation and external tool execution still require qualification.
 6. **P1: Shared engineering/operations workers.** Scoped Veda/Kairo requests and receipts, monitoring and rollback. Acceptance: one unit cannot read another's secrets or deploy without applicable authorization.
 7. **P1: Product operational adapters.** Onboarding, billing state, service incidents and fulfillment status, selected per product. Acceptance: no customer-tenant data leakage and source freshness visible in every report.
 8. **P2: Enterprise identity and recovery.** MFA/SSO, separate service identities, independent audit anchoring and proven full-stack recovery. Acceptance: revoked access fails, erasure history survives restore and approval evidence remains verifiable.
@@ -120,7 +120,7 @@ Product signup, grading, billing and media fixes stay on their product backlogs.
 
 ## Release and recovery
 
-Test the service and HTTP authorization boundaries, all seven-by-ten process combinations, stale/expired approvals, pause/revocation, persistence, existing regression coverage and browser interactions. Use synthetic data for workflow mutation checks. Production verification should be read-only apart from normal authenticated-session audit records.
+Test the service and HTTP authorization boundaries, all seven-by-ten process combinations, stale/expired approvals, pause/revocation, persistence, existing regression coverage and browser interactions. Use synthetic data for workflow mutation checks. Use synthetic data for browser mutation tests. The follow-on integration also creates owner-authorized source-linked production cases and enables qualified preparation workers; it does not advance business gates.
 
 Deploy as a narrow overlay on the recorded running AgentVire image, preserving environment, mounts, data, pause state and other services. Take a verified backup first and retain the previous image and compose configuration. Roll back to that image if health or permission checks fail. The additive records can remain in the database; the older application ignores their kinds. Do not restore an older database merely to undo this UI/module release.
 
@@ -128,4 +128,4 @@ Deploy as a narrow overlay on the recorded running AgentVire image, preserving e
 
 The release passed 262 regression tests, a 21-test final audit-binding rerun, and 28 feature/HTTP tests on the exact deployed VPS image. These are overlapping suites, not 311 distinct tests. Browser checks covered company filters, case evidence, founder decisions, role isolation, mobile layout, live sign-in/sign-out and the existing execution screen. No production test cases were created.
 
-Deployment preserved runtime settings, mounts, protected data and other services. The previous local-model image remains available for rollback. See [machine-readable release evidence](evidence/business-command-center-20261103.json). Accounting, Vanguard synchronization and autonomous role workers remain on the backlog above.
+Deployment preserved runtime settings, mounts, protected data and other services. The previous local-model image remains available for rollback. See [machine-readable release evidence](evidence/business-command-center-20261103.json). The follow-on release connects provisional finance evidence, inbound Vanguard synchronization and bounded local role workers. See [operational integration scope and remaining work](business-operational-integrations.md).
