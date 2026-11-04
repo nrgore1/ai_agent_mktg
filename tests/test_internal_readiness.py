@@ -57,3 +57,23 @@ class InternalReadinessTests(unittest.TestCase):
   t=next(t for t in d['tasks'] if t['id']==self.task('health',10))
   self.assertEqual(t['status'],'pending')
   self.assertEqual(t['history'][-1]['snapshot']['status'],'completed')
+
+ def test_cost_collection_and_synthetic_journey_can_proceed_without_legal_completion(self):
+  self.e.prepare();set_scope(self.e,'founder:internal-review')
+  d=self.e.summary();rows={t['key']:t for t in d['tasks'] if t['product_id']==11}
+  self.assertEqual(rows['metering']['effective_status'],'pending')
+  self.assertEqual(rows['metering']['blocked_by'],[])
+  self.assertEqual(rows['identity']['status'],'pending')
+  self.complete('health',11)
+  d=self.e.summary();rows={t['key']:t for t in d['tasks'] if t['product_id']==11}
+  self.assertEqual(rows['journey']['effective_status'],'pending')
+  self.assertEqual(rows['privacy']['effective_status'],'blocked')
+  self.assertFalse(d['commercial_execution_enabled'])
+ def test_policy_revision_preserves_verified_internal_runtime(self):
+  self.e.prepare();set_scope(self.e,'founder:internal-review');self.complete('health',11)
+  with self.s.db() as db:
+   t=self.s.get(db,'execution_tasks',self.task('health',11));t['scope_policy']='internal-only-20261103-v1';self.s.save(db,'execution_tasks',t)
+  d=set_scope(self.e,'founder:parallel-internal-work')
+  t=next(t for t in d['tasks'] if t['id']==self.task('health',11))
+  self.assertEqual(t['status'],'completed')
+  self.assertEqual(t['scope_policy'],POLICY)

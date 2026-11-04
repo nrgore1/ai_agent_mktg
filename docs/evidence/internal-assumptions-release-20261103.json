@@ -1,0 +1,79 @@
+{
+  "image": "sha256:9e58f5bdf2079aac8ac18c3e7e409ad05e2d0805649a477a6fe2f1d0d6395e22",
+  "rollback_image_digest": "sha256:969c448a9da8fdb7ad88547be96cfc02f2a140ab4483757cb7b034783bf20990",
+  "agentvire_tests_passed": 315,
+  "production_verification": {
+    "passed": true,
+    "role_accounts": 10,
+    "counts": {
+      "completed": 92,
+      "pending": 45,
+      "blocked": 113,
+      "in_progress": 12,
+      "awaiting_approval": 0,
+      "not_applicable": 20
+    },
+    "blocked_breakdown": {
+      "direct_readiness": 27,
+      "commercial_conditions": 36,
+      "waiting_on_dependencies": 50,
+      "internal_product_items": 18,
+      "total": 113
+    },
+    "anonymous_paths": [
+      {
+        "path": "/api/state",
+        "status": 401
+      },
+      {
+        "path": "/api/business",
+        "status": 401
+      },
+      {
+        "path": "/api/execution",
+        "status": 401
+      },
+      {
+        "path": "/api/users",
+        "status": 401
+      },
+      {
+        "path": "/data/growthpilot.db",
+        "status": 401
+      },
+      {
+        "path": "/.env",
+        "status": 401
+      },
+      {
+        "path": "/.git/config",
+        "status": 401
+      },
+      {
+        "path": "/docs/",
+        "status": 401
+      },
+      {
+        "path": "/backups/",
+        "status": 401
+      }
+    ],
+    "headers": {
+      "robots": "noindex, nofollow, noarchive, nosnippet",
+      "cache": "no-store",
+      "hsts": "max-age=31536000",
+      "frames": "DENY"
+    },
+    "page_errors": [],
+    "tls": "browser default validation",
+    "commercial_execution_enabled": false
+  },
+  "sequencing_blockers_removed": 6,
+  "additional_passed_tasks": 0,
+  "cost_collection_started": [
+    11,
+    12
+  ],
+  "public_product_tasks_unchanged": true,
+  "commercial_changes": 0
+}

@@ -4,7 +4,7 @@ from .core import Invalid, now
 from .manager import stable
 
 PRODUCTS = (10, 11, 12, 13, 14)
-POLICY = 'internal-only-20261103-v1'
+POLICY = 'internal-only-20261103-v2'
 EXCLUDED = {'pricing', 'partners', 'campaign', 'claims'}
 REQUIREMENTS = {
  'health': ('Verify private runtime and access boundary', 'Identify the authoritative runtime and version; verify its private endpoint or local operator entry point, health, and network/access boundary. No public domain or public TLS is required. A source checkout alone is not runtime evidence.'),
@@ -34,8 +34,10 @@ def apply(db, store, pid, source, actor):
    row.update(status='not_applicable', scope_reason=REASON)
   else:
    row['title'],row['acceptance']=REQUIREMENTS[row['key']]
+   if row['key']=='journey':row['dependencies']=[stable('execution:'+str(pid)+':'+key) for key in ('activation_spec','health')]
+   if row['key']=='metering':row['dependencies']=[stable('execution:'+str(pid)+':'+key) for key in ('strategy','experiment_spec')]
    # Public evidence cannot certify the newly scoped internal runtime/workflow.
-   if row['status']=='completed' and row['key'] != 'experiment_spec':
+   if row['status']=='completed' and row['key'] != 'experiment_spec' and not original.get('scope_policy'):
     row['status']='pending'
   row.setdefault('evidence',[]).append({'type':'scope_decision','source':source,'note':REASON if row['key'] in EXCLUDED else 'Internal acceptance criteria replace public-launch assumptions. Existing evidence is retained; remaining checks are not automatically passed.','actor':actor,'recorded_at':now()})
   store.save(db,'execution_tasks',row);changed+=1
@@ -61,6 +63,6 @@ def set_scope(execution, source, actor='founder'):
    changed+=apply(db,execution.s,pid,source,actor)
    rid=stable('execution-scope:'+str(pid))
    existing=next((x for x in execution.s.rows(db,'execution_scopes',pid) if x['id']==rid),None)
-   if not existing:execution.s.save(db,'execution_scopes',{'id':rid,'product_id':pid,'scope':'internal_only','policy':POLICY,'source':source,'actor':actor,'recorded_at':now(),'public_reactivation':'A separate explicit founder scope change and revalidation are required; historical public requirements are retained in task history.'})
+   if not existing or existing.get('policy')!=POLICY:execution.s.save(db,'execution_scopes',{'id':rid,'product_id':pid,'scope':'internal_only','policy':POLICY,'source':source,'actor':actor,'recorded_at':now(),'public_reactivation':'A separate explicit founder scope change and revalidation are required; historical public requirements are retained in task history.'})
   if changed:execution.s.audit(db,'internal_readiness_scope_applied',POLICY,{'products':list(PRODUCTS),'changed_tasks':changed,'not_applicable_keys':sorted(EXCLUDED),'technical_approvals':0,'commercial_changes':0,'source':source},actor)
  return execution.summary()

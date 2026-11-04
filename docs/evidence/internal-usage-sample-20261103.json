@@ -1,0 +1,31 @@
+{
+  "id": "internal-usage-sample-20261103",
+  "observed_at": "2026-11-04T04:42:38.095111+00:00",
+  "samples": [
+    {
+      "product_id": 11,
+      "service": "astra-dashboard.service",
+      "observed_seconds": 5.0,
+      "process_cpu_seconds": 0.0,
+      "resident_memory_bytes_start": 111546368,
+      "resident_memory_bytes_end": 111546368,
+      "status": "active",
+      "scope": "Single process only; normal background observation, no workload triggered; excludes children, GPU, storage, external providers and support time. Not representative per-activation cost."
+    },
+    {
+      "product_id": 12,
+      "service": "quantsys.service",
+      "observed_seconds": 5.0,
+      "process_cpu_seconds": 0.01,
+      "resident_memory_bytes_start": 71258112,
+      "resident_memory_bytes_end": 71258112,
+      "status": "active",
+      "scope": "Single process only; normal background observation, no workload triggered; excludes children, GPU, storage, external providers and support time. Not representative per-activation cost."
+    }
+  ],
+  "unit_cost_assumption": null,
+  "support_hours": null,
+  "resource_limits_verified": false,
+  "financial_reconciled": false,
+  "note": "Short observation only. No extrapolated monthly bill or zero marginal cost claim. A representative operating period and supplier invoices remain required."
+}
