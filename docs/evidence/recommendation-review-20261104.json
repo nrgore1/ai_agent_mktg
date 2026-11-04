@@ -1,0 +1,378 @@
+{
+  "source": "https://github.com/nrgore1/ai_agent_mktg/blob/codex/business-connectors-20261103/docs/recommendation-review-and-actions-20261104.md",
+  "reviews": [
+    {
+      "job_id": "007ff60ecf9a5d1d4eb2ff57ff38f748cdde6fbdde6a6a67f4f7e8cb57f63519",
+      "role": "COO",
+      "unit_id": "tcompprop",
+      "hash": "359252ee88e5a9e46bbfa80c62d4426a8177678d6ee950c899233ab98e45ae93",
+      "decision": "approve",
+      "review_id": "c81cc1e729d0a79887a30eb13952a03af3c26038d563c6aca522ae01447dd2af",
+      "note": "Approved only for bounded internal preparation: Confirm the requested outcome, accountable owner, delivery scope and next customer or vendor checkpoint. Current artifact/source context and role controls verified. Missing customer permission, counterpart agreement, financial records, qualified product evidence and consequential-action gates remain open. No external execution authorized."
+    },
+    {
+      "job_id": "bb38299da9814fc729c1e825abcfc43550033b4c27b34ca978ee960a09f0e716",
+      "role": "CFO",
+      "unit_id": "memoire",
+      "hash": "b9e88c2b71fda6dc178949f3d4c396246db680f0bee87d2d8cd19d1b6865a72d",
+      "decision": "approve",
+      "review_id": "f40199ff846e818c77542976d3fd4bb3886a2c1140c4df2258506e383ce86f0a",
+      "note": "Approved only for bounded internal preparation: Collect missing supplier, support, deferred-revenue and partner-payout evidence before calculating an actual margin. Current artifact/source context and role controls verified. Missing customer permission, counterpart agreement, financial records, qualified product evidence and consequential-action gates remain open. No external execution authorized."
+    },
+    {
+      "job_id": "ce4cb1f9aef42d7c5e996139dfa856c2655125b397ae361823c7a94104b12a7c",
+      "role": "CTO",
+      "unit_id": "oratoplus",
+      "hash": "0c91bed4b943fe19111203e67de4a9e27176e72cd1a108d69b63df0160950be2",
+      "decision": "reject",
+      "review_id": "a5b5ccbc5fb7f242c1d053b798a17d742309ca9b74e7cafa08ae0ac711a776c1",
+      "note": "Returned for revision: separate product work order already exists and the case has advanced to implementation evidence. Collect fresh runtime/source fingerprints and acceptance results; do not duplicate work-order preparation."
+    },
+    {
+      "job_id": "dd86bf5ca8a9b34067542d9e16eb1176b725a8eb5c60ff29f31dc27440cdbc38",
+      "role": "CTO",
+      "unit_id": "jodibana",
+      "hash": "085025134da59e91a70f8cced4b96615ec4ae9a223b0e263e7d70a94aa35b419",
+      "decision": "reject",
+      "review_id": "a09291fa7bcad701537e60e7a02b6f57ae012d206b3b2a223dd087b51c8a6590",
+      "note": "Returned for revision: separate product work order already exists and the case has advanced to implementation evidence. Collect fresh runtime/source fingerprints and acceptance results; do not duplicate work-order preparation."
+    },
+    {
+      "job_id": "edd55dec599788aeae65f47aa1458b2fb013f36e0d01bb1a43d88a642fa83b06",
+      "role": "CFO",
+      "unit_id": "memoire",
+      "hash": "17837aaaba3600cdb9a8279a6336e4f718e38cf450581b70036ca3cb2a313cbd",
+      "decision": "approve",
+      "review_id": "3994772e3905d908cba5ae9c78c54a4aab15825590051d55afc971d1ad12ddfc",
+      "note": "Approved only for bounded internal preparation: Collect missing supplier, support, deferred-revenue and partner-payout evidence before calculating an actual margin. Current artifact/source context and role controls verified. Missing customer permission, counterpart agreement, financial records, qualified product evidence and consequential-action gates remain open. No external execution authorized."
+    },
+    {
+      "job_id": "a1150667d75c7a55760c25affbfd400fdd441e1ffee1cce1926d86f39b6f39ef",
+      "role": "CFO",
+      "unit_id": "oratoplus",
+      "hash": "03bc80041ad898c3a508035761ec2b7fc6b3e7e2e500e6038e985b085122cd69",
+      "decision": "approve",
+      "review_id": "6edeb65e86f9928ce8c4423d7e90e3604da1607651dd8f0fcde04373a5006d37",
+      "note": "Approved only for bounded internal preparation: Collect missing supplier, support, deferred-revenue and partner-payout evidence before calculating an actual margin. Current artifact/source context and role controls verified. Missing customer permission, counterpart agreement, financial records, qualified product evidence and consequential-action gates remain open. No external execution authorized."
+    },
+    {
+      "job_id": "e659837c6dbc10e82e06f467fa256acd7bd72f7ac8481903dbc523f1980368cf",
+      "role": "CFO",
+      "unit_id": "jodibana",
+      "hash": "24f6b7a3fd9b1644a26f6ab26e85692621690a9a3372b154672e7b7acca1140b",
+      "decision": "approve",
+      "review_id": "81ff3fcbb57aaffbfffe054e457851945422e5dfe82fa11c990a847cf989a19c",
+      "note": "Approved only for bounded internal preparation: Collect missing supplier, support, deferred-revenue and partner-payout evidence before calculating an actual margin. Current artifact/source context and role controls verified. Missing customer permission, counterpart agreement, financial records, qualified product evidence and consequential-action gates remain open. No external execution authorized."
+    },
+    {
+      "job_id": "5fa9076dd1e6ca62a8e6d312659f9ab02ee273e646d1f1e0bcde841bf6bbffb8",
+      "role": "CFO",
+      "unit_id": "weddingos",
+      "hash": "4367925211e24ea575fa8589701450beaf1c86a27e3ee8524fd045cf59a65de7",
+      "decision": "approve",
+      "review_id": "54231a712de5113d36320d9cb3432c05b11f1d99bca99189f5b7d2a623404216",
+      "note": "Approved only for bounded internal preparation: Collect missing supplier, support, deferred-revenue and partner-payout evidence before calculating an actual margin. Current artifact/source context and role controls verified. Missing customer permission, counterpart agreement, financial records, qualified product evidence and consequential-action gates remain open. No external execution authorized."
+    },
+    {
+      "job_id": "3b8d544aac9b65fe72ebea52e2332520de6d4fbb7d46ff940e381261314091e1",
+      "role": "CFO",
+      "unit_id": "tcompprop",
+      "hash": "ffbfbad3e38be8e86d9cba43fc53ed1b64a962b458a49b8c77542b6d26134316",
+      "decision": "approve",
+      "review_id": "909ee4069fdd953cba013c9d9ff17d69fdd4f7e41c9e69d57d02bb9c733288d1",
+      "note": "Approved only for bounded internal preparation: Collect missing supplier, support, deferred-revenue and partner-payout evidence before calculating an actual margin. Current artifact/source context and role controls verified. Missing customer permission, counterpart agreement, financial records, qualified product evidence and consequential-action gates remain open. No external execution authorized."
+    },
+    {
+      "job_id": "2746315b27f215871eefc3fcf421098ca317b261edaa7e15be5a4e1bc476b8c0",
+      "role": "CFO",
+      "unit_id": "liqmint_institutional",
+      "hash": "6e44cedc35d9028cab16488606b404d917e63883bedf0a485d88d9fea3b497ea",
+      "decision": "approve",
+      "review_id": "fdd65f7077ed446d4260ce98847705ccbbea32c0832584a8d3d46c5dfa94226f",
+      "note": "Approved only for bounded internal preparation: Collect missing supplier, support, deferred-revenue and partner-payout evidence before calculating an actual margin. Current artifact/source context and role controls verified. Missing customer permission, counterpart agreement, financial records, qualified product evidence and consequential-action gates remain open. No external execution authorized."
+    },
+    {
+      "job_id": "276c20b49ea766e0f50da326942f63e9e071450f3ba07c305368dd7d2009c876",
+      "role": "CFO",
+      "unit_id": "liqmint_individual",
+      "hash": "08ebda5c9f22763cb45f0edc27c4bc52b97bea6253a7cbbcc46045fe3803c729",
+      "decision": "approve",
+      "review_id": "55d31210ac4fd239243a58e71c953a061cf79e5786c5e18c68e728eab45af98b",
+      "note": "Approved only for bounded internal preparation: Collect missing supplier, support, deferred-revenue and partner-payout evidence before calculating an actual margin. Current artifact/source context and role controls verified. Missing customer permission, counterpart agreement, financial records, qualified product evidence and consequential-action gates remain open. No external execution authorized."
+    },
+    {
+      "job_id": "33517bc41fc2b3d30dad3f79ab9acfb583e0a8d4c8bfb165e9a84cbf0a59769d",
+      "role": "CFO",
+      "unit_id": "liqmint_institutional",
+      "hash": "87d7985bd5fdce549c85d1b3fb342ea958d614c588b142752af758cb4b103f26",
+      "decision": "approve",
+      "review_id": "05a548eac241985702b0657c98a356bb7e1d5ab239eefe217d0a1cb63c4e42b9",
+      "note": "Approved only for bounded internal preparation: Collect missing supplier, support, deferred-revenue and partner-payout evidence before calculating an actual margin. Current artifact/source context and role controls verified. Missing customer permission, counterpart agreement, financial records, qualified product evidence and consequential-action gates remain open. No external execution authorized."
+    },
+    {
+      "job_id": "53df2c5f4926a40ade56ed794242799dcd40c6a7bc2f33c40fee7a671d5d0572",
+      "role": "COO",
+      "unit_id": "liqmint_institutional",
+      "hash": "2fb4449000799326a69b64ba4a192648f2ea0eac8a452bfc08451d4107a1c56c",
+      "decision": "approve",
+      "review_id": "1c99e46931a8ded8be18bd4bb31e48f42b1b655f60ad55859c96bd94e338bb21",
+      "note": "Approved only for bounded internal preparation: Confirm the requested outcome, accountable owner, delivery scope and next customer or vendor checkpoint. Current artifact/source context and role controls verified. Missing customer permission, counterpart agreement, financial records, qualified product evidence and consequential-action gates remain open. No external execution authorized."
+    },
+    {
+      "job_id": "ad30d3ff1697083dbd8ef75bd086175038081d4c8d1d1b0fdd9069b7a1ce1209",
+      "role": "CMO",
+      "unit_id": "weddingos",
+      "hash": "7e558cf8bed3708e5fb009f550e276a2ff1f4dae92fe4e691354bc6278fb7f70",
+      "decision": "approve",
+      "review_id": "65dcd53f99d56e483a1a084e7873431a39fa0d819d8ced5b66a53df84cf426ae",
+      "note": "Approved only for bounded internal preparation: Verify the prospect problem, source and appropriate permission; prepare a discovery question without unsupported claims. Current artifact/source context and role controls verified. Missing customer permission, counterpart agreement, financial records, qualified product evidence and consequential-action gates remain open. No external execution authorized."
+    },
+    {
+      "job_id": "1c2307e764e9572beda2d765c36f74d034189171bbfdd52adcad4f102425e18b",
+      "role": "COO",
+      "unit_id": "liqmint_institutional",
+      "hash": "a5909258e33b24efb460f7060071ff3eedba814fcd7c3d7bb21c6993a5bb7e83",
+      "decision": "approve",
+      "review_id": "79c15ac1047f6bedaa3fa707b191600cb9e376d76b467d861c07b51f92533bcd",
+      "note": "Approved only for bounded internal preparation: Confirm the requested outcome, accountable owner, delivery scope and next customer or vendor checkpoint. Current artifact/source context and role controls verified. Missing customer permission, counterpart agreement, financial records, qualified product evidence and consequential-action gates remain open. No external execution authorized."
+    },
+    {
+      "job_id": "279b2a0b029ddec6ef2a5c8f24a1b1e22168bdebe168e42e8358eb4121ff4871",
+      "role": "COO",
+      "unit_id": "liqmint_institutional",
+      "hash": "afc0bc506e9b5cd0be68c08a787963e61db37469b82ce8c57e4de4c5a708db27",
+      "decision": "approve",
+      "review_id": "9331a309f77d409358d2fd7d31fa1792ed072f564a4478e7714c568f36601b07",
+      "note": "Approved only for bounded internal preparation: Confirm the requested outcome, accountable owner, delivery scope and next customer or vendor checkpoint. Current artifact/source context and role controls verified. Missing customer permission, counterpart agreement, financial records, qualified product evidence and consequential-action gates remain open. No external execution authorized."
+    },
+    {
+      "job_id": "766c336a860de295c8a2e431ce8b7b6a68b1990b1e89a2d374f5e5a595d803db",
+      "role": "COO",
+      "unit_id": "oratoplus",
+      "hash": "c60bb65b1f055f561b71cbf231f4217bada7b964e67f919c3498850d4da7cdd1",
+      "decision": "approve",
+      "review_id": "10ebcf48b48f1c4aba7ac8fdd8b5cfbd0a28e8892fddf64365750833b5b86044",
+      "note": "Approved only for bounded internal preparation: Confirm the requested outcome, accountable owner, delivery scope and next customer or vendor checkpoint. Current artifact/source context and role controls verified. Missing customer permission, counterpart agreement, financial records, qualified product evidence and consequential-action gates remain open. No external execution authorized."
+    },
+    {
+      "job_id": "1ed8c203841226e9b32c5d9301696307d1d91118686f83b13dcbb5938c6a49dd",
+      "role": "CMO",
+      "unit_id": "weddingos",
+      "hash": "43bcee7f7611c822cd9354417b7f746af5a2160a70f75d4b0d036a8addd19296",
+      "decision": "approve",
+      "review_id": "8875264b70b311a235c95a6df04b9527108b86c04eb8bea10241adc48878c252",
+      "note": "Approved only for bounded internal preparation: Verify the prospect problem, source and appropriate permission; prepare a discovery question without unsupported claims. Current artifact/source context and role controls verified. Missing customer permission, counterpart agreement, financial records, qualified product evidence and consequential-action gates remain open. No external execution authorized."
+    },
+    {
+      "job_id": "69831bc6b56dacb40e284882797949e0d70383f62c04a20429cffb45b07675fc",
+      "role": "CMO",
+      "unit_id": "weddingos",
+      "hash": "655d067bb1eec449dccfc764ca106245020c59cd37dd41272d77b8bcb9f694cd",
+      "decision": "approve",
+      "review_id": "98f3b05bcdd8e1fac0b71904541c56356362ab4798da1e1f0c50a89f6f4022f3",
+      "note": "Approved only for bounded internal preparation: Verify the prospect problem, source and appropriate permission; prepare a discovery question without unsupported claims. Current artifact/source context and role controls verified. Missing customer permission, counterpart agreement, financial records, qualified product evidence and consequential-action gates remain open. No external execution authorized."
+    }
+  ],
+  "identity_completions": [
+    {
+      "execution_id": "2f69cdf2ba855d1baba06efda4b707c8",
+      "manual_id": "d7ff09302dfe687ebe488e6719917611c34e9075a8a57add10ce458fae332980",
+      "note": "OraToPlus: Atmakosh LLC, oratoplus.com; learners/coaches/teams using speaking practice and feedback. Public root 200 and Atmakosh footer. Numeric grading qualification and production parity remain blocked. Identity acceptance only; based on explicit owner entity confirmation, established unit mapping, current public identity and prior implementation records. Not regulatory or whole-product launch approval."
+    },
+    {
+      "execution_id": "51e4213b855454f1b2235917b7125286",
+      "manual_id": "a145fb7465bf2429235770ed656aeec4d697c6188aec5bcaa50ca12a7eb7777a",
+      "note": "WeddingOS: owner-confirmed Atmakosh LLC, weddingos.pro; couples/planners using registered planning tools. Public root 200 shows budget, checklist and guest estimator. No booking/escrow or complete functionality certification. Identity acceptance only; based on explicit owner entity confirmation, established unit mapping, current public identity and prior implementation records. Not regulatory or whole-product launch approval."
+    },
+    {
+      "execution_id": "ea2bff40604855ed8f90c1fee91a8e91",
+      "manual_id": "d2f50bf32ff72c66457ec8e6c44e82114e6798aba60992e0a88331de70e56ef8",
+      "note": "Memoir: Atmakosh LLC, memoirbookstudio.com; individuals/families creating digital milestone/photo books. Public root 200 and Atmakosh identity. Paid print fulfillment/economics remain unqualified. Identity acceptance only; based on explicit owner entity confirmation, established unit mapping, current public identity and prior implementation records. Not regulatory or whole-product launch approval."
+    },
+    {
+      "execution_id": "4ea31750e94a563a874cec2877342f52",
+      "manual_id": "5d07344bcbca1ea7c7eb47e62f754aea93d6b5cfd3e3dae3dea75bd883bc408f",
+      "note": "Jodibana: Atmakosh LLC, jodibana.com; community operators using multi-tenant matchmaking SaaS. Public root 200 and Atmakosh Georgia footer; jodiusa.com is its free tenant. Collection disabled and remaining feature/recovery gates open. Identity acceptance only; based on explicit owner entity confirmation, established unit mapping, current public identity and prior implementation records. Not regulatory or whole-product launch approval."
+    },
+    {
+      "execution_id": "7f65068c19115f2baf533f3057242672",
+      "manual_id": "d59429b522e9a5ee6c84e86d57475103b1483e157bfbe67b2c37bba906f06d10",
+      "note": "CoffeeBook: owner-confirmed alias within Atmakosh MemoirBookStudio, memoirbookstudio.com, product records 5/7 same unit. Public root 200 supports digital photo-book identity for individuals/families; no second deployment or revenue counted. Identity acceptance only; based on explicit owner entity confirmation, established unit mapping, current public identity and prior implementation records. Not regulatory or whole-product launch approval."
+    }
+  ],
+  "cases": [
+    {
+      "id": "5be5d54e81d90abc4872eb6754de1843b251a6e0c4024450816473e01352f010",
+      "status": "in_progress",
+      "note": "ORA-QUALITY-20261103-01 remains open. Fresh isolated staging component/database tests: 29 passed. Isolated clone of production API returned overall 75 with no withholding flag using a mocked model; numeric-withholding gate FAILED. Production lacks staging qualification module. Public score claims also need correction. CTO next: port guards without losing billing fixes; test score response, saved practice/history, insights/analytics and frontend; revise claims; qualify fresh human references before any numeric release. No actual speech/model call or new human-reference pass, no deployment performed."
+    },
+    {
+      "id": "8c7984b0ddb989aaa14d60e709ce167fd03234527a86c30a5d77ec0490826ccb",
+      "status": "in_progress",
+      "note": "JODI-OPS-20261103-01 remains open. Fresh read-only production DB/cache/channel operations checks passed. Live Stripe authentication, Standard Checkout, registered webhook and portal checks passed; application collection stays disabled and JodiUSA free entitlement true. Recovery check FAILED: signed checkpoint /app/privacy-recovery/checkpoint.json absent. CTO next: reconcile trusted deletion history and restore checkpoint through documented recovery workflow, then repeat recovery/restore checks. No empty checkpoint may substitute for history. No fresh genuine webhook delivery or operator business/tax review claimed. No provider mutations, payments or deployment."
+    }
+  ],
+  "review_counts": {
+    "approve": 17,
+    "reject": 2
+  },
+  "readiness_counts": {
+    "completed": 97,
+    "pending": 89,
+    "in_progress": 11,
+    "blocked": 65,
+    "not_applicable": 20
+  },
+  "manual_counts": {
+    "open": 89,
+    "completed": 5
+  },
+  "commercial_and_delivery_unchanged": true,
+  "review_external_actions_authorized": false,
+  "source_changed": false,
+  "verification": {
+    "verified": true,
+    "readiness_changes": [
+      {
+        "id": "2f69cdf2ba855d1baba06efda4b707c8",
+        "product_id": 3,
+        "key": "identity",
+        "before": "pending",
+        "after": "completed"
+      },
+      {
+        "id": "4ea31750e94a563a874cec2877342f52",
+        "product_id": 6,
+        "key": "identity",
+        "before": "pending",
+        "after": "completed"
+      },
+      {
+        "id": "51e4213b855454f1b2235917b7125286",
+        "product_id": 4,
+        "key": "identity",
+        "before": "pending",
+        "after": "completed"
+      },
+      {
+        "id": "7f65068c19115f2baf533f3057242672",
+        "product_id": 7,
+        "key": "identity",
+        "before": "pending",
+        "after": "completed"
+      },
+      {
+        "id": "8e52d7a59dfe598091cfaef643e82907",
+        "product_id": 3,
+        "key": "claims",
+        "before": "pending",
+        "after": "blocked"
+      },
+      {
+        "id": "b72f7a74ddb0574c9296544b9edd3da6",
+        "product_id": 6,
+        "key": "offsite_recovery_rollout",
+        "before": "in_progress",
+        "after": "blocked"
+      },
+      {
+        "id": "ea2bff40604855ed8f90c1fee91a8e91",
+        "product_id": 5,
+        "key": "identity",
+        "before": "pending",
+        "after": "completed"
+      }
+    ],
+    "readiness_counts": {
+      "completed": 97,
+      "pending": 89,
+      "in_progress": 11,
+      "blocked": 65,
+      "not_applicable": 20
+    },
+    "audit_chain_entries": 604,
+    "backup_integrity": "ok",
+    "review_count": 19,
+    "president_decisions_locked": true,
+    "external_execution_authorized": false,
+    "manual_completed": 5,
+    "operating_plan_keys": [
+      "program",
+      "plans",
+      "reports",
+      "backlog",
+      "counts",
+      "external_execution",
+      "note"
+    ],
+    "ai_review_history_preserved": true
+  },
+  "ora_component_checks": {
+    "stage_image": "sha256:8b14dc850190a9737afadf82dda00be4f92a3de7632f1b01e96b01f6c0cc504e",
+    "production_image": "sha256:ac0b636af8c39b7ca23d2dc1642ce489d6ba47a6833b463dff964cf78f864285",
+    "stage": {
+      "tests": 29,
+      "failures": 0,
+      "passed": true,
+      "scope": "network-isolated staging component and database checks; no actual speech/model call"
+    },
+    "production_gate_probe": {
+      "http_status": 200,
+      "overall": 75,
+      "numeric_score_available": null,
+      "numeric_withholding_passed": false,
+      "scope": "isolated clone of production image, synthetic transcript, mocked model; no live user request"
+    },
+    "checked_at": "2026-11-04T18:14:53.573503+00:00"
+  },
+  "public_identity_checks": [
+    {
+      "url": "https://oratoplus.com/",
+      "final_url": "https://oratoplus.com/",
+      "status": 200,
+      "title": "OratoPlus \u2014 Speak like it matters",
+      "sha256": "32b26ee581abc3c97264ed1b551f096fafa2c2f99e2307f943bb59739badb3fb",
+      "checked_at": "2026-11-04T18:09:56.474Z"
+    },
+    {
+      "url": "https://weddingos.pro/",
+      "final_url": "https://weddingos.pro/",
+      "status": 200,
+      "title": "WeddingOS",
+      "sha256": "f9e9b5131761472bea67d57e60ff9f2700e2b21ca7caa70de5c5ae7fc5c59f5d",
+      "checked_at": "2026-11-04T18:09:58.348Z"
+    },
+    {
+      "url": "https://memoirbookstudio.com/",
+      "final_url": "https://memoirbookstudio.com/",
+      "status": 200,
+      "title": "Memoir Book Studio \u2014 Coffee-Table Photo Books, AI-Designed",
+      "sha256": "a7b90b86fc2483bea1017865bb54139c457333fc41bd9796c02f15b1411306a0",
+      "checked_at": "2026-11-04T18:10:00.009Z"
+    },
+    {
+      "url": "https://jodibana.com/",
+      "final_url": "https://jodibana.com/",
+      "status": 200,
+      "title": "Jodibana \u2014 Launch your dating community in minutes",
+      "sha256": "3e281bcaf9804d1240e724a0bac4ff458ce316f1ee4e389154a0ecebacdcbd5c",
+      "checked_at": "2026-11-04T18:10:01.834Z"
+    },
+    {
+      "url": "https://jodiusa.com/",
+      "final_url": "https://www.jodiusa.com/",
+      "status": 200,
+      "title": "Invite-Only Indian Matchmaking",
+      "sha256": "3b6ae58ed7bd3981f20d1494f1bebf442469532dde1e2c84c31e61e50cbf39e9",
+      "checked_at": "2026-11-04T18:10:04.895Z"
+    }
+  ],
+  "public_access_checks": {
+    "https://agentvire.com/?view=execution": 200,
+    "unauthenticated_business_api": 401
+  },
+  "separate_product_backlogs": [
+    "oratoplus-monorepo/docs/launch-review-followup-20261104.md",
+    "jodibana/docs/launch-review-followup-20261104.md"
+  ]
+}
