@@ -1,0 +1,48 @@
+{
+  "scope": "Separate product work requests; definitions complete, product acceptance not passed",
+  "date": "2026-11-03",
+  "work_orders": [
+    {
+      "id": "JODI-OPS-20261103-01",
+      "product": "Jodibana/JodiUSA",
+      "owner_role": "CTO",
+      "scope": "Close documented launch dependencies without enabling collection or changing the JodiUSA free grant.",
+      "impact": "Prevents premature paid launch and unsupported provider claims.",
+      "baseline": [
+        "docs/jodibana-launch-gates-20261103.md",
+        "docs/jodibana-payment-recovery-readiness-20261103.md"
+      ],
+      "acceptance": [
+        "Current read-only payment/ops report; signed live event evidence bound to current configuration",
+        "Named community operator acceptance and business/tax review",
+        "Qualify advertised video/Telegram/local-AI features or explicitly exclude them from scope",
+        "Verified off-device restore, current disk repair result, recovery-key access, privacy-history continuity and alert receipt",
+        "Measured support/usage costs and exact offer economics; consent and publishing eligibility",
+        "Collection remains disabled until every applicable gate passes; JodiUSA all-feature free grant survives regression"
+      ],
+      "rollback": "Retain tested image/config/database backup; verify privacy journal, media and tenant grants after restore. No production change authorized by this work order.",
+      "status": "specified; implementation and current acceptance evidence pending"
+    },
+    {
+      "id": "ORA-QUALITY-20261103-01",
+      "product": "OraToPlus",
+      "owner_role": "CTO",
+      "scope": "Qualify local scoring and repeated real-speech feedback using a frozen human-reference contract; numeric release remains withheld.",
+      "impact": "Prevents inaccurate scores and unsupported grading claims in acquisition pilots.",
+      "baseline": [
+        "docs/ora-kimi-llama-reliability-2026-11-01.md",
+        "docs/ora-gemma-collapse-2026-11-01.md"
+      ],
+      "acceptance": [
+        "Bind model digest, prompt/recipe, calibration and source commit before evaluation",
+        "At least 30 valid examples per development/untouched holdout split; obtain 8 independent references rather than recycling 22 untouched holdouts",
+        "Coverage>=90%, heldout MAE<=20, absolute bias<=10, errors>25 points<=20%, Spearman>=0.30, variation and strict improvement on development-mean constant baseline",
+        "Written-content proxy qualification cannot certify vocal presence or overall speech score",
+        "Rerun real speech upload, repeat consistency, failure guards, saved history and analytics on current staged images",
+        "Numeric release only after all applicable gates; unqualified backup remains disabled; no cloud inference"
+      ],
+      "rollback": "Keep coaching-only response and null numeric history/analytics; retain prior model/config/image and scoped evidence. Do not consume holdout while tuning.",
+      "status": "specified; implementation and current acceptance evidence pending"
+    }
+  ]
+}

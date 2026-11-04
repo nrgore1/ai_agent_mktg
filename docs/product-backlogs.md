@@ -29,3 +29,7 @@ Current Jodibana status: [failed-payment recovery and live readiness](jodibana-p
 ### Owner-selected external backup — 3 November 2026
 
 [Evidence](jodibana-external-backup-20261103.md). Encrypted copy written to the owner's WD D: drive; authenticated read and isolated restore of 140 database tables, 44 media files and AgentVire SQLite integrity pass. The owner-approved targeted disk repair fixed recorded issues, but the drive remains dirty / Scan Needed; the online scan requests a broader offline repair, for which separate approval was requested. Disk health, portable recovery-key escrow, historical deletion continuity, schedule/alerts and full recovery remain open. No commercial or collection change.
+
+### Case-review work requests - 3 November 2026
+
+[Separate product work orders](evidence/product-work-orders-20261103.json) define JODI-OPS-20261103-01 and ORA-QUALITY-20261103-01. Scope, customer impact, acceptance and rollback are prepared. They do not certify fresh tests, deploy product changes, enable collection or release numeric grading. AgentVire case completion at the definition step records only that this specification exists.
