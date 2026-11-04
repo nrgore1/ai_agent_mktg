@@ -71,3 +71,7 @@ Released on November 4, 2026. All 349 regression tests passed on the VPS, includ
 ## Assigned plans and backlog
 
 The live **Assigned work and next actions** panel now links the 90-day activities, remaining backlog and prepared role packets. Current source-linked recommendations are available for paired-human review, and the President manual queue lists owner-dependent actions. See [assignments and first actions](work-assignment-and-first-actions-20261104.md) for counts, owners, timing and preserved approval gates.
+
+## Detailed role user guides
+
+Use the [President and executive role guides](user-guides/README.md) for daily and weekly routines, 90-day outcomes, evidence and approval procedures, product playbooks, and business performance measures.

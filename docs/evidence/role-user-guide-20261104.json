@@ -1,0 +1,26 @@
+{
+  "date": "2026-11-04",
+  "roles": [
+    "President",
+    "CEO",
+    "CFO",
+    "CMO",
+    "CTO",
+    "COO"
+  ],
+  "business_units": 7,
+  "word_pages": 22,
+  "document_sha256": "90c3ce54827311eb62ea273c10fe3ed3dad9670747b7535f5f307ba12bee4fbd",
+  "visual_review": "All 22 rendered pages reviewed; final heading accessibility correction is pixel-identical on pages 2\u201322 and page 1 re-inspected. No clipping, blank page, table split or title rule remains.",
+  "accessibility_findings": 0,
+  "repository_guide_links": "passed",
+  "authorization_sources": [
+    "growthpilot/role_access.py",
+    "growthpilot/human_ai.py",
+    "growthpilot/business_os.py",
+    "growthpilot/operating_plan.py",
+    "growthpilot/business_runtime.py"
+  ],
+  "production_changes": 0,
+  "external_actions": 0
+}
