@@ -1,0 +1,48 @@
+{
+  "dry_run": false,
+  "owner_pinned_plans": 105,
+  "work_started": 27,
+  "baselines_accepted": [
+    {
+      "role": "BILLING",
+      "unit_id": "jodibana",
+      "task_id": "ee46d33ca9567b32bfedbba1dae6c4b582b5418d106662b9af2fa410965ea51d:0:outcome"
+    },
+    {
+      "role": "QA",
+      "unit_id": "jodibana",
+      "task_id": "51409e07496733d3d7ff4d4bf724cee13481a26489f4f37cac7eeb5f24ae9e47:0:outcome"
+    },
+    {
+      "role": "QA",
+      "unit_id": "memoire",
+      "task_id": "79f5acfcae824bbf88d616551276efc09a78d9cec4d0f12c66eb75fbe7513383:0:outcome"
+    },
+    {
+      "role": "QA",
+      "unit_id": "weddingos",
+      "task_id": "d2d28e9031e4e2c7317846a53f81700d17fc03b8602f1d25bc703fb3f80d8a8e:0:outcome"
+    },
+    {
+      "role": "QA",
+      "unit_id": "oratoplus",
+      "task_id": "0a17f780c29571d7948480084dbd55feb051d831e8dd563362df0f002eba6d31:0:outcome"
+    }
+  ],
+  "remaining_started": 22,
+  "product_gates_approved": 0,
+  "wedding_prior_completions_reopened": 2,
+  "changed_source_tasks": 17,
+  "readiness_counts": {
+    "completed": 95,
+    "pending": 82,
+    "in_progress": 17,
+    "blocked": 68,
+    "not_applicable": 20
+  },
+  "new_wedding_case": "4e7e3a6d84794b95adc05af3c85d204c",
+  "staffing_deferred": true,
+  "commercial_state_unchanged": true,
+  "audit_valid": true,
+  "external_actions": 0
+}

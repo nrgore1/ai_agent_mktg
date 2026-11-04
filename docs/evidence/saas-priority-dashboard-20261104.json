@@ -1,0 +1,56 @@
+{
+  "passed": true,
+  "checks": [
+    "President login",
+    "105 explicitly owned department plans",
+    "five phase-one outcomes only",
+    "four QA and one Billing baselines",
+    "no unsupported pending approval",
+    "140 total role plans preserved",
+    "20 cases with separate WeddingOS work order",
+    "company/unit/role filtering",
+    "baseline evidence visible in plan",
+    "manual evidence visible",
+    "mobile overflow absent",
+    "logout revokes access",
+    "no browser errors"
+  ],
+  "accepted": [
+    {
+      "role": "QA",
+      "unit": "oratoplus",
+      "phase": 1
+    },
+    {
+      "role": "QA",
+      "unit": "jodibana",
+      "phase": 1
+    },
+    {
+      "role": "QA",
+      "unit": "memoire",
+      "phase": 1
+    },
+    {
+      "role": "QA",
+      "unit": "weddingos",
+      "phase": 1
+    },
+    {
+      "role": "BILLING",
+      "unit": "jodibana",
+      "phase": 1
+    }
+  ],
+  "department_counts": {
+    "plans": 105,
+    "activities": 630,
+    "ready_for_review": 0,
+    "interim_owner_plans": 105,
+    "completed_outcomes": 5,
+    "overdue_outcomes": 0
+  },
+  "product_gates_approved": 0,
+  "customer_messages": 0,
+  "google_cloud_used": false
+}

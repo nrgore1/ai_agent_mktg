@@ -1,0 +1,515 @@
+{
+  "recorded_at": "2026-11-04T20:24:25.580618+00:00",
+  "scope": "Priority department baseline and exception triage; no launch approval",
+  "owner": "President / founder, explicitly selected on all 105 department plans",
+  "started": {
+    "total": 27,
+    "phase_deliverables": 12,
+    "backlog_handoffs": 15
+  },
+  "qa_coverage": [
+    {
+      "unit_id": "weddingos",
+      "production_image": "sha256:05a78fd4fd96f861eb0ba80429e6a28d34def8ccdbf6c38d149ad80e4bdf684b",
+      "historical_image": "sha256:4c3126849aefc50a8b4e16e6ca5c9dbcd94ed6e45c62eb8425a0ac12b5476cda",
+      "historical_image_matches": false,
+      "cases": [
+        {
+          "key": "free_tier",
+          "historical_status": "partial",
+          "historical_level": "offline_product_tests",
+          "current_interpretation": "old_image_evidence_not_current_acceptance"
+        },
+        {
+          "key": "paid_tier",
+          "historical_status": "blocked",
+          "historical_level": "not_run",
+          "current_interpretation": "old_image_evidence_not_current_acceptance"
+        },
+        {
+          "key": "usage_limits",
+          "historical_status": "partial",
+          "historical_level": "offline_product_tests",
+          "current_interpretation": "old_image_evidence_not_current_acceptance"
+        },
+        {
+          "key": "cross_tier_denial",
+          "historical_status": "partial",
+          "historical_level": "offline_product_tests",
+          "current_interpretation": "old_image_evidence_not_current_acceptance"
+        },
+        {
+          "key": "sandbox_checkout",
+          "historical_status": "blocked",
+          "historical_level": "not_run",
+          "current_interpretation": "old_image_evidence_not_current_acceptance"
+        },
+        {
+          "key": "webhooks",
+          "historical_status": "blocked",
+          "historical_level": "not_run",
+          "current_interpretation": "old_image_evidence_not_current_acceptance"
+        },
+        {
+          "key": "cancellation",
+          "historical_status": "blocked",
+          "historical_level": "not_run",
+          "current_interpretation": "old_image_evidence_not_current_acceptance"
+        },
+        {
+          "key": "refunds",
+          "historical_status": "blocked",
+          "historical_level": "not_run",
+          "current_interpretation": "old_image_evidence_not_current_acceptance"
+        }
+      ],
+      "fresh_signup_activation_save_return": "not_run; public reachability is not authenticated first value",
+      "whole_product_role_denial": "not_run; historical component denials do not cover every endpoint",
+      "source": "docs/evidence/billing-deployed-qualification-20261101.json"
+    },
+    {
+      "unit_id": "jodibana",
+      "production_image": "sha256:6bda5ba1c5c1a4215b597eca07fd39364b88d70d8363d551bb1629d717cb82d0",
+      "historical_image": "sha256:3817f8b70116a272eda094532261bb78a75560d14dfc12d2811d6c186c08eefe",
+      "historical_image_matches": false,
+      "cases": [
+        {
+          "key": "free_tier",
+          "historical_status": "partial",
+          "historical_level": "offline_product_tests",
+          "current_interpretation": "old_image_evidence_not_current_acceptance"
+        },
+        {
+          "key": "paid_tier",
+          "historical_status": "partial",
+          "historical_level": "offline_product_tests",
+          "current_interpretation": "old_image_evidence_not_current_acceptance"
+        },
+        {
+          "key": "usage_limits",
+          "historical_status": "partial",
+          "historical_level": "offline_product_tests",
+          "current_interpretation": "old_image_evidence_not_current_acceptance"
+        },
+        {
+          "key": "cross_tier_denial",
+          "historical_status": "partial",
+          "historical_level": "offline_product_tests",
+          "current_interpretation": "old_image_evidence_not_current_acceptance"
+        },
+        {
+          "key": "sandbox_checkout",
+          "historical_status": "failed",
+          "historical_level": "sandbox_e2e",
+          "current_interpretation": "old_image_evidence_not_current_acceptance"
+        },
+        {
+          "key": "webhooks",
+          "historical_status": "partial",
+          "historical_level": "sandbox_e2e",
+          "current_interpretation": "old_image_evidence_not_current_acceptance"
+        },
+        {
+          "key": "cancellation",
+          "historical_status": "partial",
+          "historical_level": "offline_product_tests",
+          "current_interpretation": "old_image_evidence_not_current_acceptance"
+        },
+        {
+          "key": "refunds",
+          "historical_status": "failed",
+          "historical_level": "sandbox_e2e",
+          "current_interpretation": "old_image_evidence_not_current_acceptance"
+        }
+      ],
+      "fresh_signup_activation_save_return": "not_run; public reachability is not authenticated first value",
+      "whole_product_role_denial": "not_run; historical component denials do not cover every endpoint",
+      "source": "docs/evidence/billing-deployed-qualification-20261101.json",
+      "newer_evidence": {
+        "source": "docs/evidence/jodibana-launch-gates-20261103.json",
+        "production_image_matches": true,
+        "historical_regression": 564,
+        "historical_runtime_checks": 8,
+        "fresh_runtime_ops": "ok",
+        "fresh_recovery": "failed: signed_recovery_checkpoint_missing",
+        "historical_provider_lifecycle": "docs/evidence/jodibana-payment-method-renewal-20261103.json; docs/evidence/jodibana-payment-recovery-readiness-20261103.json",
+        "provider_lifecycle_scope": "Earlier isolated Stripe test-mode hosted update, renewal, refunds and retry evidence; older candidate/version qualifications retained. No new provider lifecycle test this turn. Genuine live delivery still unverified."
+      }
+    },
+    {
+      "unit_id": "memoire",
+      "production_image": "sha256:d1b1d195251166932f0748dda0f86c49af13d7d4bcb4208b7e0392b8e44feb12",
+      "historical_image": "sha256:d1b1d195251166932f0748dda0f86c49af13d7d4bcb4208b7e0392b8e44feb12",
+      "historical_image_matches": true,
+      "cases": [
+        {
+          "key": "free_tier",
+          "historical_status": "partial",
+          "historical_level": "offline_product_tests",
+          "current_interpretation": "retained_component_evidence_only"
+        },
+        {
+          "key": "paid_tier",
+          "historical_status": "partial",
+          "historical_level": "offline_product_tests",
+          "current_interpretation": "retained_component_evidence_only"
+        },
+        {
+          "key": "usage_limits",
+          "historical_status": "partial",
+          "historical_level": "offline_product_tests",
+          "current_interpretation": "retained_component_evidence_only"
+        },
+        {
+          "key": "cross_tier_denial",
+          "historical_status": "partial",
+          "historical_level": "offline_product_tests",
+          "current_interpretation": "retained_component_evidence_only"
+        },
+        {
+          "key": "sandbox_checkout",
+          "historical_status": "blocked",
+          "historical_level": "not_run",
+          "current_interpretation": "not_run"
+        },
+        {
+          "key": "webhooks",
+          "historical_status": "blocked",
+          "historical_level": "not_run",
+          "current_interpretation": "not_run"
+        },
+        {
+          "key": "cancellation",
+          "historical_status": "blocked",
+          "historical_level": "not_run",
+          "current_interpretation": "not_run"
+        },
+        {
+          "key": "refunds",
+          "historical_status": "blocked",
+          "historical_level": "not_run",
+          "current_interpretation": "not_run"
+        }
+      ],
+      "fresh_signup_activation_save_return": "not_run; public reachability is not authenticated first value",
+      "whole_product_role_denial": "not_run; historical component denials do not cover every endpoint",
+      "source": "docs/evidence/billing-deployed-qualification-20261101.json"
+    },
+    {
+      "unit_id": "oratoplus",
+      "production_image": "sha256:ac0b636af8c39b7ca23d2dc1642ce489d6ba47a6833b463dff964cf78f864285",
+      "historical_image": "sha256:ac0b636af8c39b7ca23d2dc1642ce489d6ba47a6833b463dff964cf78f864285",
+      "historical_image_matches": true,
+      "cases": [
+        {
+          "key": "free_tier",
+          "historical_status": "partial",
+          "historical_level": "offline_product_tests",
+          "current_interpretation": "retained_component_evidence_only"
+        },
+        {
+          "key": "paid_tier",
+          "historical_status": "partial",
+          "historical_level": "offline_product_tests",
+          "current_interpretation": "retained_component_evidence_only"
+        },
+        {
+          "key": "usage_limits",
+          "historical_status": "blocked",
+          "historical_level": "not_run",
+          "current_interpretation": "not_run"
+        },
+        {
+          "key": "cross_tier_denial",
+          "historical_status": "partial",
+          "historical_level": "offline_product_tests",
+          "current_interpretation": "retained_component_evidence_only"
+        },
+        {
+          "key": "sandbox_checkout",
+          "historical_status": "blocked",
+          "historical_level": "not_run",
+          "current_interpretation": "not_run"
+        },
+        {
+          "key": "webhooks",
+          "historical_status": "partial",
+          "historical_level": "offline_product_tests",
+          "current_interpretation": "retained_component_evidence_only"
+        },
+        {
+          "key": "cancellation",
+          "historical_status": "partial",
+          "historical_level": "offline_product_tests",
+          "current_interpretation": "retained_component_evidence_only"
+        },
+        {
+          "key": "refunds",
+          "historical_status": "blocked",
+          "historical_level": "not_run",
+          "current_interpretation": "not_run"
+        }
+      ],
+      "fresh_signup_activation_save_return": "not_run; public reachability is not authenticated first value",
+      "whole_product_role_denial": "not_run; historical component denials do not cover every endpoint",
+      "source": "docs/evidence/billing-deployed-qualification-20261101.json"
+    }
+  ],
+  "public_reachability": [
+    {
+      "url": "https://agentvire.com/",
+      "status": 200,
+      "final_url": "https://agentvire.com/",
+      "content_sha256": "915416fd6d462eb0d8db2113d97ca976eecb630759da0d86e81f0a3f0c4dd283",
+      "tls_verified": true,
+      "scope": "public reachability only; no signup, customer activation or permission inferred"
+    },
+    {
+      "url": "https://weddingos.pro/register",
+      "status": 200,
+      "final_url": "https://weddingos.pro/register",
+      "content_sha256": "ebde08195613928992dc80468a4bedf177529f61ad184494a2823a137927a2d7",
+      "tls_verified": true,
+      "scope": "public reachability only; no signup, customer activation or permission inferred"
+    },
+    {
+      "url": "https://jodibana.com/",
+      "status": 200,
+      "final_url": "https://jodibana.com/",
+      "content_sha256": "00d946ae489956829b12b1d928fc525b3a0ae5dfab05ceed250f3892c3d9c603",
+      "tls_verified": true,
+      "scope": "public reachability only; no signup, customer activation or permission inferred"
+    },
+    {
+      "url": "https://jodiusa.com/",
+      "status": 200,
+      "final_url": "https://www.jodiusa.com/",
+      "content_sha256": "6a79159ceec8212f6d3cb6baec19d565e240f63dbabff876eba47c8184d18cc1",
+      "tls_verified": true,
+      "scope": "public reachability only; no signup, customer activation or permission inferred"
+    },
+    {
+      "url": "https://memoirbookstudio.com/",
+      "status": 200,
+      "final_url": "https://memoirbookstudio.com/",
+      "content_sha256": "c7a483643bc44141440f0f393f70eb7b3b25ef8e540321cdcade089c075cc14b",
+      "tls_verified": true,
+      "scope": "public reachability only; no signup, customer activation or permission inferred"
+    },
+    {
+      "url": "https://oratoplus.com/",
+      "status": 200,
+      "final_url": "https://oratoplus.com/",
+      "content_sha256": "e4d353425bba8a704dcaaaa274156e0dad609f233975cfb424db7ae16c92a2de",
+      "tls_verified": true,
+      "scope": "public reachability only; no signup, customer activation or permission inferred"
+    }
+  ],
+  "anonymous_denial": [
+    {
+      "path": "/api/business",
+      "status": 401,
+      "passed": true
+    },
+    {
+      "path": "/api/user-management",
+      "status": 401,
+      "passed": true
+    },
+    {
+      "path": "/api/users",
+      "status": 401,
+      "passed": true
+    },
+    {
+      "path": "/api/state",
+      "status": 401,
+      "passed": true
+    },
+    {
+      "path": "/data/growthpilot.db",
+      "status": 401,
+      "passed": true
+    },
+    {
+      "path": "/docs/",
+      "status": 401,
+      "passed": true
+    }
+  ],
+  "consent_browser": {
+    "checked_at": "2026-11-04T20:19:06.908Z",
+    "results": [
+      {
+        "product": "WeddingOS",
+        "url": "https://weddingos.pro/marketing-updates/",
+        "final_url": "https://weddingos.pro/marketing-updates/",
+        "http_status": 200,
+        "visible_text": "W\n\nPRIVATE PLANNING WORKSPACE\n\nWelcome to WeddingOS\n\nCreate a free account \u00b7 Your free tools and saved plans\n\nEmail\nPassword\nSign in\nEmail me a magic link",
+        "checkboxes": 0,
+        "email_fields": 1,
+        "page_errors": [],
+        "submitted": false
+      },
+      {
+        "product": "JodiUSA",
+        "url": "https://www.jodiusa.com/marketing-updates/",
+        "final_url": "https://www.jodiusa.com/marketing-updates/",
+        "http_status": 200,
+        "visible_text": "JodiUSA\nEmail updates, by choice\n\nOptional updates from JodiUSA. Your account and access to tools do not depend on subscribing.\n\nThis site is not currently accepting new marketing subscriptions. Existing subscribers can still manage, export or delete their marketing record below.\n\nManage or stop marketing emails\nExport or delete my consent record\n\nUnconfirmed marketing requests expire from the active contact list after 7 days; withdrawn contact details are removed after 30 days. Private access links expire after 30 minutes. Minimal suppression and audit records remain. Account deletion and provider/backup retention are handled separately.\n\nEmail preferences \u00b7 Privacy information \u00b7 Contact us\n\nAtmakosh LLC \u00b7 Consent records are managed in AgentVire for this site only.",
+        "checkboxes": 0,
+        "email_fields": 2,
+        "page_errors": [],
+        "submitted": false
+      },
+      {
+        "product": "Memoire",
+        "url": "https://memoirbookstudio.com/marketing-updates/",
+        "final_url": "https://memoirbookstudio.com/marketing-updates/",
+        "http_status": 200,
+        "visible_text": "Memoire Studio\nEmail updates, by choice\n\nOptional updates from Memoire Studio. Your account and access to tools do not depend on subscribing.\n\nEmail address\nCompany\n I am 18 or older and want marketing emails from Memoire Studio about photo-book ideas, new features and offers. This is optional. I can unsubscribe at any time. This permission applies only to Memoire Studio.\nSend confirmation email\n\nCheck your inbox and confirm within 24 hours. This does not subscribe you to other products or tenant sites.\n\nManage or stop marketing emails\nExport or delete my consent record\n\nUnconfirmed marketing requests expire from the active contact list after 7 days; withdrawn contact details are removed after 30 days. Private access links expire after 30 minutes. Minimal suppression and audit records remain. Account deletion and provider/backup retention are handled separately.\n\nEmail preferences \u00b7 Privacy information \u00b7 Contact us\n\nAtmakosh LLC \u00b7 Consent records are managed in AgentVire for this site only.",
+        "checkboxes": 1,
+        "email_fields": 3,
+        "page_errors": [],
+        "submitted": false
+      }
+    ],
+    "customer_messages": 0
+  },
+  "jodibana": {
+    "operations": {
+      "status": "ok",
+      "checks": {
+        "database": {
+          "ok": true,
+          "ms": 15.6
+        },
+        "cache": {
+          "ok": true,
+          "ms": 114.3
+        },
+        "channel_layer": {
+          "ok": true,
+          "shared": true,
+          "backend": "RedisPubSubChannelLayer"
+        }
+      },
+      "problems": [
+        {
+          "code": "domains.unverified",
+          "level": "info"
+        }
+      ]
+    },
+    "collection_enabled": false,
+    "jodiusa_free": true,
+    "payment_readiness": {
+      "configuration": {
+        "live_secret_present": true,
+        "live_publishable_key_present": true,
+        "webhook_secret_present": true,
+        "standard_checkout_selected": true,
+        "sandbox_override_disabled": true,
+        "restricted_portal_configured": true,
+        "secure_site_origin": true,
+        "live_collection_enabled": false
+      },
+      "provider_checks": {
+        "authenticated_live_mode": true,
+        "charges_enabled": true,
+        "payouts_enabled": true,
+        "details_submitted": true,
+        "no_current_account_requirements": true,
+        "required_live_webhook_registered": true,
+        "restricted_live_portal_valid": true
+      },
+      "provider_checked": true,
+      "ready": false,
+      "collection_enabled": false,
+      "mutations": 0,
+      "scope": "payment configuration; not full product or economic approval",
+      "remaining_external_checks": [
+        "Registered endpoint signing verified with genuine delivery",
+        "Account and tax settings reviewed by operator",
+        "Observed cost/margin, exact offer and other launch gates"
+      ]
+    },
+    "recovery": {
+      "passed": false,
+      "blocker": "signed_recovery_checkpoint_missing"
+    },
+    "billing_record_classification": "Observed invoice records use dummy provider; not genuine revenue or customer conversion. Aggregate state/provider-reference inventory is retained privately. No customer identifiers in this report."
+  },
+  "drive": {
+    "drive": "D:",
+    "reported_health": "Healthy",
+    "reported_operational_status": "OK",
+    "encrypted_backup_present": true,
+    "scope": "Read-only availability/health check; no fresh restore or historical deletion-continuity claim"
+  },
+  "finance": {
+    "books_finalized": false,
+    "financial_reconciled": false,
+    "captured_at": "2026-10-31T05:27:49.221401+00:00",
+    "source_period": "2026-10-01 through 2026-10-31 exclusive",
+    "allocation_period": "2026-09-27 through 2026-10-27 exclusive",
+    "periods_match": false,
+    "missing": [
+      "Recognized revenue and deferred-revenue close",
+      "Supplier invoices and payment reconciliation",
+      "Measured support/compliance hours and cost",
+      "Shared-cost allocation with pool tie-out",
+      "Partner contracts, accruals and payouts",
+      "Product attribution for shared processor activity"
+    ],
+    "equipment": "Separate purchases, principal and refunds from subscriptions; no depreciation inferred without asset/in-service/useful-life records. Owner sweat equity is investment, not current recurring cash expense."
+  },
+  "product_work_orders": [
+    {
+      "id": "WED-PRIVACY-20261104-01",
+      "status": "new regression confirmed; implementation pending",
+      "unit_id": "weddingos",
+      "observations": [
+        "Marketing-updates URL renders sign-in instead of optional marketing consent form.",
+        "Installed API package has no AgentVire privacy or recovery integration indicators; no privacy/recovery environment setting names and no API mounts.",
+        "Generic privacy-request endpoint remains present; not proof of signed account-deletion integration."
+      ],
+      "must_reopen": [
+        "ae81552da4235706a67fa9d8707da04f",
+        "cf1109d084605714a5ad86c84db133ba"
+      ],
+      "acceptance": [
+        "Restore explicit optional opt-in and preference/export/delete journeys.",
+        "Restore verified-email account deletion synchronization, unverified-email confirmation and retention defaults.",
+        "Restore signed persistent journal and safe restore reconciliation; retain legal holds and revoked-access controls.",
+        "Run authenticated positive, denied-access, retry, deletion and isolated PostgreSQL/media restore tests against exact candidate.",
+        "Preserve current billing/free tools, back up before deployment, bind rollback and post-release checks to approved candidate."
+      ]
+    },
+    {
+      "id": "ORA-QUALITY-20261103-01",
+      "status": "production guard parity and reference quality unresolved",
+      "unit_id": "oratoplus",
+      "acceptance": [
+        "Port numeric-withholding guard without losing deployed billing fixes.",
+        "Verify response, persistence, history, analytics and public claims.",
+        "Retain failed human-reference gates; numeric grades stay disallowed until every gate passes."
+      ],
+      "evidence": "Same production image as earlier 4 November failing isolated mock-model probe; 29 staging component tests do not qualify production or human accuracy."
+    },
+    {
+      "id": "JODI-OPS-20261103-01",
+      "status": "signed checkpoint/history, genuine live delivery and owner review remain open",
+      "unit_id": "jodibana",
+      "acceptance": [
+        "Reconstruct and verify historical deletion coverage; do not mint an empty checkpoint as proof.",
+        "Verify separate recovery-key custody, monitored alerts and recovery drill ownership.",
+        "Keep application collection disabled and JodiUSA free."
+      ]
+    }
+  ],
+  "commercial_execution": 0,
+  "customer_messages": 0,
+  "google_cloud_used": false,
+  "launch_gates_approved": 0
+}
