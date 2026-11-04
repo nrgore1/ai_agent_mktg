@@ -1,10 +1,10 @@
 """Server-enforced human role accounts; no external execution authority."""
 import copy
-from .business_os import UNITS, ROLES
+from .business_os import UNITS, ROLES, ACCESS_ROLES
 from .core import Invalid, digest, now
 
 def validate_scope(company, role, units):
- if company not in ('atmakosh','vireoka') or role not in ROLES:
+ if company not in ('atmakosh','vireoka') or role not in ACCESS_ROLES:
   raise Invalid('Choose a company and a business role')
  available=[u for u in UNITS if u['company_id']==company]
  if not isinstance(units,list) or not units or len(set(units))!=len(units) or any(u not in [x['id'] for x in available] for u in units):
@@ -25,11 +25,11 @@ def scope_summary(user, result):
  visible=[]
  for c in result['cases']:
   allowed=roles[c['unit_id']]
-  if not any(s['role'] in allowed for s in c['steps']): continue
+  if 'AUDITOR' not in allowed and not any(s['role'] in allowed for s in c['steps']): continue
   c.pop('history',None)
   c.pop('human_ai_feedback',None)
   for step in c['steps']:
-   if step['role'] not in allowed:
+   if 'AUDITOR' not in allowed and step['role'] not in allowed:
     for k in list(step):
      if k not in ('role','status','approval_required'):del step[k]
     step['title']='Handoff to '+step['role'];step['acceptance']='Details restricted to the assigned role.'
@@ -48,7 +48,10 @@ def scope_summary(user, result):
  result['roles']={k:v for k,v in result['roles'].items() if k in role_set}
  result['dashboard_tabs']=['overview','work','processes','workers','plan','counterparts']
  if role_set & {'CEO','CMO'}: result['dashboard_tabs'].append('opportunities')
- if role_set & {'CFO'}: result['dashboard_tabs'].append('finance')
+ if role_set & {'CFO','REVENUE','AUDITOR'}: result['dashboard_tabs'].append('finance')
+ if not role_set & set(ROLES):result['dashboard_tabs']=[t for t in result['dashboard_tabs']if t not in ('workers','plan')]
+ if role_set=={'USER_ADMIN'}:result['dashboard_tabs']=['overview']
+ result['read_only']=role_set=={'AUDITOR'}
  for u in result['units']:
   scoped=[c for c in visible if c['unit_id']==u['id']]
   u['metrics']['open_cases']=sum(c['status'] not in ('completed','closed') for c in scoped)
@@ -65,6 +68,7 @@ def manage_account(identity, data, actor):
  with identity.store.db() as db:
   row=db.execute('SELECT role FROM users WHERE id=?',(data['username'],)).fetchone()
   if not row or row['role']!='business':raise Invalid('Only role accounts can be managed here')
+  if any(p['id']==data['username']and p.get('deleted')for p in identity.store.rows(db,'account_profiles')):raise Invalid('Deleted account cannot be re-enabled')
   if 'password' in data:
    salt=secrets.token_hex(16)
    db.execute('UPDATE users SET password=?,salt=?,must_change=1 WHERE id=?',(password_hash(data['password'],salt),salt,data['username']))
@@ -75,3 +79,10 @@ def manage_account(identity, data, actor):
   db.execute('DELETE FROM sessions WHERE user_id=?',(data['username'],))
   identity.store.audit(db,action,data['username'],{'sessions_revoked':True,**({'enabled':data['enabled']} if 'enabled' in data else {})},actor['username'])
  return {'username':data['username'],'sessions_revoked':True}
+
+def read_only(store,user):
+ if user.get('role')!='business':return user.get('role')=='viewer'
+ from .business_os import BusinessOS
+ with store.db()as db:
+  os=BusinessOS(store);roles={role for unit in UNITS for role in os._roles(db,user,unit)}
+  return roles=={'AUDITOR'}

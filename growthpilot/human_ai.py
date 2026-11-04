@@ -1,7 +1,7 @@
 """Human counterparts, evidence-bound decisions, manual work and President overrides."""
 import copy,json,uuid
 from .core import Invalid,now,digest
-from .business_os import BusinessOS,UNITS,ROLES
+from .business_os import BusinessOS,UNITS,ROLES,ACCESS_ROLES
 
 def control(db,store,unit,role):
  return next((r for r in store.rows(db,'human_ai_controls')if r['unit_id']==unit and r['role']==role),{'id':digest([unit,role]),'unit_id':unit,'role':role,'enabled':True,'version':0})
@@ -17,7 +17,8 @@ class HumanAI:
   if unit=='portfolio'and role=='President':
    self._president(user);return
   if user.get('role')=='viewer':raise PermissionError('Read-only account')
-  if role not in ROLES:raise Invalid('Unknown AI role')
+  if role not in ACCESS_ROLES:raise Invalid('Unknown work role')
+  if role=='AUDITOR'and user.get('role')not in ('founder','admin'):raise PermissionError('Auditor evidence is read only')
   self.os._access(db,user,self.os._unit(unit),role)
  def _fields(self,data,fields):
   if not isinstance(data,dict)or set(data)!=set(fields):raise Invalid('Exact request fields required')
@@ -60,7 +61,8 @@ class HumanAI:
      if a['unit_id']==unit['id']and a['role']==role and a['enabled']:
       r=db.execute('SELECT id,enabled,products FROM users WHERE id=?',(a['username'],)).fetchone()
       if r and r['enabled']and set(unit['product_ids']).issubset(json.loads(r['products'])):people.append(r['id'])
-    pairs.append({'unit_id':unit['id'],'unit_name':unit['name'],'company_id':unit['company_id'],'role':role,'human_accounts':sorted(people),'control':control(db,self.s,unit['id'],role)})
+    if role not in ROLES and not people:continue
+    pairs.append({'ai_preparation':role in ROLES,'unit_id':unit['id'],'unit_name':unit['name'],'company_id':unit['company_id'],'role':role,'human_accounts':sorted(people),'control':control(db,self.s,unit['id'],role)})
   def visible(r):return (r['unit_id'],r['role'])in allowed or(user.get('role')=='founder'and r['unit_id']=='portfolio'and r['role']=='President')
   reviews=[r for r in self.s.rows(db,'human_ai_reviews')if visible(r)]
   targets=[]
@@ -75,7 +77,7 @@ class HumanAI:
     targets.append({'id':row['id'],'kind':kind,'unit_id':row['unit_id'],'role':row['role'],'hash':h,'stale':bool(stale),'title':(row.get('result')or {}).get('recommendation')or row.get('acceptance')or row.get('error')or 'AI preparation','evidence':row.get('next_actions',[]) if kind=='report' else [{'reference':row.get('source_ref',''),'action':(row.get('result')or {}).get('recommendation','')}],'review':review,'review_current':bool(review and review.get('target_hash')==h and not stale)})
   from .business_runtime import PLANS
   from .work_assignment import WorkAssignment
-  return {'work_assignment':WorkAssignment(self.s).summary(db,user),'focus_options':{r:PLANS[r]for _,r in allowed},'pairs':pairs,'targets':targets,'reviews':reviews,'manual_tasks':[r for r in self.s.rows(db,'human_manual_tasks')if visible(r)],'feedback':[r for r in self.s.rows(db,'human_ai_feedback')if visible(r)],'is_president':user.get('role')=='founder','note':'Approve/reject only your paired AI role. Approval is internal acceptance, not an external execution receipt. Manual work requires evidence. President decisions are locked until the President releases them; original history is retained.'}
+  return {'work_assignment':WorkAssignment(self.s).summary(db,user),'focus_options':{r:PLANS[r]for _,r in allowed if r in PLANS},'pairs':pairs,'targets':targets,'reviews':reviews,'manual_tasks':[r for r in self.s.rows(db,'human_manual_tasks')if visible(r)],'feedback':[r for r in self.s.rows(db,'human_ai_feedback')if visible(r)],'is_president':user.get('role')=='founder','note':'Approve/reject only your paired AI role. Approval is internal acceptance, not an external execution receipt. Manual work requires evidence. President decisions are locked until the President releases them; original history is retained.'}
  def review(self,data,user):
   self._fields(data,{'kind','target_id','target_hash','version','decision','note'})
   if data['decision']not in ('approve','reject','release'):raise Invalid('Invalid review decision')

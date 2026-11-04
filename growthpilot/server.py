@@ -70,6 +70,7 @@ def main():
    assets['/operating-plan.js']='operating-plan.js'
    assets['/human-ai.js']='human-ai.js'
    assets['/work-assignment.js']='work-assignment.js'
+   assets['/user-management.js']='user-management.js'
    if path in assets:
     ctype='text/html; charset=utf-8' if path=='/' else 'text/css' if path.endswith('.css') else 'text/javascript'
     return self.send(200,(Path(__file__).parent/'static'/assets[path]).read_bytes(),ctype)
@@ -78,7 +79,10 @@ def main():
    if path not in ('/api/me',) and not read_limits.allow(user['username']):return self.send(429,{'error':'Too many data requests; retry in one minute'})
    try:
     if user.get('must_change') and path not in ('/api/me','/api/state'): return self.send(403,{'error':'Change your temporary password first'})
-    if user['role']=='business' and path not in ('/api/me','/api/state','/api/business'):return self.send(403,{'error':'This view is outside your assigned role'})
+    if user['role']=='business' and path not in ('/api/me','/api/state','/api/business','/api/user-management'):return self.send(403,{'error':'This view is outside your assigned role'})
+    if path=='/api/user-management':
+     from .user_management import directory
+     return self.send(200,directory(identity,user))
     if path=='/api/business':
      from .business_os import BusinessOS
      return self.send(200,BusinessOS(store).summary(user))
@@ -94,7 +98,9 @@ def main():
      if user['role'] not in ('founder','admin'):return self.send(403,{'error':'Administrator required for product economics'})
      from .economics import StrategyOS
      return self.send(200,StrategyOS(store).overview())
-    if path=='/api/me':return self.send(200,user)
+    if path=='/api/me':
+     from .user_management import can_manage
+     return self.send(200,{**user,'can_manage_users':can_manage(store,user)})
     if path=='/api/state':return self.send(200,self.readable_state(user))
     if path=='/api/report':
      q=parse_qs(urlsplit(self.path).query);p=int(q['product_id'][0]) if 'product_id' in q else None
@@ -135,6 +141,8 @@ def main():
     if path=='/api/login':
      session=identity.login(str(data.get('username',''))[:80],str(data.get('password',''))[:1024],self.client_address[0])
      if not session:return self.send(401,{'error':'Invalid username or password'})
+     from .user_management import can_manage
+     session['can_manage_users']=can_manage(store,session)
      raw=session.pop('session');return self.send(200,session,cookie='gp_session='+raw+'; HttpOnly; SameSite=Strict; Path=/; Max-Age=28800'+('; Secure' if secure else ''))
     if path=='/api/ingest':
      key=self.headers.get('Authorization','').removeprefix('Bearer ')
@@ -147,6 +155,12 @@ def main():
     if path=='/api/password':
      identity.change_password(user['username'],data.get('old',''),data.get('new',''));return self.send(200,{'ok':True,'sign_in_again':True},cookie='gp_session=; HttpOnly; SameSite=Strict; Path=/; Max-Age=0')
     if user.get('must_change'):return self.send(403,{'error':'Change your temporary password first'})
+    if path.startswith('/api/user-management/'):
+     from .user_management import dispatch,can_manage
+     if not can_manage(store,user):raise PermissionError('User administration is outside your assigned role')
+     return self.send(200,dispatch(identity,path.removeprefix('/api/user-management/'),data,user))
+    from .role_access import read_only
+    if read_only(store,user):return self.send(403,{'error':'Read-only role cannot change records'})
     if user['role']=='business' and path not in ('/api/business/create','/api/business/record','/api/business/schedule','/api/business/close','/api/business/opportunity-case','/api/business/plan-record','/api/business/human-review','/api/business/human-feedback','/api/business/manual-create','/api/business/manual-action'):return self.send(403,{'error':'Action outside your assigned role'})
     if path=='/api/role-accounts/manage':
      from .role_access import manage_account

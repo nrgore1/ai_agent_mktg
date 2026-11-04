@@ -1,0 +1,101 @@
+{
+  "unit_and_http_suite": {
+    "passed": true,
+    "image_id": "sha256:8a2e0be5545f507f9e74b4cb887b4b5f8c56bd81bd0790026cb420ffd460bf4d",
+    "suite_output": "503 elapsed=0.000\n.....................................................................................................................................................................................\n----------------------------------------------------------------------\nRan 374 tests in 44.679s\n\nOK\n"
+  },
+  "browser": {
+    "passed": true,
+    "department_role_views": 15,
+    "total_assignable_roles": 20,
+    "ui_create_edit_disable_enable_reset_delete": true,
+    "forced_password_change": true,
+    "company_admin_limited": true,
+    "auditor_read_only": true,
+    "executive_workers_unchanged": true,
+    "mobile": true,
+    "page_errors": [],
+    "synthetic_only": true
+  },
+  "deployment": {
+    "deployed": true,
+    "image": "agentvire-business:user-management-20261104",
+    "image_id": "sha256:8a2e0be5545f507f9e74b4cb887b4b5f8c56bd81bd0790026cb420ffd460bf4d",
+    "rollback_image": "agentvire-business:work-assignment-20261104",
+    "configuration_preserved": true,
+    "protected_data_preserved": true,
+    "other_services_unchanged": true,
+    "anonymous_denied": true,
+    "qa_tests": 374,
+    "external_actions_executed": 0
+  },
+  "production": {
+    "passed": true,
+    "president_user": "founder",
+    "president_full_user_administration": true,
+    "assignable_roles": 20,
+    "new_department_roles": 15,
+    "existing_role_accounts": 10,
+    "cases_preserved": 19,
+    "plans_preserved": 35,
+    "pairs_preserved": 35,
+    "assignments_preserved": 380,
+    "manual_tasks_preserved": 94,
+    "workflow_catalog": 22,
+    "anonymous_denied": [
+      {
+        "path": "/api/user-management",
+        "status": 401
+      },
+      {
+        "path": "/api/business",
+        "status": 401
+      },
+      {
+        "path": "/api/users",
+        "status": 401
+      },
+      {
+        "path": "/docs/",
+        "status": 401
+      },
+      {
+        "path": "/data/growthpilot.db",
+        "status": 401
+      }
+    ],
+    "mobile": true,
+    "page_errors": [],
+    "real_account_mutations": 0
+  },
+  "credential_handover": {
+    "passed": true,
+    "temporary_credentials": 10,
+    "unique_passwords": 10,
+    "first_change_required": true,
+    "prior_role_sessions_revoked": true,
+    "founder_unchanged": true,
+    "founder_password_included": true,
+    "audit_valid": true,
+    "temporary_server_files_removed": true
+  },
+  "role_login_verification": {
+    "passed": true,
+    "tested_users": [
+      "atmakosh.ceo",
+      "atmakosh.cfo",
+      "atmakosh.cmo",
+      "atmakosh.cto",
+      "atmakosh.coo",
+      "vireoka.ceo",
+      "vireoka.cfo",
+      "vireoka.cmo",
+      "vireoka.cto",
+      "vireoka.coo"
+    ],
+    "first_login_password_change_enforced": true,
+    "private_data_denied_before_change": true,
+    "passwords_changed_by_verification": false,
+    "temporary_sessions_closed": true
+  }
+}

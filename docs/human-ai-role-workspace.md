@@ -6,7 +6,7 @@ AgentVire pairs each CEO, CFO, CMO, CTO and COO AI role with a human role within
 
 Sign in at https://agentvire.com/?view=business and choose **Human + AI workspace**. Select company, unit and role using the existing filters.
 
-The President uses **Role accounts** to create a named person's login with one company, one role and selected units. The existing ten role accounts remain available. Set temporary passwords privately through the existing account controls when onboarding a person; the first login requires a password change. Do not share one password among several people. Disabling an account, changing its password or revoking its assignment removes access through the existing session controls.
+The President uses **User management** to create named logins, assign one or more business roles in selected company units, reset passwords and revoke access. New users must change their temporary password at first sign-in. See [User administration and SaaS roles](user-management-and-saas-rbac.md) for delegated administration, department permissions and account deletion semantics.
 
 ## Roles and access
 

@@ -25,7 +25,7 @@ class BusinessTests(unittest.TestCase):
  def test_exact_entity_mapping(self):
   data=self.os.summary(self.f)
   self.assertEqual(len(data['units']),7);self.assertEqual(sum(u['company_id']=='vireoka' for u in UNITS),3)
-  self.assertEqual(next(u for u in UNITS if u['id']=='memoire')['product_ids'],[5,7]);self.assertEqual(len(PROCESSES),10)
+  self.assertEqual(next(u for u in UNITS if u['id']=='memoire')['product_ids'],[5,7]);self.assertEqual(len(PROCESSES),22)
   self.assertFalse(data['external_execution']);self.assertTrue(all(u['metrics']['actual_revenue'] is None for u in data['units']))
  def test_unassigned_operator_sees_no_unit_data(self):
   self.create();d=self.os.summary(self.a);self.assertEqual(d['units'],[]);self.assertEqual(d['cases'],[]);self.assertEqual(d['users'],[])
@@ -114,6 +114,6 @@ class BusinessTests(unittest.TestCase):
      c=self.record(c)
      if c['cursor']<len(c['steps']) and c['steps'][c['cursor']]['status']=='awaiting_review':
       c=self.os.dispatch('review',dict(id=c['id'],version=c['version'],proposal_hash=c['steps'][c['cursor']]['proposal_hash'],decision='accept',note='Verified synthetic fixture; external execution remains separate.'),self.f)
-    self.assertEqual(c['cursor'],5)
+    self.assertEqual(c['cursor'],len(c['steps']))
 
 if __name__=='__main__':unittest.main()

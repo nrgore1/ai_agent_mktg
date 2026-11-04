@@ -23,6 +23,9 @@ ROLES = {
  'COO': 'Onboarding, customer success, service delivery, vendors and incidents'
 }
 
+from .saas_roles import SAAS_ROLES, saas_processes
+ACCESS_ROLES={**ROLES,**SAAS_ROLES}
+
 def step(title, role, acceptance, gate=False):
  return {'title':title,'role':role,'acceptance':acceptance,'approval_required':gate}
 
@@ -89,6 +92,8 @@ PROCESSES = {
   step('Review incident and prevention','COO','Document cause, recovery timings and follow-up ownership.') ]}
 }
 
+PROCESSES.update(saas_processes(step))
+
 class BusinessOS:
  def __init__(self, store): self.store=store
  def _unit(self, unit_id):
@@ -97,7 +102,7 @@ class BusinessOS:
   return unit
  def _privileged(self, user): return user.get('role') in ('founder','admin')
  def _roles(self, db, user, unit):
-  if self._privileged(user): return list(ROLES)
+  if self._privileged(user): return list(ACCESS_ROLES)
   # Grants do not broaden existing product access; every product in a unit is required.
   if not set(unit['product_ids']).issubset(set(user.get('products',[]))): return []
   rows=self.store.rows(db,'business_assignments')
@@ -145,7 +150,7 @@ class BusinessOS:
    users=[{'username':r['id'],'role':r['role'],'products':__import__('json').loads(r['products'])} for r in db.execute('SELECT id,role,products FROM users WHERE enabled=1')] if user['role']=='founder' else []
    mapped={p for u in UNITS for p in u['product_ids']}
    unmapped=[{'id':p['id'],'name':p['name']} for p in self.store.rows(db,'products') if p['id'] not in mapped] if self._privileged(user) else []
-   result={'companies':[c for c in COMPANIES if any(u['company_id']==c['id'] for u in units)],'units':units,'roles':ROLES,'processes':PROCESSES,'cases':sorted(cases,key=lambda c:c['updated_at'],reverse=True),
+   result={'companies':[c for c in COMPANIES if any(u['company_id']==c['id'] for u in units)],'units':units,'roles':ACCESS_ROLES,'processes':PROCESSES,'cases':sorted(cases,key=lambda c:c['updated_at'],reverse=True),
     'assignments':assignments,'users':users,'unmapped_products':unmapped,'paused':self.store.paused(db),'as_of':now(),
     'marketing_decisions':[{'id':a['id'],'product_id':a['product_id'],'status':a['status']} for a in actions if a['status'] in ('pending','approved','queued','unknown')],
     'connections':[{'name':'AgentVire campaigns, pipelines and readiness','status':'Local records','note':'Current records are read directly. Campaign publishing retains its existing controls.'},
@@ -170,7 +175,7 @@ class BusinessOS:
     self._fields(data,{'username','unit_id','role','enabled'})
     if user['role']!='founder': raise PermissionError('Founder required for role assignments')
     unit=self._unit(data.get('unit_id')); role=data.get('role')
-    if role not in ROLES or type(data.get('enabled')) is not bool: raise Invalid('Valid role and enabled flag required')
+    if role not in ACCESS_ROLES or type(data.get('enabled')) is not bool: raise Invalid('Valid role and enabled flag required')
     target=db.execute('SELECT role,products FROM users WHERE id=? AND enabled=1',(data.get('username'),)).fetchone()
     if not target: raise Invalid('Enabled user required')
     if target['role'] not in ('founder','admin') and not set(unit['product_ids']).issubset(set(__import__('json').loads(target['products']))): raise Invalid('Assign product access in Accounts first; all unit products are required')

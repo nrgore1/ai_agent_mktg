@@ -193,7 +193,7 @@ class BusinessRuntime:
   result['vanguard']={**snapshot,'records':visible}
   if not privileged:
    result['vanguard']['source_count']=len(visible);result['vanguard']['unmapped_count']=None;result['vanguard'].pop('source_hash',None)
-  finance_units=[u for u in result['units'] if set(u['roles'])&{'CFO'}]
+  finance_units=[u for u in result['units'] if set(u['roles'])&{'CFO','REVENUE','AUDITOR'}]
   result['finance']=financial_evidence(self.directory,finance_units,privileged) if finance_units else {'status':'role_required','units':[],'shared_accounts':[],'missing':[]}
   settings=next((x for x in self.s.rows(db,'business_runtime') if x['id']=='workers'),{'enabled':False,'mode':'local_bounded_preparation','max_jobs_per_hour':24})
   jobs=[j for j in self.s.rows(db,'business_agent_jobs') if j['unit_id'] in ids]
@@ -239,7 +239,7 @@ class BusinessRuntime:
   feedback=case.get('human_ai_feedback',{})
   if feedback.get('role')==role and feedback.get('focus')in (1,2,3):
    facts['human_revision_requested']=True;facts['human_requested_choice_'+str(feedback['focus'])]=True
-  authorized=authorized and pair['enabled'] and not case.get('president_hold',False)
+  authorized=authorized and role in PLANS and pair['enabled'] and not case.get('president_hold',False)
   result={'facts':facts,'blocked':bool(blocked),'authorized':authorized,'source_status':source_status,'source_digest':digest(linked) if linked else None,'finance_digest':finance.get('source_hash') if role=='CFO' else None}
   if pair['version']:result['pair_version']=pair['version']
   result['input_hash']=digest(result)
