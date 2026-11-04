@@ -30,7 +30,7 @@ render=function(){
  document.querySelector('.badge').textContent=businessData?.paused?'Operations paused':'Business workflows · governed handoffs';
  document.querySelector('header > span').textContent='ATMAKOSH LLC / VIREOKA LLC';
  document.querySelectorAll('[data-view]').forEach(b=>b.classList.toggle('active',b.dataset.view===view));
- if(!businessData){$('#content').textContent='Loading your companies and work queues…';const seq=++businessRequest;api('business').then(d=>{if(seq!==businessRequest||owner!==businessOwner)return;businessData=d;if(view==='business')render()}).catch(e=>{if(seq===businessRequest&&view==='business')$('#content').textContent=e.message});return}
+ if(!businessData){$('#content').textContent='Loading your companies and work queues…';const seq=++businessRequest;api('business').then(d=>{if(seq!==businessRequest||owner!==businessOwner)return;businessData=d;if(view==='business')render()}).catch(e=>{if(seq===businessRequest&&view==='business'){$('#content').innerHTML='<p role="alert">'+esc(e.message)+'</p><button id="business-retry">Retry workspace</button>';$('#business-retry').onclick=businessReload}});return}
  const d=businessData,available=d.units.filter(u=>!businessCompany||u.company_id===businessCompany);
  if(businessUnit&&!available.some(u=>u.id===businessUnit))businessUnit='';
  const units=available.filter(u=>!businessUnit||u.id===businessUnit),ids=new Set(units.map(u=>u.id)),pids=new Set(units.flatMap(u=>u.product_ids));

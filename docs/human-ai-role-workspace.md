@@ -67,3 +67,7 @@ No database migration, external provider, paid-tier activation or Google Cloud d
 ## Release verification
 
 Released on November 4, 2026. All 349 regression tests passed on the VPS, including 20 focused human/AI permission and workflow tests. Browser checks passed for all ten company-role logins, forced password changes, company/role isolation, CSRF rejection, stale versions, manual completion, President locks, case holds, per-role pauses and mobile layout. Live verification confirmed 35 pairings, 19 cases and 35 plans, with no test tasks or review decisions inserted into production. Existing credentials, commercial settings and all 282 launch-backlog items were preserved. See [release evidence](evidence/human-ai-role-release-20261104.json).
+
+## Assigned plans and backlog
+
+The live **Assigned work and next actions** panel now links the 90-day activities, remaining backlog and prepared role packets. Current source-linked recommendations are available for paired-human review, and the President manual queue lists owner-dependent actions. See [assignments and first actions](work-assignment-and-first-actions-20261104.md) for counts, owners, timing and preserved approval gates.

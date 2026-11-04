@@ -14,6 +14,8 @@ class HumanAI:
  def _president(self,user):
   if user.get('role')!='founder':raise PermissionError('President required')
  def _access(self,db,user,unit,role):
+  if unit=='portfolio'and role=='President':
+   self._president(user);return
   if user.get('role')=='viewer':raise PermissionError('Read-only account')
   if role not in ROLES:raise Invalid('Unknown AI role')
   self.os._access(db,user,self.os._unit(unit),role)
@@ -59,7 +61,7 @@ class HumanAI:
       r=db.execute('SELECT id,enabled,products FROM users WHERE id=?',(a['username'],)).fetchone()
       if r and r['enabled']and set(unit['product_ids']).issubset(json.loads(r['products'])):people.append(r['id'])
     pairs.append({'unit_id':unit['id'],'unit_name':unit['name'],'company_id':unit['company_id'],'role':role,'human_accounts':sorted(people),'control':control(db,self.s,unit['id'],role)})
-  def visible(r):return (r['unit_id'],r['role'])in allowed
+  def visible(r):return (r['unit_id'],r['role'])in allowed or(user.get('role')=='founder'and r['unit_id']=='portfolio'and r['role']=='President')
   reviews=[r for r in self.s.rows(db,'human_ai_reviews')if visible(r)]
   targets=[]
   for kind,rows in [('job',result['role_workers']['jobs']),('report',result['operating_plan']['reports'])]:
@@ -72,7 +74,8 @@ class HumanAI:
     h=target_hash(row)
     targets.append({'id':row['id'],'kind':kind,'unit_id':row['unit_id'],'role':row['role'],'hash':h,'stale':bool(stale),'title':(row.get('result')or {}).get('recommendation')or row.get('acceptance')or row.get('error')or 'AI preparation','evidence':row.get('next_actions',[]) if kind=='report' else [{'reference':row.get('source_ref',''),'action':(row.get('result')or {}).get('recommendation','')}],'review':review,'review_current':bool(review and review.get('target_hash')==h and not stale)})
   from .business_runtime import PLANS
-  return {'focus_options':{r:PLANS[r]for _,r in allowed},'pairs':pairs,'targets':targets,'reviews':reviews,'manual_tasks':[r for r in self.s.rows(db,'human_manual_tasks')if visible(r)],'feedback':[r for r in self.s.rows(db,'human_ai_feedback')if visible(r)],'is_president':user.get('role')=='founder','note':'Approve/reject only your paired AI role. Approval is internal acceptance, not an external execution receipt. Manual work requires evidence. President decisions are locked until the President releases them; original history is retained.'}
+  from .work_assignment import WorkAssignment
+  return {'work_assignment':WorkAssignment(self.s).summary(db,user),'focus_options':{r:PLANS[r]for _,r in allowed},'pairs':pairs,'targets':targets,'reviews':reviews,'manual_tasks':[r for r in self.s.rows(db,'human_manual_tasks')if visible(r)],'feedback':[r for r in self.s.rows(db,'human_ai_feedback')if visible(r)],'is_president':user.get('role')=='founder','note':'Approve/reject only your paired AI role. Approval is internal acceptance, not an external execution receipt. Manual work requires evidence. President decisions are locked until the President releases them; original history is retained.'}
  def review(self,data,user):
   self._fields(data,{'kind','target_id','target_hash','version','decision','note'})
   if data['decision']not in ('approve','reject','release'):raise Invalid('Invalid review decision')
@@ -108,6 +111,7 @@ class HumanAI:
    return {'id':row['id'],'version':case['version']}
  def pair_control(self,data,user):
   self._president(user);self._fields(data,{'unit_id','role','enabled','version','note'})
+  if data['role']not in ROLES:raise Invalid('Choose an AI unit role')
   if type(data['enabled'])is not bool:raise Invalid('Enabled must be boolean')
   note=self._text(data,'note',20)
   with self.s.db()as db:

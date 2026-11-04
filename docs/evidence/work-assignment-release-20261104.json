@@ -1,0 +1,180 @@
+{
+  "date": "2026-11-04",
+  "release": "work-assignment-20261104",
+  "image_id": "sha256:d5ec2d8bc4d801d4f5af29074d663e6efa9ee7d2d0a8035483533027e40b8568",
+  "regression_tests": 360,
+  "regression_passed": true,
+  "focused_assignment_tests": 11,
+  "browser": {
+    "passed": true,
+    "role_logins_tested": 10,
+    "unit_role_pairs": 35,
+    "company_role_isolation": true,
+    "csrf_denied": true,
+    "stale_version_denied": true,
+    "review_and_manual_completion": true,
+    "president_override_locked": true,
+    "case_hold": true,
+    "pair_pause": true,
+    "mobile": true,
+    "page_errors": [],
+    "synthetic_only": true,
+    "assignments_scoped": true,
+    "current_outcomes_started": 35,
+    "future_activities_scheduled": 140,
+    "president_manual_actions": 8,
+    "assignment_idempotence": true,
+    "read_only_connection_retries": 1
+  },
+  "production": {
+    "passed": true,
+    "unit_role_pairs": 35,
+    "existing_human_role_accounts": 10,
+    "president_full_workspace": true,
+    "ai_results_visible": 79,
+    "real_decisions_changed": 0,
+    "synthetic_tasks_in_production": 0,
+    "assigned_activities": 380,
+    "role_packets": 35,
+    "current_outcomes_started": 35,
+    "future_activities": 140,
+    "manual_handoffs": 94,
+    "president_manual_actions": 8,
+    "cases_preserved": 19,
+    "plans_preserved": 35,
+    "execution_counts": {
+      "completed": 92,
+      "pending": 45,
+      "blocked": 113,
+      "in_progress": 12,
+      "awaiting_approval": 0,
+      "not_applicable": 20
+    },
+    "mobile": true,
+    "anonymous_denied": [
+      {
+        "path": "/api/business",
+        "status": 401
+      },
+      {
+        "path": "/api/execution",
+        "status": 401
+      },
+      {
+        "path": "/docs/",
+        "status": 401
+      },
+      {
+        "path": "/data/growthpilot.db",
+        "status": 401
+      }
+    ],
+    "page_errors": []
+  },
+  "activation": {
+    "assigned": {
+      "id": "paired-execution-20261104",
+      "created": true,
+      "assigned_at": "2026-11-04T18:01:43.110366+00:00",
+      "actor": "founder",
+      "authorization_source": "President instruction 2026-11-04: assign 90-day activities and remaining backlog to paired roles, start preparation and show manual/approval needs.",
+      "assigned_activities": 380,
+      "cases_reassigned": 19,
+      "role_packets_prepared": 35,
+      "current_outcomes_started": 35,
+      "manual_handoffs_created": 94,
+      "external_actions": 0,
+      "outcomes_completed": 0
+    },
+    "plan_counts": {
+      "completed": 35,
+      "in_progress": 35,
+      "pending": 140
+    },
+    "routing_counts": {
+      "paired": 296,
+      "president_scope_required": 84
+    },
+    "human_accounts": [
+      "atmakosh.ceo",
+      "atmakosh.cfo",
+      "atmakosh.cmo",
+      "atmakosh.coo",
+      "atmakosh.cto",
+      "vireoka.ceo",
+      "vireoka.cfo",
+      "vireoka.cmo",
+      "vireoka.coo",
+      "vireoka.cto"
+    ],
+    "assigned_backlog_by_role": {
+      "COO": 20,
+      "President": 84,
+      "CFO": 21,
+      "CTO": 17,
+      "CMO": 14,
+      "CEO": 14
+    },
+    "manual_handoffs": 94,
+    "president_actions": [
+      {
+        "id": "11f8d217848db7b8f64b587f53cb8e0f4c56f76867be50f50906dace113225aa",
+        "title": "Review Jodibana operator demo and business settings",
+        "instructions": "Name the reviewer and complete the operator/community demo plus business/tax/privacy and tenant opt-in acceptance review. Preserve free JodiUSA access. Live collection remains disabled until the existing launch gates pass."
+      },
+      {
+        "id": "16db414d66a65b57baaef3f720fb9d4f2790221ae1fabab2e5220c10e3a6be97",
+        "title": "Provide owned publishing accounts and the email footer address",
+        "instructions": "Specify the exact social pages/accounts the business controls and the business mailing address for campaign footers. CMO must verify product-specific consent; imported or researched contacts are not permissioned recipients."
+      },
+      {
+        "id": "49d0c962e234f7678ab151ac94fe01ddf772ad46ca294724a7ac64180c0e4033",
+        "title": "Confirm backup custody and monitored recovery alerts",
+        "instructions": "Confirm the external-drive custodian, separate recovery-key escrow and monitored alert recipient. The drive repair and restore test already passed; recurring coverage and historical deletion continuity still need evidence."
+      },
+      {
+        "id": "8dd3447b410e9e2da8f7d138e5f79638f4c05dfbd349ed657a18d9b6f845ac9d",
+        "title": "Activate the ten human role logins",
+        "instructions": "Name the people covering CEO, CFO, CMO, CTO and COO for each company. Set temporary passwords privately through Accounts & integrations and have each person change the password. No password is requested in task evidence."
+      },
+      {
+        "id": "94c27be025ad931bef1904431659e5511bbc92c5fc9d40898775254478d55a9f",
+        "title": "Supply remaining accounting evidence for CFO review",
+        "instructions": "Provide locations of revenue/deferred-revenue records, supplier bills, partner payouts and owner/support time not already in the expense evidence. Existing approved allocations remain provisional; do not repeat the earlier allocation approval."
+      },
+      {
+        "id": "9a3ca09ad01e0235e1e05925c20f8b8e1f8c2612b5cfe48ad5d47da4801be62e",
+        "title": "Confirm the home of the ten additional portfolio products",
+        "instructions": "Confirm the company, responsible unit and intended private/public scope for Charam, Atmasphere LLM, SDIS, One-Man Hedge Fund, Quantsys, SMDP Design, Stablecoin Pipeline, Vanguard GTM, Vireoka Website and Atmakosh Website. Internal products remain private; unclear products remain discovery."
+      },
+      {
+        "id": "9a53fe05b8214b04e4134145cfc40910fc88f46a42967f4f239379aa7863e4e5",
+        "title": "Identify TCompprop operational source records",
+        "instructions": "Provide the system or file locations for properties, leases, maintenance and associated income/cost evidence. The existing TCompprop cases cannot validate unavailable sources."
+      },
+      {
+        "id": "f0cd0c0717f6ed4a2e1667bc1a205266ca93c0ba1c9c7686b7154d0bd3f192d4",
+        "title": "Arrange Postmark account-level retention capability",
+        "instructions": "The retained provider-history gate says the account-level Data Removal API and suitable token are not configured. Have the account owner confirm current availability with Postmark. Provide only a protected secret location if configured; server tokens are insufficient."
+      }
+    ],
+    "cases_reassigned": 19,
+    "preexisting_readiness_evidence_and_statuses_preserved": true,
+    "commercial_data_and_credentials_preserved": true,
+    "audit_valid": true,
+    "model": "ministral-3:3b",
+    "external_actions": 0
+  },
+  "local_worker": {
+    "model": "ministral-3:3b",
+    "worker_enabled": true,
+    "current_case_results": {
+      "ready": 19
+    },
+    "current_case_ids": 19,
+    "ready_reviewable_ai_results": 19,
+    "ready_reviewable_evidence_packs": 22,
+    "case_handoffs_awaiting_president": 0,
+    "external_actions_executed": 0
+  }
+}
