@@ -71,6 +71,7 @@ def main():
    assets['/human-ai.js']='human-ai.js'
    assets['/work-assignment.js']='work-assignment.js'
    assets['/user-management.js']='user-management.js'
+   assets['/department-plan.js']='department-plan.js'
    if path in assets:
     ctype='text/html; charset=utf-8' if path=='/' else 'text/css' if path.endswith('.css') else 'text/javascript'
     return self.send(200,(Path(__file__).parent/'static'/assets[path]).read_bytes(),ctype)
@@ -193,7 +194,9 @@ def main():
      governance=HumanAI(store)
      from .work_assignment import WorkAssignment
      assignments=WorkAssignment(store)
-     commands={'assign-work':assignments.assign,'human-review':governance.review,'human-feedback':governance.feedback,'manual-create':governance.create_task,'manual-action':governance.task_action,'president-pair':governance.pair_control,'president-override':governance.override,'plan-prepare':planner.prepare,'plan-control':planner.control,'plan-record':planner.record,'worker-control':runtime.control,'worker-retry':runtime.retry,'opportunity-case':runtime.opportunity_case,'bootstrap':runtime.bootstrap}
+     from .department_plan import DepartmentPlan
+     departments=DepartmentPlan(store)
+     commands={'department-prepare':departments.prepare,'department-owner':departments.owner,'assign-work':assignments.assign,'human-review':governance.review,'human-feedback':governance.feedback,'manual-create':governance.create_task,'manual-action':governance.task_action,'president-pair':governance.pair_control,'president-override':governance.override,'plan-prepare':planner.prepare,'plan-control':planner.control,'plan-record':planner.record,'worker-control':runtime.control,'worker-retry':runtime.retry,'opportunity-case':runtime.opportunity_case,'bootstrap':runtime.bootstrap}
      result=commands[command](data,user) if command in commands else BusinessOS(store).dispatch(command,data,user)
      if user['role']=='business':result={k:v for k,v in result.items() if k in ('id','case_id','created','existing','version','cursor','unit_id','company_id')}
     elif path.startswith('/api/integrations/'):

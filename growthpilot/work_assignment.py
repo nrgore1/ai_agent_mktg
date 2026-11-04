@@ -44,7 +44,7 @@ class WorkAssignment:
    if not programs or not programs[0].get('scope_approved')or not programs[0].get('enabled'):raise Invalid('Approved active operating plan required')
    existing=self.s.rows(db,'work_assignment_runs')
    if existing:return {'id':existing[0]['id'],'created':False}
-   plans=self.s.rows(db,'operating_plans');backlog=self.s.rows(db,'execution_tasks');byid={t['id']:t for t in backlog}
+   plans=[p for p in self.s.rows(db,'operating_plans')if p['role']in ROLES];backlog=self.s.rows(db,'execution_tasks');byid={t['id']:t for t in backlog}
    units={u['id']:u for u in UNITS};mapping={pid:u for u in UNITS for pid in u['product_ids']}
    products={p['id']:p['name']for p in self.s.rows(db,'products')}
    owners={(u['id'],r):self._owner(db,u,r)for u in UNITS for r in ROLES}

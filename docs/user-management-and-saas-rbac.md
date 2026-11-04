@@ -90,3 +90,7 @@ The new implementation uses `user_management.py`, `saas_roles.py` and `static/us
 The deployed candidate passed 374 automated server tests and browser checks covering all 15 department dashboards, user creation, edits, reset, disable/enable, deletion, first-login password changes, delegated administration and auditor restrictions. Live verification confirmed the President controls, seven-unit scope, 20 assignable roles, 22 processes and preserved business records. All ten executive role logins were verified after their private credential handover; the first-change gate remained enforced. The previous release image and predeployment database backup are retained.
 
 See [release evidence](release-evidence/user-management-20261104.json) for the exact candidate and verification receipts.
+
+## SaaS department plans
+
+The 15 department roles now have scoped 90-day plans, weekly deterministic evidence preparation, linked manual deliverables and President milestone review. See [SaaS role execution plans](saas-role-90-day-execution-plan.md) for dates, ownership, backlog routing and approval gates. This adds preparation and human workflows, not unrestricted model workers or payment execution.

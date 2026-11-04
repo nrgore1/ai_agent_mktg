@@ -163,6 +163,8 @@ class BusinessOS:
    from .business_runtime import BusinessRuntime
    from .operating_plan import OperatingPlan
    result['operating_plan']=OperatingPlan(self.store).summary(db,user)
+   from .department_plan import DepartmentPlan
+   result['department_program']=DepartmentPlan(self.store).summary(db,user)
    from .role_access import scope_summary
    result=BusinessRuntime(self.store).enrich(db,user,result)
    from .human_ai import HumanAI

@@ -1,0 +1,123 @@
+{
+  "server_tests": {
+    "passed": true,
+    "image_id": "sha256:d152c556fc40470702ad4ba75a8c0d8d0fd708c031ec6ea0d23f0121aea6e715",
+    "suite_output": "03 elapsed=0.000\n......................................................................................................................................................................................\n----------------------------------------------------------------------\nRan 387 tests in 63.606s\n\nOK\n"
+  },
+  "browser": {
+    "passed": true,
+    "department_plan_views": 15,
+    "company_unit_role_scoping": true,
+    "manual_submission_to_president_review": true,
+    "self_approval_denied": true,
+    "president_acceptance": true,
+    "owner_selection": true,
+    "auditor_read_only": true,
+    "future_phase_denied": true,
+    "original_ai_recommendations_preserved": true,
+    "mobile": true,
+    "page_errors": [],
+    "synthetic_only": true
+  },
+  "deployment": {
+    "deployed": true,
+    "image": "agentvire-business:saas-plans-20261104-r2",
+    "image_id": "sha256:d152c556fc40470702ad4ba75a8c0d8d0fd708c031ec6ea0d23f0121aea6e715",
+    "rollback_image": "agentvire-business:saas-plans-20261104",
+    "configuration_preserved": true,
+    "protected_data_preserved": true,
+    "other_services_unchanged": true,
+    "anonymous_denied": true,
+    "qa_tests": 387,
+    "external_actions_executed": 0
+  },
+  "activation": {
+    "activated": true,
+    "result": {
+      "id": "saas-department-plans-20261104",
+      "created": true,
+      "plans_created": 105,
+      "activities_created": 630,
+      "phase_manual_tasks_created": 315,
+      "backlog_routed": 81,
+      "existing_manual_tasks_routed": 81,
+      "start_date": "2026-11-04",
+      "end_date": "2027-02-01",
+      "source": "Owner explicitly requested 90-day plans for the new SaaS roles, relevant backlog/manual assignments and President progress and approval monitoring on 4 November 2026.",
+      "created_at": "2026-11-04T20:05:53.816293+00:00",
+      "outcomes_completed": 0,
+      "external_actions": 0
+    },
+    "department_counts": {
+      "plans": 105,
+      "activities": 630,
+      "ready_for_review": 0,
+      "interim_owner_plans": 105,
+      "completed_outcomes": 0,
+      "overdue_outcomes": 0
+    },
+    "all_role_plans": 140,
+    "all_plan_activities": 840,
+    "all_manual_tasks": 409,
+    "department_manual_tasks": 396,
+    "phase_manual_tasks": 315,
+    "assigned_backlog_by_role": {
+      "PARTNERSHIPS": 7,
+      "PRIVACY": 16,
+      "QA": 14,
+      "SALES": 7,
+      "ENGINEERING": 3,
+      "REVENUE": 7,
+      "BILLING": 7,
+      "CUSTOMER_SUCCESS": 1,
+      "PRODUCT": 16,
+      "SRE": 3
+    },
+    "original_plans_preserved": true,
+    "original_manual_status_evidence_preserved": true,
+    "launch_campaign_account_records_preserved": true,
+    "no_new_model_workers": true,
+    "outcomes_approved": 0,
+    "external_actions": 0,
+    "audit_valid": true,
+    "backup": {
+      "file": "growthpilot-20261104-200553.db",
+      "sha256": "48e2568c964ee1df84c1fa414e7ea59504efbf36ee5c8880d5ec8fa70cd4b9d3",
+      "integrity": "ok",
+      "bundle": "growthpilot-20261104-200553.recovery.tar.gz",
+      "bundle_sha256": "16e9429e566ddcc919a62170262c8265a6f5027dd3c9740a826875f4a5ff972b",
+      "recovery_requires": "fresh separately retained privacy checkpoint and original consent signing key"
+    },
+    "evidence_packs_prepared_by_activation_loop": 104,
+    "total_first_phase_department_packs": 105
+  },
+  "live_verification": {
+    "passed": true,
+    "department_counts": {
+      "plans": 105,
+      "activities": 630,
+      "ready_for_review": 0,
+      "interim_owner_plans": 105,
+      "completed_outcomes": 0,
+      "overdue_outcomes": 0
+    },
+    "all_role_plans": 140,
+    "plan_activities": 840,
+    "original_backlog_assignments": 170,
+    "department_backlog_assignments": 81,
+    "phase_deliverables": 315,
+    "original_cases": 19,
+    "department_roles_filtered": 15,
+    "department_backlog_visibility_verified": true,
+    "department_preparation_complete": 105,
+    "president_controls_visible": true,
+    "manual_task_views_verified": true,
+    "original_ai_roles_preserved": true,
+    "real_decisions_changed": 0,
+    "outcomes_approved": 0,
+    "mobile": true,
+    "anonymous_denied": true,
+    "page_errors": []
+  },
+  "note": "The background worker prepared one pack while activation prepared the other 104. Total verified department packs: 105. No business outcomes were approved."
+}

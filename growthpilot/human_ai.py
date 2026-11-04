@@ -61,14 +61,14 @@ class HumanAI:
      if a['unit_id']==unit['id']and a['role']==role and a['enabled']:
       r=db.execute('SELECT id,enabled,products FROM users WHERE id=?',(a['username'],)).fetchone()
       if r and r['enabled']and set(unit['product_ids']).issubset(json.loads(r['products'])):people.append(r['id'])
-    if role not in ROLES and not people:continue
+    if role not in ROLES and not people and not any(p.get('department_policy')and p['unit_id']==unit['id']and p['role']==role for p in self.s.rows(db,'operating_plans')):continue
     pairs.append({'ai_preparation':role in ROLES,'unit_id':unit['id'],'unit_name':unit['name'],'company_id':unit['company_id'],'role':role,'human_accounts':sorted(people),'control':control(db,self.s,unit['id'],role)})
   def visible(r):return (r['unit_id'],r['role'])in allowed or(user.get('role')=='founder'and r['unit_id']=='portfolio'and r['role']=='President')
   reviews=[r for r in self.s.rows(db,'human_ai_reviews')if visible(r)]
   targets=[]
   for kind,rows in [('job',result['role_workers']['jobs']),('report',result['operating_plan']['reports'])]:
    for row in rows:
-    if not visible(row):continue
+    if not visible(row)or row['role']not in ROLES:continue
     if kind=='job':stale=row.get('stale',True)or row['status']!='ready'
     else:
      _,_,_,stale=self._resolve(db,kind,row['id'])
@@ -143,6 +143,9 @@ class HumanAI:
    row=self.s.get(db,'human_manual_tasks',data['id']);self._access(db,user,row['unit_id'],row['role']);self._version(data,row)
    president=user['role']=='founder'
    if action in ('authorize','hold','cancel','reopen'):self._president(user)
+   if row.get('department_policy')and action in ('start','complete','authorize'):
+    from .operating_plan import today
+    if row.get('start_date','')>str(today()):raise Invalid('Future phase is not active')
    if not president and row.get('president_locked'):raise PermissionError('President decision is locked; President must reopen this task')
    if not president and row['assignee']!=user['username']:raise PermissionError('Only the assignee may record manual execution')
    if row['status']in ('completed','cancelled','held')and not president:raise Invalid('Task is closed or held; President review required')
@@ -163,7 +166,10 @@ class HumanAI:
    if action=='reopen':row['president_locked']=False
    row['history'].append({'before':old,'action':action,'actor':user['username'],'note':note,'source':source,'at':now()})
    row['version']+=1;row['updated_at']=now()
-   self.s.save(db,'human_manual_tasks',row);self.s.audit(db,'human_manual_'+action,row['id'],{'unit_id':row['unit_id'],'role':row['role'],'president_override':president,'version':row['version'],'external_actions':0},user['username'])
+   self.s.save(db,'human_manual_tasks',row)
+   from .department_plan import sync_manual
+   sync_manual(self.s,db,row)
+   self.s.audit(db,'human_manual_'+action,row['id'],{'unit_id':row['unit_id'],'role':row['role'],'president_override':president,'version':row['version'],'external_actions':0},user['username'])
    return {'id':row['id'],'version':row['version']}
  def override(self,data,user):
   self._president(user);self._fields(data,{'kind','id','version','step','action','note'})

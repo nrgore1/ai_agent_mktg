@@ -103,6 +103,8 @@ def dispatch(identity,action,data,actor):
      store.save(db,'business_assignments',g)
   profile.update(updated_at=now(),updated_by=actor['username']);store.save(db,'account_profiles',profile)
   db.execute('DELETE FROM sessions WHERE user_id=?',(username,))
+  from .department_plan import reconcile_owners
+  reconcile_owners(store,db,actor['username'])
   store.audit(db,'user_management_'+action,username,{'note':note,'sessions_revoked':True,'roles':roles if action in ('create','update')else None,'units':[u['id']for u in units]if action in ('create','update')else None,'credentials_logged':False},actor['username'])
   return {'username':username,'action':action,'sessions_revoked':True,'must_change':action in ('create','reset_password'),'deleted':action=='delete'}
 

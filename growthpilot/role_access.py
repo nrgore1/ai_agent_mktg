@@ -49,8 +49,8 @@ def scope_summary(user, result):
  result['dashboard_tabs']=['overview','work','processes','workers','plan','counterparts']
  if role_set & {'CEO','CMO'}: result['dashboard_tabs'].append('opportunities')
  if role_set & {'CFO','REVENUE','AUDITOR'}: result['dashboard_tabs'].append('finance')
- if not role_set & set(ROLES):result['dashboard_tabs']=[t for t in result['dashboard_tabs']if t not in ('workers','plan')]
- if role_set=={'USER_ADMIN'}:result['dashboard_tabs']=['overview']
+ if not role_set & set(ROLES):result['dashboard_tabs']=[t for t in result['dashboard_tabs']if t!='workers']
+ if role_set=={'USER_ADMIN'}:result['dashboard_tabs']=['overview','plan','counterparts']
  result['read_only']=role_set=={'AUDITOR'}
  for u in result['units']:
   scoped=[c for c in visible if c['unit_id']==u['id']]

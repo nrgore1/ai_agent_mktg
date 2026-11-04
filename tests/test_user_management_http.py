@@ -57,6 +57,19 @@ class UserManagementHttpTests(unittest.TestCase):
   data['roles']=['USER_ADMIN'];self.denied(a,'user-management/create',data,al['csrf'])
   data['roles']=['BILLING'];data['company']='vireoka';data['units']=['liqmint_individual'];self.denied(a,'user-management/create',data,al['csrf'])
   self.assertNotIn('founder',{u['username']for u in self.call(a,'user-management')['users']})
+ def test_department_plan_http_authorization_and_scope(self):
+  from growthpilot.operating_plan import today
+  f,l=self.client('founder','Owner-Synthetic-Password');fc=l['csrf']
+  self.call(f,'business/plan-prepare',{'start_date':str(today())},fc)
+  self.call(f,'business/plan-control',{'enabled':True,'approve_scope':True},fc)
+  self.denied(f,'business/department-prepare',{'source':'Synthetic President plan authorization'},'')
+  r=self.call(f,'business/department-prepare',{'source':'Synthetic President plan authorization'},fc);self.assertEqual(r['plans_created'],105)
+  self.create(f,fc,'http-department-qa',['QA']);q,ql=self.ready('http-department-qa')
+  d=self.call(q,'business');self.assertEqual(len(d['department_program']['plans']),1);self.assertEqual(d['department_program']['plans'][0]['owner'],'http-department-qa')
+  self.denied(q,'business/department-owner',{},ql['csrf']);self.denied(q,'business/department-prepare',{},ql['csrf'])
+  p=d['department_program']['plans'][0]
+  foreign=next(p for p in self.call(f,'business')['department_program']['plans']if p['company_id']=='vireoka')
+  self.denied(q,'business/plan-record',{'plan_id':foreign['id'],'task_id':foreign['current_tasks'][0]['id'],'version':1,'status':'in_progress','source':'synthetic:HTTP-proof','note':'Attempt to cross the company and role boundary must be denied.','attest':True},ql['csrf'])
  def test_anonymous_and_password_gate(self):
   self.denied(urllib.request.build_opener(),'user-management',status=401)
   self.denied(urllib.request.build_opener(),'user-management/create',{},status=401)

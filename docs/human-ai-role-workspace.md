@@ -75,3 +75,7 @@ The live **Assigned work and next actions** panel now links the 90-day activitie
 ## Detailed role user guides
 
 Use the [President and executive role guides](user-guides/README.md) for daily and weekly routines, 90-day outcomes, evidence and approval procedures, product playbooks, and business performance measures.
+
+## SaaS department plans
+
+The 15 department roles now have scoped 90-day plans, weekly deterministic evidence preparation, linked manual deliverables and President milestone review. See [SaaS role execution plans](saas-role-90-day-execution-plan.md) for dates, ownership, backlog routing and approval gates. This adds preparation and human workflows, not unrestricted model workers or payment execution.

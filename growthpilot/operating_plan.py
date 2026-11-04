@@ -41,6 +41,9 @@ ROLE_KEYS={
 }
 def role_for(task):
  return next((r for r,keys in ROLE_KEYS.items() if task['key'] in keys),'CTO')
+from .saas_plan_catalog import OBJECTIVES as DEPARTMENT_OBJECTIVES, responsible_role
+ALL_OBJECTIVES={**OBJECTIVES,**DEPARTMENT_OBJECTIVES}
+def role_matches(task,role):return role_for(task)==role if role in ROLES else responsible_role(task)==role
 def task_state(t,byid):
  return 'blocked' if t['status']=='pending' and any(byid.get(d,{}).get('status')!='completed' for d in t.get('dependencies',[])) else t['status']
 
@@ -95,23 +98,26 @@ class OperatingPlan:
   for t in tasks:
    status=task_state(t,byid)
    if status in ('completed','not_applicable'):continue
-   unit=mappings.get(t['product_id']);role=role_for(t)
-   if user.get('role') not in ('founder','admin') and (not unit or role not in self.os._roles(db,user,unit)):continue
-   unresolved.append({'id':t['id'],'product_id':t['product_id'],'unit_id':unit['id'] if unit else None,'company_id':unit['company_id'] if unit else None,'role':role if unit else 'CEO','title':t['title'],'key':t['key'],'priority':t['priority'],'status':status,'acceptance':t['acceptance'],'source':'execution_tasks/'+t['id'],'human_assignee':t.get('human_assignee'),'ai_assignee':t.get('ai_assignee'),'routing':'mapped_unit' if unit else 'founder_scope_mapping_required','next_action':'Confirm product-to-company/unit mapping before delegation.' if not unit else 'Collect evidence for the existing acceptance criteria; retain dependencies and release controls.'})
+   unit=mappings.get(t['product_id']);role=role_for(t);department=responsible_role(t)
+   if user.get('role')not in ('founder','admin'):
+    available=self.os._roles(db,user,unit)if unit else []
+    if role not in available and department not in available:continue
+    if role not in available:role=department
+   unresolved.append({'id':t['id'],'product_id':t['product_id'],'unit_id':unit['id'] if unit else None,'company_id':unit['company_id'] if unit else None,'role':role if unit else 'CEO','department_role':department if unit else None,'oversight_role':role_for(t),'title':t['title'],'key':t['key'],'priority':t['priority'],'status':status,'acceptance':t['acceptance'],'source':'execution_tasks/'+t['id'],'human_assignee':t.get('human_assignee'),'ai_assignee':t.get('ai_assignee'),'routing':'mapped_unit' if unit else 'founder_scope_mapping_required','next_action':'Confirm product-to-company/unit mapping before delegation.' if not unit else 'Collect evidence for the existing acceptance criteria; retain dependencies and release controls.'})
   unresolved.sort(key=lambda t:(t['priority'],t['status']!='in_progress',t['product_id'],t['key']))
-  return {'program':programs[0] if programs else None,'plans':plans,'reports':sorted(reports,key=lambda r:r['created_at'],reverse=True)[:105],'backlog':unresolved,'counts':dict(Counter(t['status']for p in plans for t in p['tasks'])),'external_execution':False,'note':'Preparation runs automatically at most weekly per role/unit. Milestones require evidence and founder review; this planner never approves or completes execution-backlog tasks.'}
+  return {'program':programs[0] if programs else None,'plans':plans,'reports':list({r['plan_id']:r for r in sorted(reports,key=lambda r:r['created_at'])}.values()),'backlog':unresolved,'counts':dict(Counter(t['status']for p in plans for t in p['tasks'])),'external_execution':False,'note':'Preparation runs automatically at most weekly per role/unit. Milestones require evidence and founder review; this planner never approves or completes execution-backlog tasks.'}
  def _report(self,db,plan,week,phase):
   unit=self.os._unit(plan['unit_id']);role=plan['role']
   tasks=self.s.rows(db,'execution_tasks');byid={t['id']:t for t in tasks}
-  scoped=[t for t in tasks if t['product_id'] in unit['product_ids'] and role_for(t)==role]
+  scoped=[t for t in tasks if t['product_id'] in unit['product_ids'] and role_matches(t,role)]
   rows=[{'id':t['id'],'title':t['title'],'status':task_state(t,byid),'acceptance':t['acceptance'],'updated_at':t.get('updated_at'),'evidence_count':len(t.get('evidence',[])),'source':'execution_tasks/'+t['id']} for t in scoped]
   cases=[c for c in self.s.rows(db,'business_cases')if c['unit_id']==unit['id'] and not c.get('closed') and c['cursor']<len(c['steps']) and c['steps'][c['cursor']]['role']==role]
   refs=[{'id':c['id'],'title':c['title'],'due_date':c['due_date'],'step':c['steps'][c['cursor']]['title'],'status':c['steps'][c['cursor']]['status'],'version':c['version']}for c in cases]
-  result={'id':digest([plan['id'],week,phase]),'plan_id':plan['id'],'unit_id':unit['id'],'role':role,'week':week,'phase':phase,'created_at':now(),'mode':'deterministic_evidence_preparation','source_hash':digest([rows,refs]),'readiness':rows,'case_queue':refs,'acceptance':OBJECTIVES[role][phase-1][1],'constraints':unit['constraint'],'external_actions':0,'outcomes_verified':False,'next_actions':[]}
+  result={'id':digest([plan['id'],week,phase]),'plan_id':plan['id'],'unit_id':unit['id'],'role':role,'week':week,'phase':phase,'created_at':now(),'mode':'deterministic_evidence_preparation','source_hash':digest([rows,refs]),'readiness':rows,'case_queue':refs,'acceptance':ALL_OBJECTIVES[role][phase-1][1],'constraints':unit['constraint'],'external_actions':0,'outcomes_verified':False,'next_actions':[]}
   for t in rows:
    if t['status']not in ('completed','not_applicable'):result['next_actions'].append({'reference':t['source'],'action':t['acceptance']})
   for c in refs:result['next_actions'].append({'reference':'business_cases/'+c['id'],'action':c['step']})
-  if role=='CFO':
+  if role in ('CFO','REVENUE','AUDITOR'):
    finance=financial_evidence(__import__('pathlib').Path(self.s.path).parent,[unit])
    result['finance']={k:finance.get(k) for k in ('status','captured_at','stale','books_finalized','financial_reconciled','missing','units')}
   if role in ('CEO','CMO'):
@@ -126,6 +132,8 @@ class OperatingPlan:
   with self.s.db() as db:
    programs=self.s.rows(db,'operating_program')
    if not programs or not programs[0].get('enabled') or not programs[0].get('scope_approved') or self.s.paused(db):return {'status':'paused'}
+   from .department_plan import reconcile_owners
+   reconcile_owners(self.s,db)
    program=programs[0];start=dt.date.fromisoformat(program['start_date']);elapsed=(day-start).days
    if elapsed<0:return {'status':'not_started'}
    if elapsed>=90:return {'status':'window_ended','outcomes_completed':False}
@@ -155,17 +163,27 @@ class OperatingPlan:
    if self.s.paused(db):raise Invalid('Operations paused')
    plan=self.s.get(db,'operating_plans',data['plan_id'])
    if user.get('role')=='viewer' or not self._visible(db,user,plan):raise PermissionError('Assigned role required')
+   department=bool(plan.get('department_policy'))
+   if department and user.get('role')!='founder'and (plan['role']=='AUDITOR'or plan['accountable_human']!=user.get('username')):raise PermissionError('Assigned department owner required; auditor remains read only')
    task=next((t for t in plan['tasks']if t['id']==data['task_id']),None)
    if not task or task['kind']!='outcome':raise Invalid('Only outcome milestones accept manual evidence')
    if type(data['version'])is not int or task['version']!=data['version']:raise Invalid('Milestone changed; refresh')
    if task['status']=='completed'and user.get('role')!='founder':raise PermissionError('President must reopen an approved milestone')
    if str(today())<task['start_date']:raise Invalid('Future phase is not active')
+   if department and data['status']in ('ready_for_review','completed'):
+    manual=self.s.get(db,'human_manual_tasks',task['manual_task_id'])
+    if manual['status']!='completed':raise Invalid('Complete and attest the linked manual deliverable first')
    if data['status']=='completed':
     self._founder(user)
+    if department:
+     if task['status']!='ready_for_review':raise Invalid('Submit current department evidence for review first')
+     if task['phase']>1:
+      byid={t['id']:t for t in self.s.rows(db,'execution_tasks')}
+      if any(i not in byid or task_state(byid[i],byid)not in ('completed','not_applicable')for i in plan['linked_backlog']):raise Invalid('Linked department readiness gates remain open')
     if data['attest']is not True:raise Invalid('Verified acceptance evidence attestation required')
     prep=next(t for t in plan['tasks']if t['phase']==task['phase']and t['kind']=='preparation')
     if prep['status']!='completed':raise Invalid('Prepare current phase evidence first')
-    if task['phase']>1:
+    if task['phase']>1 and not department:
      unit=self.os._unit(plan['unit_id'])
      relevant=[t for t in self.s.rows(db,'execution_tasks') if t['product_id']in unit['product_ids'] and role_for(t)==plan['role']]
      if not relevant:raise Invalid('No mapped readiness evidence; confirm source and acceptance before completion')
