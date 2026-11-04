@@ -25,14 +25,15 @@ def scope_summary(user, result):
  visible=[]
  for c in result['cases']:
   allowed=roles[c['unit_id']]
-  if 'CEO' not in allowed and not any(s['role'] in allowed for s in c['steps']): continue
+  if not any(s['role'] in allowed for s in c['steps']): continue
   c.pop('history',None)
-  if 'CEO' not in allowed:
-   for s in c['steps']:
-    if s['role'] not in allowed:
-     for k in list(s):
-      if k not in ('title','role','acceptance','status','approval_required'): del s[k]
-   c.pop('close_note',None);c.pop('closed_by',None)
+  c.pop('human_ai_feedback',None)
+  for step in c['steps']:
+   if step['role'] not in allowed:
+    for k in list(step):
+     if k not in ('role','status','approval_required'):del step[k]
+    step['title']='Handoff to '+step['role'];step['acceptance']='Details restricted to the assigned role.'
+  c.pop('close_note',None);c.pop('closed_by',None)
   visible.append(c)
  result['cases']=visible
  caseids={c['id'] for c in visible}
@@ -45,9 +46,9 @@ def scope_summary(user, result):
  result['can_assign']=False;result['can_review']=False
  role_set=set().union(*roles.values()) if roles else set()
  result['roles']={k:v for k,v in result['roles'].items() if k in role_set}
- result['dashboard_tabs']=['overview','work','processes','workers','plan']
+ result['dashboard_tabs']=['overview','work','processes','workers','plan','counterparts']
  if role_set & {'CEO','CMO'}: result['dashboard_tabs'].append('opportunities')
- if role_set & {'CEO','CFO'}: result['dashboard_tabs'].append('finance')
+ if role_set & {'CFO'}: result['dashboard_tabs'].append('finance')
  for u in result['units']:
   scoped=[c for c in visible if c['unit_id']==u['id']]
   u['metrics']['open_cases']=sum(c['status'] not in ('completed','closed') for c in scoped)

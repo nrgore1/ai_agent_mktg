@@ -1,0 +1,65 @@
+{
+  "release": "human-pairing-20261104",
+  "date": "2026-11-04",
+  "deployed_image": "sha256:4f9bcdf039686e5c0acd67a912332eb692fa99eaab6c43e9b8f2ec8d56ed791f",
+  "regression_tests": 349,
+  "regression_passed": true,
+  "focused_authorization_tests": 20,
+  "browser": {
+    "passed": true,
+    "role_logins_tested": 10,
+    "unit_role_pairs": 35,
+    "company_role_isolation": true,
+    "csrf_denied": true,
+    "stale_version_denied": true,
+    "review_and_manual_completion": true,
+    "president_override_locked": true,
+    "case_hold": true,
+    "pair_pause": true,
+    "mobile": true,
+    "page_errors": [],
+    "synthetic_only": true
+  },
+  "production": {
+    "passed": true,
+    "unit_role_pairs": 35,
+    "existing_human_role_accounts": 10,
+    "president_full_workspace": true,
+    "ai_results_visible": 78,
+    "real_decisions_changed": 0,
+    "synthetic_tasks_in_production": 0,
+    "cases_preserved": 19,
+    "plans_preserved": 35,
+    "execution_counts": {
+      "completed": 92,
+      "pending": 45,
+      "blocked": 113,
+      "in_progress": 12,
+      "awaiting_approval": 0,
+      "not_applicable": 20
+    },
+    "mobile": true,
+    "anonymous_denied": [
+      {
+        "path": "/api/business",
+        "status": 401
+      },
+      {
+        "path": "/api/execution",
+        "status": 401
+      },
+      {
+        "path": "/docs/",
+        "status": 401
+      },
+      {
+        "path": "/data/growthpilot.db",
+        "status": 401
+      }
+    ],
+    "page_errors": []
+  },
+  "backup_and_rollback_prepared": true,
+  "commercial_controls_preserved": true,
+  "google_cloud_used": false
+}

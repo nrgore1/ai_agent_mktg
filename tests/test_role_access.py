@@ -26,7 +26,7 @@ class RoleAccessTests(unittest.TestCase):
     self.assertTrue(u['must_change']);self.assertEqual({x['company_id'] for x in d['units']},{company})
     self.assertTrue(all(x['roles']==[role] for x in d['units']))
     self.assertFalse(d['can_assign']);self.assertFalse(d['can_review']);self.assertEqual(d['users'],[])
-    self.assertEqual('finance' in d['dashboard_tabs'],role in ('CEO','CFO'))
+    self.assertEqual('finance' in d['dashboard_tabs'],role=='CFO')
     self.assertEqual('opportunities' in d['dashboard_tabs'],role in ('CEO','CMO'))
  def test_step_notes_history_and_worker_results_do_not_leak(self):
   u,_=self.account();c=self.case('weddingos','sales')

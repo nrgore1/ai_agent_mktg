@@ -22,7 +22,7 @@ render=function(){
   $('#pause')?.remove();
   document.querySelector('header > span').textContent=businessData?.companies.map(c=>c.name).join(' / ')||'ASSIGNED WORKSPACE';
   $('#title').textContent=businessData?Object.keys(businessData.roles).join(' / ')+' dashboard':'Your role dashboard';
-  const names={Portfolio:'overview','Work queues':'work','Decision inbox':'decisions','Process library':'processes','People & roles':'roles',Connections:'connections','Vanguard opportunities':'opportunities','Finance evidence':'finance','AI work results':'workers','90-day role plans':'plan'};
+  const names={Portfolio:'overview','Work queues':'work','Decision inbox':'decisions','Process library':'processes','People & roles':'roles',Connections:'connections','Vanguard opportunities':'opportunities','Finance evidence':'finance','AI work results':'workers','90-day role plans':'plan','Human + AI workspace':'counterparts'};
   document.querySelectorAll('[aria-label="Business workspace"] button').forEach(b=>b.hidden=!businessData?.dashboard_tabs.includes(names[b.textContent]));
   $('#business-export')?.remove();
   if($('#business-company'))$('#business-company').options[0].textContent='All assigned companies';

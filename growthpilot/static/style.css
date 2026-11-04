@@ -7,3 +7,5 @@
 .selected{background:#dce9ce;border-color:#769a60}.blockers{background:#fcf4df;border:1px solid #e6d6a6;padding:16px;border-radius:8px;margin:18px 0}.wide{grid-column:1/-1}.wide textarea{min-height:260px}.check-label{display:flex!important;align-items:flex-start;gap:10px}.check-label input{width:18px;height:18px}li{line-height:1.65;margin-bottom:8px}
 
 .operating-plan-panel{min-width:0;overflow-wrap:anywhere}.operating-plan-panel .form-grid{grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr))}.operating-plan-panel input,.operating-plan-panel select,.operating-plan-panel textarea{min-width:0;max-width:100%}
+
+.human-ai-panel{min-width:0;overflow-wrap:anywhere}.human-ai-panel .form-grid{grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr))}.human-ai-panel input,.human-ai-panel select,.human-ai-panel textarea{min-width:0;max-width:100%}

@@ -120,6 +120,7 @@ class BusinessOS:
   if not isinstance(data,dict) or set(data)-set(fields): raise Invalid('Unsupported business operation fields')
  def _status(self, case):
   if case.get('closed'): return 'closed'
+  if case.get('president_hold'): return 'held'
   if case['cursor']==len(case['steps']): return 'completed'
   return case['steps'][case['cursor']]['status']
  def summary(self,user):
@@ -129,7 +130,7 @@ class BusinessOS:
    cases=[dict(c,status=self._status(c)) for c in self.store.rows(db,'business_cases') if c['unit_id'] in ids]
    for c in cases:
     current=c['steps'][c['cursor']] if c['cursor']<len(c['steps']) else None
-    c['can_work']=bool(current and current['role'] in self._roles(db,user,self._unit(c['unit_id'])) and user['role']!='viewer' and not c.get('closed'))
+    c['can_work']=bool((not c.get('president_hold') or user['role']=='founder') and current and current['role'] in self._roles(db,user,self._unit(c['unit_id'])) and user['role']!='viewer' and not c.get('closed'))
    leads=[x for x in self.store.rows(db,'leads') if x.get('product_id') in pids]
    campaigns=[x for x in self.store.rows(db,'campaigns') if x.get('product_id') in pids]
    actions=[x for x in self.store.rows(db,'actions') if x.get('product_id') in pids]
@@ -158,7 +159,10 @@ class BusinessOS:
    from .operating_plan import OperatingPlan
    result['operating_plan']=OperatingPlan(self.store).summary(db,user)
    from .role_access import scope_summary
-   return scope_summary(user,BusinessRuntime(self.store).enrich(db,user,result))
+   result=BusinessRuntime(self.store).enrich(db,user,result)
+   from .human_ai import HumanAI
+   result['human_ai']=HumanAI(self.store).summary(db,user,result)
+   return scope_summary(user,result)
  def dispatch(self,command,data,user):
   if user.get('role')=='viewer': raise PermissionError('Read-only account')
   with self.store.db() as db:
@@ -194,6 +198,7 @@ class BusinessOS:
    if type(data.get('version')) is not int or case['version']!=data['version']: raise Invalid('Case changed; refresh before continuing')
    if case.get('closed') or case['cursor']>=len(case['steps']): raise Invalid('Case is already closed or completed')
    current=case['steps'][case['cursor']]
+   if case.get('president_hold') and user['role']!='founder':raise PermissionError('President holds this case')
    if command=='schedule':
     self._access(db,user,unit,current['role'])
     owner=self._text(data,'owner',1,80);row=db.execute('SELECT id,role,products FROM users WHERE id=? AND enabled=1',(owner,)).fetchone()
@@ -201,6 +206,7 @@ class BusinessOS:
     self._access(db,{'username':row['id'],'role':row['role'],'products':__import__('json').loads(row['products'])},unit,current['role'])
     case.update(owner=owner,due_date=self._due(data.get('due_date')))
    elif command=='close':
+    if user['role']!='founder':raise PermissionError('President required to close a cross-role case')
     self._access(db,user,unit,'CEO');case.update(closed=True,close_note=self._text(data,'note',20),closed_by=user['username'])
    elif command=='review':
     if user['role']!='founder': raise PermissionError('Founder decision required')

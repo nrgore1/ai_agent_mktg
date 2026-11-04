@@ -134,6 +134,8 @@ class OperatingPlan:
    week=elapsed//7+1;phase=elapsed//30+1
    done={r['id']for r in self.s.rows(db,'operating_reports')}
    for plan in sorted(self.s.rows(db,'operating_plans'),key=lambda p:(p['company_id'],p['unit_id'],p['role'])):
+    from .human_ai import active
+    if not active(db,self.s,plan['unit_id'],plan['role']):continue
     rid=digest([plan['id'],week,phase])
     if rid in done:continue
     report=self._report(db,plan,week,phase)
@@ -156,6 +158,7 @@ class OperatingPlan:
    task=next((t for t in plan['tasks']if t['id']==data['task_id']),None)
    if not task or task['kind']!='outcome':raise Invalid('Only outcome milestones accept manual evidence')
    if type(data['version'])is not int or task['version']!=data['version']:raise Invalid('Milestone changed; refresh')
+   if task['status']=='completed'and user.get('role')!='founder':raise PermissionError('President must reopen an approved milestone')
    if str(today())<task['start_date']:raise Invalid('Future phase is not active')
    if data['status']=='completed':
     self._founder(user)

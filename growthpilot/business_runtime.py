@@ -193,7 +193,7 @@ class BusinessRuntime:
   result['vanguard']={**snapshot,'records':visible}
   if not privileged:
    result['vanguard']['source_count']=len(visible);result['vanguard']['unmapped_count']=None;result['vanguard'].pop('source_hash',None)
-  finance_units=[u for u in result['units'] if set(u['roles'])&{'CFO','CEO'}]
+  finance_units=[u for u in result['units'] if set(u['roles'])&{'CFO'}]
   result['finance']=financial_evidence(self.directory,finance_units,privileged) if finance_units else {'status':'role_required','units':[],'shared_accounts':[],'missing':[]}
   settings=next((x for x in self.s.rows(db,'business_runtime') if x['id']=='workers'),{'enabled':False,'mode':'local_bounded_preparation','max_jobs_per_hour':24})
   jobs=[j for j in self.s.rows(db,'business_agent_jobs') if j['unit_id'] in ids]
@@ -234,7 +234,14 @@ class BusinessRuntime:
   authorized=bool(owner and owner['enabled'] and owner['role']!='viewer' and self.os._roles(db,{'username':owner['id'],'role':owner['role'],'products':json.loads(owner['products'])},unit))
   stage=linked.get('stage') if linked else case.get('origin_stage')
   facts={'finance_incomplete':finance['financial_reconciled'] is False,'source_is_research':stage in ('research','identified','contacted'),'source_active_conversation':stage=='in_conversation','approval_step':case['steps'][case['cursor']]['approval_required']}
+  from .human_ai import control
+  pair=control(db,self.s,unit['id'],role)
+  feedback=case.get('human_ai_feedback',{})
+  if feedback.get('role')==role and feedback.get('focus')in (1,2,3):
+   facts['human_revision_requested']=True;facts['human_requested_choice_'+str(feedback['focus'])]=True
+  authorized=authorized and pair['enabled'] and not case.get('president_hold',False)
   result={'facts':facts,'blocked':bool(blocked),'authorized':authorized,'source_status':source_status,'source_digest':digest(linked) if linked else None,'finance_digest':finance.get('source_hash') if role=='CFO' else None}
+  if pair['version']:result['pair_version']=pair['version']
   result['input_hash']=digest(result)
   return result
  def tick(self,selector=None):
@@ -251,7 +258,7 @@ class BusinessRuntime:
    snapshot=vanguard_snapshot(self.directory);finance=financial_evidence(self.directory,[])
    byid={j['id']:j for j in jobs};case=None
    for c in sorted(self.s.rows(db,'business_cases'),key=lambda c:c['created_at']):
-    if c.get('closed') or c['cursor']>=len(c['steps']) or c['steps'][c['cursor']]['status']=='awaiting_review':continue
+    if c.get('closed') or c.get('president_hold') or c['cursor']>=len(c['steps']) or c['steps'][c['cursor']]['status']=='awaiting_review':continue
     context=self._context(db,c,snapshot,finance)
     if not context['authorized']:continue
     key=digest(['role-worker-v1',c['id'],c['version'],context['input_hash']]);prior=byid.get(key)

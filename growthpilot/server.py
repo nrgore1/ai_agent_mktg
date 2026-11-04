@@ -68,6 +68,7 @@ def main():
    assets['/business-runtime.js']='business-runtime.js'
    assets['/role-dashboard.js']='role-dashboard.js'
    assets['/operating-plan.js']='operating-plan.js'
+   assets['/human-ai.js']='human-ai.js'
    if path in assets:
     ctype='text/html; charset=utf-8' if path=='/' else 'text/css' if path.endswith('.css') else 'text/javascript'
     return self.send(200,(Path(__file__).parent/'static'/assets[path]).read_bytes(),ctype)
@@ -145,7 +146,7 @@ def main():
     if path=='/api/password':
      identity.change_password(user['username'],data.get('old',''),data.get('new',''));return self.send(200,{'ok':True,'sign_in_again':True},cookie='gp_session=; HttpOnly; SameSite=Strict; Path=/; Max-Age=0')
     if user.get('must_change'):return self.send(403,{'error':'Change your temporary password first'})
-    if user['role']=='business' and path not in ('/api/business/create','/api/business/record','/api/business/schedule','/api/business/close','/api/business/opportunity-case','/api/business/plan-record'):return self.send(403,{'error':'Action outside your assigned role'})
+    if user['role']=='business' and path not in ('/api/business/create','/api/business/record','/api/business/schedule','/api/business/close','/api/business/opportunity-case','/api/business/plan-record','/api/business/human-review','/api/business/human-feedback','/api/business/manual-create','/api/business/manual-action'):return self.send(403,{'error':'Action outside your assigned role'})
     if path=='/api/role-accounts/manage':
      from .role_access import manage_account
      return self.send(200,manage_account(identity,data,user))
@@ -173,7 +174,9 @@ def main():
      runtime=BusinessRuntime(store)
      from .operating_plan import OperatingPlan
      planner=OperatingPlan(store)
-     commands={'plan-prepare':planner.prepare,'plan-control':planner.control,'plan-record':planner.record,'worker-control':runtime.control,'worker-retry':runtime.retry,'opportunity-case':runtime.opportunity_case,'bootstrap':runtime.bootstrap}
+     from .human_ai import HumanAI
+     governance=HumanAI(store)
+     commands={'human-review':governance.review,'human-feedback':governance.feedback,'manual-create':governance.create_task,'manual-action':governance.task_action,'president-pair':governance.pair_control,'president-override':governance.override,'plan-prepare':planner.prepare,'plan-control':planner.control,'plan-record':planner.record,'worker-control':runtime.control,'worker-retry':runtime.retry,'opportunity-case':runtime.opportunity_case,'bootstrap':runtime.bootstrap}
      result=commands[command](data,user) if command in commands else BusinessOS(store).dispatch(command,data,user)
      if user['role']=='business':result={k:v for k,v in result.items() if k in ('id','case_id','created','existing','version','cursor','unit_id','company_id')}
     elif path.startswith('/api/integrations/'):
