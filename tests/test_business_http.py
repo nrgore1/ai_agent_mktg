@@ -88,3 +88,18 @@ class BusinessHttpTests(unittest.TestCase):
   o,c=self.client()
   with self.assertRaises(urllib.error.HTTPError) as e:self.call(o,'business/opportunity-case',{'source_id':10,'due_date':'2026-11-05'},c)
   self.assertEqual(e.exception.code,400)
+
+ def test_operating_plan_asset_and_founder_controls(self):
+  self.assertIn(b'/operating-plan.js',urllib.request.urlopen(self.url+'/').read())
+  self.assertIn(b'90-day role plans',urllib.request.urlopen(self.url+'/operating-plan.js').read())
+  from growthpilot.operating_plan import today
+  o,c=self.client();data={'start_date':str(today())}
+  r=self.call(o,'business/plan-prepare',data,c);self.assertTrue(r['id'])
+  with self.assertRaises(urllib.error.HTTPError) as e:self.call(o,'business/plan-control',{'enabled':True,'approve_scope':True})
+  self.assertEqual(e.exception.code,403)
+  a,ac=self.client('operator')
+  with self.assertRaises(urllib.error.HTTPError) as e:self.call(a,'business/plan-control',{'enabled':True,'approve_scope':True},ac)
+  self.assertEqual(e.exception.code,403)
+  self.call(o,'business/plan-control',{'enabled':True,'approve_scope':True},c)
+  self.assertEqual(len(self.call(o,'business')['operating_plan']['plans']),35)
+  with self.assertRaises(urllib.error.HTTPError):self.call(o,'operating_plans',{'id':'forged','status':'completed'},c)

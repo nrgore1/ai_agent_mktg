@@ -67,6 +67,7 @@ def main():
    assets['/business.js']='business.js'
    assets['/business-runtime.js']='business-runtime.js'
    assets['/role-dashboard.js']='role-dashboard.js'
+   assets['/operating-plan.js']='operating-plan.js'
    if path in assets:
     ctype='text/html; charset=utf-8' if path=='/' else 'text/css' if path.endswith('.css') else 'text/javascript'
     return self.send(200,(Path(__file__).parent/'static'/assets[path]).read_bytes(),ctype)
@@ -144,7 +145,7 @@ def main():
     if path=='/api/password':
      identity.change_password(user['username'],data.get('old',''),data.get('new',''));return self.send(200,{'ok':True,'sign_in_again':True},cookie='gp_session=; HttpOnly; SameSite=Strict; Path=/; Max-Age=0')
     if user.get('must_change'):return self.send(403,{'error':'Change your temporary password first'})
-    if user['role']=='business' and path not in ('/api/business/create','/api/business/record','/api/business/schedule','/api/business/close','/api/business/opportunity-case'):return self.send(403,{'error':'Action outside your assigned role'})
+    if user['role']=='business' and path not in ('/api/business/create','/api/business/record','/api/business/schedule','/api/business/close','/api/business/opportunity-case','/api/business/plan-record'):return self.send(403,{'error':'Action outside your assigned role'})
     if path=='/api/role-accounts/manage':
      from .role_access import manage_account
      return self.send(200,manage_account(identity,data,user))
@@ -170,7 +171,9 @@ def main():
      command=path.removeprefix('/api/business/')
      from .business_runtime import BusinessRuntime
      runtime=BusinessRuntime(store)
-     commands={'worker-control':runtime.control,'worker-retry':runtime.retry,'opportunity-case':runtime.opportunity_case,'bootstrap':runtime.bootstrap}
+     from .operating_plan import OperatingPlan
+     planner=OperatingPlan(store)
+     commands={'plan-prepare':planner.prepare,'plan-control':planner.control,'plan-record':planner.record,'worker-control':runtime.control,'worker-retry':runtime.retry,'opportunity-case':runtime.opportunity_case,'bootstrap':runtime.bootstrap}
      result=commands[command](data,user) if command in commands else BusinessOS(store).dispatch(command,data,user)
      if user['role']=='business':result={k:v for k,v in result.items() if k in ('id','case_id','created','existing','version','cursor','unit_id','company_id')}
     elif path.startswith('/api/integrations/'):
@@ -238,7 +241,10 @@ def main():
   from .business_runtime import BusinessRuntime
   runtime=BusinessRuntime(store)
   while True:
-   try:runtime.tick()
+   try:
+    from .operating_plan import OperatingPlan
+    OperatingPlan(store).tick()
+    runtime.tick()
    except Exception:logging.exception('Business role worker failed; no external action authorized')
    time.sleep(15)
  def worker():

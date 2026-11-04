@@ -45,7 +45,7 @@ def scope_summary(user, result):
  result['can_assign']=False;result['can_review']=False
  role_set=set().union(*roles.values()) if roles else set()
  result['roles']={k:v for k,v in result['roles'].items() if k in role_set}
- result['dashboard_tabs']=['overview','work','processes','workers']
+ result['dashboard_tabs']=['overview','work','processes','workers','plan']
  if role_set & {'CEO','CMO'}: result['dashboard_tabs'].append('opportunities')
  if role_set & {'CEO','CFO'}: result['dashboard_tabs'].append('finance')
  for u in result['units']:

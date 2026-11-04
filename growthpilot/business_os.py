@@ -155,6 +155,8 @@ class BusinessOS:
     'external_execution':False,'can_assign':user['role']=='founder','can_review':user['role']=='founder',
     'note':'Case completion records an attested workflow outcome, not product launch approval, a sent campaign, a signed contract or a settled payment.'}
    from .business_runtime import BusinessRuntime
+   from .operating_plan import OperatingPlan
+   result['operating_plan']=OperatingPlan(self.store).summary(db,user)
    from .role_access import scope_summary
    return scope_summary(user,BusinessRuntime(self.store).enrich(db,user,result))
  def dispatch(self,command,data,user):

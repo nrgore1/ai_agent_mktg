@@ -1,0 +1,79 @@
+{
+  "image": "sha256:76df33f3538b9b708ee19ff33c0e386187855b21c9fe26ee8420005e71255029",
+  "rollback_image": "sha256:9e58f5bdf2079aac8ac18c3e7e409ad05e2d0805649a477a6fe2f1d0d6395e22",
+  "regression_checks_passed": 329,
+  "browser_qa": {
+    "passed": true,
+    "role_plans": 35,
+    "prepared_baselines": 35,
+    "outcomes_automatically_completed": 0,
+    "company_filter": true,
+    "role_filter": true,
+    "role_logins_tested": [
+      "CEO",
+      "CFO",
+      "CMO",
+      "CTO",
+      "COO"
+    ],
+    "cross_company_denied": true,
+    "role_self_approval_denied": true,
+    "csrf_denied": true,
+    "mobile": true,
+    "page_errors": []
+  },
+  "production": {
+    "passed": true,
+    "plans": 35,
+    "prepared_baselines": 35,
+    "outcome_milestones_completed": 0,
+    "period": [
+      "2026-11-04",
+      "2027-02-01"
+    ],
+    "worker_enabled": true,
+    "scope_approved": true,
+    "backlog_routed": 170,
+    "existing_execution_counts": {
+      "completed": 92,
+      "pending": 45,
+      "blocked": 113,
+      "in_progress": 12,
+      "awaiting_approval": 0,
+      "not_applicable": 20
+    },
+    "cases": 19,
+    "role_accounts": 10,
+    "mobile": true,
+    "anonymous_denied": [
+      {
+        "path": "/api/business",
+        "status": 401
+      },
+      {
+        "path": "/api/execution",
+        "status": 401
+      },
+      {
+        "path": "/docs/",
+        "status": 401
+      },
+      {
+        "path": "/data/growthpilot.db",
+        "status": 401
+      }
+    ],
+    "page_errors": []
+  },
+  "automation_id": "agentvire-90-day-backlog-execution",
+  "daily_followup": "09:00 America/New_York through 2027-02-01; local desktop availability required",
+  "autonomy": "Weekly deterministic evidence preparation plus existing bounded local Mistral recommendations. Daily chat follow-up can implement authorized work with tools; human/provider dependencies are not assumed resolved.",
+  "existing_backlog_tasks_completed_by_plan_setup": 0,
+  "external_actions": 0,
+  "native_scheduler_test": {
+    "environment": "isolated VPS QA",
+    "background_worker_observed": true,
+    "manual_tick_used_after_report_removal": false,
+    "external_actions": 0
+  }
+}
