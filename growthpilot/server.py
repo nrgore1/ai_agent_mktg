@@ -55,12 +55,16 @@ def main():
      return self.send(404,{'error':'Not found'})
     except Invalid:return self.send(404,{'error':'Unknown subscription site'})
    assets={'/':'index.html','/app.js':'app.js','/style.css':'style.css','/console.js':'console.js','/roadmap.js':'roadmap.js','/launchdesk.js':'launchdesk.js','/strategyos.js':'strategyos.js','/execution.js':'execution.js','/integrations.js':'integrations.js'}
+   assets['/business.js']='business.js'
    if path in assets:
     ctype='text/html; charset=utf-8' if path=='/' else 'text/css' if path.endswith('.css') else 'text/javascript'
     return self.send(200,(Path(__file__).parent/'static'/assets[path]).read_bytes(),ctype)
    user=self.user()
    if not user:return self.send(401,{'error':'Sign in required'})
    try:
+    if path=='/api/business':
+     from .business_os import BusinessOS
+     return self.send(200,BusinessOS(store).summary(user))
     if path=='/api/integrations':
      if user['role'] not in ('founder','admin'):return self.send(403,{'error':'Administrator required for integrations'})
      from .integrations import IntegrationHub
@@ -138,7 +142,10 @@ def main():
      if kind in ('products','channels','evidence') and not admin:return self.send(403,{'error':'Administrator verification required'})
      if product is not None and not self.allowed(user,product):return self.send(403,{'error':'Product access denied'})
     if 'product_id' in data and not self.allowed(user,data['product_id']):return self.send(403,{'error':'Product access denied'})
-    if path.startswith('/api/integrations/'):
+    if path.startswith('/api/business/'):
+     from .business_os import BusinessOS
+     result=BusinessOS(store).dispatch(path.removeprefix('/api/business/'),data,user)
+    elif path.startswith('/api/integrations/'):
      if not admin:return self.send(403,{'error':'Administrator required for integrations'})
      from .integrations import IntegrationHub
      result=IntegrationHub(store).dispatch(path.removeprefix('/api/integrations/'),data,user['username'])
@@ -192,6 +199,7 @@ def main():
     else:return self.send(404,{'error':'Not found'})
     with store.db() as db:store.audit(db,'api_request',path,{'method':'POST'},user['username'])
     return self.send(200,result)
+   except PermissionError as e:return self.send(403,{'error':str(e)})
    except (Invalid,ValueError,TypeError,KeyError) as e:return self.send(400,{'error':str(e)})
    except Exception:
     logging.exception('API operation failed');return self.send(500,{'error':'Operation not confirmed; inspect server logs'})

@@ -1,0 +1,77 @@
+{
+  "release": "business-command-center-20261103",
+  "date": "2026-11-03",
+  "timezone": "America/New_York",
+  "full_regression_tests": 262,
+  "targeted_final_audit_tests": 21,
+  "vps_feature_tests": 28,
+  "test_counts_overlap": true,
+  "local_browser": {
+    "passed": true,
+    "checks": [
+      "default cockpit and seven units",
+      "company filter",
+      "create and advance evidence-backed case",
+      "ten complete process playbooks",
+      "founder role assignment",
+      "honest connection status",
+      "desktop and mobile rendered",
+      "operator scope and logout cache reset"
+    ],
+    "page_errors": []
+  },
+  "decision_browser": {
+    "passed": true,
+    "founder_decision_ui": true,
+    "exact_handoff_scope": true,
+    "mobile_no_horizontal_overflow": true,
+    "page_errors": []
+  },
+  "vps_qa": {
+    "passed": true,
+    "image": "agentvire-business:20261103-tested",
+    "image_id": "sha256:1b5a5684a17cefc6dbe1b12028cef64f2c8f17fdd427c36675d82155843a37ba",
+    "base_image": "sha256:69160ea4cdc57f5645a6c11b198b22fd0f53895b8022945601c21b71559daab1",
+    "qa_network": "none",
+    "tests": "............................\n----------------------------------------------------------------------\nRan 28 tests in 7.178s\n\nOK\n",
+    "checks": {
+      "companies": 2,
+      "units": 7,
+      "processes": 10,
+      "anonymous_denied": true,
+      "empty_live_case_seed": true,
+      "external_execution": false
+    },
+    "source_hashes": {
+      "growthpilot/server.py": "63608a12806f5d053dfa756f70c26e9ccaec58c06891c9591681ed2e2d894396",
+      "growthpilot/static/index.html": "d24c2468ab4cfacf32f9a36ffb5e9a7f5d4cdb50dfcc6e10ef98725dadbbc52e",
+      "growthpilot/business_os.py": "10744d8759f8858531c465068cb485fa8470b7eafb3c9d8447e25c0b8b3207bc",
+      "growthpilot/static/business.js": "fbf0262857b7168a80b8efee6204e742266b3a7389e51e11f0427fea1bd83fe6"
+    }
+  },
+  "deployment": {
+    "deployed": true,
+    "image": "agentvire-business:20261103-tested",
+    "image_id": "sha256:1b5a5684a17cefc6dbe1b12028cef64f2c8f17fdd427c36675d82155843a37ba",
+    "rollback_image": "growthpilot-staging:local-models-20261103",
+    "configuration_preserved": true,
+    "protected_data_preserved": true,
+    "other_services_unchanged": true,
+    "anonymous_denied": true,
+    "qa_tests": 28,
+    "external_actions_executed": 0
+  },
+  "production_browser": {
+    "passed": true,
+    "companies": 2,
+    "units": 7,
+    "processes": 10,
+    "no_synthetic_production_cases": true,
+    "default_dashboard": true,
+    "company_filters": true,
+    "existing_execution_view": true,
+    "anonymous_and_logout_denied": true,
+    "https_validation": "browser_default_no_bypass",
+    "page_errors": []
+  }
+}
