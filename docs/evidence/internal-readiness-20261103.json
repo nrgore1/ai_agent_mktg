@@ -1,0 +1,67 @@
+{
+  "id": "internal-readiness-20261103",
+  "observed_at": "2026-11-04T04:37:24.006797+00:00",
+  "environment": "Ubuntu WSL2; synthetic component tests and read-only local runtime probes",
+  "products": [
+    {
+      "product_id": 10,
+      "source_version": "20c953bfb6d2403fd0edac64a8b20351594e7f4a",
+      "checks": 16,
+      "failed": 0,
+      "skipped": 0,
+      "level": "synthetic_component",
+      "full_readiness_approved": false
+    },
+    {
+      "product_id": 11,
+      "source_version": "44e7edc0db235129e3e64d006bfb23fcc164d9e9",
+      "checks": 11,
+      "failed": 0,
+      "skipped": 0,
+      "level": "synthetic_component",
+      "full_readiness_approved": false
+    },
+    {
+      "product_id": 12,
+      "source_version": "82286dfc94aac60e1c623fdbf92f4eb89e71b46f",
+      "checks": 50,
+      "failed": 0,
+      "skipped": 0,
+      "level": "synthetic_component",
+      "full_readiness_approved": false
+    }
+  ],
+  "passed_component_checks": 77,
+  "one_man_private_runtime": {
+    "status": "ok",
+    "research_only": true,
+    "code_revision": "44e7edc0db235129e3e64d006bfb23fcc164d9e9",
+    "deployment_channel": "production-research",
+    "runtime": "ubuntu-native",
+    "application": "omhf-unified-dashboard",
+    "loopback_only": true,
+    "port": 8766,
+    "gate": "private_runtime_only",
+    "accepted": true
+  },
+  "quantsys_runtime": {
+    "health_ok": true,
+    "anonymous_user_routes_denied": true,
+    "loopback_only": true,
+    "port": 8010,
+    "running_version_attested": false
+  },
+  "source_mapping_missing": [
+    13,
+    14
+  ],
+  "external_actions": 0,
+  "commercial_changes": 0,
+  "technical_product_approvals": 0,
+  "google_cloud_used": false,
+  "limitations": [
+    "Component suites do not establish complete operator journeys, recovery or actual costs.",
+    "SMDP Design mapping is unconfirmed; Stablecoin Pipeline purpose is ambiguous.",
+    "One-Man Hedge Fund original pytest runner unavailable; standard-library unittest suite passed."
+  ]
+}

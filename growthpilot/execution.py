@@ -59,6 +59,9 @@ class Execution:
      row={'id':tid,'product_id':pid,'key':key,'title':title,'priority':priority,'wave':1 if pid<=4 else 2 if pid in (5,6,9) else 3,'owner':owner,'estimate_hours':hours,'dependencies':[stable('execution:'+str(pid)+':'+k) for k in deps],'acceptance':acceptance,'revision':revision,'source_plan_id':plan['id'],'commercial_gate':key in COMMERCIAL,'status':'awaiting_approval' if key in COMMERCIAL else 'completed' if key in PREPARATION else 'pending','created_at':old.get('created_at',now()) if old else now(),'updated_at':now(),'evidence':[],'history':old.get('history',[])+[{'revision':old.get('revision'),'status':old['status'],'evidence':old.get('evidence',[])}] if old else []}
      if key in PREPARATION:row['evidence']=[{'source':'execution_artifacts/'+stable('strategy-artifact:'+str(pid)+':'+key),'note':'Internal preparation completed; no live product readiness or market outcome attested.','type':'prepared_specification','recorded_at':now()}]
      self.s.save(db,'execution_tasks',row)
+   from .internal_readiness import apply as apply_internal
+   for scope in self.s.rows(db,'execution_scopes'):
+    if scope.get('scope')=='internal_only':apply_internal(db,self.s,scope['product_id'],scope['source'],scope['actor'])
    self.s.save(db,'execution_program',{'id':'portfolio-strategy','version':VERSION,'revision':revision,'source_plan_id':plan['id'],'created_at':now(),'approval_policy':'Pricing, commissions and campaigns require separate explicit founder approval. No commercial execution from this backlog.','financial_reconciled':False})
    self.s.audit(db,'strategy_execution_prepared','portfolio-strategy',{'revision':revision,'products':17,'tasks':len(TEMPLATES)*17,'commercial_changes':0},actor)
   return self.summary()
@@ -67,20 +70,21 @@ class Execution:
   with self.s.db() as db:
    tasks=self.s.rows(db,'execution_tasks');artifacts=self.s.rows(db,'execution_artifacts');programs=self.s.rows(db,'execution_program')
    retention=self.s.rows(db,'marketing_retention');privacy_events=self.s.rows(db,'marketing_account_events');subscription_states={x['id']:x.get('status')for x in self.s.rows(db,'marketing_subscriptions')}
+   scopes=self.s.rows(db,'execution_scopes')
    reviews=self.s.rows(db,'execution_reports');review=next((x for x in reviews if x.get('id')=='portfolio-review-20261029'),None)
   byid={x['id']:x for x in tasks}
   for row in tasks:
    row['blocked_by']=[x for x in row['dependencies'] if byid.get(x,{}).get('status')!='completed']
    row['effective_status']='blocked' if row['blocked_by'] and row['status']=='pending' else row['status']
   tasks.sort(key=lambda x:(x['priority'],x['wave'],x['product_id'],x['key']))
-  counts={key:sum(x['effective_status']==key for x in tasks) for key in ('completed','pending','blocked','in_progress','awaiting_approval')}
+  counts={key:sum(x['effective_status']==key for x in tasks) for key in ('completed','pending','blocked','in_progress','awaiting_approval','not_applicable')}
   current_revision=digest({'version':VERSION,'plan':plan,'dossiers':engine.strategies}) if plan else None
   from .qualification import Qualification
   from .marketing_consent import MarketingConsent
   from .marketing_registry import BrandRegistry
   blocked=[t for t in tasks if t['effective_status']=='blocked']
   breakdown={'direct_readiness':sum(t['status']=='blocked' and not t.get('commercial_gate') for t in blocked),'commercial_conditions':sum(t['status']=='blocked' and bool(t.get('commercial_gate')) for t in blocked),'waiting_on_dependencies':sum(t['status']=='pending' for t in blocked),'internal_product_items':sum(t['product_id'] in (10,11,12,13,14) for t in blocked),'total':len(blocked)}
-  return {'blocked_breakdown':breakdown,'qualification':Qualification(self.s).summary(),'marketing_retention':{'last_sweep':retention[0]if retention else None,'account_erasure_receipts':sum(x.get('status')=='erased'for x in privacy_events),'mailbox_verification_pending':sum(x.get('status')=='verification_required'and subscription_states.get(x.get('subject'))not in (None,'erased')for x in privacy_events)},'marketing_subscriptions':MarketingConsent(self.s,brands=BrandRegistry(self.s).all()).summary(),'portfolio_review':review,'program':programs[0] if programs else None,'source_changed':bool(programs and programs[0]['revision']!=current_revision),'products':engine.strategies['products'],'commercial_plan':plan,'tasks':tasks,'artifacts':artifacts,'counts':counts,'commercial_execution_enabled':False,'launch_verified_products':0,'note':'Completed specifications are preparation, not passed product tests. Owner commercial approval remains subject to verified release conditions. Readiness evidence is timestamped and may require retest.'}
+  return {'internal_scopes':scopes,'blocked_breakdown':breakdown,'qualification':Qualification(self.s).summary(),'marketing_retention':{'last_sweep':retention[0]if retention else None,'account_erasure_receipts':sum(x.get('status')=='erased'for x in privacy_events),'mailbox_verification_pending':sum(x.get('status')=='verification_required'and subscription_states.get(x.get('subject'))not in (None,'erased')for x in privacy_events)},'marketing_subscriptions':MarketingConsent(self.s,brands=BrandRegistry(self.s).all()).summary(),'portfolio_review':review,'program':programs[0] if programs else None,'source_changed':bool(programs and programs[0]['revision']!=current_revision),'products':engine.strategies['products'],'commercial_plan':plan,'tasks':tasks,'artifacts':artifacts,'counts':counts,'commercial_execution_enabled':False,'launch_verified_products':0,'note':'Completed specifications are preparation, not passed product tests. Owner commercial approval remains subject to verified release conditions. Readiness evidence is timestamped and may require retest.'}
  def transition(self,data,actor):
   if set(data)-{'id','status','source','note','attest_verified'}:raise Invalid('Unsupported execution update')
   status=data.get('status')
@@ -90,6 +94,7 @@ class Execution:
   with self.s.db() as db:
    if self.s.paused(db):raise Invalid('System paused')
    row=self.s.get(db,'execution_tasks',data.get('id'))
+   if row.get('status')=='not_applicable':raise Invalid('Outside current internal scope; a separate founder scope change is required')
    if row['commercial_gate']:raise Invalid('Commercial decisions remain pending separate founder approval')
    if row['key'] in PREPARATION:raise Invalid('Prepared artifacts are managed by the strategy revision')
    if status in ('completed','blocked'):
@@ -118,6 +123,7 @@ class Execution:
   with self.s.db() as db:
    if self.s.paused(db):raise Invalid('System paused')
    row=self.s.get(db,'execution_tasks',tid)
+   if row.get('scope_policy'):raise Invalid('Internal scope requires private runtime evidence, not a public URL probe')
    product=self.s.get(db,'products',pid)
    url=product.get('landing_page') or product.get('website')
    if observation.get('url')!=url:raise Invalid('Probe must match configured product destination')

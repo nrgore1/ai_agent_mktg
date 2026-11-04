@@ -1,0 +1,86 @@
+{
+  "image": "sha256:969c448a9da8fdb7ad88547be96cfc02f2a140ab4483757cb7b034783bf20990",
+  "agentvire_tests_passed": 313,
+  "product_component_checks_passed": 77,
+  "browser_qa": {
+    "passed": true,
+    "not_applicable": 20,
+    "internal_products": 5,
+    "status_filter": true,
+    "completion_bypass_denied": true,
+    "scope_survives_sync": true,
+    "mobile": true,
+    "page_errors": [],
+    "commercial_execution_enabled": false
+  },
+  "production_verification": {
+    "passed": true,
+    "role_accounts": 10,
+    "counts": {
+      "completed": 92,
+      "pending": 41,
+      "blocked": 119,
+      "in_progress": 10,
+      "awaiting_approval": 0,
+      "not_applicable": 20
+    },
+    "blocked_breakdown": {
+      "direct_readiness": 27,
+      "commercial_conditions": 36,
+      "waiting_on_dependencies": 56,
+      "internal_product_items": 24,
+      "total": 119
+    },
+    "anonymous_paths": [
+      {
+        "path": "/api/state",
+        "status": 401
+      },
+      {
+        "path": "/api/business",
+        "status": 401
+      },
+      {
+        "path": "/api/execution",
+        "status": 401
+      },
+      {
+        "path": "/api/users",
+        "status": 401
+      },
+      {
+        "path": "/data/growthpilot.db",
+        "status": 401
+      },
+      {
+        "path": "/.env",
+        "status": 401
+      },
+      {
+        "path": "/.git/config",
+        "status": 401
+      },
+      {
+        "path": "/docs/",
+        "status": 401
+      },
+      {
+        "path": "/backups/",
+        "status": 401
+      }
+    ],
+    "headers": {
+      "robots": "noindex, nofollow, noarchive, nosnippet",
+      "cache": "no-store",
+      "hsts": "max-age=31536000",
+      "frames": "DENY"
+    },
+    "page_errors": [],
+    "tls": "browser default validation",
+    "commercial_execution_enabled": false
+  },
+  "private_runtime_task_completed": 1,
+  "full_product_approvals": 0,
+  "not_applicable_is_not_a_pass": true,
+  "backup_and_rollback_prepared": true
+}
