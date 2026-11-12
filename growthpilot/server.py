@@ -271,7 +271,9 @@ def main():
    except Exception:logging.exception('Business role worker failed; no external action authorized')
    time.sleep(15)
  def worker():
-  last_backup='';last_retention=''
+  from .backup_schedule import DailyBackup
+  backups=DailyBackup(store,path.parent/'backups')
+  last_retention=''
   while True:
    try:
     MarketingRights(subscriptions).reconcile_erasure()
@@ -279,9 +281,7 @@ def main():
     today=dt.datetime.now(dt.timezone.utc).date().isoformat()
     if today!=last_retention and os.environ.get('GROWTHPILOT_ENABLE_RETENTION')=='true':
      MarketingLifecycle(store).retention(apply=True);last_retention=today
-    if today!=last_backup:
-     store.backup(path.parent/'backups');last_backup=today
-     with store.db() as db:store.audit(db,'daily_backup','system',{'date':today},'worker')
+    backups.tick()
    except Exception:logging.exception('Background workflow failed')
    time.sleep(15)
  threading.Thread(target=worker,daemon=True).start()

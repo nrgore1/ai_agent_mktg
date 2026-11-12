@@ -281,6 +281,9 @@ class Platform(Store):
     previous=row['hash'];count+=1
   return {'valid':True,'entries':count,'head':previous}
  def backup(self,directory):
+  # Fail before writing a snapshot if its recovery bundle cannot be signed.
+  from .marketing_consent import MarketingConsent
+  MarketingConsent(self).sign('backup-readiness')
   directory=Path(directory);directory.mkdir(parents=True,exist_ok=True)
   target=directory/('growthpilot-'+dt.datetime.now(dt.timezone.utc).strftime('%Y%m%d-%H%M%S')+'.db')
   source=sqlite3.connect(self.path);dest=sqlite3.connect(target)

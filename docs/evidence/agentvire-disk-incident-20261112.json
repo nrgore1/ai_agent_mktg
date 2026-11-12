@@ -1,0 +1,116 @@
+{
+  "incident": "AV-SRE-20261112-01",
+  "date": "2026-11-12",
+  "status": "contained; low disk capacity and release approval remain open",
+  "environment": "authorized Hostinger VPS; Ubuntu local candidate",
+  "base_commit": "7ac33b4355d9e4131577b58e597fd46f80255ab0",
+  "candidate_branch": "codex/backup-retry-20261112",
+  "production_image": "sha256:d152c556fc40470702ad4ba75a8c0d8d0fd708c031ec6ea0d23f0121aea6e715",
+  "observations": {
+    "initial_free_bytes": 0,
+    "initial_error": "OCI runtime exec failed: no space left on device",
+    "test_volume_bytes": {
+      "agentvire-work-assignment-qa-20261104": 80319358829,
+      "agentvire-internal-qa-20261103": 41033928554,
+      "agentvire-human-pairing-qa-20261104": 47493914474,
+      "agentvire-90day-qa-20261104": 47065100138
+    },
+    "cause": "Test backup bundle signing failed with Subscription service is not configured. The worker retried every 15 seconds and retained new database snapshots. Read-only file inventory confirms tens of thousands of timestamped copies.",
+    "post_recovery_at": "2026-11-12T14:43:57.807612+00:00",
+    "post_recovery_free_bytes": 2214658048,
+    "agentvire_integrity": "ok",
+    "healthy_services": [
+      "AgentVire",
+      "Jodibana web",
+      "WeddingOS API",
+      "WeddingOS web",
+      "Memoire API",
+      "OraToPlus API"
+    ],
+    "http_root_status": 200,
+    "week_two_reports": 140,
+    "total_reports": 280,
+    "latest_report": "2026-11-11T05:35:15.661921+00:00",
+    "vanguard_capture": "2026-11-12T14:40:01.450469+00:00",
+    "vanguard_records": 541,
+    "finance_source": "2026-10-31T05:27:49.221401+00:00",
+    "finance_stale": true,
+    "books_reconciled": false,
+    "execution_counts": {
+      "completed": 95,
+      "pending": 82,
+      "blocked": 68,
+      "in_progress": 17,
+      "not_applicable": 20
+    }
+  },
+  "containment": {
+    "stopped_isolated_tests": [
+      "agentvire-work-assignment-qa-20261104",
+      "agentvire-internal-qa-20261103",
+      "agentvire-human-pairing-qa-20261104",
+      "agentvire-90day-qa-20261104"
+    ],
+    "production_restarts": 0,
+    "production_deployments": 0,
+    "removed": "unused Docker build cache older than seven days only",
+    "builder_reported_reclaimed_bytes_approx": 6011000000,
+    "measured_free_bytes_immediately_after": 2636136448,
+    "backup_deletions": 0
+  },
+  "candidate": {
+    "changes": [
+      "Validate recovery signing configuration before copying a database",
+      "Limit failed scheduled backups to at most one attempt per hour within a worker process",
+      "Avoid repeating an already successful backup if audit recording fails"
+    ],
+    "tests": {
+      "focused": {
+        "passed": 39,
+        "seconds": 45.198
+      },
+      "full_suite": {
+        "passed": 394,
+        "seconds": 267.037
+      },
+      "diff_check": "pass"
+    },
+    "deployed": false,
+    "limitations": [
+      "Local tests; no candidate-image staging or production deployment in this run",
+      "Retry cooldown is process-local; a restart resets the cooldown. Missing signing configuration still cannot create copies.",
+      "Generic I/O failures may still leave partial database files; no historical backups are removed by the patch."
+    ],
+    "file_sha256": {
+      "growthpilot/platform.py": "416ce7432b1d83fa66d023171bdb27ef8cc9138be62750de4a99c0fb434c24f5",
+      "growthpilot/server.py": "d524bb8d8246fa80474d12ff8da896c68d6f3a1ba339258dc7c55f97367988ea",
+      "growthpilot/backup_schedule.py": "7e7355b24e4d8d9dddb2c51a5019d47de12536503a0c0acd5e3d179a9f27ac24",
+      "tests/test_backup_schedule.py": "91a49a75eb727fa2ddcc8250e4f600b32f059f86a77140f05267fa821fa12225"
+    }
+  },
+  "cleanup_proposal": {
+    "path": "/home/liqmintadmin/agentvire-disk-incident-20261112/duplicate-cleanup-proposal.json",
+    "sha256": "f5195a1918b5c9bcd835d3dfd1deceb942bcfe496f6034e2042cccb6fd52f780",
+    "examined_files": 4000,
+    "duplicates": 3956,
+    "retained_distinct": 44,
+    "reclaim_bytes": 4766986240,
+    "approved": false,
+    "executed": false,
+    "exclusions": [
+      "current databases",
+      "privacy journals",
+      "recovery keys",
+      "production backups",
+      "all unexamined snapshots"
+    ]
+  },
+  "remaining": [
+    "Approve checksum-identical test snapshot cleanup with manifest retained and hashes rechecked before deletion",
+    "Validate candidate image in isolated staging and obtain exact production deployment approval",
+    "Keep retired tests stopped; prevent test workers being left running after qualification",
+    "Establish disk alert thresholds and named monitored alert recipient; capacity remains critical",
+    "Retain existing product readiness, collection, campaigns, financing and contract gates"
+  ],
+  "scope": "No launch task approved, no role grants, no external messages or financial actions; seven-unit isolation preserved."
+}
