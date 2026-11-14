@@ -281,8 +281,9 @@ def main():
     today=dt.datetime.now(dt.timezone.utc).date().isoformat()
     if today!=last_retention and os.environ.get('GROWTHPILOT_ENABLE_RETENTION')=='true':
      MarketingLifecycle(store).retention(apply=True);last_retention=today
-    backups.tick()
    except Exception:logging.exception('Background workflow failed')
+   try:backups.tick()
+   except Exception:logging.exception('Backup maintenance failed; retry deferred')
    time.sleep(15)
  threading.Thread(target=worker,daemon=True).start()
  threading.Thread(target=role_worker,daemon=True).start()

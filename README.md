@@ -80,3 +80,9 @@ Attach its aggregate JSON as `actual_finance` in the protected economics source 
 ## Business command center
 
 AgentVire now includes a two-company operating workspace for Vireoka LLC and Atmakosh LLC, with seven business units, role-based work queues, ten process playbooks and founder handoff decisions. Open /?view=business. See the [operating guide, architecture and remaining integration backlog](docs/business-command-center.md). External execution retains its existing approvals. Read-only Vanguard synchronization, provisional finance evidence and local bounded role workers are connected; see the [operational integration guide](docs/business-operational-integrations.md). Finalized accounting and unrestricted autonomous execution are not claimed.
+
+### Bounded backup maintenance
+
+Daily backups run independently of campaign processing. Attempt state persists across restarts; failures retry at most hourly and never count as success. Backups publish atomically as signed sets under ackups/managed-v1. Retention verifies the files and signatures before retaining the newest 14 complete sets (about 14 days at the daily cadence); manual backups also count toward this limit. Legacy snapshots, privacy journals, keys and external recovery evidence are never retention candidates. A 5 GiB free-space reserve plus three times the database size is required before writing a snapshot. Unexpected or damaged sets block retention and are preserved for review.
+
+Authenticated Settings shows backup health and freshness; backups older than 36 hours are overdue. Check .backups-schedule.json for failure status. Test restoration into an empty isolated directory using a fresh privacy checkpoint and the correct retained signing key; never restore over the live database. External media backup and security key rotation remain separate controls.

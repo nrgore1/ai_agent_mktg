@@ -29,6 +29,9 @@ class Platform(Store):
   from . import postmark
   state['integration_status']['postmark']=postmark.public_accounts()
   state['integration_status']['live_delivery']=state['integration_status']['live_delivery'] or os.environ.get('GROWTHPILOT_ENABLE_POSTMARK')=='true'
+  from .backup_schedule import health
+  backup_health=health(Path(self.path).parent/'backups')
+  state['integration_status']['backups']=(str(backup_health.get('status'))+'; last success: '+str(backup_health.get('last_success_at','not recorded'))+'; overdue: '+str(backup_health.get('stale'))+'; keeps 14 new backup sets')
   state['report']=self.report(product)
   return state
  def update(self,kind,id,data,actor='founder'):
@@ -281,19 +284,8 @@ class Platform(Store):
     previous=row['hash'];count+=1
   return {'valid':True,'entries':count,'head':previous}
  def backup(self,directory):
-  # Fail before writing a snapshot if its recovery bundle cannot be signed.
-  from .marketing_consent import MarketingConsent
-  MarketingConsent(self).sign('backup-readiness')
-  directory=Path(directory);directory.mkdir(parents=True,exist_ok=True)
-  target=directory/('growthpilot-'+dt.datetime.now(dt.timezone.utc).strftime('%Y%m%d-%H%M%S')+'.db')
-  source=sqlite3.connect(self.path);dest=sqlite3.connect(target)
-  try:source.backup(dest)
-  finally:dest.close();source.close()
-  os.chmod(target,0o600)
-  with sqlite3.connect(target) as restored:
-   if restored.execute('PRAGMA integrity_check').fetchone()[0]!='ok':raise Invalid('Backup integrity check failed')
-  from .recovery import bundle
-  return {'file':target.name,'sha256':hashlib.sha256(target.read_bytes()).hexdigest(),'integrity':'ok',**bundle(self,target)}
+  from .backup_maintenance import create
+  return create(self,directory)
 
  def roadmap(self):
   from .roadmap import get_roadmap

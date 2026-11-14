@@ -14,16 +14,18 @@ class BackupScheduleTests(unittest.TestCase):
     def setUp(self):
         self.when = dt.datetime(2026, 11, 12, tzinfo=dt.timezone.utc)
         self.stamp = 0
+        self.temp = tempfile.TemporaryDirectory(); self.addCleanup(self.temp.cleanup)
+        self.directory = Path(self.temp.name)/'backups'
         self.store = Mock()
         self.store.db.side_effect = lambda: contextlib.nullcontext(object())
-        self.scheduler = DailyBackup(self.store, 'unused',
+        self.scheduler = DailyBackup(self.store, self.directory,
             clock=lambda: self.when, monotonic=lambda: self.stamp)
 
     def test_success_only_once_per_utc_day(self):
         self.assertEqual(self.scheduler.tick()['status'], 'backed_up')
         self.stamp = 80000
         self.assertEqual(self.scheduler.tick()['status'], 'current')
-        self.store.backup.assert_called_once_with('unused')
+        self.store.backup.assert_called_once_with(self.directory)
         self.store.audit.assert_called_once()
 
     def test_failure_does_not_retry_every_worker_tick(self):
@@ -36,14 +38,16 @@ class BackupScheduleTests(unittest.TestCase):
         self.assertIsNone(self.scheduler.last_success)
         self.store.audit.assert_not_called()
         self.stamp = 3600
+        self.when += dt.timedelta(hours=1)
         self.store.backup.side_effect = None
         self.assertEqual(self.scheduler.tick()['status'], 'backed_up')
         self.assertEqual(self.store.backup.call_count, 2)
 
     def test_midnight_does_not_bypass_failed_retry_delay(self):
+        self.when = self.when.replace(hour=23,minute=59,second=50)
         self.store.backup.side_effect = OSError('disk full')
         with self.assertRaises(OSError): self.scheduler.tick()
-        self.when += dt.timedelta(days=1)
+        self.when += dt.timedelta(seconds=20)
         self.stamp = 15
         self.assertEqual(self.scheduler.tick()['status'], 'retry_deferred')
 
@@ -81,6 +85,7 @@ class BackupScheduleTests(unittest.TestCase):
             root = Path(temp)
             store = Platform(root/'growthpilot.db')
             with patch.dict(os.environ, {'GROWTHPILOT_CONSENT_SECRET': ''}):
-                for _ in range(3):
-                    with self.assertRaises(Invalid): DailyBackup(store, root/'backups').tick()
+                with self.assertRaises(Invalid): DailyBackup(store, root/'backups').tick()
+                for _ in range(2):
+                    self.assertEqual(DailyBackup(store, root/'backups').tick()['status'], 'retry_deferred')
             self.assertFalse((root/'backups').exists())
