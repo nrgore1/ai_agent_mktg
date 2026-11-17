@@ -1,0 +1,30 @@
+{
+  "at": "2026-11-17T15:04:19.356492+00:00",
+  "base_image": "sha256:f7bfb5a73e48ee8cf2faa7be96d46302bef376248b09e488b1d98aba117262af",
+  "module_sha256": "3b3f7effc2a05397a2813fb44f2df460e577907ac3fb13bf0d1e7b96b7814fc7",
+  "test_exit": 0,
+  "tests_passed": 8,
+  "test_environment": "isolated network-disabled container; synthetic keys and data",
+  "production_observation": "read-only inventory under existing nonblocking backup lock; all file hashes and receipt signatures checked, then rechecked",
+  "set_count": 4,
+  "generation_bytes": 58371538,
+  "manifest_sha256": "e34ff08b95c4c5a5aa70307f3ef4f7582723870e8157fab1d0dc21c80f991e9e",
+  "email_disabled": true,
+  "rotation_performed": false,
+  "production_image_changed": false,
+  "gate_status": "preflight passes; offline migration and independent custody not yet implemented/verified",
+  "limitations": [
+    "The manifest expires if any backup is added, removed or changed; recheck after stopping all writers before any approved cutover.",
+    "This is a checksum inventory, not new proof of authenticity after signing-key exposure.",
+    "No provider, host, account or email restoration clearance.",
+    "No production archive movement, deletion, key change or deployment occurred."
+  ],
+  "purpose": "Read-only preparation for AV-SEC-SIGNING-20261113-01; this does not authorize or perform cutover.",
+  "next_gates": [
+    "Implement and test crash-safe old-generation preservation with a pinned external manifest.",
+    "Verify independent custody of retired recovery key and historical checksum evidence.",
+    "Recheck empty or explicitly migrated key-dependent live data after writers stop.",
+    "Prepare exact current-image cutover and rollback; obtain remaining production approval only when fully reviewable.",
+    "After authorized cutover, validate new-key backup/recovery, old-key archive recovery and unchanged disabled email."
+  ]
+}
